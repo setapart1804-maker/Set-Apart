@@ -257,18 +257,8 @@ footer p{
     margin:8px 0;
 }
 
-.brand {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.brand h2 {
-    margin: 0;
-}
-
-.brand img {
-    width: 60px;
+.hero-logo img {
+    width: 180px;
     height: auto;
-    margin-top: 5px;
+    margin-bottom: 10px;
 }
