@@ -51,3 +51,19 @@ nav a {
 nav a:hover {
     color: #c9b37e;
 }
+
+.btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 15px 35px;
+    background: #c9b37e;
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    background: white;
+}
