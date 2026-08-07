@@ -124,6 +124,15 @@ nav a:hover {
     cursor:pointer;
 }
 
+.product-card{
+    background:#1a1a1a;
+    border-radius:12px;
+    padding:20px;
+    text-align:center;
+    transition:0.3s;
+    min-height:560px;
+}
+
 .product-card:hover{
     transform:translateY(-10px);
     box-shadow:0 15px 35px rgba(201,179,126,0.35);
@@ -131,9 +140,12 @@ nav a:hover {
 
 .product-card img{
     width:100%;
-    height:300px;
-    object-fit:cover;
+    height:380px;
+    object-fit:contain;
+    object-position:center;
+    background:#fff;
     border-radius:10px;
+    padding:5px;
 }
 
 .product-card h3{
