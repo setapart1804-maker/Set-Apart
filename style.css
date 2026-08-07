@@ -69,19 +69,20 @@ nav a:hover {
 }
 
 .hero {
-    height: 90vh;
+    min-height: 60vh;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     text-align: center;
+    padding: 60px 20px;
     background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6));
 }
 
 .hero h1 {
-    font-size: 80px;
-    letter-spacing: 10px;
-    margin-bottom: 20px;
+    font-size: 70px;
+    letter-spacing: 8px;
+    margin: 0 0 15px;
 }
 
 .hero h2 {
@@ -90,8 +91,9 @@ nav a:hover {
 }
 
 .hero p {
-    color: #fff;
+    color: white;
     font-size: 22px;
+    margin-bottom: 30px;
 }
 
 .products{
