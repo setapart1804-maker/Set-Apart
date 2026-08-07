@@ -93,3 +93,29 @@ nav a:hover {
     color: #fff;
     font-size: 22px;
 }
+
+.products {
+    padding: 80px 50px;
+}
+
+.product-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.product-card {
+    background: #1a1a1a;
+    padding: 30px;
+    width: 280px;
+    border-radius: 10px;
+}
+
+.product-card h3 {
+    color: white;
+}
+
+.product-card p {
+    color: #c9b37e;
+}
