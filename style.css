@@ -262,14 +262,15 @@ footer p{
     display: inline-flex;
     justify-content: center;
     align-items: center;
+    min-height: 350px;
 }
 
 .hero-title img {
     position: absolute;
-    width: 4o0px;
-    height: 400px;
+    width: 450px;
+    height: 450px;
     object-fit: contain;
-    opacity: 6.18;
+    opacity: 0.15;
     z-index: 0;
 }
 
