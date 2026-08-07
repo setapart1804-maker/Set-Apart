@@ -267,8 +267,8 @@ footer p{
 
 .hero-title img {
     position: absolute;
-    width: 450px;
-    height: 450px;
+    width: 350px;
+    height: 350px;
     object-fit: contain;
     opacity: 0.15;
     z-index: 0;
