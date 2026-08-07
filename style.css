@@ -30,17 +30,16 @@ nav {
     background: #111;
 }
 
-nav h2 {
-    color: white;
-    margin: 0;
-}
-
 nav ul {
     display: flex;
     list-style: none;
     gap: 25px;
     margin: 0;
     padding: 0;
+}
+
+nav li {
+    display: inline;
 }
 
 nav a {
@@ -51,29 +50,4 @@ nav a {
 
 nav a:hover {
     color: #c9b37e;
-}
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #111;
-    padding: 20px 40px;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-nav ul li {
-    margin-left: 25px;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
 }
