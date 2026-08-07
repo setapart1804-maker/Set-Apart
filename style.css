@@ -256,3 +256,43 @@ footer p{
     color:#aaa;
     margin:8px 0;
 }
+
+.product-page{
+    max-width:1200px;
+    margin:60px auto;
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:50px;
+    padding:20px;
+}
+
+.main-image{
+    width:100%;
+    border-radius:12px;
+}
+
+.gallery{
+    display:flex;
+    gap:10px;
+    margin-top:15px;
+}
+
+.gallery img{
+    width:100px;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.product-info h1{
+    font-size:40px;
+}
+
+.product-info h2{
+    color:#c9b37e;
+    font-size:30px;
+}
+
+.product-info select{
+    padding:10px;
+    font-size:18px;
+}
