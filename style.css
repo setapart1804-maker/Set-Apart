@@ -30,6 +30,14 @@ nav {
     background: #111;
 }
 
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #111;
+}
+
 nav ul {
     display: flex;
     list-style: none;
