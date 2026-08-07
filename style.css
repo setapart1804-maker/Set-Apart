@@ -201,22 +201,3 @@ blockquote{
     color:#c9b37e;
     letter-spacing:2px;
 }
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.logo img{
-    width:55px;
-    height:55px;
-    object-fit:contain;
-}
-
-.logo h2{
-    margin:0;
-    color:#c9b37e;
-    font-size:28px;
-    letter-spacing:2px;
-}
