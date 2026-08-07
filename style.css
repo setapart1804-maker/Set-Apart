@@ -279,3 +279,10 @@ footer p{
     z-index: 1;
     margin: 0;
 }
+
+.hero-logo img {
+    width: 350px;
+    height: auto;
+    display: block;
+    mix-blend-mode: screen;
+}
