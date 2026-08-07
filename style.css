@@ -257,8 +257,24 @@ footer p{
     margin:8px 0;
 }
 
-.hero-logo img {
-    width: 90px;
-    height: auto;
-    margin-bottom: 10px;
+.hero-title {
+    position: relative;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.hero-title img {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    object-fit: contain;
+    opacity: 0.18;
+    z-index: 0;
+}
+
+.hero-title h1 {
+    position: relative;
+    z-index: 1;
+    margin: 0;
 }
