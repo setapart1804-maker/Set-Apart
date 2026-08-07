@@ -191,21 +191,3 @@ blockquote{
     font-style:italic;
     border-radius:8px;
 }
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:12px;
-}
-
-.logo img{
-    width:55px;
-    height:55px;
-    border-radius:8px;
-}
-
-.logo h2{
-    margin:0;
-    color:#c9b37e;
-    letter-spacing:2px;
-}
