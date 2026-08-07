@@ -191,3 +191,39 @@ blockquote{
     font-style:italic;
     border-radius:8px;
 }
+
+.mission{
+    max-width:800px;
+    margin:100px auto;
+    padding:20px;
+}
+
+.mission h2{
+    color:#c9b37e;
+    font-size:40px;
+    margin-bottom:20px;
+}
+
+.mission p{
+    font-size:20px;
+    line-height:1.8;
+    color:#ddd;
+}
+
+footer{
+    background:#111;
+    padding:40px 20px;
+    text-align:center;
+    margin-top:80px;
+}
+
+footer h3{
+    color:#c9b37e;
+    font-size:30px;
+    margin-bottom:10px;
+}
+
+footer p{
+    color:#aaa;
+    margin:8px 0;
+}
