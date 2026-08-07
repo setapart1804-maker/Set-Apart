@@ -94,21 +94,21 @@ nav a:hover {
     font-size: 22px;
 }
 
-.products {
-    padding: 80px 50px;
+.products{
+    max-width:1200px;
+    margin:50px auto;
+    padding:20px;
 }
 
-.product-grid {
-    display: flex;
-    justify-content: center;
-    gap: 30px;
-    flex-wrap: wrap;
+.product-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
+    gap:30px;
 }
 
 .product-card {
     background: #1a1a1a;
     padding: 30px;
-    width: 280px;
     border-radius: 10px;
 }
 
@@ -136,8 +136,8 @@ nav a:hover {
 
 .product-card img{
     width:100%;
-    height:350px;
-    object-fit:cover;
+    height:auto;
+    display:block;
     border-radius:10px;
 }
 
