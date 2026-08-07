@@ -67,3 +67,29 @@ nav a:hover {
 .btn:hover {
     background: white;
 }
+
+.hero {
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.6));
+}
+
+.hero h1 {
+    font-size: 80px;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+}
+
+.hero h2 {
+    color: #c9b37e;
+    margin-bottom: 15px;
+}
+
+.hero p {
+    color: #fff;
+    font-size: 22px;
+}
