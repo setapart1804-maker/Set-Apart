@@ -1,87 +1,333 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>YHWH Collection | SET APART</title>
+    <title>YHWH Hoodie | SET APART</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        .product-page {
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .product-images {
+            text-align: center;
+        }
+
+        .main-image {
+            width: 100%;
+            max-width: 550px;
+            height: auto;
+            display: block;
+            margin: auto;
+            border-radius: 12px;
+        }
+
+        .product-info h1 {
+            font-size: 45px;
+            margin-bottom: 10px;
+        }
+
+        .product-info h2 {
+            color: #c9b37e;
+            font-size: 30px;
+        }
+
+        .product-info p {
+            line-height: 1.7;
+        }
+
+        .color-title,
+        .size-title {
+            margin-top: 25px;
+            margin-bottom: 12px;
+            color: white;
+        }
+
+        .colors {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .color-btn {
+            padding: 12px 18px;
+            border: 1px solid #777;
+            background: #1a1a1a;
+            color: white;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .color-btn:hover,
+        .color-btn.active {
+            border-color: #c9b37e;
+            color: #c9b37e;
+        }
+
+        .size-select {
+            padding: 12px;
+            min-width: 150px;
+            background: #1a1a1a;
+            color: white;
+            border: 1px solid #777;
+            border-radius: 6px;
+        }
+
+        .buy-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 15px 35px;
+            background: #c9b37e;
+            color: #111;
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 5px;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .buy-btn:hover {
+            background: white;
+        }
+
+        @media (max-width: 800px) {
+            .product-page {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+
+            .product-info h1 {
+                font-size: 35px;
+            }
+        }
+    </style>
 </head>
+
 
 <body>
 
 <nav>
-    <h2><a href="index.html">SET APART</a></h2>
+
+    <h2>
+        <a href="index.html">SET APART</a>
+    </h2>
 
     <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="#">Shop</a></li>
-        <li><a href="#">Contact</a></li>
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+
+        <li>
+            <a href="shop.html">Shop</a>
+        </li>
+
+        <li>
+            <a href="about.html">About</a>
+        </li>
+
+        <li>
+            <a href="contact.html">Contact</a>
+        </li>
     </ul>
+
 </nav>
 
-<section class="collection">
 
-    <h1>YHWH COLLECTION</h1>
+<section class="product-page">
 
-    <p>Choose your color</p>
 
-    <div class="collection-grid">
+    <!-- PRODUCT IMAGE -->
 
-        <!-- YHWH Beige -->
-        <div class="collection-card">
+    <div class="product-images">
 
-            <img src="images/YHWH beige.jpeg"
-                 alt="YHWH Beige Hoodie">
+        <img
+            id="mainProductImage"
+            class="main-image"
+            src="images/YHWH1.jpeg"
+            alt="YHWH White Hoodie"
+        >
 
-            <h2>YHWH Beige Hoodie</h2>
+    </div>
 
-            <p>$39.99</p>
 
-            <a href="yhwh.html" class="btn">
-                View Product
-            </a>
+    <!-- PRODUCT INFORMATION -->
+
+    <div class="product-info">
+
+        <h1>YHWH Hoodie</h1>
+
+        <h2>$39.99</h2>
+
+        <p>
+            Premium heavyweight hoodie designed for everyday wear.
+            Faith-inspired streetwear with high-quality print.
+        </p>
+
+
+        <!-- COLORS -->
+
+        <h3 class="color-title">Color</h3>
+
+        <div class="colors">
+
+            <button
+                type="button"
+                class="color-btn active"
+                onclick="changeColor('white', this)">
+                White
+            </button>
+
+            <button
+                type="button"
+                class="color-btn"
+                onclick="changeColor('beige', this)">
+                Beige
+            </button>
+
+            <button
+                type="button"
+                class="color-btn"
+                onclick="changeColor('black', this)">
+                Black
+            </button>
+
+            <button
+                type="button"
+                class="color-btn"
+                onclick="changeColor('brown', this)">
+                Brown
+            </button>
 
         </div>
 
 
-        <!-- YHWH Black -->
-        <div class="collection-card">
+        <!-- SIZE -->
 
-            <img src="images/YHWH black.jpeg"
-                 alt="YHWH Black Hoodie">
+        <h3 class="size-title">Size</h3>
 
-            <h2>YHWH Black Hoodie</h2>
+        <select id="size" class="size-select">
 
-            <p>$39.99</p>
+            <option value="S">S</option>
 
-            <a href="yhwh.html" class="btn">
-                View Product
-            </a>
+            <option value="M">M</option>
 
-        </div>
+            <option value="L">L</option>
+
+            <option value="XL">XL</option>
+
+        </select>
 
 
-        <!-- YHWH Brown -->
-        <div class="collection-card">
+        <br>
 
-            <img src="images/YHWH brown.jpeg"
-                 alt="YHWH Brown Hoodie">
 
-            <h2>YHWH Brown Hoodie</h2>
+        <!-- BUY BUTTON -->
 
-            <p>$39.99</p>
+        <button
+            type="button"
+            class="buy-btn"
+            onclick="buyNow()">
 
-            <a href="yhwh.html" class="btn">
-                View Product
-            </a>
+            Buy Now
 
-        </div>
+        </button>
 
     </div>
 
 </section>
 
+
+<script>
+
+function changeColor(color, button) {
+
+    const image = document.getElementById("mainProductImage");
+
+
+    if (color === "white") {
+
+        image.src = "images/YHWH1.jpeg";
+
+        image.alt = "YHWH White Hoodie";
+
+    }
+
+
+    if (color === "beige") {
+
+        image.src = "images/YHWH beige.jpeg";
+
+        image.alt = "YHWH Beige Hoodie";
+
+    }
+
+
+    if (color === "black") {
+
+        image.src = "images/YHWH black.jpeg";
+
+        image.alt = "YHWH Black Hoodie";
+
+    }
+
+
+    if (color === "brown") {
+
+        image.src = "images/YHWH brown.jpeg";
+
+        image.alt = "YHWH Brown Hoodie";
+
+    }
+
+
+    document
+        .querySelectorAll(".color-btn")
+        .forEach(function(btn) {
+
+            btn.classList.remove("active");
+
+        });
+
+
+    button.classList.add("active");
+
+}
+
+
+function buyNow() {
+
+    const size =
+        document.getElementById("size").value;
+
+    const activeColor =
+        document.querySelector(".color-btn.active").textContent;
+
+
+    alert(
+        "YHWH Hoodie\n\n" +
+        "Color: " + activeColor + "\n" +
+        "Size: " + size + "\n" +
+        "Price: $39.99"
+    );
+
+}
+
+</script>
+
+
 </body>
+
 </html>
