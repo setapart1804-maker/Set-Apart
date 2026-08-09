@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Faith Over Fear Collection | SET APART</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<nav>
+    <h2>SET APART</h2>
+
+    <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="shop.html">Shop</a></li>
+        <li><a href="about.html">About</a></li>
+        <li><a href="contact.html">Contact</a></li>
+    </ul>
+</nav>
+
+
+<section class="products">
+
+    <h2>Faith Over Fear Collection</h2>
+
+    <div class="product-grid">
+
+
+      <!-- FAITH OVER FEAR 1 -->
+<div class="product-card">
+    <img src="images/faith over fear.png" alt="Faith Over Fear Hoodie">
+    <h3>Faith Over Fear</h3>
+
+    
+            <p>$39.99</p>
+
+             <a
+                class="btn"
+                href="https://paypal.me/Brothermyke"
+                target="_blank">
+                Pay with PayPal
+
+            <a
+                class="btn"
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20YHWH%20Brown%20Hoodie."
+                target="_blank">
+                Order on WhatsApp
+            </a>
+</div>
+
+<!-- FAITH OVER FEAR 2 -->
+<div class="product-card">
+    <img src="images/faith over fear3.jpeg" alt="Faith Over Fear Hoodie">
+    <h3>Faith Over Fear</h3>
+
+    
+            <p>$39.99</p>
+
+             <a
+                class="btn"
+                href="https://paypal.me/Brothermyke"
+                target="_blank">
+                Pay with PayPal
+
+            <a
+                class="btn"
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20YHWH%20Brown%20Hoodie."
+                target="_blank">
+                Order on WhatsApp
+            </a>
+</div>
+
+<!-- FAITH OVER FEAR 3 -->
+<div class="product-card">
+    <img src="images/faith over fear4.jpeg" alt="Faith Over Fear Hoodie">
+    <h3>Faith Over Fear</h3>
+
+    
+            <p>$39.99</p>
+
+             <a
+                class="btn"
+                href="https://paypal.me/Brothermyke"
+                target="_blank">
+                Pay with PayPal
+
+            <a
+                class="btn"
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20YHWH%20Brown%20Hoodie."
+                target="_blank">
+                Order on WhatsApp
+            </a>
+</div>
+
+<!-- FAITH OVER FEAR 4 -->
+<div class="product-card">
+    <img src="images/faith over fear5.jpeg" alt="Faith Over Fear Hoodie">
+    <h3>Faith Over Fear</h3>
+
+    
+            <p>$39.99</p>
+
+             <a
+                class="btn"
+                href="https://paypal.me/Brothermyke"
+                target="_blank">
+                Pay with PayPal
+
+            <a
+                class="btn"
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20YHWH%20Brown%20Hoodie."
+                target="_blank">
+                Order on WhatsApp
+            </a>
+</div>
+
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <h3>SET APART</h3>
+
+    <p>Faith-Inspired Streetwear</p>
+
+    <p>©️ 2026 SET APART. All Rights Reserved.</p>
+
+</footer>
+
+
+</body>
+</html>
