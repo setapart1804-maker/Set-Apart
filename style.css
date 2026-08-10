@@ -202,10 +202,12 @@ nav a:hover {
 }
 
 .collections > h1 {
-    color: white;
-    font-size: 40px;
+    color: #c9b37e;
+    font-size: 32px;
+    font-weight: 300;
     text-align: center;
-    margin-bottom: 45px;
+    margin: 0 0 40px;
+    letter-spacing: normal;
 }
 
 .collection {
