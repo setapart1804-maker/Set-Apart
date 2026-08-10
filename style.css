@@ -791,3 +791,81 @@ body.collection-page .collection-card .btn {
         margin: 3px 0 !important;
     }
 }
+
+/* =========================================
+   EXPLORE COLLECTIONS
+   4 HOODIES PER ROW
+========================================= */
+
+.collections {
+    max-width: 950px !important;
+    margin: 60px auto !important;
+    padding: 20px !important;
+}
+
+.collections > h1 {
+    color: #c9b37e !important;
+    font-size: 32px !important;
+    font-weight: 300 !important;
+    text-align: center !important;
+    margin-bottom: 45px !important;
+}
+
+.collection {
+    margin-bottom: 50px !important;
+}
+
+.collection > h2 {
+    color: #c9b37e !important;
+    font-size: 24px !important;
+    margin-bottom: 18px !important;
+}
+
+.collection-preview {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    margin: 0 auto !important;
+}
+
+.collection-preview a {
+    display: block !important;
+    width: 100% !important;
+}
+
+.collection-preview img {
+    width: 100% !important;
+    height: 145px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 3px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .collections {
+        padding: 10px !important;
+    }
+
+    .collection-preview {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+    }
+
+    .collection-preview img {
+        height: 85px !important;
+    }
+
+    .collection > h2 {
+        font-size: 18px !important;
+    }
+}
