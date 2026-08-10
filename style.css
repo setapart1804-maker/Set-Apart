@@ -1,280 +1,146 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Shop | SET APART</title>
-
-    <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-
-<nav>
-
-    <h2>SET APART</h2>
-
-    <ul>
-        <li><a href="index.html">Home</a></li>
-        <li><a href="shop.html">Shop</a></li>
-        <li><a href="about.html">About</a></li>
-        <li><a href="contact.html">Contact</a></li>
-    </ul>
-
-</nav>
-
-
-<!-- ========================= -->
-<!-- 3 MAIN HOODIES -->
-<!-- ========================= -->
-
-<section class="products">
-
-    <h2>Shop Our Collection</h2>
-
-    <div class="product-grid">
-
-
-        <!-- YHWH -->
-
-        <div class="product-card">
-
-            <a href="yhwh.html">
-
-                <img
-                    src="images/YHWH1.jpeg"
-                    alt="YHWH Hoodie"
-                >
-
-            </a>
-
-            <h3>YHWH Hoodie</h3>
-
-            <p>$39.99</p>
-
-            <a href="yhwh.html" class="btn">
-                Buy Now
-            </a>
-
-        </div>
-
-
-        <!-- GRACE -->
-
-        <div class="product-card">
-
-            <a href="grace.html">
-
-                <img
-                    src="images/Grace.jpeg"
-                    alt="Grace Wins Hoodie"
-                >
-
-            </a>
-
-            <h3>Grace Wins Hoodie</h3>
-
-            <p>$39.99</p>
-
-            <a href="grace.html" class="btn">
-                Buy Now
-            </a>
-
-        </div>
-
-
-        <!-- FAITH OVER FEAR -->
-
-        <div class="product-card">
-
-            <a href="faith.html">
-
-                <img
-                    src="images/faith over fear.png"
-                    alt="Faith Over Fear Hoodie"
-                >
-
-            </a>
-
-            <h3>Faith Over Fear Hoodie</h3>
-
-            <p>$39.99</p>
-
-            <a href="faith.html" class="btn">
-                Buy Now
-            </a>
-
-        </div>
-
-    </div>
-
-</section>
-
-
-
-<!-- ========================= -->
-<!-- EXPLORE COLLECTIONS -->
-<!-- ========================= -->
-
-<section class="collections">
-
-    <h2>Explore Our Collections</h2>
-
-
-    <!-- YHWH -->
-
-    <div class="collection-section">
-
-        <a href="yhwh.html" class="collection-heading">
-            YHWH Collection
-        </a>
-
-        <div class="collection-preview">
-
-
-            <a href="yhwh.html">
-                <img
-                    src="images/YHWH1.jpeg"
-                    alt="YHWH White"
-                >
-            </a>
-
-            <a href="yhwh.html">
-                <img
-                    src="images/YHWH beige.jpeg"
-                    alt="YHWH Beige"
-                >
-            </a>
-
-            <a href="yhwh.html">
-                <img
-                    src="images/YHWH black.jpeg"
-                    alt="YHWH Black"
-                >
-            </a>
-
-            <a href="yhwh.html">
-                <img
-                    src="images/YHWH brown.jpeg"
-                    alt="YHWH Brown"
-                >
-            </a>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- GRACE -->
-
-    <div class="collection-section">
-
-        <a href="grace.html" class="collection-heading">
-            Grace Collection
-        </a>
-
-        <div class="collection-preview">
-
-
-            <a href="grace.html">
-                <img
-                    src="images/Grace.jpeg"
-                    alt="Grace"
-                >
-            </a>
-
-            <a href="grace.html">
-                <img
-                    src="images/Grace2.jpeg"
-                    alt="Grace 2"
-                >
-            </a>
-
-            <a href="grace.html">
-                <img
-                    src="images/Grace3.jpeg"
-                    alt="Grace 3"
-                >
-            </a>
-
-            <a href="grace.html">
-                <img
-                    src="images/Grace4.jpeg"
-                    alt="Grace 4"
-                >
-            </a>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- FAITH -->
-
-    <div class="collection-section">
-
-        <a href="faith.html" class="collection-heading">
-            Faith Over Fear Collection
-        </a>
-
-        <div class="collection-preview">
-
-
-            <a href="faith.html">
-                <img
-                    src="images/faith over fear.png"
-                    alt="Faith Over Fear"
-                >
-            </a>
-
-            <a href="faith.html">
-                <img
-                    src="images/faith over fear3.jpeg"
-                    alt="Faith Over Fear 3"
-                >
-            </a>
-
-            <a href="faith.html">
-                <img
-                    src="images/faith over fear4.jpeg"
-                    alt="Faith Over Fear 4"
-                >
-            </a>
-
-            <a href="faith.html">
-                <img
-                    src="images/faith over fear5.jpeg"
-                    alt="Faith Over Fear 5"
-                >
-            </a>
-
-        </div>
-
-    </div>
-
-
-</section>
-
-
-
-<!-- ========================= -->
-<!-- FOOTER -->
-<!-- ========================= -->
-
-<footer>
-
-    <h3>SET APART</h3>
-
-    <p>Faith-Inspired Streetwear</p>
-
-    <p>©️ 2026 SET APART. All Rights Reserved.</p>
-
-</footer>
-
-
-</body>
-</html>
+/* =========================
+   COLLECTIONS
+========================= */
+
+.collections {
+    max-width: 1100px;
+    margin: 70px auto;
+    padding: 20px;
+}
+
+.collections > h1 {
+    color: white;
+    font-size: 48px;
+    margin-bottom: 60px;
+    text-align: left;
+}
+
+
+/* COLLECTION */
+
+.collection {
+    margin-bottom: 90px;
+}
+
+
+/* MAIN HOODIE */
+
+.collection-main {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    background: #1a1a1a;
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 380px;
+    margin: 0 auto 25px;
+}
+
+.collection-main img {
+    width: 100%;
+    height: 420px;
+    object-fit: contain;
+    background: white;
+    display: block;
+}
+
+
+/* TITLE */
+
+.collection-title {
+    padding: 18px;
+    text-align: center;
+}
+
+.collection-title h2 {
+    color: white;
+    font-size: 30px;
+    margin: 0 0 5px;
+}
+
+.collection-title p {
+    color: #c9b37e;
+    font-size: 16px;
+    margin: 0;
+}
+
+
+/* SMALL PREVIEW PHOTOS */
+
+.collection-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 650px;
+    margin: 0 auto 25px;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    transition: 0.3s ease;
+}
+
+.collection-preview img:hover {
+    transform: translateY(-5px);
+}
+
+
+/* VIEW COLLECTION BUTTON */
+
+.collection-btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 13px 28px;
+    background: #c9b37e;
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 7px;
+    transition: 0.3s ease;
+}
+
+.collection-btn:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .collections {
+        margin: 40px auto;
+        padding: 15px;
+    }
+
+    .collections > h1 {
+        font-size: 34px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .collection-main {
+        max-width: 300px;
+    }
+
+    .collection-main img {
+        height: 330px;
+    }
+
+    .collection-preview {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 7px;
+    }
+
+    .collection-preview img {
+        height: 90px;
+    }
+
+}
