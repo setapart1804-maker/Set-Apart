@@ -120,3 +120,140 @@
     }
 
 }
+
+/* =================================
+   SHOP - 3 MAIN HOODIES
+================================= */
+
+.products .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.products .product-card {
+    width: 100%;
+    min-height: 0;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.products .product-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: contain;
+    background: #fff;
+    border-radius: 8px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   COLLECTION PAGES
+   4 HOODIES ON ONE LINE
+================================= */
+
+.collection-preview {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 12px !important;
+    max-width: 800px !important;
+    margin: 20px auto !important;
+}
+
+.collection-preview img {
+    width: 100% !important;
+    height: 160px !important;
+    object-fit: contain !important;
+    background: white;
+    border-radius: 8px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+
+/* =================================
+   COLLECTION PAGE MAIN IMAGE
+   MAKE IT SMALLER
+================================= */
+
+.collection-main {
+    max-width: 260px !important;
+    margin: 0 auto 20px !important;
+}
+
+.collection-main img {
+    width: 100% !important;
+    height: 280px !important;
+    object-fit: contain !important;
+}
+
+
+/* =================================
+   COLLECTION PAGE
+================================= */
+
+.collections {
+    max-width: 900px;
+    margin: 50px auto;
+    padding: 15px;
+}
+
+.collection {
+    margin-bottom: 45px;
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 700px) {
+
+    .products .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .products .product-card {
+        padding: 6px;
+    }
+
+    .products .product-card img {
+        height: 170px;
+    }
+
+    .products .product-card h3 {
+        font-size: 13px;
+    }
+
+    .products .product-card p {
+        font-size: 15px;
+    }
+
+    .products .btn {
+        padding: 7px 9px;
+        font-size: 11px;
+    }
+
+    .collection-main {
+        max-width: 200px !important;
+    }
+
+    .collection-main img {
+        height: 220px !important;
+    }
+
+    .collection-preview {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 6px !important;
+    }
+
+    .collection-preview img {
+        height: 85px !important;
+    }
+}
