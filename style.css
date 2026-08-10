@@ -1,128 +1,5 @@
 /* =================================
-   SHOP - 3 MAIN HOODIES
-================================= */
-
-.products .product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 25px;
-    align-items: start;
-}
-
-.products .product-card {
-    min-height: auto;
-    padding: 15px;
-}
-
-.products .product-card img {
-    width: 100%;
-    height: 300px;
-    object-fit: contain;
-    object-position: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 5px;
-    box-sizing: border-box;
-    display: block;
-}
-
-
-/* =================================
-   SHOP - 12 SMALL HOODIES
-================================= */
-
-.collections {
-    max-width: 1000px;
-    margin: 70px auto;
-    padding: 20px;
-}
-
-.collections > h1 {
-    color: white;
-    font-size: 40px;
-    text-align: center;
-    margin-bottom: 45px;
-}
-
-.collection {
-    margin-bottom: 35px;
-}
-
-.collection-preview {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    max-width: 800px;
-    margin: 0 auto;
-}
-
-.collection-preview a {
-    display: block;
-}
-
-.collection-preview img {
-    width: 100%;
-    height: 145px;
-    object-fit: contain;
-    object-position: center;
-    background: white;
-    border-radius: 8px;
-    padding: 4px;
-    box-sizing: border-box;
-    display: block;
-    transition: 0.3s ease;
-}
-
-.collection-preview img:hover {
-    transform: translateY(-5px);
-}
-
-
-/* =================================
-   MOBILE
-================================= */
-
-@media (max-width: 700px) {
-
-    .products .product-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 8px;
-    }
-
-    .products .product-card {
-        padding: 8px;
-    }
-
-    .products .product-card img {
-        height: 180px;
-    }
-
-    .products .product-card h3 {
-        font-size: 15px;
-    }
-
-    .products .product-card p {
-        font-size: 16px;
-    }
-
-    .products .btn {
-        padding: 8px 10px;
-        font-size: 12px;
-    }
-
-    .collection-preview {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 7px;
-    }
-
-    .collection-preview img {
-        height: 90px;
-    }
-
-}
-
-/* =================================
-   SHOP - 3 MAIN HOODIES
+   SHOP - MAIN 3 HOODIES
 ================================= */
 
 .products .product-grid {
@@ -145,51 +22,66 @@
     width: 100%;
     height: 240px;
     object-fit: contain;
-    background: #fff;
-    border-radius: 8px;
-    padding: 3px;
-    box-sizing: border-box;
-}
-
-
-/* =================================
-   COLLECTION PAGES
-   4 HOODIES ON ONE LINE
-================================= */
-
-.collection-preview {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    gap: 12px !important;
-    max-width: 800px !important;
-    margin: 20px auto !important;
-}
-
-.collection-preview img {
-    width: 100% !important;
-    height: 160px !important;
-    object-fit: contain !important;
+    object-position: center;
     background: white;
     border-radius: 8px;
     padding: 3px;
     box-sizing: border-box;
+    display: block;
 }
 
 
 /* =================================
-   COLLECTION PAGE MAIN IMAGE
-   MAKE IT SMALLER
+   12 SMALL HOODIES
 ================================= */
 
-.collection-main {
-    max-width: 260px !important;
-    margin: 0 auto 20px !important;
+.collections {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 15px;
 }
 
-.collection-main img {
-    width: 100% !important;
-    height: 280px !important;
-    object-fit: contain !important;
+.collections > h1 {
+    color: white;
+    font-size: 38px;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.collection {
+    margin-bottom: 30px;
+}
+
+
+/* 4 PHOTOS PER ROW */
+
+.collection-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.collection-preview a {
+    display: block;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 125px;
+    object-fit: contain;
+    object-position: center;
+    background: white;
+    border-radius: 7px;
+    padding: 3px;
+    box-sizing: border-box;
+    display: block;
+    transition: 0.3s ease;
+}
+
+.collection-preview img:hover {
+    transform: translateY(-4px);
 }
 
 
@@ -197,14 +89,14 @@
    COLLECTION PAGE
 ================================= */
 
-.collections {
-    max-width: 900px;
-    margin: 50px auto;
-    padding: 15px;
+.collection-main {
+    max-width: 240px !important;
+    margin: 0 auto 20px !important;
 }
 
-.collection {
-    margin-bottom: 45px;
+.collection-main img {
+    height: 250px !important;
+    object-fit: contain !important;
 }
 
 
@@ -240,20 +132,20 @@
         font-size: 11px;
     }
 
-    .collection-main {
-        max-width: 200px !important;
-    }
-
-    .collection-main img {
-        height: 220px !important;
-    }
-
     .collection-preview {
-        grid-template-columns: repeat(4, 1fr) !important;
-        gap: 6px !important;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 6px;
     }
 
     .collection-preview img {
-        height: 85px !important;
+        height: 80px;
+    }
+
+    .collection-main {
+        max-width: 190px !important;
+    }
+
+    .collection-main img {
+        height: 200px !important;
     }
 }
