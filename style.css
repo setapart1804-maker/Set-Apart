@@ -1,436 +1,206 @@
-body {
-    margin: 0;
-    background: #0f0f0f;
-    color: white;
-    font-family: Arial, Helvetica, sans-serif;
-    text-align: center;
-}
-
-h1 {
-    font-size: 60px;
-    margin-top: 80px;
-    letter-spacing: 8px;
-}
-
-h2 {
-    color: #c9b37e;
-    font-weight: 300;
-}
-
-p {
-    color: #bfbfbf;
-    font-size: 20px;
-}
-
-/* NAVIGATION */
-
-nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 50px;
-    background: #111;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 25px;
-    margin: 0;
-    padding: 0;
-}
-
-nav li {
-    display: inline;
-}
-
-nav a {
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav a:hover {
-    color: #c9b37e;
-}
-
-
-/* BUTTON */
-
-.btn {
-    display: inline-block;
-    margin-top: 20px;
-    padding: 15px 35px;
-    background: #c9b37e;
-    color: #111;
-    text-decoration: none;
-    font-weight: bold;
-    border-radius: 8px;
-    transition: 0.3s ease;
-}
-
-.btn:hover {
-    background: #fff;
-    transform: scale(1.05);
-}
-
-
-/* HERO */
-
-.hero {
-    min-height: 60vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 60px 20px;
-    background: linear-gradient(
-        rgba(0,0,0,.6),
-        rgba(0,0,0,.6)
-    );
-}
-
-.hero h1 {
-    font-size: 70px;
-    letter-spacing: 8px;
-    margin: 0 0 15px;
-}
-
-.hero h2 {
-    color: #c9b37e;
-    margin-bottom: 15px;
-}
-
-.hero p {
-    color: white;
-    font-size: 22px;
-    margin-bottom: 30px;
-}
-
-
-/* MAIN PRODUCTS */
-
-.products {
-    max-width: 1000px;
-    margin: 60px auto;
-    padding: 20px;
-}
-
-.products h2 {
-    text-align: center;
-    margin-bottom: 40px;
-    color: #c9b37e;
-}
-
-.product-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-}
-
-
-/* BIG PRODUCT CARDS */
-
-.product-card {
-    background: #1a1a1a;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    transition: 0.3s ease;
-    cursor: pointer;
-    min-height: 560px;
-}
-
-.product-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(201,179,126,0.35);
-}
-
-.product-card img {
-    width: 100%;
-    height: 380px;
-    object-fit: contain;
-    object-position: center;
-    background: #fff;
-    border-radius: 10px;
-    padding: 5px;
-}
-
-.product-card h3 {
-    color: #fff;
-    margin: 15px 0 10px;
-}
-
-.product-card p {
-    color: #c9b37e;
-    font-size: 22px;
-    font-weight: bold;
-}
-
-
-/* ================================= */
-/* COLLECTIONS - 12 SMALLER PHOTOS */
-/* ================================= */
-
-.collections {
-    max-width: 1100px;
-    margin: 100px auto 60px;
-    padding: 20px;
-}
-
-.collections h2 {
-    color: #c9b37e;
-    font-size: 36px;
-    margin-bottom: 40px;
-}
-
-
-/* 4 PHOTOS PER ROW */
-
-.collection-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
-}
-
-
-/* SMALL COLLECTION CARD */
-
-.collection-card {
-    background: #171717;
-    border-radius: 10px;
-    padding: 12px;
-    text-align: center;
-    transition: 0.3s ease;
-}
-
-.collection-card:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 10px 25px rgba(201,179,126,0.25);
-}
-
-
-/* SMALLER PHOTOS */
-
-.collection-card img {
-    width: 100%;
-    height: 210px;
-    object-fit: contain;
-    object-position: center;
-    background: #fff;
-    border-radius: 8px;
-    padding: 4px;
-}
-
-
-/* COLLECTION NAME */
-
-.collection-card h3 {
-    color: #fff;
-    font-size: 17px;
-    margin: 12px 0 5px;
-}
-
-
-/* SMALLER COLLECTION BUTTON */
-
-.collection-card .btn {
-    margin-top: 8px;
-    padding: 9px 16px;
-    font-size: 13px;
-}
-
-
-/* MISSION */
-
-.mission {
-    max-width: 800px;
-    margin: 100px auto;
-    padding: 20px;
-}
-
-.mission h2 {
-    color: #c9b37e;
-    font-size: 40px;
-    margin-bottom: 20px;
-}
-
-.mission p {
-    font-size: 20px;
-    line-height: 1.8;
-    color: #ddd;
-}
-
-
-/* BLOCKQUOTE */
-
-blockquote {
-    max-width: 700px;
-    margin: 40px auto;
-    padding: 25px;
-    border-left: 5px solid #c9b37e;
-    background: #1a1a1a;
-    color: #f5f5f5;
-    font-size: 20px;
-    line-height: 1.8;
-    font-style: italic;
-    border-radius: 8px;
-}
-
-
-/* FOOTER */
-
-footer {
-    background: #111;
-    padding: 40px 20px;
-    text-align: center;
-    margin-top: 80px;
-}
-
-footer h3 {
-    color: #c9b37e;
-    font-size: 30px;
-    margin-bottom: 10px;
-}
-
-footer p {
-    color: #aaa;
-    margin: 8px 0;
-}
-
-
-/* CONTACT FORM */
-
-.contact-form {
-    max-width: 600px;
-    margin: 40px auto;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
-.contact-form input,
-.contact-form textarea {
-    padding: 15px;
-    border: 1px solid #444;
-    border-radius: 8px;
-    background: #1a1a1a;
-    color: white;
-    font-size: 16px;
-}
-
-.contact-form input:focus,
-.contact-form textarea:focus {
-    outline: none;
-    border-color: #c9b37e;
-}
-
-.contact-form button {
-    border: none;
-    cursor: pointer;
-}
-
-
-/* HERO TITLE */
-
-.hero-title {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 350px;
-}
-
-.hero-title img {
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    object-fit: contain;
-    opacity: 0.15;
-    z-index: 0;
-}
-
-.hero-title h1 {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-}
-
-
-/* LOGO */
-
-.hero-logo img {
-    width: 500px;
-    height: auto;
-    display: block;
-    mix-blend-mode: screen;
-}
-
-
-/* ================================= */
-/* TABLET */
-/* ================================= */
-
-@media (max-width: 900px) {
-
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .collection-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-}
-
-
-/* ================================= */
-/* PHONE */
-/* ================================= */
-
-@media (max-width: 600px) {
-
-    nav {
-        padding: 20px;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    nav ul {
-        gap: 15px;
-        flex-wrap: wrap;
-        justify-content: center;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .collection-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .collection-card {
-        padding: 8px;
-    }
-
-    .collection-card img {
-        height: 160px;
-    }
-
-    .collection-card h3 {
-        font-size: 14px;
-    }
-
-    .collection-card .btn {
-        padding: 8px 10px;
-        font-size: 11px;
-    }
-
-    .hero-logo img {
-        width: 320px;
-    }
-
-}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>Faith Over Fear Collection | SET APART</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
+
+</head>
+
+
+<body>
+
+
+<nav>
+
+    <h2>SET APART</h2>
+
+    <ul>
+
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+
+        <li>
+            <a href="shop.html">Shop</a>
+        </li>
+
+        <li>
+            <a href="about.html">About</a>
+        </li>
+
+        <li>
+            <a href="contact.html">Contact</a>
+        </li>
+
+    </ul>
+
+</nav>
+
+
+<section class="collection-products">
+
+    <h2>Faith Over Fear Collection</h2>
+
+
+    <div class="collection-grid-products">
+
+
+        <!-- FAITH 1 -->
+
+        <div class="collection-card">
+
+            <img
+                src="images/faith over fear.png"
+                alt="Faith Over Fear Hoodie"
+            >
+
+            <h3>Faith Over Fear</h3>
+
+            <p>$39.99</p>
+
+            <a
+                href="https://paypal.me/Brothermyke"
+                target="_blank"
+                class="btn"
+            >
+                Pay with PayPal
+            </a>
+
+            <a
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20Faith%20Over%20Fear%20Hoodie."
+                target="_blank"
+                class="btn"
+            >
+                Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- FAITH 2 -->
+
+        <div class="collection-card">
+
+            <img
+                src="images/faith over fear3.jpeg"
+                alt="Faith Over Fear Hoodie"
+            >
+
+            <h3>Faith Over Fear</h3>
+
+            <p>$39.99</p>
+
+            <a
+                href="https://paypal.me/Brothermyke"
+                target="_blank"
+                class="btn"
+            >
+                Pay with PayPal
+            </a>
+
+            <a
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20Faith%20Over%20Fear%20Hoodie."
+                target="_blank"
+                class="btn"
+            >
+                Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- FAITH 3 -->
+
+        <div class="collection-card">
+
+            <img
+                src="images/faith over fear4.jpeg"
+                alt="Faith Over Fear Hoodie"
+            >
+
+            <h3>Faith Over Fear</h3>
+
+            <p>$39.99</p>
+
+            <a
+                href="https://paypal.me/Brothermyke"
+                target="_blank"
+                class="btn"
+            >
+                Pay with PayPal
+            </a>
+
+            <a
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20Faith%20Over%20Fear%20Hoodie."
+                target="_blank"
+                class="btn"
+            >
+                Order on WhatsApp
+            </a>
+
+        </div>
+
+
+        <!-- FAITH 4 -->
+
+        <div class="collection-card">
+
+            <img
+                src="images/faith over fear5.jpeg"
+                alt="Faith Over Fear Hoodie"
+            >
+
+            <h3>Faith Over Fear</h3>
+
+            <p>$39.99</p>
+
+            <a
+                href="https://paypal.me/Brothermyke"
+                target="_blank"
+                class="btn"
+            >
+                Pay with PayPal
+            </a>
+
+            <a
+                href="https://wa.me/18494861203?text=Hello%20SET%20APART%2C%20I%20want%20to%20order%20the%20Faith%20Over%20Fear%20Hoodie."
+                target="_blank"
+                class="btn"
+            >
+                Order on WhatsApp
+            </a>
+
+        </div>
+
+
+    </div>
+
+</section>
+
+
+<footer>
+
+    <h3>SET APART</h3>
+
+    <p>Faith-Inspired Streetwear</p>
+
+    <p>©️ 2026 SET APART. All Rights Reserved.</p>
+
+</footer>
+
+
+</body>
+</html>
