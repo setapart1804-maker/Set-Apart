@@ -26,7 +26,818 @@ p {
     font-size: 20px;
 }
 
-
 /* =========================================
    NAVBAR
-=========================================
+========================================= */
+
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background: #111;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+    margin: 0;
+    padding: 0;
+}
+
+nav li {
+    display: inline;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    color: #c9b37e;
+}
+
+/* =========================================
+   BUTTON
+========================================= */
+
+.btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 35px;
+    background: #c9b37e;
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: 0.3s ease;
+}
+
+.btn:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+/* =========================================
+   HERO
+========================================= */
+
+.hero {
+    min-height: 60vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 20px;
+    background: linear-gradient(
+        rgba(0,0,0,.6),
+        rgba(0,0,0,.6)
+    );
+}
+
+.hero h1 {
+    font-size: 70px;
+    letter-spacing: 8px;
+    margin: 0 0 15px;
+}
+
+.hero h2 {
+    color: #c9b37e;
+}
+
+.hero p {
+    color: white;
+    font-size: 22px;
+}
+
+.hero-logo img {
+    width: 500px;
+    height: auto;
+    display: block;
+    mix-blend-mode: screen;
+}
+
+/* =========================================
+   PRODUCTS
+========================================= */
+
+.products {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 20px;
+}
+
+.products > h2 {
+    margin-bottom: 40px;
+    color: #c9b37e;
+}
+
+/* =========================================
+   SHOP - 3 MAIN HOODIES
+========================================= */
+
+.products .product-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    align-items: start;
+}
+
+.products .product-card {
+    background: #1a1a1a;
+    border-radius: 12px;
+    padding: 10px;
+    width: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    transition: .3s ease;
+}
+
+.products .product-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(201,179,126,.35);
+}
+
+.products .product-card img {
+    width: 100%;
+    height: 240px;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    padding: 3px;
+    box-sizing: border-box;
+}
+
+.products .product-card h3 {
+    color: white;
+    margin: 12px 0 8px;
+}
+
+.products .product-card p {
+    color: #c9b37e;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+/* =========================================
+   EXPLORE COLLECTIONS
+   12 SMALL HOODIES
+========================================= */
+
+.collections {
+    max-width: 900px;
+    margin: 60px auto;
+    padding: 15px;
+}
+
+.collections > h1 {
+    color: #c9b37e;
+    font-size: 32px;
+    font-weight: 300;
+    text-align: center;
+    margin: 0 0 40px;
+    letter-spacing: normal;
+}
+
+.collection {
+    margin-bottom: 35px;
+}
+
+/* 4 PHOTOS ON ONE LINE */
+
+.collection-preview {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    width: 700px !important;
+    max-width: 90% !important;
+    margin: 0 auto !important;
+}
+
+.collection-preview a {
+    display: block;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 125px;
+    object-fit: contain;
+    background: white;
+    border-radius: 7px;
+    padding: 3px;
+    box-sizing: border-box;
+    display: block;
+    transition: .3s ease;
+}
+
+.collection-preview img:hover {
+    transform: translateY(-4px);
+}
+
+/* =========================================
+   COLLECTION PAGES
+   YHWH / GRACE / FAITH
+========================================= */
+
+body.collection-page .products {
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 50px auto !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* =========================================
+   4 HOODIES - SAME LINE
+========================================= */
+
+body.collection-page .products .product-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    width: 900px !important;
+    max-width: 95% !important;
+
+    gap: 12px !important;
+
+    margin: 30px auto !important;
+
+    align-items: start !important;
+}
+
+/* =========================================
+   SMALL COLLECTION CARDS
+========================================= */
+
+body.collection-page .products .product-card {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
+
+    height: auto !important;
+
+    margin: 0 !important;
+
+    padding: 8px !important;
+
+    box-sizing: border-box !important;
+
+    background: #1a1a1a !important;
+
+    border-radius: 8px !important;
+}
+
+/* =========================================
+   SMALL HOODIE IMAGES
+========================================= */
+
+body.collection-page .products .product-card img {
+    width: 100% !important;
+
+    height: 150px !important;
+
+    max-height: 150px !important;
+
+    object-fit: contain !important;
+
+    object-position: center !important;
+
+    background: white !important;
+
+    border-radius: 6px !important;
+
+    padding: 3px !important;
+
+    box-sizing: border-box !important;
+
+    display: block !important;
+}
+
+/* =========================================
+   COLLECTION PRODUCT NAME
+========================================= */
+
+body.collection-page .products .product-card h3 {
+    color: white !important;
+
+    font-size: 14px !important;
+
+    margin: 7px 0 !important;
+}
+
+/* =========================================
+   COLLECTION PRICE
+========================================= */
+
+body.collection-page .products .product-card p {
+    color: #c9b37e !important;
+
+    font-size: 15px !important;
+
+    margin: 5px 0 !important;
+}
+
+/* =========================================
+   COLLECTION BUTTONS
+========================================= */
+
+body.collection-page .products .product-card .btn {
+    display: block !important;
+
+    width: 100% !important;
+
+    margin: 5px 0 !important;
+
+    padding: 7px 3px !important;
+
+    font-size: 10px !important;
+
+    box-sizing: border-box !important;
+}
+
+/* =========================================
+   COLLECTION MAIN IMAGE
+========================================= */
+
+.collection-main {
+    max-width: 240px !important;
+    margin: 0 auto 20px !important;
+}
+
+.collection-main img {
+    width: 100% !important;
+    height: 250px !important;
+    object-fit: contain !important;
+}
+
+/* =========================================
+   MISSION
+========================================= */
+
+.mission {
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 20px;
+}
+
+.mission h2 {
+    color: #c9b37e;
+    font-size: 40px;
+}
+
+.mission p {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #ddd;
+}
+
+/* =========================================
+   BLOCKQUOTE
+========================================= */
+
+blockquote {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 25px;
+
+    border-left: 5px solid #c9b37e;
+
+    background: #1a1a1a;
+
+    color: #f5f5f5;
+
+    font-size: 20px;
+
+    line-height: 1.8;
+
+    font-style: italic;
+
+    border-radius: 8px;
+}
+
+/* =========================================
+   CONTACT FORM
+========================================= */
+
+.contact-form {
+    max-width: 600px;
+    margin: 40px auto;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    padding: 15px;
+
+    border: 1px solid #444;
+
+    border-radius: 8px;
+
+    background: #1a1a1a;
+
+    color: white;
+
+    font-size: 16px;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    outline: none;
+    border-color: #c9b37e;
+}
+
+.contact-form button {
+    border: none;
+    cursor: pointer;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    background: #111;
+
+    padding: 40px 20px;
+
+    text-align: center;
+
+    margin-top: 80px;
+}
+
+footer h3 {
+    color: #c9b37e;
+
+    font-size: 30px;
+
+    margin-bottom: 10px;
+}
+
+footer p {
+    color: #aaa;
+
+    margin: 8px 0;
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .products .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+    }
+
+    .products .product-card img {
+        height: 200px;
+    }
+
+    body.collection-page .products .product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+        width: 95% !important;
+
+        gap: 8px !important;
+    }
+
+    body.collection-page .products .product-card img {
+        height: 125px !important;
+        max-height: 125px !important;
+    }
+}
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 700px) {
+
+    nav {
+        padding: 15px 20px;
+    }
+
+    nav ul {
+        gap: 12px;
+    }
+
+    nav a {
+        font-size: 13px;
+    }
+
+    /* SHOP */
+
+    .products .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 7px;
+    }
+
+    .products .product-card {
+        padding: 6px;
+    }
+
+    .products .product-card img {
+        height: 170px;
+    }
+
+    .products .product-card h3 {
+        font-size: 13px;
+    }
+
+    .products .product-card p {
+        font-size: 15px;
+    }
+
+    .products .btn {
+        padding: 7px 9px;
+        font-size: 11px;
+    }
+
+    /* 12 SMALL HOODIES */
+
+    .collection-preview {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 6px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    .collection-preview img {
+        height: 80px !important;
+    }
+
+    /* =====================================
+       COLLECTION PAGES ON PHONE
+    ===================================== */
+
+    body.collection-page .products {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+    }
+
+    body.collection-page .products .product-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        gap: 5px !important;
+    }
+
+    body.collection-page .products .product-card {
+        max-width: none !important;
+
+        padding: 3px !important;
+    }
+
+    body.collection-page .products .product-card img {
+        height: 75px !important;
+        max-height: 75px !important;
+    }
+
+    body.collection-page .products .product-card h3 {
+        font-size: 8px !important;
+        margin: 3px 0 !important;
+    }
+
+    body.collection-page .products .product-card p {
+        font-size: 9px !important;
+        margin: 3px 0 !important;
+    }
+
+    body.collection-page .products .product-card .btn {
+        font-size: 6px !important;
+        padding: 4px 1px !important;
+        margin: 3px 0 !important;
+    }
+
+    /* COLLECTION MAIN IMAGE */
+
+    .collection-main {
+        max-width: 190px !important;
+    }
+
+    .collection-main img {
+        height: 200px !important;
+    }
+
+    /* HERO */
+
+    .hero-logo img {
+        width: 300px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+}
+
+/* =========================================
+   COLLECTION PAGE - 4 HOODIES
+========================================= */
+
+body.collection-page .collection-products {
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 50px auto !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+body.collection-page .collection-grid-products {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 15px !important;
+    width: 100% !important;
+    max-width: 900px !important;
+    margin: 30px auto !important;
+    align-items: start !important;
+}
+
+body.collection-page .collection-card {
+    width: 100% !important;
+    max-width: 210px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    margin: 0 auto !important;
+    padding: 7px !important;
+    box-sizing: border-box !important;
+    background: #1a1a1a !important;
+    border-radius: 8px !important;
+}
+
+body.collection-page .collection-card img {
+    width: 100% !important;
+    height: 145px !important;
+    max-height: 145px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: white !important;
+    border-radius: 6px !important;
+    padding: 3px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+body.collection-page .collection-card h3 {
+    color: white !important;
+    font-size: 13px !important;
+    margin: 7px 0 !important;
+}
+
+body.collection-page .collection-card p {
+    color: #c9b37e !important;
+    font-size: 14px !important;
+    margin: 5px 0 !important;
+}
+
+body.collection-page .collection-card .btn {
+    display: block !important;
+    width: 100% !important;
+    padding: 7px 3px !important;
+    margin: 5px 0 !important;
+    font-size: 9px !important;
+    box-sizing: border-box !important;
+}
+
+/* =========================================
+   PHONE
+========================================= */
+
+@media (max-width: 700px) {
+
+    body.collection-page .collection-products {
+        width: 100% !important;
+        padding: 10px !important;
+    }
+
+    body.collection-page .collection-grid-products {
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 5px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+
+    body.collection-page .collection-card {
+        max-width: none !important;
+        padding: 3px !important;
+    }
+
+    body.collection-page .collection-card img {
+        height: 75px !important;
+        max-height: 75px !important;
+    }
+
+    body.collection-page .collection-card h3 {
+        font-size: 7px !important;
+        margin: 3px 0 !important;
+    }
+
+    body.collection-page .collection-card p {
+        font-size: 8px !important;
+        margin: 3px 0 !important;
+    }
+
+    body.collection-page .collection-card .btn {
+        font-size: 6px !important;
+        padding: 4px 1px !important;
+        margin: 3px 0 !important;
+    }
+}
+
+/* =========================================
+   EXPLORE COLLECTIONS
+   4 HOODIES PER ROW
+========================================= */
+
+.collections {
+    max-width: 950px !important;
+    margin: 60px auto !important;
+    padding: 20px !important;
+}
+
+.collections > h1 {
+    color: #c9b37e !important;
+    font-size: 32px !important;
+    font-weight: 300 !important;
+    text-align: center !important;
+    margin-bottom: 45px !important;
+}
+
+.collection {
+    margin-bottom: 50px !important;
+}
+
+.collection > h2 {
+    color: #c9b37e !important;
+    font-size: 24px !important;
+    margin-bottom: 18px !important;
+}
+
+.collection-preview {
+    display: grid !important;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    width: 100% !important;
+    max-width: 850px !important;
+    margin: 0 auto !important;
+}
+
+.collection-preview a {
+    display: block !important;
+    width: 100% !important;
+}
+
+.collection-preview img {
+    width: 100% !important;
+    height: 145px !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background: white !important;
+    border-radius: 8px !important;
+    padding: 3px !important;
+    box-sizing: border-box !important;
+    display: block !important;
+}
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .collections {
+        padding: 10px !important;
+    }
+
+    .collection-preview {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 6px !important;
+    }
+
+    .collection-preview img {
+        height: 85px !important;
+    }
+
+    .collection > h2 {
+        font-size: 18px !important;
+    }
+}
