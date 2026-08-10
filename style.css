@@ -251,7 +251,7 @@ nav a:hover {
 ========================================= */
 
 body.collection-page .products {
-    max-width: 1000px;
+    max-width: 300px;
     margin: 50px auto;
     padding: 20px;
 }
