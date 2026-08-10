@@ -94,11 +94,10 @@ nav a:hover {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
     padding: 60px 20px;
     background: linear-gradient(
-        rgba(0, 0, 0, .6),
-        rgba(0, 0, 0, .6)
+        rgba(0,0,0,.6),
+        rgba(0,0,0,.6)
     );
 }
 
@@ -110,19 +109,12 @@ nav a:hover {
 
 .hero h2 {
     color: #c9b37e;
-    margin-bottom: 15px;
 }
 
 .hero p {
     color: white;
     font-size: 22px;
-    margin-bottom: 30px;
 }
-
-
-/* =========================================
-   HERO LOGO
-========================================= */
 
 .hero-logo img {
     width: 500px;
@@ -131,32 +123,9 @@ nav a:hover {
     mix-blend-mode: screen;
 }
 
-.hero-title {
-    position: relative;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 350px;
-}
-
-.hero-title img {
-    position: absolute;
-    width: 350px;
-    height: 350px;
-    object-fit: contain;
-    opacity: 0.15;
-    z-index: 0;
-}
-
-.hero-title h1 {
-    position: relative;
-    z-index: 1;
-    margin: 0;
-}
-
 
 /* =========================================
-   PRODUCTS GENERAL
+   PRODUCTS
 ========================================= */
 
 .products {
@@ -166,14 +135,14 @@ nav a:hover {
 }
 
 .products > h2 {
-    text-align: center;
     margin-bottom: 40px;
     color: #c9b37e;
 }
 
 
 /* =========================================
-   SHOP - 3 MAIN HOODIES
+   SHOP
+   3 MAIN HOODIES
 ========================================= */
 
 .products .product-grid {
@@ -186,31 +155,28 @@ nav a:hover {
 }
 
 .products .product-card {
-    width: 100%;
-    min-height: 0;
-    padding: 10px;
-    box-sizing: border-box;
     background: #1a1a1a;
     border-radius: 12px;
-    text-align: center;
-    transition: 0.3s ease;
+    padding: 10px;
+    width: 100%;
+    min-height: 0;
+    box-sizing: border-box;
+    transition: .3s ease;
 }
 
 .products .product-card:hover {
     transform: translateY(-8px);
-    box-shadow: 0 15px 35px rgba(201, 179, 126, 0.35);
+    box-shadow: 0 15px 35px rgba(201,179,126,.35);
 }
 
 .products .product-card img {
     width: 100%;
     height: 240px;
     object-fit: contain;
-    object-position: center;
     background: white;
     border-radius: 8px;
     padding: 3px;
     box-sizing: border-box;
-    display: block;
 }
 
 .products .product-card h3 {
@@ -248,16 +214,14 @@ nav a:hover {
 }
 
 
-/* =========================================
-   4 SMALL PHOTOS PER ROW
-========================================= */
+/* 4 PHOTOS PER ROW */
 
 .collection-preview {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    max-width: 700px;
-    margin: 0 auto;
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 10px !important;
+    max-width: 700px !important;
+    margin: 0 auto !important;
 }
 
 .collection-preview a {
@@ -268,13 +232,12 @@ nav a:hover {
     width: 100%;
     height: 125px;
     object-fit: contain;
-    object-position: center;
     background: white;
     border-radius: 7px;
     padding: 3px;
     box-sizing: border-box;
     display: block;
-    transition: 0.3s ease;
+    transition: .3s ease;
 }
 
 .collection-preview img:hover {
@@ -285,68 +248,110 @@ nav a:hover {
 /* =========================================
    COLLECTION PAGES
    YHWH / GRACE / FAITH
-   4 HOODIES SAME LINE + SMALL
 ========================================= */
 
-.collection-page .products {
+body.collection-page .products {
     max-width: 1000px;
     margin: 50px auto;
     padding: 20px;
 }
 
-.collection-page .products .product-grid {
+
+/* FORCE 4 HOODIES ON SAME LINE */
+
+body.collection-page .products .product-grid {
     display: grid !important;
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-    gap: 15px !important;
-    width: 100% !important;
-    max-width: 900px !important;
+
+    width: 900px !important;
+    max-width: 90% !important;
+
+    gap: 12px !important;
+
     margin: 30px auto !important;
+
     align-items: start !important;
 }
 
-.collection-page .products .product-card {
+
+/* SMALL CARDS */
+
+body.collection-page .products .product-card {
     width: 100% !important;
+    max-width: 210px !important;
+
     min-width: 0 !important;
     min-height: 0 !important;
+
     height: auto !important;
-    padding: 8px !important;
+
     margin: 0 !important;
+    padding: 8px !important;
+
     box-sizing: border-box !important;
+
     background: #1a1a1a;
-    border-radius: 10px;
+    border-radius: 8px;
 }
 
-.collection-page .products .product-card img {
+
+/* SMALL HOODIE IMAGE */
+
+body.collection-page .products .product-card img {
     width: 100% !important;
-    height: 170px !important;
-    max-height: 170px !important;
+
+    height: 150px !important;
+    max-height: 150px !important;
+
     object-fit: contain !important;
-    object-position: center !important;
+
     background: white !important;
-    border-radius: 7px !important;
+
+    border-radius: 6px !important;
+
     padding: 3px !important;
+
     box-sizing: border-box !important;
+
     display: block !important;
 }
 
-.collection-page .products .product-card h3 {
+
+/* PRODUCT NAME */
+
+body.collection-page .products .product-card h3 {
     color: white;
-    font-size: 15px !important;
-    margin: 8px 0 4px !important;
+
+    font-size: 14px !important;
+
+    margin: 7px 0 !important;
 }
 
-.collection-page .products .product-card p {
+
+/* PRICE */
+
+body.collection-page .products .product-card p {
     color: #c9b37e;
-    font-size: 16px !important;
-    margin: 4px 0 !important;
+
+    font-size: 15px !important;
+
+    margin: 5px 0 !important;
 }
 
-.collection-page .products .product-card .btn {
+
+/* BUTTONS */
+
+body.collection-page .products .product-card .btn {
     display: block !important;
+
     width: 100% !important;
-    margin: 6px 0 !important;
-    padding: 7px 4px !important;
-    font-size: 11px !important;
+
+    margin: 5px 0 !important;
+
+    padding: 7px 3px !important;
+
+    font-size: 10px !important;
+
     box-sizing: border-box !important;
 }
 
@@ -380,7 +385,6 @@ nav a:hover {
 .mission h2 {
     color: #c9b37e;
     font-size: 40px;
-    margin-bottom: 20px;
 }
 
 .mission p {
@@ -398,12 +402,19 @@ blockquote {
     max-width: 700px;
     margin: 40px auto;
     padding: 25px;
+
     border-left: 5px solid #c9b37e;
+
     background: #1a1a1a;
+
     color: #f5f5f5;
+
     font-size: 20px;
+
     line-height: 1.8;
+
     font-style: italic;
+
     border-radius: 8px;
 }
 
@@ -415,18 +426,25 @@ blockquote {
 .contact-form {
     max-width: 600px;
     margin: 40px auto;
+
     display: flex;
     flex-direction: column;
+
     gap: 20px;
 }
 
 .contact-form input,
 .contact-form textarea {
     padding: 15px;
+
     border: 1px solid #444;
+
     border-radius: 8px;
+
     background: #1a1a1a;
+
     color: white;
+
     font-size: 16px;
 }
 
@@ -448,25 +466,31 @@ blockquote {
 
 footer {
     background: #111;
+
     padding: 40px 20px;
+
     text-align: center;
+
     margin-top: 80px;
 }
 
 footer h3 {
     color: #c9b37e;
+
     font-size: 30px;
+
     margin-bottom: 10px;
 }
 
 footer p {
     color: #aaa;
+
     margin: 8px 0;
 }
 
 
 /* =========================================
-   RESPONSIVE
+   TABLET
 ========================================= */
 
 @media (max-width: 900px) {
@@ -480,16 +504,20 @@ footer p {
         height: 200px;
     }
 
-    .collection-page .products .product-grid {
+    body.collection-page .products .product-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         gap: 8px !important;
     }
 
-    .collection-page .products .product-card img {
-        height: 140px !important;
+    body.collection-page .products .product-card img {
+        height: 130px !important;
     }
 }
 
+
+/* =========================================
+   PHONE
+========================================= */
 
 @media (max-width: 700px) {
 
@@ -506,7 +534,7 @@ footer p {
     }
 
 
-    /* SHOP 3 MAIN */
+    /* SHOP */
 
     .products .product-grid {
         grid-template-columns: repeat(3, 1fr);
@@ -535,78 +563,26 @@ footer p {
     }
 
 
-    /* 12 SMALL HOODIES */
+    /* 12 HOODIES */
 
     .collection-preview {
-        grid-template-columns: repeat(4, 1fr);
-        gap: 6px;
+        grid-template-columns: repeat(4, 1fr) !important;
+        gap: 6px !important;
     }
 
     .collection-preview img {
-        height: 80px;
+        height: 80px !important;
     }
 
 
-  /* =========================================
-   COLLECTION PAGE - FORCE 4 ON ONE LINE
-========================================= */
-
-body.collection-page .products .product-grid {
-    display: grid !important;
-    grid-template-columns: repeat(4, 1fr) !important;
-    width: 900px !important;
-    max-width: 90% !important;
-    gap: 12px !important;
-    margin: 30px auto !important;
-}
-
-body.collection-page .products .product-card {
-    width: 100% !important;
-    max-width: 210px !important;
-    min-height: 0 !important;
-    height: auto !important;
-    padding: 8px !important;
-    margin: 0 !important;
-}
-
-body.collection-page .products .product-card img {
-    width: 100% !important;
-    height: 150px !important;
-    max-height: 150px !important;
-    object-fit: contain !important;
-    background: white !important;
-    padding: 3px !important;
-    border-radius: 6px !important;
-    box-sizing: border-box !important;
-}
-
-body.collection-page .products .product-card h3 {
-    font-size: 14px !important;
-    margin: 7px 0 !important;
-}
-
-body.collection-page .products .product-card p {
-    font-size: 15px !important;
-    margin: 5px 0 !important;
-}
-
-body.collection-page .products .product-card .btn {
-    width: 100% !important;
-    padding: 7px 3px !important;
-    margin: 4px 0 !important;
-    font-size: 10px !important;
-    box-sizing: border-box !important;
-}
-
-
-/* PHONE */
-
-@media (max-width: 700px) {
+    /* COLLECTION PAGES */
 
     body.collection-page .products .product-grid {
-        grid-template-columns: repeat(4, 1fr) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
         width: 100% !important;
         max-width: 100% !important;
+
         gap: 5px !important;
     }
 
@@ -632,4 +608,31 @@ body.collection-page .products .product-card .btn {
         font-size: 7px !important;
         padding: 4px 1px !important;
     }
+
+
+    /* COLLECTION MAIN */
+
+    .collection-main {
+        max-width: 190px !important;
+    }
+
+    .collection-main img {
+        height: 200px !important;
+    }
+
+
+    /* HERO */
+
+    .hero-logo img {
+        width: 300px;
+    }
+
+    .hero h1 {
+        font-size: 45px;
+    }
+
+    .hero p {
+        font-size: 18px;
+    }
+
 }
