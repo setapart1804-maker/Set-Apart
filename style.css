@@ -636,3 +636,150 @@ footer p {
     }
 
 }
+
+/* =========================
+   COLLECTIONS
+========================= */
+
+.collections {
+    max-width: 1100px;
+    margin: 70px auto;
+    padding: 20px;
+}
+
+.collections > h1 {
+    color: white;
+    font-size: 48px;
+    margin-bottom: 60px;
+    text-align: left;
+}
+
+
+/* COLLECTION */
+
+.collection {
+    margin-bottom: 90px;
+}
+
+
+/* MAIN HOODIE */
+
+.collection-main {
+    display: block;
+    position: relative;
+    text-decoration: none;
+    background: #1a1a1a;
+    border-radius: 14px;
+    overflow: hidden;
+    max-width: 380px;
+    margin: 0 auto 25px;
+}
+
+.collection-main img {
+    width: 100%;
+    height: 420px;
+    object-fit: contain;
+    background: white;
+    display: block;
+}
+
+
+/* TITLE */
+
+.collection-title {
+    padding: 18px;
+    text-align: center;
+}
+
+.collection-title h2 {
+    color: white;
+    font-size: 30px;
+    margin: 0 0 5px;
+}
+
+.collection-title p {
+    color: #c9b37e;
+    font-size: 16px;
+    margin: 0;
+}
+
+
+/* SMALL PREVIEW PHOTOS */
+
+.collection-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    max-width: 650px;
+    margin: 0 auto 25px;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 150px;
+    object-fit: contain;
+    background: white;
+    border-radius: 8px;
+    padding: 4px;
+    transition: 0.3s ease;
+}
+
+.collection-preview img:hover {
+    transform: translateY(-5px);
+}
+
+
+/* VIEW COLLECTION BUTTON */
+
+.collection-btn {
+    display: block;
+    width: fit-content;
+    margin: 0 auto;
+    padding: 13px 28px;
+    background: #c9b37e;
+    color: #111;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 7px;
+    transition: 0.3s ease;
+}
+
+.collection-btn:hover {
+    background: white;
+    transform: scale(1.05);
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .collections {
+        margin: 40px auto;
+        padding: 15px;
+    }
+
+    .collections > h1 {
+        font-size: 34px;
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .collection-main {
+        max-width: 300px;
+    }
+
+    .collection-main img {
+        height: 330px;
+    }
+
+    .collection-preview {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 7px;
+    }
+
+    .collection-preview img {
+        height: 90px;
+    }
+
+}
