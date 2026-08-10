@@ -141,8 +141,7 @@ nav a:hover {
 
 
 /* =========================================
-   SHOP
-   3 MAIN HOODIES
+   SHOP - 3 MAIN HOODIES
 ========================================= */
 
 .products .product-grid {
@@ -214,13 +213,14 @@ nav a:hover {
 }
 
 
-/* 4 PHOTOS PER ROW */
+/* 4 PHOTOS ON ONE LINE */
 
 .collection-preview {
     display: grid !important;
     grid-template-columns: repeat(4, 1fr) !important;
     gap: 10px !important;
-    max-width: 700px !important;
+    width: 700px !important;
+    max-width: 90% !important;
     margin: 0 auto !important;
 }
 
@@ -251,20 +251,26 @@ nav a:hover {
 ========================================= */
 
 body.collection-page .products {
-    max-width: 300px;
-    margin: 50px auto;
-    padding: 20px;
+    width: 100% !important;
+    max-width: 1000px !important;
+    margin: 50px auto !important;
+    padding: 20px !important;
+    box-sizing: border-box !important;
 }
 
 
-/* FORCE 4 HOODIES ON SAME LINE */
+/* =========================================
+   4 HOODIES - SAME LINE
+========================================= */
 
 body.collection-page .products .product-grid {
     display: grid !important;
-    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
 
     width: 900px !important;
-    max-width: 90% !important;
+    max-width: 95% !important;
 
     gap: 12px !important;
 
@@ -274,11 +280,14 @@ body.collection-page .products .product-grid {
 }
 
 
-/* SMALL CARDS */
+/* =========================================
+   SMALL COLLECTION CARDS
+========================================= */
 
 body.collection-page .products .product-card {
     width: 100% !important;
-    max-width: 210px !important;
+
+    max-width: none !important;
 
     min-width: 0 !important;
     min-height: 0 !important;
@@ -286,24 +295,31 @@ body.collection-page .products .product-card {
     height: auto !important;
 
     margin: 0 !important;
+
     padding: 8px !important;
 
     box-sizing: border-box !important;
 
-    background: #1a1a1a;
-    border-radius: 8px;
+    background: #1a1a1a !important;
+
+    border-radius: 8px !important;
 }
 
 
-/* SMALL HOODIE IMAGE */
+/* =========================================
+   SMALL HOODIE IMAGES
+========================================= */
 
 body.collection-page .products .product-card img {
     width: 100% !important;
 
     height: 150px !important;
+
     max-height: 150px !important;
 
     object-fit: contain !important;
+
+    object-position: center !important;
 
     background: white !important;
 
@@ -317,10 +333,12 @@ body.collection-page .products .product-card img {
 }
 
 
-/* PRODUCT NAME */
+/* =========================================
+   COLLECTION PRODUCT NAME
+========================================= */
 
 body.collection-page .products .product-card h3 {
-    color: white;
+    color: white !important;
 
     font-size: 14px !important;
 
@@ -328,10 +346,12 @@ body.collection-page .products .product-card h3 {
 }
 
 
-/* PRICE */
+/* =========================================
+   COLLECTION PRICE
+========================================= */
 
 body.collection-page .products .product-card p {
-    color: #c9b37e;
+    color: #c9b37e !important;
 
     font-size: 15px !important;
 
@@ -339,7 +359,9 @@ body.collection-page .products .product-card p {
 }
 
 
-/* BUTTONS */
+/* =========================================
+   COLLECTION BUTTONS
+========================================= */
 
 body.collection-page .products .product-card .btn {
     display: block !important;
@@ -506,11 +528,15 @@ footer p {
 
     body.collection-page .products .product-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+
+        width: 95% !important;
+
         gap: 8px !important;
     }
 
     body.collection-page .products .product-card img {
-        height: 130px !important;
+        height: 125px !important;
+        max-height: 125px !important;
     }
 }
 
@@ -563,11 +589,13 @@ footer p {
     }
 
 
-    /* 12 HOODIES */
+    /* 12 SMALL HOODIES */
 
     .collection-preview {
         grid-template-columns: repeat(4, 1fr) !important;
         gap: 6px !important;
+        width: 100% !important;
+        max-width: 100% !important;
     }
 
     .collection-preview img {
@@ -575,7 +603,15 @@ footer p {
     }
 
 
-    /* COLLECTION PAGES */
+    /* =====================================
+       COLLECTION PAGES ON PHONE
+    ===================================== */
+
+    body.collection-page .products {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 10px !important;
+    }
 
     body.collection-page .products .product-grid {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
@@ -588,6 +624,7 @@ footer p {
 
     body.collection-page .products .product-card {
         max-width: none !important;
+
         padding: 3px !important;
     }
 
@@ -598,19 +635,22 @@ footer p {
 
     body.collection-page .products .product-card h3 {
         font-size: 8px !important;
+        margin: 3px 0 !important;
     }
 
     body.collection-page .products .product-card p {
         font-size: 9px !important;
+        margin: 3px 0 !important;
     }
 
     body.collection-page .products .product-card .btn {
-        font-size: 7px !important;
+        font-size: 6px !important;
         padding: 4px 1px !important;
+        margin: 3px 0 !important;
     }
 
 
-    /* COLLECTION MAIN */
+    /* COLLECTION MAIN IMAGE */
 
     .collection-main {
         max-width: 190px !important;
@@ -634,6 +674,4 @@ footer p {
     .hero p {
         font-size: 18px;
     }
-
 }
-
