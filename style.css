@@ -1442,25 +1442,36 @@ SMALL PHONES
 }
 
 /* =========================================
-   HERO LOGO — FIX
+   LOGO — NO BACKGROUND + CENTER
 ========================================= */
 
 .hero-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto 25px;
+    padding: 0;
     background: transparent !important;
-    width: 150px !important;
-    height: auto !important;
-    margin: 0 auto 20px !important;
-    padding: 0 !important;
 }
 
 .hero-logo img {
-    width: 150px !important;
-    height: auto !important;
-
-    display: block !important;
+    width: 170px;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+    padding: 0;
 
     background: transparent !important;
+    box-shadow: none !important;
+    mix-blend-mode: normal !important;
+    opacity: 1 !important;
+}
 
-    /* FÈ FOND NWA LOGO A DISPARÈT */
-    mix-blend-mode: screen !important;
+/* PHONE */
+
+@media (max-width: 700px) {
+    .hero-logo img {
+        width: 130px;
+    }
 }
