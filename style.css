@@ -176,17 +176,16 @@ HERO
 ========================================= */
 
 .hero {
-min-height: calc(100vh - 120px);
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.42),
+            rgba(0, 0, 0, 0.42)
+        ),
+        url("images/faith over fear4.jpeg");
 
-position: relative;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-padding: 60px 20px;
-overflow: hidden;
-background: #111;
-
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .hero-image {
@@ -246,26 +245,20 @@ margin-bottom: 25px;
 }
 
 .hero-logo {
-width: 180px;
-
-margin: 0 auto 20px;
-
+    background: transparent !important;
+    box-shadow: none !important;
 }
 
 .hero-logo img {
-width: 100%;
-
-height: auto;
-display: block;
-mix-blend-mode: screen;
-
+    background: transparent !important;
+    mix-blend-mode: screen;
 }
 
 .hero h1 {
-font-size: clamp(70px, 12vw, 165px);
+font-size: clamp(45px, 7vw, 95px);
 
 line-height: .82;
-letter-spacing: -5px;
+letter-spacing: -3px;
 font-weight: 900;
 margin: 0 0 25px;
 
