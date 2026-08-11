@@ -255,13 +255,8 @@ margin-bottom: 25px;
 }
 
 .hero h1 {
-font-size: clamp(45px, 7vw, 95px);
-
-line-height: .82;
-letter-spacing: -3px;
-font-weight: 900;
-margin: 0 0 25px;
-
+    font-size: clamp(45px, 7vw, 95px) !important;
+    letter-spacing: -3px !important;
 }
 
 .hero h2 {
@@ -1446,4 +1441,26 @@ SMALL PHONES
     font-size: 50px;
 }
 
+/* =========================================
+   HERO LOGO — FIX
+========================================= */
+
+.hero-logo {
+    background: transparent !important;
+    width: 150px !important;
+    height: auto !important;
+    margin: 0 auto 20px !important;
+    padding: 0 !important;
+}
+
+.hero-logo img {
+    width: 150px !important;
+    height: auto !important;
+
+    display: block !important;
+
+    background: transparent !important;
+
+    /* FÈ FOND NWA LOGO A DISPARÈT */
+    mix-blend-mode: screen !important;
 }
