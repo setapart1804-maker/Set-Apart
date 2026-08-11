@@ -87,15 +87,24 @@ nav a:hover {
 
 .hero {
     min-height: 60vh;
+
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+
     padding: 60px 20px;
-    background: linear-gradient(
-        rgba(0,0,0,.6),
-        rgba(0,0,0,.6)
-    );
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.45),
+            rgba(0, 0, 0, 0.45)
+        ),
+        url("images/YHWH brown.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 }
 
 .hero h1 {
