@@ -24,15 +24,6 @@ body {
 }
 
 /* =========================================
-   ANNOUNCEMENT
-   HIDDEN
-========================================= */
-
-.announcement {
-    display: none;
-}
-
-/* =========================================
    NAVBAR
 ========================================= */
 
@@ -40,14 +31,11 @@ nav {
     width: 100%;
     height: 85px;
     padding: 0 5%;
-
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     background: #0b0b0b;
     border-bottom: 1px solid #242424;
-
     position: relative;
     z-index: 10;
 }
@@ -55,7 +43,6 @@ nav {
 .nav-logo {
     color: #ffffff;
     text-decoration: none;
-
     font-size: 22px;
     font-weight: 900;
     letter-spacing: 4px;
@@ -65,18 +52,15 @@ nav ul {
     display: flex;
     align-items: center;
     gap: 38px;
-
     list-style: none;
 }
 
 nav ul li a {
     color: #ffffff;
     text-decoration: none;
-
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.5px;
-
     transition: 0.3s ease;
 }
 
@@ -87,14 +71,11 @@ nav ul li a:hover {
 .nav-shop {
     color: #ffffff;
     text-decoration: none;
-
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1.5px;
-
     border: 1px solid #ffffff;
     padding: 12px 22px;
-
     transition: 0.3s ease;
 }
 
@@ -109,22 +90,17 @@ nav ul li a:hover {
 
 .hero {
     min-height: calc(100vh - 85px);
-
     position: relative;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     overflow: hidden;
-
     background: #111111;
 }
 
 .hero-image {
     position: absolute;
     inset: 0;
-
     width: 100%;
     height: 100%;
 }
@@ -133,110 +109,76 @@ nav ul li a:hover {
     content: "";
     position: absolute;
     inset: 0;
-
     background:
         linear-gradient(
             to right,
-            rgba(0, 0, 0, 0.72),
-            rgba(0, 0, 0, 0.25),
-            rgba(0, 0, 0, 0.72)
+            rgba(0, 0, 0, 0.82),
+            rgba(0, 0, 0, 0.35),
+            rgba(0, 0, 0, 0.65)
         );
 }
 
 .hero-image img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
     object-position: center;
-
     filter: brightness(0.75);
-
-    display: block;
 }
-
-/* =========================================
-   HERO CONTENT
-========================================= */
 
 .hero-content {
     position: relative;
     z-index: 2;
-
     width: 90%;
-    max-width: 1100px;
-
+    max-width: 1200px;
     text-align: center;
 }
-
-/* =========================================
-   LOGO
-========================================= */
 
 .hero-logo {
     display: flex;
     justify-content: center;
     align-items: center;
-
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 .hero-logo img {
-    width: 280px;
-    max-width: 65vw;
+    width: 220px;
+    max-width: 70%;
     height: auto;
-
     display: block;
-
-    /*
-       Logo1.png should already have
-       the correct background.
-    */
+    object-fit: contain;
 }
 
-/* Hide the old hero small text */
 .hero-small {
-    display: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 5px;
+    margin-bottom: 25px;
 }
 
-/* Hide repeated SET APART */
 .hero h1 {
-    display: none;
+    font-size: clamp(70px, 13vw, 180px);
+    line-height: 0.78;
+    font-weight: 900;
+    letter-spacing: -5px;
+    margin-bottom: 35px;
 }
-
-/* =========================================
-   HERO TEXT
-========================================= */
 
 .hero-text {
-    font-size: 16px;
-    font-weight: 500;
-
-    letter-spacing: 4px;
-
+    font-size: 17px;
+    letter-spacing: 3px;
     margin-bottom: 40px;
-
-    text-transform: uppercase;
 }
-
-/* =========================================
-   HERO BUTTON
-========================================= */
 
 .hero-btn {
     display: inline-block;
-
     color: #000000;
     background: #ffffff;
-
     text-decoration: none;
-
     padding: 16px 32px;
-
     font-size: 11px;
     font-weight: 800;
     letter-spacing: 2px;
-
     transition: 0.3s ease;
 }
 
@@ -251,61 +193,42 @@ nav ul li a:hover {
 
 .products {
     padding: 120px 5%;
-
     background: #0b0b0b;
 }
-
-/* =========================================
-   PRODUCTS HEADER
-========================================= */
 
 .section-heading {
     display: flex;
     align-items: flex-end;
     justify-content: space-between;
-
     margin-bottom: 55px;
 }
 
 .section-heading .section-label {
-    color: #999999;
-
+    color: #a8a8a8;
     margin-bottom: 15px;
+}
+
+.section-heading h2 {
+    font-size: clamp(35px, 5vw, 65px);
+    font-weight: 900;
+    letter-spacing: -2px;
 }
 
 .section-label {
     font-size: 10px;
     font-weight: 800;
-
     letter-spacing: 4px;
+    margin-bottom: 25px;
 }
-
-.section-heading h2 {
-    font-size: clamp(35px, 5vw, 65px);
-
-    font-weight: 900;
-
-    letter-spacing: -2px;
-}
-
-/* =========================================
-   VIEW ALL
-========================================= */
 
 .view-all {
     color: #ffffff;
-
     text-decoration: none;
-
     font-size: 11px;
     font-weight: 700;
-
     letter-spacing: 2px;
-
     border-bottom: 1px solid #ffffff;
-
     padding-bottom: 8px;
-
     transition: 0.3s ease;
 }
 
@@ -320,45 +243,28 @@ nav ul li a:hover {
 
 .product-grid {
     display: grid;
-
     grid-template-columns: repeat(3, 1fr);
-
     gap: 18px;
 }
 
-/* =========================================
-   PRODUCT CARD
-========================================= */
-
 .product-card {
     background: #151515;
-
     overflow: hidden;
 }
 
-/* =========================================
-   PRODUCT IMAGE
-========================================= */
-
 .product-image {
     display: block;
-
     width: 100%;
     height: 600px;
-
     overflow: hidden;
-
     background: #eeeeee;
 }
 
 .product-image img {
     width: 100%;
     height: 100%;
-
     object-fit: cover;
-
     display: block;
-
     transition: transform 0.7s ease;
 }
 
@@ -366,51 +272,32 @@ nav ul li a:hover {
     transform: scale(1.04);
 }
 
-/* =========================================
-   PRODUCT INFO
-========================================= */
-
 .product-info {
     padding: 24px 20px 28px;
-
     display: flex;
-
     justify-content: space-between;
     align-items: flex-end;
 }
 
 .product-info h3 {
     font-size: 14px;
-
     letter-spacing: 2px;
-
     margin-bottom: 8px;
 }
 
 .product-info p {
     color: #999999;
-
     font-size: 13px;
 }
 
-/* =========================================
-   PRODUCT LINK
-========================================= */
-
 .product-link {
     color: #ffffff;
-
     text-decoration: none;
-
     font-size: 10px;
     font-weight: 800;
-
     letter-spacing: 2px;
-
     border-bottom: 1px solid #ffffff;
-
     padding-bottom: 6px;
-
     transition: 0.3s ease;
 }
 
@@ -420,132 +307,84 @@ nav ul li a:hover {
 }
 
 /* =========================================
-   INTRO / OUR PURPOSE
+   OUR PURPOSE
 ========================================= */
 
 .intro {
     padding: 150px 8%;
-
     text-align: center;
-
     background: #f1eee8;
-
     color: #111111;
 }
 
-.intro .section-label {
-    color: #555555;
+.intro-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
 
-    margin-bottom: 25px;
+.intro .section-label {
+    color: #111111;
 }
 
 .intro h2 {
     font-size: clamp(50px, 8vw, 105px);
-
     line-height: 0.9;
-
     font-weight: 900;
-
     letter-spacing: -3px;
-
     margin-bottom: 45px;
 }
 
 .intro-text {
     max-width: 620px;
-
-    margin: auto;
-
+    margin: 0 auto;
     font-size: 16px;
-
     line-height: 1.8;
-
     color: #555555;
 }
 
 /* =========================================
-   MESSAGE
+   THE MESSAGE
 ========================================= */
 
 .message {
     padding: 140px 8%;
-
-    background: #0b0b0b;
-
     display: grid;
-
     grid-template-columns: 1fr 1fr;
-
     gap: 80px;
-
-    align-items: center;
-}
-
-.message-left .section-label {
-    color: #999999;
-
-    margin-bottom: 25px;
+    background: #0b0b0b;
 }
 
 .message-left h2 {
     font-size: clamp(55px, 8vw, 110px);
-
     line-height: 0.85;
-
     font-weight: 900;
-
     letter-spacing: -4px;
 }
 
 .message-right {
-    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .message-right p {
-    color: #aaaaaa;
-
+    max-width: 500px;
+    color: #a8a8a8;
     font-size: 16px;
-
     line-height: 1.8;
-
     margin-bottom: 25px;
 }
 
 .text-link {
     display: inline-block;
-
+    width: fit-content;
     color: #ffffff;
-
     text-decoration: none;
-
-    font-size: 11px;
-
+    font-size: 10px;
     font-weight: 800;
-
     letter-spacing: 2px;
-
     border-bottom: 1px solid #ffffff;
-
     padding-bottom: 8px;
-
-    margin-top: 15px;
-
-    transition: 0.3s ease;
-}
-
-.text-link:hover {
-    color: #bda66a;
-
-    border-color: #bda66a;
-}
-
-/* =========================================
-   STATEMENT
-   DISABLED
-========================================= */
-
-.statement {
-    display: none;
 }
 
 /* =========================================
@@ -554,11 +393,8 @@ nav ul li a:hover {
 
 .collection-cta {
     padding: 150px 20px;
-
     text-align: center;
-
     background: #bda66a;
-
     color: #000000;
 }
 
@@ -568,25 +404,19 @@ nav ul li a:hover {
 
 .collection-cta h2 {
     font-size: clamp(55px, 9vw, 120px);
-
     line-height: 0.85;
-
     font-weight: 900;
-
     letter-spacing: -4px;
-
     margin-bottom: 50px;
 }
 
 .collection-cta .hero-btn {
     background: #000000;
-
     color: #ffffff;
 }
 
 .collection-cta .hero-btn:hover {
     background: #ffffff;
-
     color: #000000;
 }
 
@@ -596,45 +426,33 @@ nav ul li a:hover {
 
 footer {
     background: #080808;
-
     padding: 80px 5% 30px;
 }
 
 .footer-brand h2 {
     font-size: 28px;
-
     letter-spacing: 5px;
-
     margin-bottom: 12px;
 }
 
 .footer-brand p {
     color: #777777;
-
     font-size: 13px;
 }
 
 .footer-links {
     display: flex;
-
     gap: 30px;
-
     margin-top: 55px;
-
     padding-bottom: 50px;
-
     border-bottom: 1px solid #252525;
 }
 
 .footer-links a {
     color: #ffffff;
-
     text-decoration: none;
-
     font-size: 10px;
-
     font-weight: 700;
-
     letter-spacing: 2px;
 }
 
@@ -648,9 +466,7 @@ footer {
 
 .footer-bottom p {
     color: #555555;
-
     font-size: 9px;
-
     letter-spacing: 1.5px;
 }
 
@@ -693,58 +509,56 @@ footer {
 @media (max-width: 600px) {
 
     nav {
-        height: 75px;
-
-        padding: 0 18px;
+        height: auto;
+        min-height: 75px;
+        padding: 18px;
+        flex-wrap: wrap;
+        gap: 15px;
     }
 
     .nav-logo {
-        font-size: 17px;
-
+        font-size: 18px;
         letter-spacing: 3px;
     }
 
     nav ul {
-        gap: 15px;
+        width: 100%;
+        justify-content: center;
+        gap: 20px;
+        order: 3;
+        padding-top: 5px;
     }
 
     nav ul li a {
-        font-size: 8px;
-
+        font-size: 9px;
         letter-spacing: 1px;
     }
 
-    /* HERO */
-
     .hero {
-        min-height: 650px;
-    }
-
-    .hero-logo {
-        margin-bottom: 30px;
+        min-height: 700px;
     }
 
     .hero-logo img {
-        width: 220px;
+        width: 170px;
+    }
 
-        max-width: 65vw;
+    .hero h1 {
+        display: none;
+    }
+
+    .hero-small {
+        display: none;
     }
 
     .hero-text {
-        font-size: 11px;
-
+        font-size: 13px;
         letter-spacing: 2px;
-
-        margin-bottom: 30px;
     }
 
     .hero-btn {
         padding: 14px 22px;
-
         font-size: 9px;
     }
-
-    /* PRODUCTS */
 
     .products {
         padding: 90px 18px;
@@ -752,9 +566,7 @@ footer {
 
     .section-heading {
         align-items: flex-start;
-
         flex-direction: column;
-
         gap: 25px;
     }
 
@@ -764,15 +576,12 @@ footer {
 
     .product-grid {
         grid-template-columns: 1fr;
-
         gap: 35px;
     }
 
     .product-image {
         height: 500px;
     }
-
-    /* INTRO */
 
     .intro {
         padding: 100px 25px;
@@ -786,21 +595,13 @@ footer {
         font-size: 14px;
     }
 
-    /* MESSAGE */
-
     .message {
         padding: 100px 25px;
-
-        grid-template-columns: 1fr;
-
-        gap: 50px;
     }
 
     .message-left h2 {
-        font-size: 58px;
+        font-size: 60px;
     }
-
-    /* CTA */
 
     .collection-cta {
         padding: 100px 20px;
@@ -810,15 +611,12 @@ footer {
         font-size: 58px;
     }
 
-    /* FOOTER */
-
     footer {
         padding: 60px 25px 25px;
     }
 
     .footer-links {
         gap: 20px;
-
         flex-wrap: wrap;
     }
 }
