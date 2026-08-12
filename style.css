@@ -640,3 +640,19 @@ footer {
         flex-wrap: wrap;
     }
 }
+
+.more-than-clothing {
+    padding: 80px 20px;
+}
+
+.more-than-clothing h2 {
+    font-size: 32px;
+    letter-spacing: -1px;
+    margin-bottom: 25px;
+}
+
+.more-than-clothing p {
+    max-width: 330px;
+    font-size: 13px;
+    line-height: 1.7;
+}
