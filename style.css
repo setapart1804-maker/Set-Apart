@@ -307,39 +307,33 @@ nav ul li a:hover {
 }
 
 /* =========================================
-   OUR PURPOSE
+   MORE THAN CLOTHING
 ========================================= */
 
-.intro {
-    padding: 150px 8%;
-    text-align: center;
-    background: #f1eee8;
-    color: #111111;
+.more-than-clothing {
+width: 100%;
+padding: 120px 20px;
+background: #f1eee8;
+color: #111111;
+text-align: center;
 }
 
-.intro-content {
-    max-width: 900px;
-    margin: 0 auto;
+.more-than-clothing h2 {
+margin: 0 auto 35px;
+text-align: center;
+font-size: clamp(38px, 6vw, 75px);
+line-height: 1;
+font-weight: 900;
+letter-spacing: -2px;
 }
 
-.intro .section-label {
-    color: #111111;
-}
-
-.intro h2 {
-    font-size: clamp(50px, 8vw, 105px);
-    line-height: 0.9;
-    font-weight: 900;
-    letter-spacing: -3px;
-    margin-bottom: 45px;
-}
-
-.intro-text {
-    max-width: 620px;
-    margin: 0 auto;
-    font-size: 16px;
-    line-height: 1.8;
-    color: #555555;
+.more-than-clothing p {
+max-width: 650px;
+margin: 0 auto;
+text-align: center;
+font-size: 16px;
+line-height: 1.8;
+color: #555555;
 }
 
 /* =========================================
