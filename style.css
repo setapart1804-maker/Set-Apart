@@ -535,6 +535,31 @@ footer {
 }
 
 /* =========================================
+   SHOP - 3 MAIN HOODIES
+========================================= */
+
+.products .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1050px;
+    margin: 0 auto;
+}
+
+.products .product-card > a:first-child {
+    display: block;
+    width: 100%;
+    height: 380px;
+    overflow: hidden;
+}
+
+.products .product-card > a:first-child img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* =========================================
    TABLET
 ========================================= */
 
@@ -727,6 +752,29 @@ footer {
     font-size: 13px;
     line-height: 1.7;
 }
+
+.products .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 8px;
+    }
+
+    .products .product-card > a:first-child {
+        height: 150px;
+    }
+
+    .products .product-card h3 {
+        font-size: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .products .product-card p {
+        font-size: 10px;
+    }
+
+    .products .product-card .btn {
+        font-size: 8px;
+        padding: 8px 10px;
+    }
 
 .products {
         padding: 60px 18px;
