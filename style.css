@@ -598,13 +598,31 @@ footer {
         letter-spacing: 1px;
     }
 
-   .collection-preview {
+ .collections {
+        padding: 60px 18px;
+    }
+
+    .collections > h1 {
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+
+    .collection {
+        margin-bottom: 50px;
+    }
+
+    .collection > h2 {
+        font-size: 22px;
+        margin-bottom: 20px;
+    }
+
+    .collection-preview {
         grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
+        gap: 10px;
     }
 
     .collection-preview a {
-        height: 240px;
+        height: 190px;
     }
 
     .hero {
@@ -709,3 +727,28 @@ footer {
     font-size: 13px;
     line-height: 1.7;
 }
+
+.products {
+        padding: 60px 18px;
+    }
+
+    .products > h2 {
+        font-size: 28px;
+        margin-bottom: 30px;
+    }
+
+    .products .product-grid {
+        gap: 20px;
+    }
+
+    .products .product-card > a:first-child {
+        height: 300px;
+    }
+
+    .products .product-card h3 {
+        font-size: 14px;
+    }
+
+    .products .product-card p {
+        font-size: 12px;
+    }
