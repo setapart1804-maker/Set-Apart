@@ -560,6 +560,33 @@ footer {
 }
 
 /* =========================================
+COLLECTION PAGE
+2 PRODUCTS PER ROW
+========================================= */
+
+.collection-page .collection-products {
+padding: 90px 5%;
+}
+
+.collection-page .collection-grid-products {
+display: grid;
+grid-template-columns: repeat(2, minmax(0, 1fr));
+gap: 30px;
+max-width: 850px;
+margin: 0 auto;
+}
+
+.collection-page .collection-card {
+width: 100%;
+}
+
+.collection-page .collection-card img {
+width: 100%;
+height: 400px;
+object-fit: cover;
+display: block;
+}
+/* =========================================
    TABLET
 ========================================= */
 
