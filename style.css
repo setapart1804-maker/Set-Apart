@@ -491,6 +491,50 @@ footer {
 }
 
 /* =========================================
+   EXPLORE OUR COLLECTIONS
+========================================= */
+
+.collections {
+    padding: 100px 5%;
+}
+
+.collections > h1 {
+    text-align: center;
+    margin-bottom: 60px;
+}
+
+.collection {
+    margin-bottom: 80px;
+}
+
+.collection > h2 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.collection-preview {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.collection-preview a {
+    display: block;
+    width: 100%;
+    height: 320px;
+    overflow: hidden;
+}
+
+.collection-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* =========================================
    TABLET
 ========================================= */
 
@@ -552,6 +596,15 @@ footer {
     nav ul li a {
         font-size: 9px;
         letter-spacing: 1px;
+    }
+
+   .collection-preview {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .collection-preview a {
+        height: 240px;
     }
 
     .hero {
