@@ -869,3 +869,25 @@ display: block;
         font-size: 8px;
         padding: 7px 8px;
     }
+
+.collection-page .collection-products {
+padding: 60px 18px;
+}
+
+.collection-page .collection-grid-products {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+}
+.collection-page .collection-card img {
+    height: 210px;
+}
+.collection-page .collection-card h3 {
+    font-size: 11px;
+}
+.collection-page .collection-card p {
+    font-size: 11px;
+}
+.collection-page .collection-card .btn {
+    font-size: 8px;
+    padding: 8px 6px;
+}
