@@ -800,3 +800,45 @@ footer {
     .products .product-card p {
         font-size: 12px;
     }
+
+/* SHOP - 3 HOODIES MOBILE */
+
+    .products .product-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+        gap: 8px !important;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .products .product-card {
+        width: 100%;
+        min-width: 0;
+    }
+
+    .products .product-card > a:first-child {
+        display: block;
+        width: 100%;
+        height: 160px !important;
+        overflow: hidden;
+    }
+
+    .products .product-card > a:first-child img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .products .product-card h3 {
+        font-size: 9px;
+        letter-spacing: 0.5px;
+    }
+
+    .products .product-card p {
+        font-size: 9px;
+    }
+
+    .products .product-card .btn {
+        font-size: 8px;
+        padding: 7px 8px;
+    }
