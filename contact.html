@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,46 +12,119 @@
 
 <body>
 
-    <!-- ANNOUNCEMENT BAR -->
+    <!-- =========================
+         ANNOUNCEMENT BAR
+    ========================== -->
+
     <div class="announcement">
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
     </div>
 
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <header class="navbar">
 
-        <button class="menu-toggle" aria-label="Open menu">
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
             ☰
         </button>
+
+
+        <!-- LOGO -->
 
         <a href="index.html" class="logo">
             <img src="LOGO (2).png" alt="SET APART Logo">
         </a>
 
-        <nav>
+
+        <!-- NAVIGATION -->
+
+        <nav id="mainNav">
+
             <a href="index.html">HOME</a>
             <a href="shop.html">SHOP</a>
             <a href="about.html">ABOUT</a>
             <a href="contact.html">CONTACT</a>
+
         </nav>
 
+
+        <!-- SEARCH + CART -->
+
         <div class="nav-icons">
-            <button aria-label="Search">🔍</button>
-            <button aria-label="Cart">🛒</button>
+
+            <button
+                type="button"
+                class="search-btn"
+                id="searchButton"
+                aria-label="Search">
+                🔍
+            </button>
+
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
+                🛒
+            </button>
+
         </div>
 
     </header>
 
 
-    <!-- CONTACT -->
+    <!-- =========================
+         SEARCH BOX
+    ========================== -->
+
+    <div class="search-box" id="searchBox">
+
+        <form id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="button"
+                id="closeSearch"
+                class="close-search"
+                aria-label="Close search">
+                ×
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         CONTACT
+    ========================== -->
+
     <main>
 
         <section class="shop-header">
 
-            <p>GET IN TOUCH</p>
+            <p>
+                GET IN TOUCH
+            </p>
 
-            <h1>CONTACT</h1>
+            <h1>
+                CONTACT
+            </h1>
 
             <span>
                 WE'D LOVE TO HEAR FROM YOU.
@@ -62,6 +136,9 @@
         <section class="contact-section">
 
             <div class="contact-content">
+
+
+                <!-- CONTACT INFO -->
 
                 <div class="contact-info">
 
@@ -86,34 +163,49 @@
                 </div>
 
 
-                <form class="contact-form">
+                <!-- CONTACT FORM -->
 
-                    <label for="name">NAME</label>
+                <form
+                    class="contact-form"
+                    action="mailto:setapart1804@gmail.com"
+                    method="post"
+                    enctype="text/plain">
+
+                    <label for="name">
+                        NAME
+                    </label>
+
                     <input
                         type="text"
                         id="name"
                         name="name"
                         placeholder="Your name"
-                        required
-                    >
+                        required>
 
-                    <label for="email">EMAIL</label>
+
+                    <label for="email">
+                        EMAIL
+                    </label>
+
                     <input
                         type="email"
                         id="email"
                         name="email"
                         placeholder="Your email"
-                        required
-                    >
+                        required>
 
-                    <label for="message">MESSAGE</label>
+
+                    <label for="message">
+                        MESSAGE
+                    </label>
+
                     <textarea
                         id="message"
                         name="message"
                         rows="6"
                         placeholder="Your message"
-                        required
-                    ></textarea>
+                        required></textarea>
+
 
                     <button type="submit">
                         SEND MESSAGE
@@ -128,42 +220,83 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer class="footer">
 
         <div class="footer-brand">
 
-            <img src="LOGO (2).png" alt="SET APART Logo">
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
 
-            <p>Faith-Inspired Streetwear.</p>
-            <p>Called to Live Differently.</p>
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
 
         </div>
+
 
         <div class="footer-links">
 
             <div>
-                <h3>SHOP</h3>
 
-                <a href="shop.html">All Products</a>
-                <a href="shop.html">Hoodies</a>
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
             </div>
 
-            <div>
-                <h3>ABOUT</h3>
 
-                <a href="about.html">Our Story</a>
-                <a href="contact.html">Contact</a>
+            <div>
+
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
             </div>
 
-            <div>
-                <h3>FOLLOW</h3>
 
-                <a href="#">Instagram</a>
-                <a href="#">TikTok</a>
+            <div>
+
+                <h3>
+                    FOLLOW
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
             </div>
 
         </div>
+
 
         <div class="footer-bottom">
 
@@ -176,16 +309,11 @@
     </footer>
 
 
-    <!-- MOBILE MENU -->
-    <script>
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".navbar nav");
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-        menuToggle.addEventListener("click", () => {
-            mobileMenu.classList.toggle("active");
-        });
-    </script>
-<script src="script.js"></script>
-    
+    <script src="script.js"></script>
+
 </body>
 </html>
