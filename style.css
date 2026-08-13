@@ -485,84 +485,71 @@ body {
 
 @media (max-width: 600px) {
 
-    .announcement {
-        font-size: 9px;
-        letter-spacing: 1px;
-    }
-
     .navbar {
         height: 70px;
+        padding: 0 20px;
+        position: relative;
+    }
+
+    /* 3 BA YO ANLÈ A GOCH */
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        font-size: 28px;
+        cursor: pointer;
+        color: #111111;
+        z-index: 1002;
+    }
+
+    /* LOGO A NAN MITAN */
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 
     .logo img {
         width: 75px;
     }
 
+    /* CART LA ADWAT */
+    .nav-icons {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    /* MENU MOBILE */
     .navbar nav {
         display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        border-top: 1px solid #eeeeee;
+        flex-direction: column;
+        gap: 0;
+        z-index: 1001;
     }
 
-    .nav-icons button {
-        font-size: 18px;
+    /* LÈ MOUN PEZE 3 BA YO */
+    .navbar nav.active {
+        display: flex;
     }
 
-    .hero {
-        min-height: 65vh;
-    }
-
-    .hero h1 {
-        letter-spacing: -3px;
-    }
-
-    .hero h2 {
+    .navbar nav a {
+        width: 100%;
+        padding: 18px 25px;
+        border-bottom: 1px solid #eeeeee;
         font-size: 12px;
         letter-spacing: 2px;
-    }
-
-    .new-drop,
-    .categories {
-        padding: 70px 20px;
-    }
-
-    .section-header h2 {
-        font-size: 30px;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .product-info h3 {
-        font-size: 10px;
-    }
-
-    .product-info p {
-        font-size: 12px;
-    }
-
-    .category-card {
-        height: 280px;
-    }
-
-    .mission {
-        padding: 100px 20px;
-    }
-
-    .mission h2 {
-        letter-spacing: -2px;
-    }
-
-    .verse {
-        padding: 90px 20px;
-    }
-
-    .footer {
-        padding: 60px 20px 25px;
-    }
-
-    .footer-links {
-        grid-template-columns: 1fr 1fr;
     }
 
 }
