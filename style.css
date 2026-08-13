@@ -92,19 +92,22 @@ body {
 }
 
 
-/* NAV ICONS */
+/* =========================
+   NAV ICONS
+========================= */
 
 .nav-icons {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 10px;
 }
 
 .nav-icons button {
     background: none;
     border: none;
     cursor: pointer;
-    font-size: 20px;
+    font-size: 17px;
+    padding: 5px;
 }
 
 
@@ -483,15 +486,24 @@ body {
 }
 
 
+/* =========================
+   MOBILE
+========================= */
+
 @media (max-width: 600px) {
 
+    /* NAVBAR */
     .navbar {
         height: 70px;
         padding: 0 20px;
         position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    /* 3 BA YO ANLÈ A GOCH */
+
+    /* 3 BA YO — MOBILE SELMAN */
     .menu-toggle {
         display: block;
         position: absolute;
@@ -500,32 +512,46 @@ body {
         transform: translateY(-50%);
         background: none;
         border: none;
-        font-size: 28px;
+        font-size: 27px;
         cursor: pointer;
         color: #111111;
         z-index: 1002;
     }
 
-    /* LOGO A NAN MITAN */
+
+    /* LOGO NAN MITAN */
     .logo {
         position: absolute;
         left: 50%;
-        transform: translateX(-50%);
+        top: 50%;
+        transform: translate(-50%, -50%);
     }
 
     .logo img {
         width: 75px;
+        height: auto;
     }
 
-    /* CART LA ADWAT */
+
+    /* SEARCH + CART ADWAT */
     .nav-icons {
         position: absolute;
-        right: 20px;
+        right: 15px;
         top: 50%;
         transform: translateY(-50%);
+
+        display: flex;
+        align-items: center;
+        gap: 6px;
     }
 
-    /* MENU MOBILE */
+    .nav-icons button {
+        font-size: 17px;
+        padding: 4px;
+    }
+
+
+    /* NAVIGATION MOBILE */
     .navbar nav {
         display: none;
         position: absolute;
@@ -533,13 +559,12 @@ body {
         left: 0;
         width: 100%;
         background: #ffffff;
-        border-top: 1px solid #eeeeee;
         flex-direction: column;
         gap: 0;
+        border-top: 1px solid #eeeeee;
         z-index: 1001;
     }
 
-    /* LÈ MOUN PEZE 3 BA YO */
     .navbar nav.active {
         display: flex;
     }
@@ -550,6 +575,85 @@ body {
         border-bottom: 1px solid #eeeeee;
         font-size: 12px;
         letter-spacing: 2px;
+    }
+
+
+    /* HERO */
+    .hero {
+        min-height: 65vh;
+        padding: 60px 20px;
+    }
+
+    .hero h1 {
+        font-size: 60px;
+        letter-spacing: -3px;
+    }
+
+    .hero h2 {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+
+    /* SECTIONS */
+    .new-drop,
+    .categories {
+        padding: 70px 20px;
+    }
+
+    .section-header h2 {
+        font-size: 30px;
+    }
+
+
+    /* PRODUCTS */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-info h3 {
+        font-size: 10px;
+    }
+
+    .product-info p {
+        font-size: 12px;
+    }
+
+
+    /* CATEGORIES */
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        height: 280px;
+    }
+
+
+    /* MISSION */
+    .mission {
+        padding: 100px 20px;
+    }
+
+    .mission h2 {
+        letter-spacing: -2px;
+    }
+
+
+    /* VERSE */
+    .verse {
+        padding: 90px 20px;
+    }
+
+
+    /* FOOTER */
+    .footer {
+        padding: 60px 20px 25px;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
     }
 
 }
