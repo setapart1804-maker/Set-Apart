@@ -39,33 +39,37 @@
     </nav>
 
     <!-- SEARCH + CART -->
-   <div class="nav-icons">
+  <div class="nav-icons">
 
-    <button class="search-btn" aria-label="Search">
+    <button type="button" class="search-btn" id="searchButton" aria-label="Search">
         🔍
     </button>
 
-    <button class="cart-btn" aria-label="Shopping Cart">
+    <button type="button" class="cart-btn" aria-label="Shopping Cart">
         🛒
     </button>
 
 </div>
 
-<!-- SEARCH BOX -->
 <div class="search-box" id="searchBox">
 
-    <button class="close-search" id="closeSearch">
-        ×
-    </button>
+    <form id="searchForm">
 
-    <input
-        type="search"
-        id="searchInput"
-        placeholder="Search products..."
-    >
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search products..."
+            autocomplete="off"
+        >
+
+        <button type="button" id="closeSearch" class="close-search">
+            ×
+        </button>
+
+    </form>
 
 </div>
-
+       
 </header>
 
 
