@@ -458,41 +458,11 @@ body {
 
 
 /* =========================
-   MOBILE
+   TABLET + MOBILE
 ========================= */
 
 @media (max-width: 900px) {
 
-    .navbar {
-        padding: 0 20px;
-    }
-
-    .navbar nav {
-        gap: 15px;
-    }
-
-    .navbar nav a {
-        font-size: 10px;
-    }
-
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .category-grid {
-        grid-template-columns: 1fr;
-    }
-
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
-@media (max-width: 900px) {
-
-    /* NAVBAR */
     .navbar {
         height: 70px;
         padding: 0 20px;
@@ -502,8 +472,7 @@ body {
         justify-content: center;
     }
 
-
-    /* 3 BA YO — MOBILE SELMAN */
+    /* 3 BA YO */
     .menu-toggle {
         display: block;
         position: absolute;
@@ -518,7 +487,6 @@ body {
         z-index: 1002;
     }
 
-
     /* LOGO NAN MITAN */
     .logo {
         position: absolute;
@@ -532,17 +500,15 @@ body {
         height: auto;
     }
 
-
-    /* SEARCH + CART ADWAT */
+    /* SEARCH + CART */
     .nav-icons {
         position: absolute;
         right: 15px;
         top: 50%;
         transform: translateY(-50%);
-
         display: flex;
         align-items: center;
-        gap: 6px;
+        gap: 7px;
     }
 
     .nav-icons button {
@@ -550,8 +516,7 @@ body {
         padding: 4px;
     }
 
-
-    /* NAVIGATION MOBILE */
+    /* MENU KI KACHE */
     .navbar nav {
         display: none;
         position: absolute;
@@ -577,7 +542,6 @@ body {
         letter-spacing: 2px;
     }
 
-
     /* HERO */
     .hero {
         min-height: 65vh;
@@ -589,11 +553,16 @@ body {
         letter-spacing: -3px;
     }
 
-    .hero h2 {
-        font-size: 12px;
-        letter-spacing: 2px;
+    /* PRODUCTS */
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
     }
 
+    /* CATEGORIES */
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
 
     /* SECTIONS */
     .new-drop,
@@ -601,59 +570,21 @@ body {
         padding: 70px 20px;
     }
 
-    .section-header h2 {
-        font-size: 30px;
-    }
-
-
-    /* PRODUCTS */
-    .product-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 12px;
-    }
-
-    .product-info h3 {
-        font-size: 10px;
-    }
-
-    .product-info p {
-        font-size: 12px;
-    }
-
-
-    /* CATEGORIES */
-    .category-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .category-card {
-        height: 280px;
-    }
-
-
-    /* MISSION */
-    .mission {
-        padding: 100px 20px;
-    }
-
-    .mission h2 {
-        letter-spacing: -2px;
-    }
-
-
-    /* VERSE */
-    .verse {
-        padding: 90px 20px;
-    }
-
-
     /* FOOTER */
     .footer {
         padding: 60px 20px 25px;
     }
+}
 
-    .footer-links {
-        grid-template-columns: 1fr 1fr;
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 901px) {
+
+    .menu-toggle {
+        display: none;
     }
 
 }
