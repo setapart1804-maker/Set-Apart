@@ -609,3 +609,54 @@ body {
         display: block;
     }
 }
+
+/* =========================
+   HERO - ALL DEVICES
+========================= */
+
+.hero {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+
+    background-image:
+        linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),
+        url("PILGRIM BLACK BACK.png");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    color: #ffffff;
+}
+
+
+/* TABLET + MOBILE */
+@media (max-width: 900px) {
+
+    .hero {
+        min-height: 65vh;
+
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+}
+
+
+/* DESKTOP */
+@media (min-width: 901px) {
+
+    .hero {
+        min-height: 75vh;
+
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+}
