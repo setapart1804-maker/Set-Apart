@@ -650,13 +650,10 @@ body {
 
 /* DESKTOP */
 @media (min-width: 901px) {
-
     .hero {
         min-height: 75vh;
-
-        background-size: cover;
+        background-size: 85%;
         background-position: center center;
         background-repeat: no-repeat;
     }
-
 }
