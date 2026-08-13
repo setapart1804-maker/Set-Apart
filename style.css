@@ -1223,3 +1223,34 @@ a {
     }
 
 }
+
+/* ==================================================
+   HOODIE BACKGROUND — DESKTOP ONLY
+================================================== */
+
+@media (min-width: 901px) {
+
+    .hero {
+        width: 100%;
+        min-height: 85vh;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        position: relative;
+        overflow: hidden;
+
+        background-image:
+            linear-gradient(
+                rgba(0, 0, 0, 0.45),
+                rgba(0, 0, 0, 0.45)
+            ),
+            url("PILGRIM BLACK BACK.png");
+
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+    }
+
+}
