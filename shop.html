@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Shop — SET APART</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ANNOUNCEMENT BAR -->
+    <div class="announcement">
+        NEW DROP — CALLED TO LIVE DIFFERENTLY.
+    </div>
+
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+
+        <!-- MOBILE / TABLET MENU -->
+        <button class="menu-toggle" aria-label="Open menu">
+            ☰
+        </button>
+
+        <!-- LOGO -->
+        <a href="index.html" class="logo">
+            <img src="logo.png (4).jpeg" alt="SET APART Logo">
+        </a>
+
+        <!-- NAVIGATION -->
+        <nav>
+            <a href="index.html">HOME</a>
+            <a href="shop.html">SHOP</a>
+            <a href="about.html">ABOUT</a>
+            <a href="contact.html">CONTACT</a>
+        </nav>
+
+        <!-- SEARCH + CART -->
+        <div class="nav-icons">
+
+            <button class="search-btn" aria-label="Search">
+                🔍
+            </button>
+
+            <button class="cart-btn" aria-label="Shopping Cart">
+                🛒
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- SHOP HEADER -->
+    <main>
+
+        <section class="shop-header">
+
+            <p>SET APART COLLECTION</p>
+
+            <h1>SHOP</h1>
+
+            <span>
+                FAITH-INSPIRED STREETWEAR
+            </span>
+
+        </section>
+
+
+        <!-- SHOP PRODUCTS -->
+        <section class="shop-products">
+
+            <div class="product-grid">
+
+                <!-- PRODUCT 1 -->
+                <article class="product-card">
+
+                    <div class="product-image">
+                        <span>PRODUCT IMAGE</span>
+                    </div>
+
+                    <div class="product-info">
+                        <h3>SET APART HOODIE</h3>
+                        <p>$75.00</p>
+                    </div>
+
+                </article>
+
+
+                <!-- PRODUCT 2 -->
+                <article class="product-card">
+
+                    <div class="product-image">
+                        <span>PRODUCT IMAGE</span>
+                    </div>
+
+                    <div class="product-info">
+                        <h3>SET APART HOODIE</h3>
+                        <p>$75.00</p>
+                    </div>
+
+                </article>
+
+
+                <!-- PRODUCT 3 -->
+                <article class="product-card">
+
+                    <div class="product-image">
+                        <span>PRODUCT IMAGE</span>
+                    </div>
+
+                    <div class="product-info">
+                        <h3>SET APART HOODIE</h3>
+                        <p>$80.00</p>
+                    </div>
+
+                </article>
+
+
+                <!-- PRODUCT 4 -->
+                <article class="product-card">
+
+                    <div class="product-image">
+                        <span>PRODUCT IMAGE</span>
+                    </div>
+
+                    <div class="product-info">
+                        <h3>SET APART HOODIE</h3>
+                        <p>$75.00</p>
+                    </div>
+
+                </article>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="footer">
+
+        <div class="footer-brand">
+
+            <img src="logo.png (4).jpeg" alt="SET APART Logo">
+
+            <p>Faith-Inspired Streetwear.</p>
+            <p>Called to Live Differently.</p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <div>
+                <h3>SHOP</h3>
+
+                <a href="shop.html">All Products</a>
+                <a href="shop.html">Hoodies</a>
+                <a href="shop.html">T-Shirts</a>
+                <a href="shop.html">Accessories</a>
+            </div>
+
+
+            <div>
+                <h3>ABOUT</h3>
+
+                <a href="about.html">Our Story</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+
+            <div>
+                <h3>FOLLOW</h3>
+
+                <a href="#">Instagram</a>
+                <a href="#">TikTok</a>
+            </div>
+
+        </div>
+
+
+        <div class="footer-bottom">
+
+            <p>
+                © 2026 SET APART. ALL RIGHTS RESERVED.
+            </p>
+
+        </div>
+
+    </footer>
+
+
+    <!-- MOBILE MENU -->
+    <script>
+        const menuToggle = document.querySelector(".menu-toggle");
+        const mobileMenu = document.querySelector(".navbar nav");
+
+        menuToggle.addEventListener("click", () => {
+            mobileMenu.classList.toggle("active");
+        });
+    </script>
+
+</body>
+</html>
