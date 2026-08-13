@@ -1,0 +1,568 @@
+/* =========================
+   SET APART
+   MAIN STYLES
+========================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #111111;
+    line-height: 1.5;
+}
+
+
+/* =========================
+   ANNOUNCEMENT BAR
+========================= */
+
+.announcement {
+    background: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 11px;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+
+
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+    width: 100%;
+    height: 85px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 45px;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+
+/* LOGO */
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 95px;
+    height: auto;
+    display: block;
+}
+
+
+/* NAVIGATION */
+
+.navbar nav {
+    display: flex;
+    align-items: center;
+    gap: 35px;
+}
+
+.navbar nav a {
+    color: #111111;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    transition: opacity 0.3s ease;
+}
+
+.navbar nav a:hover {
+    opacity: 0.5;
+}
+
+
+/* NAV ICONS */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.nav-icons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+
+/* =========================
+   HERO
+========================= */
+
+.hero {
+    min-height: 75vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 80px 20px;
+    background: #f2f2f2;
+}
+
+.hero-content {
+    max-width: 900px;
+}
+
+.hero-small {
+    font-size: 12px;
+    letter-spacing: 4px;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.hero h1 {
+    font-size: clamp(60px, 10vw, 150px);
+    line-height: 0.9;
+    letter-spacing: -5px;
+    font-weight: 900;
+    margin-bottom: 25px;
+}
+
+.hero h2 {
+    font-size: 16px;
+    letter-spacing: 4px;
+    font-weight: 500;
+    margin-bottom: 40px;
+}
+
+
+/* HERO BUTTON */
+
+.hero-button {
+    display: inline-block;
+    background: #111111;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 16px 35px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.hero-button:hover {
+    background: #333333;
+}
+
+
+/* =========================
+   GENERAL SECTIONS
+========================= */
+
+.new-drop,
+.categories {
+    padding: 100px 45px;
+}
+
+.section-header {
+    text-align: center;
+    margin-bottom: 55px;
+}
+
+.section-header p {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.section-header h2 {
+    font-size: 38px;
+    letter-spacing: -1px;
+    font-weight: 800;
+}
+
+
+/* =========================
+   PRODUCT GRID
+========================= */
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+
+/* PRODUCT CARD */
+
+.product-card {
+    min-width: 0;
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    background: #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999999;
+    font-size: 11px;
+    letter-spacing: 2px;
+    overflow: hidden;
+}
+
+.product-info {
+    padding-top: 15px;
+}
+
+.product-info h3 {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-bottom: 5px;
+}
+
+.product-info p {
+    font-size: 13px;
+    color: #555555;
+}
+
+
+/* VIEW ALL */
+
+.center-button {
+    text-align: center;
+    margin-top: 55px;
+}
+
+.outline-button {
+    display: inline-block;
+    border: 1px solid #111111;
+    color: #111111;
+    text-decoration: none;
+    padding: 15px 30px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.outline-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
+
+
+/* =========================
+   CATEGORIES
+========================= */
+
+.categories {
+    background: #f5f5f5;
+}
+
+.category-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.category-card {
+    height: 400px;
+    background: #dddddd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: #111111;
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover {
+    transform: scale(0.98);
+}
+
+.category-card span {
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+
+/* =========================
+   MISSION
+========================= */
+
+.mission {
+    padding: 140px 25px;
+    text-align: center;
+    background: #111111;
+    color: #ffffff;
+}
+
+.mission-content {
+    max-width: 750px;
+    margin: auto;
+}
+
+.section-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.mission h2 {
+    font-size: clamp(45px, 7vw, 85px);
+    line-height: 1;
+    letter-spacing: -3px;
+    margin-bottom: 30px;
+}
+
+.mission-content > p:not(.section-label) {
+    max-width: 650px;
+    margin: 0 auto 40px;
+    font-size: 16px;
+    color: #cccccc;
+}
+
+.mission .outline-button {
+    border-color: #ffffff;
+    color: #ffffff;
+}
+
+.mission .outline-button:hover {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* =========================
+   VERSE
+========================= */
+
+.verse {
+    padding: 120px 25px;
+    text-align: center;
+    background: #ffffff;
+}
+
+.verse-content {
+    max-width: 900px;
+    margin: auto;
+}
+
+.verse-label {
+    font-size: 11px;
+    letter-spacing: 3px;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.verse blockquote {
+    font-size: clamp(25px, 4vw, 45px);
+    line-height: 1.2;
+    font-weight: 500;
+    letter-spacing: -1px;
+}
+
+.verse-reference {
+    margin-top: 30px;
+    font-size: 12px;
+    letter-spacing: 3px;
+    font-weight: 700;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer {
+    background: #111111;
+    color: #ffffff;
+    padding: 70px 45px 25px;
+}
+
+.footer-brand {
+    margin-bottom: 60px;
+}
+
+.footer-brand img {
+    width: 100px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.footer-brand p {
+    color: #aaaaaa;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    padding-bottom: 60px;
+}
+
+.footer-links h3 {
+    font-size: 11px;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.footer-links a {
+    display: block;
+    color: #aaaaaa;
+    text-decoration: none;
+    font-size: 13px;
+    margin-bottom: 10px;
+    transition: color 0.3s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+
+.footer-bottom {
+    border-top: 1px solid #333333;
+    padding-top: 25px;
+}
+
+.footer-bottom p {
+    font-size: 10px;
+    color: #777777;
+    letter-spacing: 1px;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding: 0 20px;
+    }
+
+    .navbar nav {
+        gap: 15px;
+    }
+
+    .navbar nav a {
+        font-size: 10px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+@media (max-width: 600px) {
+
+    .announcement {
+        font-size: 9px;
+        letter-spacing: 1px;
+    }
+
+    .navbar {
+        height: 70px;
+    }
+
+    .logo img {
+        width: 75px;
+    }
+
+    .navbar nav {
+        display: none;
+    }
+
+    .nav-icons button {
+        font-size: 18px;
+    }
+
+    .hero {
+        min-height: 65vh;
+    }
+
+    .hero h1 {
+        letter-spacing: -3px;
+    }
+
+    .hero h2 {
+        font-size: 12px;
+        letter-spacing: 2px;
+    }
+
+    .new-drop,
+    .categories {
+        padding: 70px 20px;
+    }
+
+    .section-header h2 {
+        font-size: 30px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .product-info h3 {
+        font-size: 10px;
+    }
+
+    .product-info p {
+        font-size: 12px;
+    }
+
+    .category-card {
+        height: 280px;
+    }
+
+    .mission {
+        padding: 100px 20px;
+    }
+
+    .mission h2 {
+        letter-spacing: -2px;
+    }
+
+    .verse {
+        padding: 90px 20px;
+    }
+
+    .footer {
+        padding: 60px 20px 25px;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
+    }
+
+}
