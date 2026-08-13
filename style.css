@@ -1013,19 +1013,170 @@ a {
 
 
 /* ==================================================
-   TABLET
+   TABLET + MOBILE
 ================================================== */
 
 @media (max-width: 900px) {
 
-    .shop-header {
-        min-height: 40vh;
-        padding: 80px 20px 60px;
+    /* =========================
+       NAVBAR
+    ========================= */
+
+    .navbar {
+        height: 70px;
+        justify-content: center;
     }
 
-    .shop-products {
-        padding: 70px 20px;
+    /* 3 BA */
+
+    .menu-toggle {
+        display: block;
+        position: absolute;
+        left: 18px;
+        top: 50%;
+        transform: translateY(-50%);
+
+        border: none;
+        background: transparent;
+        color: #111;
+
+        font-size: 27px;
+        line-height: 1;
+        padding: 5px;
+
+        z-index: 1100;
     }
+
+    /* LOGO NAN MITAN */
+
+    .logo {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        display: flex;
+        align-items: center;
+    }
+
+    .logo img {
+        width: 75px;
+        height: auto;
+    }
+
+    /* MENU MOBILE */
+
+    .navbar nav {
+        display: none;
+
+        position: absolute;
+        top: 70px;
+        left: 0;
+
+        width: 100%;
+
+        transform: none;
+
+        background: #fff;
+
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        border-top: 1px solid #eee;
+
+        box-shadow:
+            0 8px 20px rgba(0, 0, 0, 0.08);
+    }
+
+    .navbar nav.active {
+        display: flex;
+    }
+
+    .navbar nav a {
+        width: 100%;
+
+        padding: 19px 25px;
+
+        border-bottom: 1px solid #eee;
+
+        font-size: 11px;
+        letter-spacing: 1.8px;
+    }
+
+
+    /* =========================
+       SEARCH + CART
+    ========================= */
+
+    .nav-icons {
+        position: absolute;
+        right: 15px;
+
+        display: flex;
+        align-items: center;
+
+        gap: 7px;
+    }
+
+    .nav-icons button {
+        font-size: 17px;
+    }
+
+
+    /* =========================
+       SEARCH BOX
+    ========================= */
+
+    .search-box {
+        padding: 12px 15px;
+    }
+
+    .search-box input {
+        font-size: 16px;
+    }
+
+
+    /* =========================
+       HERO
+    ========================= */
+
+    .hero {
+        min-height: 65vh;
+        padding: 70px 20px;
+
+        background-size: cover;
+        background-position: center center;
+    }
+
+
+    /* =========================
+       PRODUCTS
+    ========================= */
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+
+    /* =========================
+       CATEGORIES
+    ========================= */
+
+    .category-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .category-card {
+        min-height: 260px;
+    }
+
+
+    /* =========================
+       CONTACT
+    ========================= */
 
     .contact-content {
         grid-template-columns: 1fr;
@@ -1043,52 +1194,32 @@ a {
         margin-right: auto;
     }
 
-}
 
-
-/* ==================================================
-   MOBILE
-================================================== */
-
-@media (max-width: 600px) {
+    /* =========================
+       SHOP HEADER
+    ========================= */
 
     .shop-header {
-        min-height: 35vh;
-        padding: 70px 15px 50px;
+        min-height: 40vh;
+        padding: 80px 20px 60px;
     }
 
-    .shop-header h1 {
-        font-size: 55px;
-        letter-spacing: -3px;
-    }
 
-    .shop-header span {
-        font-size: 10px;
-        letter-spacing: 2px;
-    }
+    /* =========================
+       SHOP PRODUCTS
+    ========================= */
 
     .shop-products {
-        padding: 60px 15px;
-    }
-
-    .mission {
-        padding: 80px 20px;
-    }
-
-    .verse {
-        padding: 75px 20px;
-    }
-
-    .contact-section {
         padding: 70px 20px;
     }
 
-    .contact-content {
-        gap: 45px;
-    }
 
-    .contact-info h2 {
-        font-size: 45px;
+    /* =========================
+       FOOTER
+    ========================= */
+
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
     }
 
 }
