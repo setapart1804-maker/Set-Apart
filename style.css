@@ -174,16 +174,23 @@ a {
 }
 
 .close-search {
+    display: none;
     position: absolute;
     right: 12px;
     top: 50%;
     transform: translateY(-50%);
+
     border: none;
     background: transparent;
-    color: #111111;
+    color: #111;
+
     font-size: 25px;
     line-height: 1;
     padding: 4px;
+}
+
+.search-box.active .close-search {
+    display: block;
 }
 
 
