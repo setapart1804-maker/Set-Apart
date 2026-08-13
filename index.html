@@ -11,69 +11,100 @@
 
 <body>
 
-    <!-- ANNOUNCEMENT BAR -->
+    <!-- =========================
+         ANNOUNCEMENT BAR
+    ========================== -->
     <div class="announcement">
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
     </div>
 
 
-    <!-- NAVBAR -->
-   <header class="navbar">
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+    <header class="navbar">
 
-    <!-- MOBILE MENU -->
-    <button class="menu-toggle" aria-label="Open menu">
-        ☰
-    </button>
-
-    <!-- LOGO -->
-    <a href="index.html" class="logo">
-        <img src="LOGO (2).png" alt="SET APART Logo">
-    </a>
-
-    <!-- NAVIGATION -->
-    <nav>
-        <a href="index.html">HOME</a>
-        <a href="shop.html">SHOP</a>
-        <a href="about.html">ABOUT</a>
-        <a href="contact.html">CONTACT</a>
-    </nav>
-
-    <!-- SEARCH + CART -->
-  <div class="nav-icons">
-
-    <button type="button" class="search-btn" id="searchButton" aria-label="Search">
-        🔍
-    </button>
-
-    <button type="button" class="cart-btn" aria-label="Shopping Cart">
-        🛒
-    </button>
-
-</div>
-
-<div class="search-box" id="searchBox">
-
-    <form id="searchForm">
-
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Search products..."
-            autocomplete="off"
-        >
-
-        <button type="button" id="closeSearch" class="close-search">
-            ×
+        <!-- MOBILE / TABLET MENU -->
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+            ☰
         </button>
 
-    </form>
 
-</div>
-       
-</header>
+        <!-- LOGO -->
+        <a href="index.html" class="logo">
+            <img src="LOGO (2).png" alt="SET APART Logo">
+        </a>
 
 
-    <!-- HERO -->
+        <!-- NAVIGATION -->
+        <nav id="mainNav">
+
+            <a href="index.html">HOME</a>
+            <a href="shop.html">SHOP</a>
+            <a href="about.html">ABOUT</a>
+            <a href="contact.html">CONTACT</a>
+
+        </nav>
+
+
+        <!-- SEARCH + CART -->
+        <div class="nav-icons">
+
+            <button
+                type="button"
+                class="search-btn"
+                id="searchButton"
+                aria-label="Search">
+                🔍
+            </button>
+
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
+                🛒
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================
+         SEARCH BOX
+    ========================== -->
+    <div class="search-box" id="searchBox">
+
+        <form id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="button"
+                id="closeSearch"
+                class="close-search"
+                aria-label="Close search">
+                ×
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         HERO
+    ========================== -->
     <main>
 
         <section class="hero">
@@ -101,7 +132,9 @@
         </section>
 
 
-        <!-- NEW DROP -->
+        <!-- =========================
+             NEW DROP
+        ========================== -->
         <section class="new-drop" id="new-drop">
 
             <div class="section-header">
@@ -112,7 +145,6 @@
 
             <div class="product-grid">
 
-                <!-- PRODUCT 1 -->
                 <article class="product-card">
 
                     <div class="product-image">
@@ -127,7 +159,6 @@
                 </article>
 
 
-                <!-- PRODUCT 2 -->
                 <article class="product-card">
 
                     <div class="product-image">
@@ -142,7 +173,6 @@
                 </article>
 
 
-                <!-- PRODUCT 3 -->
                 <article class="product-card">
 
                     <div class="product-image">
@@ -157,7 +187,6 @@
                 </article>
 
 
-                <!-- PRODUCT 4 -->
                 <article class="product-card">
 
                     <div class="product-image">
@@ -175,15 +204,19 @@
 
 
             <div class="center-button">
+
                 <a href="shop.html" class="outline-button">
                     VIEW ALL PRODUCTS
                 </a>
+
             </div>
 
         </section>
 
 
-        <!-- SHOP BY CATEGORY -->
+        <!-- =========================
+             SHOP BY CATEGORY
+        ========================== -->
         <section class="categories">
 
             <div class="section-header">
@@ -211,7 +244,9 @@
         </section>
 
 
-        <!-- MISSION -->
+        <!-- =========================
+             MISSION
+        ========================== -->
         <section class="mission">
 
             <div class="mission-content">
@@ -239,7 +274,9 @@
         </section>
 
 
-        <!-- VERSE -->
+        <!-- =========================
+             VERSE
+        ========================== -->
         <section class="verse">
 
             <div class="verse-content">
@@ -264,7 +301,9 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
     <footer class="footer">
 
         <div class="footer-brand">
@@ -322,37 +361,102 @@
 
     </footer>
 
+
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
     <script>
-    const searchButton = document.getElementById("searchButton");
-    const searchBox = document.getElementById("searchBox");
-    const searchInput = document.getElementById("searchInput");
-    const closeSearch = document.getElementById("closeSearch");
-    const searchForm = document.getElementById("searchForm");
 
-    /* OPEN SEARCH */
-    searchButton.addEventListener("click", function () {
-        searchBox.classList.add("active");
-        searchInput.focus();
-    });
+        /* =========================
+           MOBILE MENU
+        ========================== */
 
-    /* CLOSE SEARCH */
-    closeSearch.addEventListener("click", function () {
-        searchBox.classList.remove("active");
-        searchInput.value = "";
-    });
+        const menuToggle = document.getElementById("menuToggle");
+        const mainNav = document.getElementById("mainNav");
 
-    /* SEARCH */
-    searchForm.addEventListener("submit", function (event) {
-        event.preventDefault();
+        menuToggle.addEventListener("click", function () {
 
-        const query = searchInput.value.trim();
+            mainNav.classList.toggle("active");
 
-        if (query !== "") {
-            window.location.href =
-                "shop.html?search=" + encodeURIComponent(query);
-        }
-    });
-</script>
-    
+            const isOpen = mainNav.classList.contains("active");
+
+            menuToggle.setAttribute("aria-expanded", isOpen);
+
+        });
+
+
+        /* =========================
+           SEARCH
+        ========================== */
+
+        const searchButton =
+            document.getElementById("searchButton");
+
+        const searchBox =
+            document.getElementById("searchBox");
+
+        const searchInput =
+            document.getElementById("searchInput");
+
+        const closeSearch =
+            document.getElementById("closeSearch");
+
+        const searchForm =
+            document.getElementById("searchForm");
+
+
+        searchButton.addEventListener("click", function () {
+
+            searchBox.classList.add("active");
+
+            setTimeout(function () {
+                searchInput.focus();
+            }, 100);
+
+        });
+
+
+        closeSearch.addEventListener("click", function () {
+
+            searchBox.classList.remove("active");
+
+            searchInput.value = "";
+
+        });
+
+
+        searchForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const query =
+                searchInput.value.trim();
+
+            if (query !== "") {
+
+                window.location.href =
+                    "shop.html?search=" +
+                    encodeURIComponent(query);
+
+            }
+
+        });
+
+
+        /* =========================
+           CART
+        ========================== */
+
+        const cartButton =
+            document.getElementById("cartButton");
+
+        cartButton.addEventListener("click", function () {
+
+            alert("Your cart is coming soon.");
+
+        });
+
+    </script>
+
 </body>
 </html>
