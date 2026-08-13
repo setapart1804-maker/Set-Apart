@@ -122,7 +122,16 @@ body {
     justify-content: center;
     text-align: center;
     padding: 80px 20px;
-    background: #f2f2f2;
+
+    background-image:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)),
+        url("PILGRIM BLACK BACK.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: #ffffff;
 }
 
 .hero-content {
