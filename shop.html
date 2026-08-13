@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,41 +12,69 @@
 
 <body>
 
-    <!-- ANNOUNCEMENT BAR -->
+    <!-- =========================
+         ANNOUNCEMENT BAR
+    ========================== -->
+
     <div class="announcement">
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
     </div>
 
 
-    <!-- NAVBAR -->
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <header class="navbar">
 
-        <!-- MOBILE / TABLET MENU -->
-        <button class="menu-toggle" aria-label="Open menu">
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
             ☰
         </button>
 
+
         <!-- LOGO -->
+
         <a href="index.html" class="logo">
             <img src="LOGO (2).png" alt="SET APART Logo">
         </a>
 
+
         <!-- NAVIGATION -->
-        <nav>
+
+        <nav id="mainNav">
+
             <a href="index.html">HOME</a>
             <a href="shop.html">SHOP</a>
             <a href="about.html">ABOUT</a>
             <a href="contact.html">CONTACT</a>
+
         </nav>
 
+
         <!-- SEARCH + CART -->
+
         <div class="nav-icons">
 
-            <button class="search-btn" aria-label="Search">
+            <button
+                type="button"
+                class="search-btn"
+                id="searchButton"
+                aria-label="Search">
                 🔍
             </button>
 
-            <button class="cart-btn" aria-label="Shopping Cart">
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
                 🛒
             </button>
 
@@ -54,14 +83,50 @@
     </header>
 
 
-    <!-- SHOP HEADER -->
+    <!-- =========================
+         SEARCH BOX
+    ========================== -->
+
+    <div class="search-box" id="searchBox">
+
+        <form id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="button"
+                id="closeSearch"
+                class="close-search"
+                aria-label="Close search">
+                ×
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         SHOP
+    ========================== -->
+
     <main>
+
+        <!-- SHOP HEADER -->
 
         <section class="shop-header">
 
-            <p>SET APART COLLECTION</p>
+            <p>
+                SET APART COLLECTION
+            </p>
 
-            <h1>SHOP</h1>
+            <h1>
+                SHOP
+            </h1>
 
             <span>
                 FAITH-INSPIRED STREETWEAR
@@ -71,65 +136,107 @@
 
 
         <!-- SHOP PRODUCTS -->
+
         <section class="shop-products">
 
             <div class="product-grid">
 
+
                 <!-- PRODUCT 1 -->
+
                 <article class="product-card">
 
                     <div class="product-image">
-                        <span>PRODUCT IMAGE</span>
+                        <span>
+                            PRODUCT IMAGE
+                        </span>
                     </div>
 
                     <div class="product-info">
-                        <h3>SET APART HOODIE</h3>
-                        <p>$75.00</p>
+
+                        <h3>
+                            SET APART HOODIE
+                        </h3>
+
+                        <p>
+                            $75.00
+                        </p>
+
                     </div>
 
                 </article>
 
 
                 <!-- PRODUCT 2 -->
+
                 <article class="product-card">
 
                     <div class="product-image">
-                        <span>PRODUCT IMAGE</span>
+                        <span>
+                            PRODUCT IMAGE
+                        </span>
                     </div>
 
                     <div class="product-info">
-                        <h3>SET APART HOODIE</h3>
-                        <p>$75.00</p>
+
+                        <h3>
+                            SET APART HOODIE
+                        </h3>
+
+                        <p>
+                            $75.00
+                        </p>
+
                     </div>
 
                 </article>
 
 
                 <!-- PRODUCT 3 -->
+
                 <article class="product-card">
 
                     <div class="product-image">
-                        <span>PRODUCT IMAGE</span>
+                        <span>
+                            PRODUCT IMAGE
+                        </span>
                     </div>
 
                     <div class="product-info">
-                        <h3>SET APART HOODIE</h3>
-                        <p>$80.00</p>
+
+                        <h3>
+                            SET APART HOODIE
+                        </h3>
+
+                        <p>
+                            $80.00
+                        </p>
+
                     </div>
 
                 </article>
 
 
                 <!-- PRODUCT 4 -->
+
                 <article class="product-card">
 
                     <div class="product-image">
-                        <span>PRODUCT IMAGE</span>
+                        <span>
+                            PRODUCT IMAGE
+                        </span>
                     </div>
 
                     <div class="product-info">
-                        <h3>SET APART HOODIE</h3>
-                        <p>$75.00</p>
+
+                        <h3>
+                            SET APART HOODIE
+                        </h3>
+
+                        <p>
+                            $75.00
+                        </p>
+
                     </div>
 
                 </article>
@@ -141,15 +248,25 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer class="footer">
 
         <div class="footer-brand">
 
-            <img src="LOGO (2).png" alt="SET APART Logo">
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
 
-            <p>Faith-Inspired Streetwear.</p>
-            <p>Called to Live Differently.</p>
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
 
         </div>
 
@@ -157,28 +274,61 @@
         <div class="footer-links">
 
             <div>
-                <h3>SHOP</h3>
 
-                <a href="shop.html">All Products</a>
-                <a href="shop.html">Hoodies</a>
-                <a href="shop.html">T-Shirts</a>
-                <a href="shop.html">Accessories</a>
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
+                <a href="shop.html">
+                    T-Shirts
+                </a>
+
+                <a href="shop.html">
+                    Accessories
+                </a>
+
             </div>
 
 
             <div>
-                <h3>ABOUT</h3>
 
-                <a href="about.html">Our Story</a>
-                <a href="contact.html">Contact</a>
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
             </div>
 
 
             <div>
-                <h3>FOLLOW</h3>
 
-                <a href="#">Instagram</a>
-                <a href="#">TikTok</a>
+                <h3>
+                    FOLLOW
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
             </div>
 
         </div>
@@ -195,28 +345,11 @@
     </footer>
 
 
-    <!-- MOBILE MENU -->
-    <script>
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".navbar nav");
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-        menuToggle.addEventListener("click", () => {
-            mobileMenu.classList.toggle("active");
-            
-        });
-    </script>
-
-    <script>
-    const menuToggle = document.querySelector(".menu-toggle");
-    const mobileMenu = document.querySelector(".navbar nav");
-
-    if (menuToggle && mobileMenu) {
-        menuToggle.addEventListener("click", function () {
-            mobileMenu.classList.toggle("active");
-        });
-    }
-</script>
     <script src="script.js"></script>
-    
+
 </body>
 </html>
