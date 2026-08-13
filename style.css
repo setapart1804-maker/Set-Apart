@@ -588,3 +588,15 @@ body {
     }
 
 }
+
+/* 3 BA YO PA PARÈT SOU DESKTOP */
+.menu-toggle {
+    display: none;
+}
+
+/* 3 BA YO PARÈT SOU TABLET + MOBILE */
+@media (max-width: 900px) {
+    .menu-toggle {
+        display: block;
+    }
+}
