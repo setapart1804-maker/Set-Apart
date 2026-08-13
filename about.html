@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,45 +12,128 @@
 
 <body>
 
+    <!-- =========================
+         ANNOUNCEMENT BAR
+    ========================== -->
+
     <div class="announcement">
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
     </div>
 
+
+    <!-- =========================
+         NAVBAR
+    ========================== -->
+
     <header class="navbar">
 
-        <button class="menu-toggle" aria-label="Open menu">
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
             ☰
         </button>
+
+
+        <!-- LOGO -->
 
         <a href="index.html" class="logo">
             <img src="LOGO (2).png" alt="SET APART Logo">
         </a>
 
-        <nav>
+
+        <!-- NAVIGATION -->
+
+        <nav id="mainNav">
+
             <a href="index.html">HOME</a>
             <a href="shop.html">SHOP</a>
             <a href="about.html">ABOUT</a>
             <a href="contact.html">CONTACT</a>
+
         </nav>
 
+
+        <!-- SEARCH + CART -->
+
         <div class="nav-icons">
-            <button aria-label="Search">🔍</button>
-            <button aria-label="Cart">🛒</button>
+
+            <button
+                type="button"
+                class="search-btn"
+                id="searchButton"
+                aria-label="Search">
+                🔍
+            </button>
+
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
+                🛒
+            </button>
+
         </div>
 
     </header>
+
+
+    <!-- =========================
+         SEARCH BOX
+    ========================== -->
+
+    <div class="search-box" id="searchBox">
+
+        <form id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="button"
+                id="closeSearch"
+                class="close-search"
+                aria-label="Close search">
+                ×
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================
+         ABOUT
+    ========================== -->
 
     <main>
 
         <section class="shop-header">
 
-            <p>OUR STORY</p>
+            <p>
+                OUR STORY
+            </p>
 
-            <h1>SET APART</h1>
+            <h1>
+                SET APART
+            </h1>
 
-            <span>CALLED TO LIVE DIFFERENTLY</span>
+            <span>
+                CALLED TO LIVE DIFFERENTLY
+            </span>
 
         </section>
+
+
+        <!-- MISSION -->
 
         <section class="mission">
 
@@ -72,6 +156,9 @@
             </div>
 
         </section>
+
+
+        <!-- VERSE -->
 
         <section class="verse">
 
@@ -96,41 +183,84 @@
 
     </main>
 
+
+    <!-- =========================
+         FOOTER
+    ========================== -->
+
     <footer class="footer">
 
         <div class="footer-brand">
 
-            <img src="LOGO (2).png" alt="SET APART Logo">
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
 
-            <p>Faith-Inspired Streetwear.</p>
-            <p>Called to Live Differently.</p>
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
 
         </div>
+
 
         <div class="footer-links">
 
             <div>
-                <h3>SHOP</h3>
 
-                <a href="shop.html">All Products</a>
-                <a href="shop.html">Hoodies</a>
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
             </div>
 
-            <div>
-                <h3>ABOUT</h3>
 
-                <a href="about.html">Our Story</a>
-                <a href="contact.html">Contact</a>
+            <div>
+
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
             </div>
 
-            <div>
-                <h3>FOLLOW</h3>
 
-                <a href="#">Instagram</a>
-                <a href="#">TikTok</a>
+            <div>
+
+                <h3>
+                    FOLLOW
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
             </div>
 
         </div>
+
 
         <div class="footer-bottom">
 
@@ -142,15 +272,12 @@
 
     </footer>
 
-    <script>
-        const menuToggle = document.querySelector(".menu-toggle");
-        const mobileMenu = document.querySelector(".navbar nav");
 
-        menuToggle.addEventListener("click", () => {
-            mobileMenu.classList.toggle("active");
-        });
-    </script>
-<script src="script.js"></script>
-    
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
+
+    <script src="script.js"></script>
+
 </body>
-</html>`}
+</html>
