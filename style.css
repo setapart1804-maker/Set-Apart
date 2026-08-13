@@ -657,3 +657,57 @@ body {
         background-repeat: no-repeat;
     }
 }
+
+/* =========================
+   SEARCH
+========================= */
+
+.search-box {
+    display: none;
+    position: absolute;
+    top: 70px;
+    right: 20px;
+    width: 320px;
+    background: #ffffff;
+    padding: 20px;
+    border: 1px solid #eeeeee;
+    z-index: 2000;
+}
+
+.search-box.active {
+    display: block;
+}
+
+.search-box input {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 14px;
+    border: 1px solid #111111;
+    outline: none;
+    font-size: 14px;
+}
+
+.close-search {
+    position: absolute;
+    top: 5px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 22px;
+    cursor: pointer;
+}
+
+
+/* MOBILE + TABLET */
+
+@media (max-width: 900px) {
+
+    .search-box {
+        top: 70px;
+        right: 0;
+        width: 100%;
+        box-sizing: border-box;
+        padding: 20px;
+    }
+
+}
