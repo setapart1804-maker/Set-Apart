@@ -42,7 +42,9 @@
         <!-- LOGO -->
 
         <a href="index.html" class="logo">
-            <img src="LOGO (2).png" alt="SET APART Logo">
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
         </a>
 
 
@@ -87,7 +89,9 @@
          SEARCH BOX
     ========================== -->
 
-    <div class="search-box" id="searchBox">
+    <div
+        class="search-box"
+        id="searchBox">
 
         <form id="searchForm">
 
@@ -135,99 +139,135 @@
         </section>
 
 
-        <!-- SHOP PRODUCTS -->
+        <!-- =========================
+             PRODUCT
+        ========================== -->
 
-       <!-- =========================
-     SHOP PRODUCT
-========================== -->
+        <section class="shop-products">
 
-<section class="shop-products">
-
-    <div class="single-product">
-
-        <!-- PRODUCT IMAGES -->
-
-        <div class="product-gallery">
-
-            <div class="product-image">
-                <img
-                    src="PILGRIM BLACK FRONT 1.png"
-                    alt="SET APART Hoodie Front">
-            </div>
-
-            <div class="product-image">
-                <img
-                    src="PILGRIM BLACK BACK.png"
-                    alt="SET APART Hoodie Back">
-            </div>
-
-        </div>
+            <div class="single-product">
 
 
-        <!-- PRODUCT DETAILS -->
+                <!-- PRODUCT IMAGES -->
 
-        <div class="product-details">
+                <div class="product-gallery">
 
-            <p class="product-label">
-                SET APART COLLECTION
-            </p>
+                    <!-- FRONT -->
 
-            <h2>
-                SET APART HOODIE
-            </h2>
+                    <div class="product-image">
 
-            <p class="product-price">
-                $44.99
-            </p>
+                        <img
+                            src="PILGRIM BLACK FRONT 1.png"
+                            alt="SET APART Hoodie Front">
 
-            <p class="product-description">
-                Faith-Inspired Streetwear.
-                Called to Live Differently.
-            </p>
+                    </div>
 
 
-            <!-- SIZE -->
+                    <!-- BACK -->
 
-            <div class="size-section">
+                    <div class="product-image">
 
-                <p>SELECT SIZE</p>
+                        <img
+                            src="PILGRIM BLACK BACK.png"
+                            alt="SET APART Hoodie Back">
 
-                <div class="size-options">
+                    </div>
 
-                    <button type="button" class="size-btn">
-                        S
-                    </button>
+                </div>
 
-                    <button type="button" class="size-btn">
-                        M
-                    </button>
 
-                    <button type="button" class="size-btn">
-                        L
-                    </button>
+                <!-- =========================
+                     PRODUCT DETAILS
+                ========================== -->
 
-                    <button type="button" class="size-btn">
-                        XL
+                <div class="product-details">
+
+                    <p class="product-label">
+                        SET APART COLLECTION
+                    </p>
+
+
+                    <h2>
+                        SET APART HOODIE
+                    </h2>
+
+
+                    <p class="product-price">
+                        $44.99
+                    </p>
+
+
+                    <p class="product-description">
+                        Faith-Inspired Streetwear.
+                        Called to Live Differently.
+                    </p>
+
+
+                    <!-- =========================
+                         SIZE
+                    ========================== -->
+
+                    <div class="size-section">
+
+                        <p>
+                            SELECT SIZE
+                        </p>
+
+
+                        <div class="size-options">
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="S">
+                                S
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="M">
+                                M
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="L">
+                                L
+                            </button>
+
+                            <button
+                                type="button"
+                                class="size-btn"
+                                data-size="XL">
+                                XL
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =========================
+                         ADD TO CART
+                    ========================== -->
+
+                    <button
+                        type="button"
+                        class="add-to-cart"
+                        id="addToCart">
+
+                        ADD TO CART
+
                     </button>
 
                 </div>
 
             </div>
 
+        </section>
 
-            <!-- ADD TO CART -->
-
-          <button
-    type="button"
-    class="add-to-cart"
-    id="addToCart">
-    ADD TO CART
-</button>
-        </div>
-
-    </div>
-
-</section>
     </main>
 
 
@@ -256,6 +296,9 @@
 
         <div class="footer-links">
 
+
+            <!-- SHOP -->
+
             <div>
 
                 <h3>
@@ -281,6 +324,8 @@
             </div>
 
 
+            <!-- ABOUT -->
+
             <div>
 
                 <h3>
@@ -297,6 +342,8 @@
 
             </div>
 
+
+            <!-- FOLLOW -->
 
             <div>
 
@@ -317,6 +364,8 @@
         </div>
 
 
+        <!-- FOOTER BOTTOM -->
+
         <div class="footer-bottom">
 
             <p>
@@ -329,95 +378,201 @@
 
 
     <!-- =========================
-         JAVASCRIPT
+         MAIN JAVASCRIPT
     ========================== -->
 
     <script src="script.js"></script>
 
+
+    <!-- =========================
+         SHOP JAVASCRIPT
+    ========================== -->
+
     <script>
-document.addEventListener("DOMContentLoaded", function () {
 
-    const sizeButtons = document.querySelectorAll(".size-btn");
-    const addToCart = document.getElementById("addToCart");
-
-    let selectedSize = "";
-
-    sizeButtons.forEach(function (button) {
-
-        button.addEventListener("click", function () {
-
-            sizeButtons.forEach(function (btn) {
-                btn.classList.remove("selected");
-            });
-
-            button.classList.add("selected");
-
-            selectedSize = button.textContent.trim();
-
-        });
-
-    });
+        document.addEventListener(
+            "DOMContentLoaded",
+            function () {
 
 
-    if (addToCart) {
+                /* =========================
+                   SIZE SELECTION
+                ========================== */
 
-        addToCart.addEventListener("click", function () {
+                const sizeButtons =
+                    document.querySelectorAll(".size-btn");
 
-            if (selectedSize === "") {
-                alert("PLEASE SELECT A SIZE.");
-                return;
+                const addToCart =
+                    document.getElementById("addToCart");
+
+                let selectedSize = "";
+
+
+                sizeButtons.forEach(function (button) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            /* Remove previous selection */
+
+                            sizeButtons.forEach(
+                                function (btn) {
+
+                                    btn.classList.remove(
+                                        "selected"
+                                    );
+
+                                }
+                            );
+
+
+                            /* Select current size */
+
+                            button.classList.add(
+                                "selected"
+                            );
+
+
+                            selectedSize =
+                                button.dataset.size;
+
+                        }
+                    );
+
+                });
+
+
+                /* =========================
+                   ADD TO CART
+                ========================== */
+
+                if (addToCart) {
+
+                    addToCart.addEventListener(
+                        "click",
+                        function () {
+
+
+                            /* Require size */
+
+                            if (!selectedSize) {
+
+                                alert(
+                                    "PLEASE SELECT A SIZE."
+                                );
+
+                                return;
+
+                            }
+
+
+                            /* Product */
+
+                            const product = {
+
+                                name:
+                                    "SET APART HOODIE",
+
+                                price:
+                                    44.99,
+
+                                size:
+                                    selectedSize,
+
+                                quantity:
+                                    1,
+
+                                image:
+                                    "PILGRIM BLACK FRONT 1.png"
+
+                            };
+
+
+                            /* Save cart */
+
+                            localStorage.setItem(
+                                "setApartCart",
+                                JSON.stringify(product)
+                            );
+
+
+                            /* Confirmation */
+
+                            alert(
+                                "SET APART HOODIE ADDED TO CART."
+                            );
+
+                        }
+                    );
+
+                }
+
+
+                /* =========================
+                   CART BUTTON
+                ========================== */
+
+                const cartButton =
+                    document.getElementById(
+                        "cartButton"
+                    );
+
+
+                if (cartButton) {
+
+                    cartButton.addEventListener(
+                        "click",
+                        function () {
+
+
+                            const cart =
+                                localStorage.getItem(
+                                    "setApartCart"
+                                );
+
+
+                            if (!cart) {
+
+                                alert(
+                                    "YOUR CART IS EMPTY."
+                                );
+
+                                return;
+
+                            }
+
+
+                            const product =
+                                JSON.parse(cart);
+
+
+                            alert(
+
+                                product.name +
+
+                                "\n\nSIZE: " +
+                                product.size +
+
+                                "\nPRICE: $" +
+                                product.price.toFixed(2) +
+
+                                "\nQUANTITY: " +
+                                product.quantity
+
+                            );
+
+                        }
+                    );
+
+                }
+
             }
+        );
 
-            const product = {
-                name: "SET APART HOODIE",
-                price: 44.99,
-                size: selectedSize,
-                quantity: 1
-            };
+    </script>
 
-            localStorage.setItem(
-                "setApartCart",
-                JSON.stringify(product)
-            );
 
-            alert("SET APART HOODIE ADDED TO CART.");
-
-        });
-
-    }
-
-});
-</script>
-
-    <script>
-document.addEventListener("DOMContentLoaded", function () {
-
-    const addToCart = document.getElementById("addToCart");
-
-    if (addToCart) {
-
-        addToCart.addEventListener("click", function () {
-
-            const product = {
-                name: "SET APART HOODIE",
-                price: 44.99,
-                quantity: 1,
-                image: "PILGRIM BLACK FRONT.png"
-            };
-
-            localStorage.setItem(
-                "setApartCart",
-                JSON.stringify(product)
-            );
-
-            alert("SET APART HOODIE ADDED TO CART.");
-
-        });
-
-    }
-
-});
-</script>
-    
 </body>
+
 </html>
