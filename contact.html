@@ -165,53 +165,43 @@
 
                 <!-- CONTACT FORM -->
 
-                <form
-                    class="contact-form"
-                    action="mailto:setapart1804@gmail.com"
-                    method="post"
-                    enctype="text/plain">
+                <form class="contact-form" id="contactForm">
 
-                    <label for="name">
-                        NAME
-                    </label>
+    <label for="name">NAME</label>
+    <input
+        type="text"
+        id="name"
+        name="name"
+        placeholder="Your name"
+        autocomplete="name"
+        required
+    >
 
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        placeholder="Your name"
-                        required>
+    <label for="email">EMAIL</label>
+    <input
+        type="email"
+        id="email"
+        name="email"
+        placeholder="Your email"
+        autocomplete="email"
+        required
+    >
 
+    <label for="message">MESSAGE</label>
+    <textarea
+        id="message"
+        name="message"
+        rows="6"
+        placeholder="Your message"
+        autocomplete="off"
+        required
+    ></textarea>
 
-                    <label for="email">
-                        EMAIL
-                    </label>
+    <button type="submit">
+        SEND MESSAGE
+    </button>
 
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        placeholder="Your email"
-                        required>
-
-
-                    <label for="message">
-                        MESSAGE
-                    </label>
-
-                    <textarea
-                        id="message"
-                        name="message"
-                        rows="6"
-                        placeholder="Your message"
-                        required></textarea>
-
-
-                    <button type="submit">
-                        SEND MESSAGE
-                    </button>
-
-                </form>
+</form>
 
             </div>
 
