@@ -137,114 +137,100 @@
 
         <!-- SHOP PRODUCTS -->
 
-        <section class="shop-products">
+       <!-- =========================
+     SHOP PRODUCT
+========================== -->
 
-            <div class="product-grid">
+<section class="shop-products">
 
+    <div class="single-product">
 
-                <!-- PRODUCT 1 -->
+        <!-- PRODUCT IMAGES -->
 
-                <article class="product-card">
+        <div class="product-gallery">
 
-                    <div class="product-image">
-                        <span>
-                            PRODUCT IMAGE
-                        </span>
-                    </div>
+            <div class="product-image">
+                <img
+                    src="PILGRIM BLACK FRONT.png"
+                    alt="SET APART Hoodie Front">
+            </div>
 
-                    <div class="product-info">
+            <div class="product-image">
+                <img
+                    src="PILGRIM BLACK BACK.png"
+                    alt="SET APART Hoodie Back">
+            </div>
 
-                        <h3>
-                            SET APART HOODIE
-                        </h3>
-
-                        <p>
-                            $75.00
-                        </p>
-
-                    </div>
-
-                </article>
+        </div>
 
 
-                <!-- PRODUCT 2 -->
+        <!-- PRODUCT DETAILS -->
 
-                <article class="product-card">
+        <div class="product-details">
 
-                    <div class="product-image">
-                        <span>
-                            PRODUCT IMAGE
-                        </span>
-                    </div>
+            <p class="product-label">
+                SET APART COLLECTION
+            </p>
 
-                    <div class="product-info">
+            <h2>
+                SET APART HOODIE
+            </h2>
 
-                        <h3>
-                            SET APART HOODIE
-                        </h3>
+            <p class="product-price">
+                $44.99
+            </p>
 
-                        <p>
-                            $75.00
-                        </p>
-
-                    </div>
-
-                </article>
+            <p class="product-description">
+                Faith-Inspired Streetwear.
+                Called to Live Differently.
+            </p>
 
 
-                <!-- PRODUCT 3 -->
+            <!-- SIZE -->
 
-                <article class="product-card">
+            <div class="size-section">
 
-                    <div class="product-image">
-                        <span>
-                            PRODUCT IMAGE
-                        </span>
-                    </div>
+                <p>SELECT SIZE</p>
 
-                    <div class="product-info">
+                <div class="size-options">
 
-                        <h3>
-                            SET APART HOODIE
-                        </h3>
+                    <button type="button" class="size-btn">
+                        S
+                    </button>
 
-                        <p>
-                            $80.00
-                        </p>
+                    <button type="button" class="size-btn">
+                        M
+                    </button>
 
-                    </div>
+                    <button type="button" class="size-btn">
+                        L
+                    </button>
 
-                </article>
+                    <button type="button" class="size-btn">
+                        XL
+                    </button>
 
-
-                <!-- PRODUCT 4 -->
-
-                <article class="product-card">
-
-                    <div class="product-image">
-                        <span>
-                            PRODUCT IMAGE
-                        </span>
-                    </div>
-
-                    <div class="product-info">
-
-                        <h3>
-                            SET APART HOODIE
-                        </h3>
-
-                        <p>
-                            $75.00
-                        </p>
-
-                    </div>
-
-                </article>
+                </div>
 
             </div>
 
-        </section>
 
+            <!-- ADD TO CART -->
+
+            <button
+                type="button"
+                class="add-to-cart"
+                id="addToCart">
+
+                ADD TO CART
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
     </main>
 
 
@@ -351,5 +337,60 @@
 
     <script src="script.js"></script>
 
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const sizeButtons = document.querySelectorAll(".size-btn");
+    const addToCart = document.getElementById("addToCart");
+
+    let selectedSize = "";
+
+    sizeButtons.forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            sizeButtons.forEach(function (btn) {
+                btn.classList.remove("selected");
+            });
+
+            button.classList.add("selected");
+
+            selectedSize = button.textContent.trim();
+
+        });
+
+    });
+
+
+    if (addToCart) {
+
+        addToCart.addEventListener("click", function () {
+
+            if (selectedSize === "") {
+                alert("PLEASE SELECT A SIZE.");
+                return;
+            }
+
+            const product = {
+                name: "SET APART HOODIE",
+                price: 44.99,
+                size: selectedSize,
+                quantity: 1
+            };
+
+            localStorage.setItem(
+                "setApartCart",
+                JSON.stringify(product)
+            );
+
+            alert("SET APART HOODIE ADDED TO CART.");
+
+        });
+
+    }
+
+});
+</script>
+    
 </body>
 </html>
