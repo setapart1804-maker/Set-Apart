@@ -766,25 +766,81 @@ function updateCartCount() {
 
     });
 
+/* =========================
+   ADD TO CART
+========================= */
 
-    /* =========================
-       ADD TO CART
-    ========================== */
+if (addToCart) {
 
-    if (addToCart) {
+    addToCart.addEventListener("click", function () {
 
-        addToCart.addEventListener("click", function () {
+        if (selectedSize === "") {
 
-            if (selectedSize === "") {
+            alert("PLEASE SELECT A SIZE.");
 
-                alert("PLEASE SELECT A SIZE.");
+            return;
 
-                return;
+        }
+
+
+        /* GET EXISTING CART */
+
+        let existingCart =
+            localStorage.getItem("setApartCart");
+
+
+        let product;
+
+
+        if (existingCart) {
+
+            product =
+                JSON.parse(existingCart);
+
+
+            /*
+             * IF SAME HOODIE + SAME SIZE
+             * INCREASE QUANTITY
+             */
+
+            if (
+                product.name === "SET APART HOODIE" &&
+                product.size === selectedSize
+            ) {
+
+                product.quantity =
+                    Number(product.quantity) + 1;
+
+            } else {
+
+                /*
+                 * DIFFERENT SIZE
+                 * START NEW CART ITEM
+                 */
+
+                product = {
+
+                    name: "SET APART HOODIE",
+
+                    price: 44.99,
+
+                    size: selectedSize,
+
+                    quantity: 1,
+
+                    image: "PILGRIM BLACK FRONT 1.png"
+
+                };
 
             }
 
+        } else {
 
-            const product = {
+            /*
+             * FIRST PRODUCT
+             */
+
+            product = {
 
                 name: "SET APART HOODIE",
 
@@ -798,22 +854,36 @@ function updateCartCount() {
 
             };
 
+        }
 
-            localStorage.setItem(
-                "setApartCart",
-                JSON.stringify(product)
-            );
+
+        /* SAVE CART */
+
+        localStorage.setItem(
+            "setApartCart",
+            JSON.stringify(product)
+        );
+
+
+        /* UPDATE RED CART NUMBER */
+
+        if (
+            typeof updateCartCount ===
+            "function"
+        ) {
 
             updateCartCount();
 
-            alert(
-                "SET APART HOODIE ADDED TO CART."
-            );
+        }
 
-        });
 
-    }
+        alert(
+            "SET APART HOODIE ADDED TO CART."
+        );
 
+    });
+
+}
 
     /* =========================
        CART BUTTON
