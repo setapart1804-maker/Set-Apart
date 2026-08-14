@@ -15,9 +15,9 @@
 
     <style>
 
-        /* =========================
+        /* =========================================
            CART PAGE
-        ========================= */
+        ========================================= */
 
         .cart-page {
             max-width: 1100px;
@@ -42,7 +42,9 @@
         }
 
 
-        /* CART ITEM */
+        /* =========================================
+           CART ITEM
+        ========================================= */
 
         .cart-item {
             display: grid;
@@ -75,7 +77,9 @@
         }
 
 
-        /* QUANTITY */
+        /* =========================================
+           QUANTITY
+        ========================================= */
 
         .quantity {
             display: flex;
@@ -96,13 +100,21 @@
             cursor: pointer;
         }
 
+        .quantity button:hover {
+            background: #111;
+            color: #fff;
+        }
+
         .quantity span {
             min-width: 20px;
             text-align: center;
+            font-weight: 700;
         }
 
 
-        /* REMOVE */
+        /* =========================================
+           REMOVE
+        ========================================= */
 
         .remove-item {
             margin-top: 15px;
@@ -116,7 +128,9 @@
         }
 
 
-        /* TOTAL */
+        /* =========================================
+           TOTAL
+        ========================================= */
 
         .cart-summary {
             margin-top: 40px;
@@ -158,11 +172,15 @@
         }
 
 
-        /* EMPTY CART */
+        /* =========================================
+           EMPTY CART
+        ========================================= */
 
         .empty-cart {
             padding: 60px 20px;
+
             text-align: center;
+
             border-top: 1px solid #ddd;
         }
 
@@ -180,11 +198,14 @@
             color: #fff;
 
             text-decoration: none;
+
             font-weight: 700;
         }
 
 
-        /* MOBILE */
+        /* =========================================
+           CART MOBILE
+        ========================================= */
 
         @media (max-width: 700px) {
 
@@ -226,16 +247,25 @@
 <body>
 
 
-    <!-- ANNOUNCEMENT -->
+    <!-- =========================================
+         ANNOUNCEMENT
+    ========================================= -->
 
     <div class="announcement">
+
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
+
     </div>
 
 
-    <!-- NAVBAR -->
+    <!-- =========================================
+         NAVBAR
+    ========================================= -->
 
     <header class="navbar">
+
+
+        <!-- MOBILE MENU -->
 
         <button
             type="button"
@@ -249,7 +279,11 @@
         </button>
 
 
-        <a href="index.html" class="logo">
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="logo">
 
             <img
                 src="LOGO (2).png"
@@ -258,33 +292,53 @@
         </a>
 
 
+        <!-- NAVIGATION -->
+
         <nav id="mainNav">
 
-            <a href="index.html">HOME</a>
+            <a href="index.html">
+                HOME
+            </a>
 
-            <a href="shop.html">SHOP</a>
+            <a href="shop.html">
+                SHOP
+            </a>
 
-            <a href="about.html">ABOUT</a>
+            <a href="about.html">
+                ABOUT
+            </a>
 
-            <a href="contact.html">CONTACT</a>
+            <a href="contact.html">
+                CONTACT
+            </a>
 
         </nav>
 
 
+        <!-- SEARCH + CART -->
+
         <div class="nav-icons">
+
+
+            <!-- SEARCH -->
 
             <button
                 type="button"
                 class="search-btn"
+                id="searchButton"
                 aria-label="Search">
 
                 🔍
 
             </button>
 
+
+            <!-- CART -->
+
             <button
                 type="button"
                 class="cart-btn"
+                id="cartButton"
                 aria-label="Shopping Cart">
 
                 🛒
@@ -296,11 +350,48 @@
     </header>
 
 
-    <!-- CART -->
+    <!-- =========================================
+         SEARCH BOX
+    ========================================= -->
+
+    <div
+        class="search-box"
+        id="searchBox">
+
+        <form id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+
+            <button
+                type="button"
+                id="closeSearch"
+                class="close-search"
+                aria-label="Close search">
+
+                ×
+
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- =========================================
+         CART
+    ========================================= -->
 
     <main>
 
         <section class="cart-page">
+
+
+            <!-- CART TITLE -->
 
             <div class="cart-title">
 
@@ -315,6 +406,8 @@
             </div>
 
 
+            <!-- CART CONTENT -->
+
             <div id="cartContent"></div>
 
         </section>
@@ -322,9 +415,12 @@
     </main>
 
 
-    <!-- FOOTER -->
+    <!-- =========================================
+         FOOTER
+    ========================================= -->
 
     <footer class="footer">
+
 
         <div class="footer-brand">
 
@@ -345,9 +441,14 @@
 
         <div class="footer-links">
 
+
+            <!-- SHOP -->
+
             <div>
 
-                <h3>SHOP</h3>
+                <h3>
+                    SHOP
+                </h3>
 
                 <a href="shop.html">
                     All Products
@@ -360,9 +461,13 @@
             </div>
 
 
+            <!-- ABOUT -->
+
             <div>
 
-                <h3>ABOUT</h3>
+                <h3>
+                    ABOUT
+                </h3>
 
                 <a href="about.html">
                     Our Story
@@ -375,9 +480,13 @@
             </div>
 
 
+            <!-- FOLLOW -->
+
             <div>
 
-                <h3>FOLLOW</h3>
+                <h3>
+                    FOLLOW
+                </h3>
 
                 <a href="#">
                     Instagram
@@ -403,7 +512,16 @@
     </footer>
 
 
-    <!-- CART JAVASCRIPT -->
+    <!-- =========================================
+         MAIN WEBSITE JAVASCRIPT
+    ========================================= -->
+
+    <script src="script.js"></script>
+
+
+    <!-- =========================================
+         CART JAVASCRIPT
+    ========================================= -->
 
     <script>
 
@@ -411,16 +529,33 @@
             "DOMContentLoaded",
             function () {
 
-                const cartContent =
-                    document.getElementById("cartContent");
 
-                let cart =
-                    JSON.parse(
-                        localStorage.getItem("setApartCart")
+                /* =================================
+                   CART CONTENT
+                ================================= */
+
+                const cartContent =
+                    document.getElementById(
+                        "cartContent"
                     );
 
 
+                let cart =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "setApartCart"
+                        )
+                    );
+
+
+                /* =================================
+                   DISPLAY CART
+                ================================= */
+
                 function displayCart() {
+
+
+                    /* EMPTY CART */
 
                     if (!cart) {
 
@@ -450,17 +585,25 @@
                         `;
 
                         return;
+
                     }
 
+
+                    /* TOTAL */
 
                     const total =
                         Number(cart.price) *
                         Number(cart.quantity);
 
 
+                    /* CART HTML */
+
                     cartContent.innerHTML = `
 
                         <div class="cart-item">
+
+
+                            <!-- PRODUCT IMAGE -->
 
                             <div class="cart-item-image">
 
@@ -470,6 +613,8 @@
 
                             </div>
 
+
+                            <!-- PRODUCT INFORMATION -->
 
                             <div class="cart-item-info">
 
@@ -482,9 +627,15 @@
                                 </p>
 
                                 <p class="cart-item-price">
-                                    $${Number(cart.price).toFixed(2)}
+
+                                    $${Number(
+                                        cart.price
+                                    ).toFixed(2)}
+
                                 </p>
 
+
+                                <!-- QUANTITY -->
 
                                 <div class="quantity">
 
@@ -496,9 +647,13 @@
 
                                     </button>
 
+
                                     <span>
+
                                         ${cart.quantity}
+
                                     </span>
+
 
                                     <button
                                         type="button"
@@ -510,6 +665,8 @@
 
                                 </div>
 
+
+                                <!-- REMOVE -->
 
                                 <button
                                     type="button"
@@ -525,7 +682,10 @@
                         </div>
 
 
+                        <!-- SUMMARY -->
+
                         <div class="cart-summary">
+
 
                             <div>
 
@@ -534,7 +694,9 @@
                                 </span>
 
                                 <div class="cart-total">
+
                                     $${total.toFixed(2)}
+
                                 </div>
 
                             </div>
@@ -554,6 +716,10 @@
                     `;
 
 
+                    /* =================================
+                       INCREASE QUANTITY
+                    ================================= */
+
                     document
                         .getElementById("increase")
                         .addEventListener(
@@ -568,13 +734,19 @@
                         );
 
 
+                    /* =================================
+                       DECREASE QUANTITY
+                    ================================= */
+
                     document
                         .getElementById("decrease")
                         .addEventListener(
                             "click",
                             function () {
 
-                                if (cart.quantity > 1) {
+                                if (
+                                    cart.quantity > 1
+                                ) {
 
                                     cart.quantity--;
 
@@ -585,6 +757,10 @@
                             }
                         );
 
+
+                    /* =================================
+                       REMOVE PRODUCT
+                    ================================= */
 
                     document
                         .getElementById("removeItem")
@@ -604,6 +780,10 @@
                         );
 
 
+                    /* =================================
+                       CHECKOUT
+                    ================================= */
+
                     document
                         .getElementById("checkoutBtn")
                         .addEventListener(
@@ -620,6 +800,10 @@
                 }
 
 
+                /* =================================
+                   SAVE CART
+                ================================= */
+
                 function saveCart() {
 
                     localStorage.setItem(
@@ -632,9 +816,14 @@
                 }
 
 
+                /* =================================
+                   START CART
+                ================================= */
+
                 displayCart();
 
             }
+
         );
 
     </script>
