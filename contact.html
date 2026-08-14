@@ -165,9 +165,10 @@
 
                 <!-- CONTACT FORM -->
 
-                <form class="contact-form" id="contactForm">
+               <form class="contact-form" id="contactForm">
 
     <label for="name">NAME</label>
+
     <input
         type="text"
         id="name"
@@ -177,7 +178,9 @@
         required
     >
 
+
     <label for="email">EMAIL</label>
+
     <input
         type="email"
         id="email"
@@ -187,22 +190,23 @@
         required
     >
 
+
     <label for="message">MESSAGE</label>
+
     <textarea
         id="message"
         name="message"
         rows="6"
         placeholder="Your message"
-        autocomplete="off"
         required
     ></textarea>
+
 
     <button type="submit">
         SEND MESSAGE
     </button>
 
 </form>
-
             </div>
 
         </section>
@@ -305,5 +309,45 @@
 
     <script src="script.js"></script>
 
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const contactForm = document.getElementById("contactForm");
+
+    if (contactForm) {
+
+        contactForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const message = document.getElementById("message").value.trim();
+
+            const subject = encodeURIComponent(
+                "SET APART Contact — " + name
+            );
+
+            const body = encodeURIComponent(
+                "Name: " + name + "\n" +
+                "Email: " + email + "\n\n" +
+                "Message:\n" +
+                message
+            );
+
+            window.location.href =
+                "mailto:setapart1804@gmail.com" +
+                "?subject=" + subject +
+                "&body=" + body;
+
+        });
+
+    }
+
+});
+</script>
+
+<script src="script.js"></script>
+    
 </body>
 </html>
