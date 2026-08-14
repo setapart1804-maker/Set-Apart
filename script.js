@@ -4,8 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
        MOBILE / TABLET MENU
     ========================== */
 
-    const menuToggle = document.getElementById("menuToggle");
-    const mainNav = document.getElementById("mainNav");
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const mainNav =
+        document.getElementById("mainNav");
 
     if (menuToggle && mainNav) {
 
@@ -13,11 +16,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
             mainNav.classList.toggle("active");
 
-            if (mainNav.classList.contains("active")) {
-                menuToggle.setAttribute("aria-expanded", "true");
-            } else {
-                menuToggle.setAttribute("aria-expanded", "false");
-            }
+            const isOpen =
+                mainNav.classList.contains("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
 
         });
 
@@ -28,11 +33,20 @@ document.addEventListener("DOMContentLoaded", function () {
        SEARCH
     ========================== */
 
-    const searchButton = document.getElementById("searchButton");
-    const searchBox = document.getElementById("searchBox");
-    const searchInput = document.getElementById("searchInput");
-    const closeSearch = document.getElementById("closeSearch");
-    const searchForm = document.getElementById("searchForm");
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const searchBox =
+        document.getElementById("searchBox");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const closeSearch =
+        document.getElementById("closeSearch");
+
+    const searchForm =
+        document.getElementById("searchForm");
 
 
     if (searchButton && searchBox && searchInput) {
@@ -67,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             event.preventDefault();
 
-            const query = searchInput.value.trim();
+            const query =
+                searchInput.value.trim();
 
             if (query !== "") {
 
@@ -81,56 +96,122 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
-});
 
-/* =========================
-   CART COUNT
-========================= */
-
-function updateCartCount() {
+    /* =========================
+       CART COUNT
+    ========================== */
 
     const cartCount =
         document.getElementById("cartCount");
 
-    if (!cartCount) return;
 
-    const cart =
-        localStorage.getItem("setApartCart");
+    function updateCartCount() {
 
-    if (!cart) {
-        cartCount.style.display = "none";
-        return;
-    }
+        if (!cartCount) {
+            return;
+        }
 
-    try {
 
-        const product = JSON.parse(cart);
+        const cart =
+            localStorage.getItem("setApartCart");
 
-        const quantity =
-            Number(product.quantity) || 0;
 
-        if (quantity > 0) {
+        /* CART EMPTY */
 
-            cartCount.textContent = quantity;
-            cartCount.style.display = "flex";
-
-        } else {
+        if (!cart) {
 
             cartCount.style.display = "none";
 
+            return;
+
         }
 
-    } catch (error) {
 
-        cartCount.style.display = "none";
+        try {
+
+            const product =
+                JSON.parse(cart);
+
+
+            const quantity =
+                Number(product.quantity) || 0;
+
+
+            /* CART HAS PRODUCT */
+
+            if (quantity > 0) {
+
+                cartCount.textContent =
+                    quantity;
+
+                cartCount.style.display =
+                    "flex";
+
+            }
+
+            /* CART EMPTY */
+
+            else {
+
+                cartCount.style.display =
+                    "none";
+
+            }
+
+        }
+
+        catch (error) {
+
+            cartCount.style.display =
+                "none";
+
+        }
 
     }
 
-}
+
+    /* =========================
+       SHOW CART COUNT ON LOAD
+    ========================== */
+
+    updateCartCount();
 
 
-/* =========================
-   UPDATE CART COUNT
-========================= */
+    /* =========================
+       CART BUTTON
+    ========================== */
 
-updateCartCount();
+    const cartButton =
+        document.getElementById("cartButton");
+
+
+    if (cartButton) {
+
+        cartButton.addEventListener(
+            "click",
+            function () {
+
+                window.location.href =
+                    "cart.html";
+
+            }
+        );
+
+    }
+
+
+    /* =========================
+       LISTEN FOR CART CHANGES
+    ========================== */
+
+    window.addEventListener(
+        "storage",
+        function () {
+
+            updateCartCount();
+
+        }
+    );
+
+
+});
