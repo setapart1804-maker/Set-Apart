@@ -82,3 +82,55 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+/* =========================
+   CART COUNT
+========================= */
+
+function updateCartCount() {
+
+    const cartCount =
+        document.getElementById("cartCount");
+
+    if (!cartCount) return;
+
+    const cart =
+        localStorage.getItem("setApartCart");
+
+    if (!cart) {
+        cartCount.style.display = "none";
+        return;
+    }
+
+    try {
+
+        const product = JSON.parse(cart);
+
+        const quantity =
+            Number(product.quantity) || 0;
+
+        if (quantity > 0) {
+
+            cartCount.textContent = quantity;
+            cartCount.style.display = "flex";
+
+        } else {
+
+            cartCount.style.display = "none";
+
+        }
+
+    } catch (error) {
+
+        cartCount.style.display = "none";
+
+    }
+
+}
+
+
+/* =========================
+   UPDATE CART COUNT
+========================= */
+
+updateCartCount();
