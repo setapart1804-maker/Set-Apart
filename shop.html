@@ -217,15 +217,12 @@
 
             <!-- ADD TO CART -->
 
-            <button
-                type="button"
-                class="add-to-cart"
-                id="addToCart">
-
-                ADD TO CART
-
-            </button>
-
+          <button
+    type="button"
+    class="add-to-cart"
+    id="addToCart">
+    ADD TO CART
+</button>
         </div>
 
     </div>
@@ -376,6 +373,36 @@ document.addEventListener("DOMContentLoaded", function () {
                 price: 44.99,
                 size: selectedSize,
                 quantity: 1
+            };
+
+            localStorage.setItem(
+                "setApartCart",
+                JSON.stringify(product)
+            );
+
+            alert("SET APART HOODIE ADDED TO CART.");
+
+        });
+
+    }
+
+});
+</script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const addToCart = document.getElementById("addToCart");
+
+    if (addToCart) {
+
+        addToCart.addEventListener("click", function () {
+
+            const product = {
+                name: "SET APART HOODIE",
+                price: 44.99,
+                quantity: 1,
+                image: "PILGRIM BLACK FRONT.png"
             };
 
             localStorage.setItem(
