@@ -8,7 +8,240 @@
     <title>Shop — SET APART</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* =========================================
+           SET APART - PRODUCT
+        ========================================= */
+
+        .single-product {
+            width: 100%;
+            max-width: 1200px;
+            margin: 60px auto;
+            padding: 0 25px;
+
+            display: grid;
+            grid-template-columns: 1.4fr 0.8fr;
+            gap: 50px;
+
+            box-sizing: border-box;
+        }
+
+        /* PRODUCT PHOTOS */
+
+        .product-gallery {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+
+        .product-gallery .product-image {
+            width: 100%;
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .product-gallery .product-image img {
+            display: block;
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+        }
+
+        /* PRODUCT DETAILS */
+
+        .product-details {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .product-label {
+            margin: 0 0 12px;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-weight: 600;
+        }
+
+        .product-details h2 {
+            margin: 0 0 12px;
+            font-size: 34px;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            margin: 0 0 20px;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .product-description {
+            margin: 0 0 30px;
+            line-height: 1.7;
+        }
+
+        /* SIZE */
+
+        .size-section {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .size-section > p {
+            margin: 0 0 12px;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        .size-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .size-btn {
+            width: 52px !important;
+            height: 48px !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+
+            padding: 0 !important;
+
+            background: #fff !important;
+            color: #111 !important;
+
+            border: 1px solid #111 !important;
+
+            font-size: 14px !important;
+            font-weight: 700 !important;
+
+            cursor: pointer;
+            box-sizing: border-box;
+
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover,
+        .size-btn.selected {
+            background: #111 !important;
+            color: #fff !important;
+        }
+
+        /* ADD TO CART */
+
+        .add-to-cart {
+            width: 100% !important;
+            min-height: 54px !important;
+
+            display: flex !important;
+            align-items: center !important;
+            justify-content: center !important;
+
+            background: #111 !important;
+            color: #fff !important;
+
+            border: 1px solid #111 !important;
+
+            font-size: 14px !important;
+            font-weight: 700 !important;
+            letter-spacing: 1px;
+
+            cursor: pointer;
+
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .add-to-cart:hover {
+            background: #333 !important;
+        }
+
+        .add-to-cart:active {
+            transform: scale(0.99);
+        }
+
+
+        /* =========================================
+           TABLET
+        ========================================= */
+
+        @media (max-width: 900px) {
+
+            .single-product {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                margin: 40px auto;
+                padding: 0 25px;
+            }
+
+            .product-details {
+                width: 100%;
+                align-items: center;
+                text-align: center;
+            }
+
+            .size-section {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .size-options {
+                justify-content: center;
+            }
+
+            .add-to-cart {
+                max-width: 500px;
+            }
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 600px) {
+
+            .single-product {
+                margin: 30px auto;
+                padding: 0 15px;
+                gap: 30px;
+            }
+
+            .product-gallery {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .product-details h2 {
+                font-size: 27px;
+            }
+
+            .product-price {
+                font-size: 22px;
+            }
+
+            .product-description {
+                font-size: 14px;
+            }
+
+            .size-btn {
+                width: 50px !important;
+                height: 46px !important;
+            }
+
+            .add-to-cart {
+                min-height: 52px !important;
+            }
+        }
+    </style>
 </head>
+
 
 <body>
 
@@ -27,8 +260,6 @@
 
     <header class="navbar">
 
-        <!-- MOBILE MENU -->
-
         <button
             type="button"
             class="menu-toggle"
@@ -39,16 +270,12 @@
         </button>
 
 
-        <!-- LOGO -->
-
         <a href="index.html" class="logo">
             <img
                 src="LOGO (2).png"
                 alt="SET APART Logo">
         </a>
 
-
-        <!-- NAVIGATION -->
 
         <nav id="mainNav">
 
@@ -59,8 +286,6 @@
 
         </nav>
 
-
-        <!-- SEARCH + CART -->
 
         <div class="nav-icons">
 
@@ -120,8 +345,6 @@
 
     <main>
 
-        <!-- SHOP HEADER -->
-
         <section class="shop-header">
 
             <p>
@@ -140,7 +363,7 @@
 
 
         <!-- =========================
-             PRODUCT
+             SINGLE PRODUCT
         ========================== -->
 
         <section class="shop-products">
@@ -148,11 +371,9 @@
             <div class="single-product">
 
 
-                <!-- PRODUCT IMAGES -->
+                <!-- PRODUCT GALLERY -->
 
                 <div class="product-gallery">
-
-                    <!-- FRONT -->
 
                     <div class="product-image">
 
@@ -162,8 +383,6 @@
 
                     </div>
 
-
-                    <!-- BACK -->
 
                     <div class="product-image">
 
@@ -176,9 +395,7 @@
                 </div>
 
 
-                <!-- =========================
-                     PRODUCT DETAILS
-                ========================== -->
+                <!-- PRODUCT DETAILS -->
 
                 <div class="product-details">
 
@@ -203,9 +420,7 @@
                     </p>
 
 
-                    <!-- =========================
-                         SIZE
-                    ========================== -->
+                    <!-- SIZE -->
 
                     <div class="size-section">
 
@@ -249,9 +464,7 @@
                     </div>
 
 
-                    <!-- =========================
-                         ADD TO CART
-                    ========================== -->
+                    <!-- ADD TO CART -->
 
                     <button
                         type="button"
@@ -296,9 +509,6 @@
 
         <div class="footer-links">
 
-
-            <!-- SHOP -->
-
             <div>
 
                 <h3>
@@ -324,8 +534,6 @@
             </div>
 
 
-            <!-- ABOUT -->
-
             <div>
 
                 <h3>
@@ -342,8 +550,6 @@
 
             </div>
 
-
-            <!-- FOLLOW -->
 
             <div>
 
@@ -363,8 +569,6 @@
 
         </div>
 
-
-        <!-- FOOTER BOTTOM -->
 
         <div class="footer-bottom">
 
@@ -390,188 +594,129 @@
 
     <script>
 
-        document.addEventListener(
-            "DOMContentLoaded",
-            function () {
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const sizeButtons =
+                document.querySelectorAll(".size-btn");
+
+            const addToCart =
+                document.getElementById("addToCart");
+
+            const cartButton =
+                document.getElementById("cartButton");
+
+            let selectedSize = "";
 
 
-                /* =========================
-                   SIZE SELECTION
-                ========================== */
+            /* =========================
+               SIZE SELECTION
+            ========================== */
 
-                const sizeButtons =
-                    document.querySelectorAll(".size-btn");
+            sizeButtons.forEach(function (button) {
 
-                const addToCart =
-                    document.getElementById("addToCart");
+                button.addEventListener("click", function () {
 
-                let selectedSize = "";
+                    sizeButtons.forEach(function (btn) {
+                        btn.classList.remove("selected");
+                    });
 
+                    button.classList.add("selected");
 
-                sizeButtons.forEach(function (button) {
+                    selectedSize =
+                        button.getAttribute("data-size");
 
-                    button.addEventListener(
-                        "click",
-                        function () {
+                });
 
-                            /* Remove previous selection */
-
-                            sizeButtons.forEach(
-                                function (btn) {
-
-                                    btn.classList.remove(
-                                        "selected"
-                                    );
-
-                                }
-                            );
+            });
 
 
-                            /* Select current size */
+            /* =========================
+               ADD TO CART
+            ========================== */
 
-                            button.classList.add(
-                                "selected"
-                            );
+            if (addToCart) {
+
+                addToCart.addEventListener("click", function () {
+
+                    if (selectedSize === "") {
+
+                        alert("PLEASE SELECT A SIZE.");
+
+                        return;
+                    }
 
 
-                            selectedSize =
-                                button.dataset.size;
+                    const product = {
 
-                        }
+                        name: "SET APART HOODIE",
+
+                        price: 44.99,
+
+                        size: selectedSize,
+
+                        quantity: 1,
+
+                        image: "PILGRIM BLACK FRONT 1.png"
+
+                    };
+
+
+                    localStorage.setItem(
+                        "setApartCart",
+                        JSON.stringify(product)
+                    );
+
+
+                    alert(
+                        "SET APART HOODIE ADDED TO CART."
                     );
 
                 });
 
-
-                /* =========================
-                   ADD TO CART
-                ========================== */
-
-                if (addToCart) {
-
-                    addToCart.addEventListener(
-                        "click",
-                        function () {
+            }
 
 
-                            /* Require size */
+            /* =========================
+               CART BUTTON
+            ========================== */
 
-                            if (!selectedSize) {
+            if (cartButton) {
 
-                                alert(
-                                    "PLEASE SELECT A SIZE."
-                                );
+                cartButton.addEventListener("click", function () {
 
-                                return;
-
-                            }
-
-
-                            /* Product */
-
-                            const product = {
-
-                                name:
-                                    "SET APART HOODIE",
-
-                                price:
-                                    44.99,
-
-                                size:
-                                    selectedSize,
-
-                                quantity:
-                                    1,
-
-                                image:
-                                    "PILGRIM BLACK FRONT 1.png"
-
-                            };
+                    const cart =
+                        localStorage.getItem("setApartCart");
 
 
-                            /* Save cart */
+                    if (!cart) {
 
-                            localStorage.setItem(
-                                "setApartCart",
-                                JSON.stringify(product)
-                            );
+                        alert("YOUR CART IS EMPTY.");
+
+                        return;
+                    }
 
 
-                            /* Confirmation */
+                    const product =
+                        JSON.parse(cart);
 
-                            alert(
-                                "SET APART HOODIE ADDED TO CART."
-                            );
 
-                        }
+                    alert(
+                        product.name +
+                        "\n\nSIZE: " +
+                        product.size +
+                        "\nPRICE: $" +
+                        Number(product.price).toFixed(2) +
+                        "\nQUANTITY: " +
+                        product.quantity
                     );
 
-                }
-
-
-                /* =========================
-                   CART BUTTON
-                ========================== */
-
-                const cartButton =
-                    document.getElementById(
-                        "cartButton"
-                    );
-
-
-                if (cartButton) {
-
-                    cartButton.addEventListener(
-                        "click",
-                        function () {
-
-
-                            const cart =
-                                localStorage.getItem(
-                                    "setApartCart"
-                                );
-
-
-                            if (!cart) {
-
-                                alert(
-                                    "YOUR CART IS EMPTY."
-                                );
-
-                                return;
-
-                            }
-
-
-                            const product =
-                                JSON.parse(cart);
-
-
-                            alert(
-
-                                product.name +
-
-                                "\n\nSIZE: " +
-                                product.size +
-
-                                "\nPRICE: $" +
-                                product.price.toFixed(2) +
-
-                                "\nQUANTITY: " +
-                                product.quantity
-
-                            );
-
-                        }
-                    );
-
-                }
+                });
 
             }
-        );
+
+        });
 
     </script>
-
 
 </body>
 
