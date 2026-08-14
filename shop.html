@@ -712,9 +712,47 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const cartButton =
         document.getElementById("cartButton");
+  
+    const cartCount =
+    document.getElementById("cartCount");
 
     let selectedSize = "";
 
+    /* =========================
+   UPDATE CART COUNT
+========================= */
+
+function updateCartCount() {
+
+    const cart =
+        localStorage.getItem("setApartCart");
+
+    if (!cart) {
+
+        cartCount.style.display = "none";
+
+        return;
+    }
+
+    const product =
+        JSON.parse(cart);
+
+    const quantity =
+        Number(product.quantity) || 0;
+
+    if (quantity > 0) {
+
+        cartCount.textContent = quantity;
+
+        cartCount.style.display = "flex";
+
+    } else {
+
+        cartCount.style.display = "none";
+
+    }
+
+}
 
     /* =========================
        SIZE SELECTION
@@ -775,6 +813,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 JSON.stringify(product)
             );
 
+            updateCartCount();
 
             alert(
                 "SET APART HOODIE ADDED TO CART."
@@ -813,6 +852,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 });
+
+    updateCartCount();
 
 </script>
 
