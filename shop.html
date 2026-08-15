@@ -35,13 +35,18 @@
 
 
         /* =========================================
-           PRODUCT SLIDER
+           PRODUCT GALLERY
         ========================================= */
 
         .product-gallery {
             width: 100%;
             min-width: 0;
         }
+
+
+        /* =========================================
+           PRODUCT SLIDER
+        ========================================= */
 
         .product-slider {
             position: relative;
@@ -55,9 +60,10 @@
 
             display: flex;
             align-items: center;
-            justify-content: center;
 
             box-sizing: border-box;
+
+            touch-action: pan-y;
         }
 
 
@@ -83,19 +89,22 @@
         .product-slide img {
             display: block;
 
-            width: 100%;
-            max-width: 100%;
+            width: 88%;
+            max-width: 850px;
 
             height: auto;
 
             margin: 0 auto;
 
             object-fit: contain;
+
+            user-select: none;
+            -webkit-user-drag: none;
         }
 
 
         /* =========================================
-           SLIDER ARROWS
+           DESKTOP ARROWS
         ========================================= */
 
         .slider-arrow {
@@ -138,22 +147,13 @@
                 transform 0.2s ease;
         }
 
-
-        /* LEFT ARROW */
-
         .slider-prev {
             left: 15px;
         }
 
-
-        /* RIGHT ARROW */
-
         .slider-next {
             right: 15px;
         }
-
-
-        /* HOVER */
 
         .slider-arrow:hover {
             background: #111;
@@ -195,16 +195,10 @@
         }
 
         .product-price {
-            margin: 0 0 20px;
+            margin: 0 0 30px;
 
             font-size: 24px;
             font-weight: 700;
-        }
-
-        .product-description {
-            margin: 0 0 30px;
-
-            line-height: 1.7;
         }
 
 
@@ -331,8 +325,7 @@
 
             z-index: 9999;
 
-            transform:
-                translateY(130%);
+            transform: translateY(130%);
 
             opacity: 0;
 
@@ -464,12 +457,30 @@
             .single-product {
                 grid-template-columns: 1fr;
 
-                gap: 40px;
+                gap: 35px;
 
-                margin: 40px auto;
+                margin: 35px auto;
 
                 padding: 0 25px;
             }
+
+
+            /* REDUCE IMAGE */
+
+            .product-slide img {
+                width: 70%;
+                max-width: 500px;
+            }
+
+
+            /* HIDE ARROWS ON TABLET */
+
+            .slider-arrow {
+                display: none !important;
+            }
+
+
+            /* PRODUCT DETAILS */
 
             .product-details {
                 width: 100%;
@@ -478,6 +489,17 @@
 
                 text-align: center;
             }
+
+            .product-details h2 {
+                font-size: 30px;
+            }
+
+            .product-price {
+                margin-bottom: 25px;
+            }
+
+
+            /* SIZE */
 
             .size-section {
                 display: flex;
@@ -491,23 +513,11 @@
                 justify-content: center;
             }
 
+
+            /* CART BUTTON */
+
             .add-to-cart {
                 max-width: 500px;
-            }
-
-            .slider-arrow {
-                width: 40px;
-                height: 40px;
-
-                font-size: 27px;
-            }
-
-            .slider-prev {
-                left: 10px;
-            }
-
-            .slider-next {
-                right: 10px;
             }
 
         }
@@ -520,48 +530,64 @@
         @media (max-width: 600px) {
 
             .single-product {
-                margin: 30px auto;
+                margin: 25px auto;
 
                 padding: 0 15px;
 
-                gap: 30px;
+                gap: 25px;
+            }
+
+
+            /* SMALLER IMAGE */
+
+            .product-slide img {
+                width: 62%;
+                max-width: 300px;
+            }
+
+
+            /* NO ARROWS */
+
+            .slider-arrow {
+                display: none !important;
+            }
+
+
+            /* PRODUCT */
+
+            .product-label {
+                font-size: 11px;
+
+                letter-spacing: 1.5px;
             }
 
             .product-details h2 {
-                font-size: 27px;
+                font-size: 25px;
             }
 
             .product-price {
-                font-size: 22px;
+                font-size: 21px;
+
+                margin-bottom: 25px;
             }
 
-            .product-description {
-                font-size: 14px;
-            }
+
+            /* SIZE */
 
             .size-btn {
                 width: 50px !important;
                 height: 46px !important;
             }
 
+
+            /* ADD CART */
+
             .add-to-cart {
                 min-height: 52px !important;
             }
 
-            .slider-arrow {
-                width: 36px;
-                height: 36px;
 
-                font-size: 24px;
-            }
-
-            .slider-prev {
-                left: 7px;
-            }
-
-            .slider-next {
-                right: 7px;
-            }
+            /* MINI CART */
 
             .mini-cart {
                 right: 10px;
@@ -652,9 +678,6 @@
 
         <div class="nav-icons">
 
-
-            <!-- SEARCH -->
-
             <button
                 type="button"
                 class="search-btn"
@@ -665,8 +688,6 @@
 
             </button>
 
-
-            <!-- CART -->
 
             <button
                 type="button"
@@ -706,7 +727,6 @@
                 id="searchInput"
                 placeholder="Search products..."
                 autocomplete="off">
-
 
             <button
                 type="button"
@@ -764,20 +784,9 @@
 
                 <div class="product-gallery">
 
-                    <div class="product-slider">
-
-
-                        <!-- LEFT ARROW -->
-
-                        <button
-                            type="button"
-                            class="slider-arrow slider-prev"
-                            id="sliderPrev"
-                            aria-label="Previous product image">
-
-                            ‹
-
-                        </button>
+                    <div
+                        class="product-slider"
+                        id="productSlider">
 
 
                         <!-- FRONT -->
@@ -804,7 +813,20 @@
                         </div>
 
 
-                        <!-- RIGHT ARROW -->
+                        <!-- DESKTOP LEFT ARROW -->
+
+                        <button
+                            type="button"
+                            class="slider-arrow slider-prev"
+                            id="sliderPrev"
+                            aria-label="Previous product image">
+
+                            ‹
+
+                        </button>
+
+
+                        <!-- DESKTOP RIGHT ARROW -->
 
                         <button
                             type="button"
@@ -850,14 +872,6 @@
                     </p>
 
 
-                    <p class="product-description">
-
-                        Faith-Inspired Streetwear.
-                        Called to Live Differently.
-
-                    </p>
-
-
                     <!-- =================================
                          SIZE
                     ================================== -->
@@ -872,7 +886,6 @@
 
 
                         <div class="size-options">
-
 
                             <button
                                 type="button"
@@ -912,7 +925,6 @@
                                 XL
 
                             </button>
-
 
                         </div>
 
@@ -969,8 +981,6 @@
         <div class="footer-links">
 
 
-            <!-- SHOP -->
-
             <div>
 
                 <h3>
@@ -996,8 +1006,6 @@
             </div>
 
 
-            <!-- ABOUT -->
-
             <div>
 
                 <h3>
@@ -1014,8 +1022,6 @@
 
             </div>
 
-
-            <!-- FOLLOW -->
 
             <div>
 
@@ -1173,7 +1179,6 @@
                         "click",
                         function () {
 
-
                             sizeButtons.forEach(
                                 function (btn) {
 
@@ -1312,8 +1317,6 @@
                     function () {
 
 
-                        /* CHECK SIZE */
-
                         if (
                             selectedSize === ""
                         ) {
@@ -1327,8 +1330,6 @@
                         }
 
 
-                        /* GET CART */
-
                         let existingCart =
                             localStorage.getItem(
                                 "setApartCart"
@@ -1337,8 +1338,6 @@
 
                         let product = null;
 
-
-                        /* READ EXISTING CART */
 
                         if (existingCart) {
 
@@ -1358,9 +1357,7 @@
                         }
 
 
-                        /* =================================
-                           SAME PRODUCT + SAME SIZE
-                        ================================= */
+                        /* SAME PRODUCT + SAME SIZE */
 
                         if (
                             product &&
@@ -1378,9 +1375,7 @@
                         }
 
 
-                        /* =================================
-                           NEW PRODUCT
-                        ================================= */
+                        /* NEW PRODUCT */
 
                         else {
 
@@ -1416,7 +1411,7 @@
                         );
 
 
-                        /* UPDATE NUMBER IMMEDIATELY */
+                        /* UPDATE COUNT */
 
                         updateShopCartCount();
 
@@ -1431,7 +1426,6 @@
                         alert(
                             "SET APART HOODIE ADDED TO CART."
                         );
-
 
                     }
                 );
@@ -1459,7 +1453,7 @@
 
 
             /* =================================
-               CART COUNT ON PAGE LOAD
+               CART COUNT ON LOAD
             ================================= */
 
             updateShopCartCount();
@@ -1480,7 +1474,7 @@
 
 
             /* =================================
-               PRODUCT IMAGE SLIDER
+               PRODUCT SLIDER
             ================================= */
 
             const slides =
@@ -1496,6 +1490,11 @@
             const sliderNext =
                 document.getElementById(
                     "sliderNext"
+                );
+
+            const productSlider =
+                document.getElementById(
+                    "productSlider"
                 );
 
 
@@ -1531,7 +1530,7 @@
 
 
             /* =================================
-               PREVIOUS
+               DESKTOP PREVIOUS
             ================================= */
 
             if (sliderPrev) {
@@ -1542,7 +1541,6 @@
 
                         currentSlide--;
 
-
                         if (
                             currentSlide < 0
                         ) {
@@ -1551,7 +1549,6 @@
                                 slides.length - 1;
 
                         }
-
 
                         showSlide(
                             currentSlide
@@ -1564,7 +1561,7 @@
 
 
             /* =================================
-               NEXT
+               DESKTOP NEXT
             ================================= */
 
             if (sliderNext) {
@@ -1575,7 +1572,6 @@
 
                         currentSlide++;
 
-
                         if (
                             currentSlide >=
                             slides.length
@@ -1584,7 +1580,6 @@
                             currentSlide = 0;
 
                         }
-
 
                         showSlide(
                             currentSlide
@@ -1596,7 +1591,113 @@
             }
 
 
-            /* START SLIDER */
+            /* =================================
+               MOBILE + TABLET SWIPE
+            ================================= */
+
+            let touchStartX = 0;
+            let touchEndX = 0;
+
+
+            if (productSlider) {
+
+                productSlider.addEventListener(
+                    "touchstart",
+                    function (event) {
+
+                        touchStartX =
+                            event.touches[0].clientX;
+
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+
+                productSlider.addEventListener(
+                    "touchend",
+                    function (event) {
+
+                        touchEndX =
+                            event.changedTouches[0].clientX;
+
+                        handleSwipe();
+
+                    },
+                    {
+                        passive: true
+                    }
+                );
+
+            }
+
+
+            /* =================================
+               HANDLE SWIPE
+            ================================= */
+
+            function handleSwipe() {
+
+                const difference =
+                    touchStartX - touchEndX;
+
+
+                /* NOT ENOUGH MOVEMENT */
+
+                if (
+                    Math.abs(difference) < 50
+                ) {
+                    return;
+                }
+
+
+                /* SWIPE LEFT */
+
+                if (difference > 0) {
+
+                    currentSlide++;
+
+                    if (
+                        currentSlide >=
+                        slides.length
+                    ) {
+
+                        currentSlide = 0;
+
+                    }
+
+                }
+
+
+                /* SWIPE RIGHT */
+
+                else {
+
+                    currentSlide--;
+
+                    if (
+                        currentSlide < 0
+                    ) {
+
+                        currentSlide =
+                            slides.length - 1;
+
+                    }
+
+                }
+
+
+                showSlide(
+                    currentSlide
+                );
+
+            }
+
+
+            /* =================================
+               START SLIDER
+            ================================= */
 
             showSlide(
                 currentSlide
