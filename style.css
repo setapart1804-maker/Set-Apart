@@ -2468,3 +2468,7 @@ a {
     margin-top: 0 !important;
     border-top: none !important;
 }
+
+.announcement + .navbar {
+    margin-top: 0 !important;
+}
