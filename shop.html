@@ -1018,7 +1018,46 @@
 
     <script src="script.js"></script>
 
+    /* =========================================
+   PRODUCT IMAGE SWIPE
+========================================= */
 
+const productSlider =
+    document.getElementById("productSlider");
+
+const sliderDots =
+    document.querySelectorAll(".slider-dot");
+
+
+if (productSlider && sliderDots.length > 0) {
+
+    productSlider.addEventListener(
+        "scroll",
+        function () {
+
+            const slideWidth =
+                productSlider.offsetWidth;
+
+            const currentSlide =
+                Math.round(
+                    productSlider.scrollLeft /
+                    slideWidth
+                );
+
+            sliderDots.forEach(function (dot, index) {
+
+                dot.classList.toggle(
+                    "active",
+                    index === currentSlide
+                );
+
+            });
+
+        }
+    );
+
+}
+    
     <!-- =========================
          SHOP JAVASCRIPT
     ========================== -->
