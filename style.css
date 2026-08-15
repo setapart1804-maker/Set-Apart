@@ -2081,3 +2081,15 @@ textarea:focus-visible {
     }
 
 }
+
+/* =========================================
+   SHOP — RETIRE BÒ/LINY SLIDER YO
+========================================= */
+
+.product-gallery,
+.product-slider,
+.product-slide {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
