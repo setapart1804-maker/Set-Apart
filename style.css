@@ -2498,3 +2498,61 @@ a {
 .announcement {
     margin-bottom: 0 !important;
 }
+
+/* =========================================
+   STICKY ANNOUNCEMENT BAR
+========================================= */
+
+.announcement {
+    position: sticky !important;
+    top: 0 !important;
+
+    z-index: 10000 !important;
+
+    width: 100%;
+    height: 38px;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #111 !important;
+    color: #fff;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   STICKY NAVBAR
+========================================= */
+
+.navbar {
+    position: sticky !important;
+
+    top: 38px !important;
+
+    z-index: 9999 !important;
+
+    margin: 0 !important;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .announcement {
+        height: 34px;
+    }
+
+    .navbar {
+        top: 34px !important;
+    }
+
+}
