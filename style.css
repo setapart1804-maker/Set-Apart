@@ -1982,3 +1982,53 @@ a {
         right: 3px;
     }
 }
+
+/* =========================================
+   HOODIES — MOBILE + TABLET
+========================================= */
+
+@media (max-width: 900px) {
+
+    .product-grid {
+        gap: 14px;
+    }
+
+    .product-image {
+        width: 100%;
+        aspect-ratio: 3 / 4;
+    }
+
+    .product-image img {
+        width: 108%;
+        max-width: none;
+        height: auto;
+        object-fit: contain;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE — HOODIES PI GWO
+========================================= */
+
+@media (max-width: 600px) {
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .product-image {
+        aspect-ratio: 3 / 4;
+        overflow: hidden;
+    }
+
+    .product-image img {
+        width: 115%;
+        max-width: none;
+        margin-left: -7.5%;
+        object-fit: contain;
+    }
+
+}
