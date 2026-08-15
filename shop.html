@@ -60,6 +60,7 @@
 
             display: flex;
             align-items: center;
+            justify-content: center;
 
             box-sizing: border-box;
 
@@ -80,6 +81,8 @@
             justify-content: center;
 
             text-align: center;
+
+            animation: slideFade 0.25s ease;
         }
 
         .product-slide.active {
@@ -89,8 +92,8 @@
         .product-slide img {
             display: block;
 
-            width: 88%;
-            max-width: 850px;
+            width: 82%;
+            max-width: 760px;
 
             height: auto;
 
@@ -100,6 +103,52 @@
 
             user-select: none;
             -webkit-user-drag: none;
+        }
+
+
+        /* =========================================
+           SLIDE FADE
+        ========================================= */
+
+        @keyframes slideFade {
+
+            from {
+                opacity: 0.35;
+            }
+
+            to {
+                opacity: 1;
+            }
+
+        }
+
+
+        /* =========================================
+           SLIDE INDICATOR
+        ========================================= */
+
+        .slide-indicator {
+            position: absolute;
+
+            left: 50%;
+            bottom: 15px;
+
+            transform: translateX(-50%);
+
+            padding: 6px 12px;
+
+            background: rgba(255,255,255,0.9);
+
+            border: 1px solid #ddd;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+            font-weight: 700;
+
+            letter-spacing: 1px;
+
+            z-index: 10;
         }
 
 
@@ -147,13 +196,16 @@
                 transform 0.2s ease;
         }
 
+
         .slider-prev {
             left: 15px;
         }
 
+
         .slider-next {
             right: 15px;
         }
+
 
         .slider-arrow:hover {
             background: #111;
@@ -171,33 +223,42 @@
 
         .product-details {
             display: flex;
+
             flex-direction: column;
 
             justify-content: center;
+
             align-items: flex-start;
 
             min-width: 0;
         }
 
+
         .product-label {
             margin: 0 0 12px;
 
             font-size: 13px;
+
             letter-spacing: 2px;
+
             font-weight: 600;
         }
+
 
         .product-details h2 {
             margin: 0 0 12px;
 
             font-size: 34px;
+
             line-height: 1.2;
         }
 
+
         .product-price {
-            margin: 0 0 30px;
+            margin: 0 0 25px;
 
             font-size: 24px;
+
             font-weight: 700;
         }
 
@@ -212,13 +273,17 @@
             margin-bottom: 25px;
         }
 
+
         .size-section > p {
             margin: 0 0 12px;
 
             font-size: 13px;
+
             font-weight: 700;
+
             letter-spacing: 1px;
         }
+
 
         .size-options {
             display: flex;
@@ -227,6 +292,7 @@
 
             gap: 10px;
         }
+
 
         .size-btn {
             width: 52px !important;
@@ -245,6 +311,7 @@
             border: 1px solid #111 !important;
 
             font-size: 14px !important;
+
             font-weight: 700 !important;
 
             cursor: pointer !important;
@@ -254,9 +321,11 @@
             transition: all 0.2s ease;
         }
 
+
         .size-btn:hover,
         .size-btn.selected {
             background: #111 !important;
+
             color: #fff !important;
         }
 
@@ -283,6 +352,7 @@
             border: 1px solid #111 !important;
 
             font-size: 14px !important;
+
             font-weight: 700 !important;
 
             letter-spacing: 1px !important;
@@ -294,9 +364,11 @@
             transition: all 0.2s ease;
         }
 
+
         .add-to-cart:hover {
             background: #333 !important;
         }
+
 
         .add-to-cart:active {
             transform: scale(0.99);
@@ -314,6 +386,7 @@
             bottom: 20px;
 
             width: 330px;
+
             max-width: calc(100vw - 30px);
 
             background: #fff;
@@ -336,6 +409,7 @@
                 opacity 0.3s ease;
         }
 
+
         .mini-cart.show {
             transform: translateY(0);
 
@@ -343,6 +417,7 @@
 
             pointer-events: auto;
         }
+
 
         .mini-cart-header {
             display: flex;
@@ -355,11 +430,13 @@
             border-bottom: 1px solid #ddd;
         }
 
+
         .mini-cart-header strong {
             font-size: 13px;
 
             letter-spacing: 1px;
         }
+
 
         #closeMiniCart {
             width: 30px;
@@ -383,13 +460,16 @@
             cursor: pointer;
         }
 
+
         #closeMiniCart:hover {
             color: #e00000;
         }
 
+
         #miniCartContent {
             padding: 15px 17px;
         }
+
 
         .mini-cart-product {
             display: flex;
@@ -399,6 +479,7 @@
             gap: 14px;
         }
 
+
         .mini-cart-product img {
             width: 75px;
             height: 75px;
@@ -407,6 +488,7 @@
 
             background: #f7f7f7;
         }
+
 
         .mini-cart-info {
             display: flex;
@@ -418,9 +500,11 @@
             font-size: 12px;
         }
 
+
         .mini-cart-info strong {
             font-size: 13px;
         }
+
 
         .mini-cart-button {
             display: flex;
@@ -438,10 +522,12 @@
             text-decoration: none;
 
             font-size: 13px;
+
             font-weight: 700;
 
             letter-spacing: 1px;
         }
+
 
         .mini-cart-button:hover {
             background: #333;
@@ -455,11 +541,12 @@
         @media (max-width: 900px) {
 
             .single-product {
+
                 grid-template-columns: 1fr;
 
-                gap: 35px;
+                gap: 30px;
 
-                margin: 35px auto;
+                margin: 30px auto;
 
                 padding: 0 25px;
             }
@@ -468,14 +555,17 @@
             /* REDUCE IMAGE */
 
             .product-slide img {
-                width: 70%;
-                max-width: 500px;
+
+                width: 64%;
+
+                max-width: 430px;
             }
 
 
-            /* HIDE ARROWS ON TABLET */
+            /* HIDE ARROWS */
 
             .slider-arrow {
+
                 display: none !important;
             }
 
@@ -483,6 +573,7 @@
             /* PRODUCT DETAILS */
 
             .product-details {
+
                 width: 100%;
 
                 align-items: center;
@@ -490,34 +581,94 @@
                 text-align: center;
             }
 
-            .product-details h2 {
-                font-size: 30px;
+
+            .product-label {
+
+                font-size: 11px;
+
+                letter-spacing: 1.5px;
+
+                margin-bottom: 8px;
             }
 
+
+            .product-details h2 {
+
+                font-size: 26px;
+
+                margin-bottom: 8px;
+            }
+
+
             .product-price {
-                margin-bottom: 25px;
+
+                font-size: 20px;
+
+                margin-bottom: 18px;
             }
 
 
             /* SIZE */
 
             .size-section {
+
                 display: flex;
 
                 flex-direction: column;
 
                 align-items: center;
+
+                margin-bottom: 20px;
             }
+
+
+            .size-section > p {
+
+                font-size: 11px;
+
+                margin-bottom: 9px;
+            }
+
 
             .size-options {
+
                 justify-content: center;
+
+                gap: 8px;
             }
 
 
-            /* CART BUTTON */
+            .size-btn {
+
+                width: 46px !important;
+
+                height: 42px !important;
+
+                font-size: 12px !important;
+            }
+
+
+            /* CART */
 
             .add-to-cart {
-                max-width: 500px;
+
+                max-width: 450px;
+
+                min-height: 50px !important;
+
+                font-size: 12px !important;
+            }
+
+
+            /* INDICATOR */
+
+            .slide-indicator {
+
+                bottom: 10px;
+
+                font-size: 10px;
+
+                padding: 5px 10px;
             }
 
         }
@@ -530,70 +681,120 @@
         @media (max-width: 600px) {
 
             .single-product {
-                margin: 25px auto;
+
+                margin: 20px auto;
 
                 padding: 0 15px;
 
-                gap: 25px;
+                gap: 22px;
             }
 
 
             /* SMALLER IMAGE */
 
             .product-slide img {
-                width: 62%;
-                max-width: 300px;
+
+                width: 58%;
+
+                max-width: 260px;
             }
 
 
-            /* NO ARROWS */
-
-            .slider-arrow {
-                display: none !important;
-            }
-
-
-            /* PRODUCT */
+            /* PRODUCT TEXT */
 
             .product-label {
-                font-size: 11px;
 
-                letter-spacing: 1.5px;
+                font-size: 10px;
+
+                letter-spacing: 1.2px;
+
+                margin-bottom: 6px;
             }
+
 
             .product-details h2 {
-                font-size: 25px;
+
+                font-size: 22px;
+
+                margin-bottom: 6px;
             }
 
-            .product-price {
-                font-size: 21px;
 
-                margin-bottom: 25px;
+            .product-price {
+
+                font-size: 18px;
+
+                margin-bottom: 16px;
             }
 
 
             /* SIZE */
 
+            .size-section {
+
+                margin-bottom: 18px;
+            }
+
+
+            .size-section > p {
+
+                font-size: 10px;
+
+                letter-spacing: 0.8px;
+
+                margin-bottom: 8px;
+            }
+
+
+            .size-options {
+
+                gap: 6px;
+            }
+
+
             .size-btn {
-                width: 50px !important;
-                height: 46px !important;
+
+                width: 43px !important;
+
+                height: 39px !important;
+
+                font-size: 11px !important;
             }
 
 
             /* ADD CART */
 
             .add-to-cart {
-                min-height: 52px !important;
+
+                min-height: 48px !important;
+
+                font-size: 11px !important;
+
+                letter-spacing: 0.8px !important;
             }
 
 
             /* MINI CART */
 
             .mini-cart {
+
                 right: 10px;
+
                 bottom: 10px;
 
                 width: calc(100vw - 20px);
+            }
+
+
+            /* SLIDE INDICATOR */
+
+            .slide-indicator {
+
+                bottom: 7px;
+
+                font-size: 9px;
+
+                padding: 4px 9px;
             }
 
         }
@@ -728,6 +929,7 @@
                 placeholder="Search products..."
                 autocomplete="off">
 
+
             <button
                 type="button"
                 id="closeSearch"
@@ -796,7 +998,7 @@
 
                             <img
                                 src="PILGRIM BLACK FRONT 1.png"
-                                alt="SET APART Hoodie Front">
+                                alt="SET APART Pilgrim Hoodie Front">
 
                         </div>
 
@@ -808,7 +1010,7 @@
 
                             <img
                                 src="PILGRIM BLACK BACK.png"
-                                alt="SET APART Hoodie Back">
+                                alt="SET APART Pilgrim Hoodie Back">
 
                         </div>
 
@@ -837,6 +1039,17 @@
                             ›
 
                         </button>
+
+
+                        <!-- SLIDE INDICATOR -->
+
+                        <div
+                            class="slide-indicator"
+                            id="slideIndicator">
+
+                            1 / 2
+
+                        </div>
 
 
                     </div>
@@ -872,9 +1085,7 @@
                     </p>
 
 
-                    <!-- =================================
-                         SIZE
-                    ================================== -->
+                    <!-- SELECT SIZE -->
 
                     <div class="size-section">
 
@@ -886,6 +1097,7 @@
 
 
                         <div class="size-options">
+
 
                             <button
                                 type="button"
@@ -926,14 +1138,13 @@
 
                             </button>
 
+
                         </div>
 
                     </div>
 
 
-                    <!-- =================================
-                         ADD TO CART
-                    ================================== -->
+                    <!-- ADD TO CART -->
 
                     <button
                         type="button"
@@ -967,9 +1178,11 @@
                 src="LOGO (2).png"
                 alt="SET APART Logo">
 
+
             <p>
                 Faith-Inspired Streetwear.
             </p>
+
 
             <p>
                 Called to Live Differently.
@@ -981,23 +1194,29 @@
         <div class="footer-links">
 
 
+            <!-- SHOP -->
+
             <div>
 
                 <h3>
                     SHOP
                 </h3>
 
+
                 <a href="shop.html">
                     All Products
                 </a>
+
 
                 <a href="shop.html">
                     Hoodies
                 </a>
 
+
                 <a href="shop.html">
                     T-Shirts
                 </a>
+
 
                 <a href="shop.html">
                     Accessories
@@ -1006,15 +1225,19 @@
             </div>
 
 
+            <!-- ABOUT -->
+
             <div>
 
                 <h3>
                     ABOUT
                 </h3>
 
+
                 <a href="about.html">
                     Our Story
                 </a>
+
 
                 <a href="contact.html">
                     Contact
@@ -1023,18 +1246,33 @@
             </div>
 
 
+            <!-- FOLLOW -->
+
             <div>
 
                 <h3>
                     FOLLOW
                 </h3>
 
-                <a href="#">
+
+                <!-- INSTAGRAM -->
+
+                <a
+                    href="https://www.instagram.com/setapart1804?igsh=cW1xNWE3eXdidTU%3D&igsi=cW1xNWE3eXdidTU%3D&utm_source=qr"
+                    target="_blank"
+                    rel="noopener noreferrer">
+
                     Instagram
+
                 </a>
 
+
+                <!-- TIKTOK -->
+
                 <a href="#">
+
                     TikTok
+
                 </a>
 
             </div>
@@ -1083,15 +1321,18 @@
                     ".size-btn"
                 );
 
+
             const addToCart =
                 document.getElementById(
                     "addToCart"
                 );
 
+
             const cartButton =
                 document.getElementById(
                     "cartButton"
                 );
+
 
             const cartCount =
                 document.getElementById(
@@ -1109,7 +1350,9 @@
             function updateShopCartCount() {
 
                 if (!cartCount) {
+
                     return;
+
                 }
 
 
@@ -1151,14 +1394,18 @@
                         cartCount.style.display =
                             "flex";
 
-                    } else {
+                    }
+
+                    else {
 
                         cartCount.style.display =
                             "none";
 
                     }
 
-                } catch (error) {
+                }
+
+                catch (error) {
 
                     cartCount.style.display =
                         "none";
@@ -1178,6 +1425,7 @@
                     button.addEventListener(
                         "click",
                         function () {
+
 
                             sizeButtons.forEach(
                                 function (btn) {
@@ -1208,7 +1456,7 @@
 
 
             /* =================================
-               MINI CART ELEMENTS
+               MINI CART
             ================================= */
 
             const miniCart =
@@ -1216,10 +1464,12 @@
                     "miniCart"
                 );
 
+
             const miniCartContent =
                 document.getElementById(
                     "miniCartContent"
                 );
+
 
             const closeMiniCart =
                 document.getElementById(
@@ -1237,7 +1487,9 @@
                     !miniCart ||
                     !miniCartContent
                 ) {
+
                     return;
+
                 }
 
 
@@ -1317,6 +1569,8 @@
                     function () {
 
 
+                        /* CHECK SIZE */
+
                         if (
                             selectedSize === ""
                         ) {
@@ -1330,6 +1584,8 @@
                         }
 
 
+                        /* GET EXISTING CART */
+
                         let existingCart =
                             localStorage.getItem(
                                 "setApartCart"
@@ -1338,6 +1594,8 @@
 
                         let product = null;
 
+
+                        /* READ CART */
 
                         if (existingCart) {
 
@@ -1348,7 +1606,9 @@
                                         existingCart
                                     );
 
-                            } catch (error) {
+                            }
+
+                            catch (error) {
 
                                 product = null;
 
@@ -1401,7 +1661,7 @@
                         }
 
 
-                        /* SAVE */
+                        /* SAVE CART */
 
                         localStorage.setItem(
                             "setApartCart",
@@ -1453,7 +1713,7 @@
 
 
             /* =================================
-               CART COUNT ON LOAD
+               CART COUNT ON PAGE LOAD
             ================================= */
 
             updateShopCartCount();
@@ -1482,19 +1742,28 @@
                     ".product-slide"
                 );
 
+
             const sliderPrev =
                 document.getElementById(
                     "sliderPrev"
                 );
+
 
             const sliderNext =
                 document.getElementById(
                     "sliderNext"
                 );
 
+
             const productSlider =
                 document.getElementById(
                     "productSlider"
+                );
+
+
+            const slideIndicator =
+                document.getElementById(
+                    "slideIndicator"
                 );
 
 
@@ -1506,6 +1775,7 @@
             ================================= */
 
             function showSlide(index) {
+
 
                 slides.forEach(
                     function (slide) {
@@ -1526,6 +1796,18 @@
 
                 }
 
+
+                /* UPDATE INDICATOR */
+
+                if (slideIndicator) {
+
+                    slideIndicator.textContent =
+                        (index + 1) +
+                        " / " +
+                        slides.length;
+
+                }
+
             }
 
 
@@ -1539,7 +1821,9 @@
                     "click",
                     function () {
 
+
                         currentSlide--;
+
 
                         if (
                             currentSlide < 0
@@ -1549,6 +1833,7 @@
                                 slides.length - 1;
 
                         }
+
 
                         showSlide(
                             currentSlide
@@ -1570,7 +1855,9 @@
                     "click",
                     function () {
 
+
                         currentSlide++;
+
 
                         if (
                             currentSlide >=
@@ -1580,6 +1867,7 @@
                             currentSlide = 0;
 
                         }
+
 
                         showSlide(
                             currentSlide
@@ -1596,14 +1884,17 @@
             ================================= */
 
             let touchStartX = 0;
+
             let touchEndX = 0;
 
 
             if (productSlider) {
 
+
                 productSlider.addEventListener(
                     "touchstart",
                     function (event) {
+
 
                         touchStartX =
                             event.touches[0].clientX;
@@ -1619,8 +1910,10 @@
                     "touchend",
                     function (event) {
 
+
                         touchEndX =
                             event.changedTouches[0].clientX;
+
 
                         handleSwipe();
 
@@ -1639,24 +1932,32 @@
 
             function handleSwipe() {
 
+
                 const difference =
-                    touchStartX - touchEndX;
+                    touchStartX -
+                    touchEndX;
 
 
-                /* NOT ENOUGH MOVEMENT */
+                /* IGNORE SMALL MOVEMENT */
 
                 if (
                     Math.abs(difference) < 50
                 ) {
+
                     return;
+
                 }
 
 
                 /* SWIPE LEFT */
 
-                if (difference > 0) {
+                if (
+                    difference > 0
+                ) {
+
 
                     currentSlide++;
+
 
                     if (
                         currentSlide >=
@@ -1674,7 +1975,9 @@
 
                 else {
 
+
                     currentSlide--;
+
 
                     if (
                         currentSlide < 0
@@ -1722,7 +2025,9 @@
         <div class="mini-cart-header">
 
             <strong>
+
                 🛒 YOUR CART
+
             </strong>
 
 
