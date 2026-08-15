@@ -2093,3 +2093,7 @@ textarea:focus-visible {
     outline: none !important;
     box-shadow: none !important;
 }
+
+.product-slide {
+    background: transparent !important;
+}
