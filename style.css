@@ -2469,6 +2469,32 @@ a {
     border-top: none !important;
 }
 
-.announcement + .navbar {
-    margin-top: 0 !important;
+/* FIX - REMOVE WHITE BAR UNDER NEW DROP */
+
+.sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    margin: 0 !important;
+    padding: 0 !important;
+    height: auto !important;
+}
+
+.sticky-header .announcement {
+    margin: 0 !important;
+    padding: 10px 15px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    line-height: 1.2 !important;
+}
+
+.sticky-header .navbar {
+    margin: 0 !important;
+    padding-top: 0 !important;
+    border: none !important;
+}
+
+/* Remove any blank space created by announcement */
+.announcement {
+    margin-bottom: 0 !important;
 }
