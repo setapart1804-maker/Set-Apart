@@ -2451,3 +2451,20 @@ a {
 .navbar {
     background: #fff;
 }
+
+/* Retire espas blan anba announcement bar la */
+.sticky-header {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.sticky-header .announcement {
+    margin: 0 !important;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.sticky-header .navbar {
+    margin-top: 0 !important;
+    border-top: none !important;
+}
