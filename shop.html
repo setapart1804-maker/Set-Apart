@@ -15,111 +15,159 @@
 
     <style>
 
-        /* =========================
-           SIZE BUTTONS
-        ========================== */
+        /* =========================================
+           PRODUCT SLIDER
+        ========================================= */
 
-        .size-section {
+        .product-gallery {
             width: 100%;
-            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
         }
 
-        .size-section > p {
-            margin: 0 0 12px;
-            font-size: 14px;
-            font-weight: 700;
-        }
-
-        .size-options {
+        .product-slider {
+            width: 100%;
             display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
+
+            overflow-x: auto;
+
+            scroll-snap-type: x mandatory;
+
+            scrollbar-width: none;
+
+            -webkit-overflow-scrolling: touch;
+
+            scroll-behavior: smooth;
+
+            touch-action: pan-x;
+
+            overscroll-behavior-x: contain;
         }
 
-        .size-btn {
-            width: 52px !important;
-            height: 48px !important;
+        .product-slider::-webkit-scrollbar {
+            display: none;
+        }
 
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+        .product-slide {
+            flex: 0 0 100%;
+            width: 100%;
 
-            padding: 0 !important;
+            scroll-snap-align: start;
 
-            background: #ffffff !important;
-            color: #111111 !important;
+            background: #fff;
 
-            border: 1px solid #111111 !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-            font-size: 14px !important;
-            font-weight: 700 !important;
+        .product-slide img {
+            display: block;
 
-            cursor: pointer !important;
-            box-sizing: border-box;
+            width: 100%;
+            height: auto;
+
+            object-fit: contain;
+
+            user-select: none;
+            -webkit-user-drag: none;
+        }
+
+
+        /* =========================================
+           DESKTOP ARROWS
+        ========================================= */
+
+        .slider-arrow {
+            position: absolute;
+
+            top: 50%;
+
+            transform: translateY(-50%);
+
+            width: 42px;
+            height: 42px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            border: 1px solid #111;
+
+            background: rgba(255, 255, 255, 0.95);
+
+            color: #111;
+
+            font-size: 24px;
+            font-weight: 400;
+
+            cursor: pointer;
+
+            z-index: 10;
 
             transition: all 0.2s ease;
         }
 
-        .size-btn:hover,
-        .size-btn.selected {
-            background: #111111 !important;
-            color: #ffffff !important;
+        .slider-arrow:hover {
+            background: #111;
+            color: #fff;
+        }
+
+        .slider-arrow-left {
+            left: 12px;
+        }
+
+        .slider-arrow-right {
+            right: 12px;
         }
 
 
-        /* =========================
-           ADD TO CART
-        ========================== */
+        /* =========================================
+           SLIDER DOTS
+        ========================================= */
 
-        .add-to-cart {
-            width: 100% !important;
-            min-height: 54px !important;
+        .slider-dots {
+            display: flex;
 
-            display: flex !important;
-            align-items: center !important;
-            justify-content: center !important;
+            align-items: center;
+            justify-content: center;
 
-            padding: 15px 20px !important;
+            gap: 7px;
 
-            background: #111111 !important;
-            color: #ffffff !important;
-
-            border: 1px solid #111111 !important;
-
-            font-size: 14px !important;
-            font-weight: 700 !important;
-            letter-spacing: 1px !important;
-
-            cursor: pointer !important;
-            box-sizing: border-box;
-
-            transition: all 0.2s ease;
+            margin-top: 12px;
         }
 
-        .add-to-cart:hover {
-            background: #333333 !important;
+        .slider-dot {
+            width: 7px;
+            height: 7px;
+
+            border-radius: 50%;
+
+            background: #ccc;
+
+            transition: background 0.2s ease;
         }
 
-        .add-to-cart:active {
-            transform: scale(0.99);
+        .slider-dot.active {
+            background: #111;
         }
 
 
-        /* =========================
-           SINGLE PRODUCT
-        ========================== */
+        /* =========================================
+           PRODUCT
+        ========================================= */
 
         .single-product {
             width: 100%;
             max-width: 1200px;
 
             margin: 60px auto;
+
             padding: 0 25px;
 
             display: grid;
 
-            grid-template-columns:
-                1.4fr 0.8fr;
+            grid-template-columns: 1.4fr 0.8fr;
 
             gap: 50px;
 
@@ -127,42 +175,9 @@
         }
 
 
-        /* =========================
-           PRODUCT GALLERY
-        ========================== */
-
-        .product-gallery {
-            width: 100%;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(2, 1fr);
-
-            gap: 20px;
-        }
-
-        .product-gallery .product-image {
-            width: 100%;
-
-            background: #fff;
-
-            overflow: hidden;
-        }
-
-        .product-gallery .product-image img {
-            display: block;
-
-            width: 100%;
-            height: auto;
-
-            object-fit: contain;
-        }
-
-
-        /* =========================
+        /* =========================================
            PRODUCT DETAILS
-        ========================== */
+        ========================================= */
 
         .product-details {
             display: flex;
@@ -207,174 +222,225 @@
         }
 
 
-        /* =========================
+        /* =========================================
+           SIZE
+        ========================================= */
+
+        .size-section {
+            width: 100%;
+
+            margin-bottom: 25px;
+        }
+
+        .size-section > p {
+            margin: 0 0 12px;
+
+            font-size: 13px;
+
+            font-weight: 700;
+
+            letter-spacing: 1px;
+        }
+
+        .size-options {
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+        }
+
+        .size-btn {
+            width: 52px !important;
+            height: 48px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+            justify-content: center !important;
+
+            padding: 0 !important;
+
+            background: #fff !important;
+
+            color: #111 !important;
+
+            border: 1px solid #111 !important;
+
+            font-size: 14px !important;
+
+            font-weight: 700 !important;
+
+            cursor: pointer !important;
+
+            box-sizing: border-box;
+
+            transition: all 0.2s ease;
+        }
+
+        .size-btn:hover,
+        .size-btn.selected {
+            background: #111 !important;
+
+            color: #fff !important;
+        }
+
+
+        /* =========================================
+           ADD TO CART
+        ========================================= */
+
+        .add-to-cart {
+            width: 100% !important;
+
+            min-height: 54px !important;
+
+            display: flex !important;
+
+            align-items: center !important;
+
+            justify-content: center !important;
+
+            padding: 15px 20px !important;
+
+            background: #111 !important;
+
+            color: #fff !important;
+
+            border: 1px solid #111 !important;
+
+            font-size: 14px !important;
+
+            font-weight: 700 !important;
+
+            letter-spacing: 1px !important;
+
+            cursor: pointer !important;
+
+            box-sizing: border-box;
+        }
+
+        .add-to-cart:hover {
+            background: #333 !important;
+        }
+
+        .add-to-cart:active {
+            transform: scale(0.99);
+        }
+
+
+        /* =========================================
            MINI CART
-        ========================== */
+        ========================================= */
 
         .mini-cart {
-
             position: fixed;
 
             right: 20px;
             bottom: 20px;
 
-            width: 340px;
+            width: 330px;
 
-            background: #ffffff;
+            background: #fff;
 
-            color: #111111;
+            border: 1px solid #111;
 
-            border: 1px solid #dddddd;
+            box-shadow: 0 10px 30px rgba(0,0,0,.18);
 
-            box-shadow:
-                0 10px 35px rgba(0,0,0,0.18);
-
-            z-index: 9999;
-
-            padding: 18px;
-
-            box-sizing: border-box;
+            z-index: 99999;
 
             opacity: 0;
 
             visibility: hidden;
 
-            transform:
-                translateY(20px);
+            transform: translateY(20px);
 
-            transition:
-                all 0.25s ease;
+            transition: all 0.25s ease;
         }
 
         .mini-cart.show {
-
             opacity: 1;
 
             visibility: visible;
 
-            transform:
-                translateY(0);
+            transform: translateY(0);
         }
 
-
-        /* MINI CART HEADER */
-
         .mini-cart-header {
-
             display: flex;
 
             align-items: center;
 
-            justify-content:
-                space-between;
+            justify-content: space-between;
 
-            padding-bottom: 15px;
+            padding: 14px 16px;
 
-            margin-bottom: 15px;
-
-            border-bottom:
-                1px solid #dddddd;
-        }
-
-        .mini-cart-header strong {
-
-            font-size: 14px;
-
-            letter-spacing: 1px;
+            border-bottom: 1px solid #ddd;
         }
 
         .mini-cart-header button {
-
             width: 30px;
             height: 30px;
 
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background: #e00000;
-
-            color: #ffffff;
-
             border: none;
 
-            border-radius: 50%;
+            background: transparent;
 
-            font-size: 20px;
+            color: #111;
+
+            font-size: 24px;
 
             line-height: 1;
 
             cursor: pointer;
         }
 
-        .mini-cart-header button:hover {
-
-            background: #b00000;
-        }
-
-
-        /* MINI CART PRODUCT */
-
         .mini-cart-product {
-
             display: flex;
 
             gap: 14px;
 
-            align-items: center;
+            padding: 15px;
         }
 
         .mini-cart-product img {
-
             width: 75px;
             height: 75px;
 
-            object-fit: cover;
+            object-fit: contain;
 
-            background: #f5f5f5;
+            background: #f8f8f8;
         }
 
         .mini-cart-info {
-
             display: flex;
 
             flex-direction: column;
 
-            gap: 4px;
+            justify-content: center;
+
+            gap: 3px;
 
             font-size: 12px;
-
-            line-height: 1.4;
         }
 
         .mini-cart-info strong {
-
             font-size: 13px;
-
-            margin-bottom: 3px;
         }
 
-
-        /* VIEW CART */
-
         .mini-cart-button {
-
             display: flex;
 
             align-items: center;
-
             justify-content: center;
-
-            width: 100%;
 
             min-height: 46px;
 
-            margin-top: 18px;
+            margin: 0 15px 15px;
 
-            background: #111111;
+            background: #111;
 
-            color: #ffffff;
+            color: #fff;
 
             text-decoration: none;
 
@@ -385,20 +451,14 @@
             letter-spacing: 1px;
         }
 
-        .mini-cart-button:hover {
 
-            background: #333333;
-        }
-
-
-        /* =========================
+        /* =========================================
            TABLET
-        ========================== */
+        ========================================= */
 
         @media (max-width: 900px) {
 
             .single-product {
-
                 grid-template-columns: 1fr;
 
                 gap: 40px;
@@ -409,7 +469,6 @@
             }
 
             .product-details {
-
                 width: 100%;
 
                 align-items: center;
@@ -418,7 +477,6 @@
             }
 
             .size-section {
-
                 display: flex;
 
                 flex-direction: column;
@@ -427,26 +485,23 @@
             }
 
             .size-options {
-
                 justify-content: center;
             }
 
             .add-to-cart {
-
                 max-width: 500px;
             }
 
         }
 
 
-        /* =========================
+        /* =========================================
            MOBILE
-        ========================== */
+        ========================================= */
 
         @media (max-width: 600px) {
 
             .single-product {
-
                 margin: 30px auto;
 
                 padding: 0 15px;
@@ -454,49 +509,43 @@
                 gap: 30px;
             }
 
-            .product-gallery {
-
-                grid-template-columns: 1fr;
-
-                gap: 15px;
-            }
-
             .product-details h2 {
-
                 font-size: 27px;
             }
 
             .product-price {
-
                 font-size: 22px;
             }
 
             .product-description {
-
                 font-size: 14px;
             }
 
             .size-btn {
-
                 width: 50px !important;
 
                 height: 46px !important;
             }
 
             .add-to-cart {
-
                 min-height: 52px !important;
+            }
+
+
+            /* HIDE ARROWS ON PHONE */
+
+            .slider-arrow {
+                display: none;
             }
 
 
             /* MINI CART MOBILE */
 
             .mini-cart {
+                left: 12px;
+                right: 12px;
 
-                left: 15px;
-                right: 15px;
-
-                bottom: 15px;
+                bottom: 12px;
 
                 width: auto;
             }
@@ -511,94 +560,108 @@
 <body>
 
 
-   <!-- =========================
-     ANNOUNCEMENT BAR
-========================== -->
+    <!-- =========================================
+         ANNOUNCEMENT
+    ========================================= -->
 
-<div class="announcement">
-    NEW DROP — CALLED TO LIVE DIFFERENTLY.
-</div>
+    <div class="announcement">
 
-
-<!-- =========================
-     NAVBAR
-========================== -->
-
-<header class="navbar">
-
-    <!-- MOBILE / TABLET MENU -->
-
-    <button
-        type="button"
-        class="menu-toggle"
-        id="menuToggle"
-        aria-label="Open menu"
-        aria-expanded="false">
-        ☰
-    </button>
-
-
-    <!-- LOGO -->
-
-    <a href="index.html" class="logo">
-
-        <img
-            src="LOGO (2).png"
-            alt="SET APART Logo">
-
-    </a>
-
-
-    <!-- NAVIGATION -->
-
-    <nav id="mainNav">
-
-        <a href="index.html">HOME</a>
-        <a href="shop.html">SHOP</a>
-        <a href="about.html">ABOUT</a>
-        <a href="contact.html">CONTACT</a>
-
-    </nav>
-
-
-    <!-- SEARCH + CART -->
-
-    <div class="nav-icons">
-
-        <button
-            type="button"
-            class="search-btn"
-            id="searchButton"
-            aria-label="Search">
-
-            🔍
-
-        </button>
-
-
-        <button
-            type="button"
-            class="cart-btn"
-            id="cartButton"
-            aria-label="Shopping Cart">
-
-            🛒
-
-            <span
-                class="cart-count"
-                id="cartCount">
-                0
-            </span>
-
-        </button>
+        NEW DROP — CALLED TO LIVE DIFFERENTLY.
 
     </div>
 
-</header>
 
-    <!-- =========================
-         SEARCH BOX
-    ========================== -->
+    <!-- =========================================
+         NAVBAR
+    ========================================= -->
+
+    <header class="navbar">
+
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            ☰
+
+        </button>
+
+
+        <a
+            href="index.html"
+            class="logo">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
+
+        </a>
+
+
+        <nav id="mainNav">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+
+        <div class="nav-icons">
+
+
+            <button
+                type="button"
+                class="search-btn"
+                id="searchButton"
+                aria-label="Search">
+
+                🔍
+
+            </button>
+
+
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
+
+                🛒
+
+                <span
+                    class="cart-count"
+                    id="cartCount">
+
+                    0
+
+                </span>
+
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         SEARCH
+    ========================================= -->
 
     <div
         class="search-box"
@@ -628,9 +691,9 @@
     </div>
 
 
-    <!-- =========================
+    <!-- =========================================
          SHOP
-    ========================== -->
+    ========================================= -->
 
     <main>
 
@@ -638,31 +701,19 @@
         <section class="shop-header">
 
             <p>
-
                 SET APART COLLECTION
-
             </p>
 
-
             <h1>
-
                 SHOP
-
             </h1>
 
-
             <span>
-
                 FAITH-INSPIRED STREETWEAR
-
             </span>
 
         </section>
 
-
-        <!-- =========================
-             PRODUCT
-        ========================== -->
 
         <section class="shop-products">
 
@@ -670,65 +721,110 @@
             <div class="single-product">
 
 
-                <!-- PRODUCT GALLERY -->
+                <!-- =================================
+                     PRODUCT SLIDER
+                ================================= -->
 
-              <div class="product-gallery">
-
-    <div class="product-slider" id="productSlider">
-
-        <div class="product-slide">
-            <img
-                src="PILGRIM BLACK FRONT 1.png"
-                alt="SET APART Hoodie Front">
-        </div>
-
-        <div class="product-slide">
-            <img
-                src="PILGRIM BLACK BACK.png"
-                alt="SET APART Hoodie Back">
-        </div>
-
-    </div>
-
-    <div class="slider-dots">
-        <span class="slider-dot active"></span>
-        <span class="slider-dot"></span>
-    </div>
-
-</div>
+                <div class="product-gallery">
 
 
-                <!-- PRODUCT DETAILS -->
+                    <div
+                        class="product-slider"
+                        id="productSlider">
+
+
+                        <!-- FRONT -->
+
+                        <div class="product-slide">
+
+                            <img
+                                src="PILGRIM BLACK FRONT 1.png"
+                                alt="SET APART Hoodie Front">
+
+                        </div>
+
+
+                        <!-- BACK -->
+
+                        <div class="product-slide">
+
+                            <img
+                                src="PILGRIM BLACK BACK.png"
+                                alt="SET APART Hoodie Back">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- DESKTOP LEFT ARROW -->
+
+                    <button
+                        type="button"
+                        class="slider-arrow slider-arrow-left"
+                        id="sliderPrev"
+                        aria-label="Previous image">
+
+                        ‹
+
+                    </button>
+
+
+                    <!-- DESKTOP RIGHT ARROW -->
+
+                    <button
+                        type="button"
+                        class="slider-arrow slider-arrow-right"
+                        id="sliderNext"
+                        aria-label="Next image">
+
+                        ›
+
+                    </button>
+
+
+                    <!-- DOTS -->
+
+                    <div class="slider-dots">
+
+                        <span
+                            class="slider-dot active">
+                        </span>
+
+                        <span
+                            class="slider-dot">
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <!-- =================================
+                     PRODUCT DETAILS
+                ================================= -->
 
                 <div class="product-details">
 
 
                     <p class="product-label">
-
                         SET APART COLLECTION
-
                     </p>
 
 
                     <h2>
-
                         SET APART HOODIE
-
                     </h2>
 
 
                     <p class="product-price">
-
                         $44.99
-
                     </p>
 
 
                     <p class="product-description">
-
                         Faith-Inspired Streetwear.
                         Called to Live Differently.
-
                     </p>
 
 
@@ -736,11 +832,8 @@
 
                     <div class="size-section">
 
-
                         <p>
-
                             SELECT SIZE
-
                         </p>
 
 
@@ -803,7 +896,6 @@
 
                     </button>
 
-
                 </div>
 
             </div>
@@ -813,34 +905,26 @@
     </main>
 
 
-    <!-- =========================
+    <!-- =========================================
          FOOTER
-    ========================== -->
+    ========================================= -->
 
     <footer class="footer">
 
 
         <div class="footer-brand">
 
-
             <img
                 src="LOGO (2).png"
                 alt="SET APART Logo">
 
-
             <p>
-
                 Faith-Inspired Streetwear.
-
             </p>
-
 
             <p>
-
                 Called to Live Differently.
-
             </p>
-
 
         </div>
 
@@ -850,217 +934,86 @@
 
             <div>
 
-
                 <h3>
-
                     SHOP
-
                 </h3>
 
-
                 <a href="shop.html">
-
                     All Products
-
                 </a>
 
-
                 <a href="shop.html">
-
                     Hoodies
-
                 </a>
 
-
                 <a href="shop.html">
-
                     T-Shirts
-
                 </a>
-
 
                 <a href="shop.html">
-
                     Accessories
-
                 </a>
-
 
             </div>
 
 
             <div>
 
-
                 <h3>
-
                     ABOUT
-
                 </h3>
-
 
                 <a href="about.html">
-
                     Our Story
-
                 </a>
-
 
                 <a href="contact.html">
-
                     Contact
-
                 </a>
-
 
             </div>
 
 
             <div>
 
-
                 <h3>
-
                     FOLLOW
-
                 </h3>
 
-
                 <a href="#">
-
                     Instagram
-
                 </a>
-
 
                 <a href="#">
-
                     TikTok
-
                 </a>
-
 
             </div>
-
 
         </div>
 
 
         <div class="footer-bottom">
 
-
             <p>
-
-                © 2026 SET APART.
-                ALL RIGHTS RESERVED.
-
+                © 2026 SET APART. ALL RIGHTS RESERVED.
             </p>
-
 
         </div>
 
     </footer>
 
 
-    <!-- =========================
-         MINI CART
-    ========================== -->
-
-    <div
-        id="miniCart"
-        class="mini-cart">
-
-
-        <div class="mini-cart-header">
-
-
-            <strong>
-
-                🛒 YOUR CART
-
-            </strong>
-
-
-            <button
-                type="button"
-                id="closeMiniCart"
-                aria-label="Close cart">
-
-                ×
-
-            </button>
-
-
-        </div>
-
-
-        <div
-            id="miniCartContent">
-
-        </div>
-
-
-        <a
-            href="cart.html"
-            class="mini-cart-button">
-
-            VIEW CART
-
-        </a>
-
-
-    </div>
-
-
-    <!-- =========================
-         MAIN JAVASCRIPT
-    ========================== -->
+    <!-- =========================================
+         MAIN WEBSITE JAVASCRIPT
+    ========================================= -->
 
     <script src="script.js"></script>
 
-    /* =========================================
-   PRODUCT IMAGE SWIPE
-========================================= */
 
-const productSlider =
-    document.getElementById("productSlider");
-
-const sliderDots =
-    document.querySelectorAll(".slider-dot");
-
-
-if (productSlider && sliderDots.length > 0) {
-
-    productSlider.addEventListener(
-        "scroll",
-        function () {
-
-            const slideWidth =
-                productSlider.offsetWidth;
-
-            const currentSlide =
-                Math.round(
-                    productSlider.scrollLeft /
-                    slideWidth
-                );
-
-            sliderDots.forEach(function (dot, index) {
-
-                dot.classList.toggle(
-                    "active",
-                    index === currentSlide
-                );
-
-            });
-
-        }
-    );
-
-}
-    
-    <!-- =========================
+    <!-- =========================================
          SHOP JAVASCRIPT
-    ========================== -->
+    ========================================= -->
 
     <script>
 
@@ -1069,21 +1022,19 @@ if (productSlider && sliderDots.length > 0) {
         function () {
 
 
-            /* =========================
-               SIZE SELECTION
-            ========================== */
+            /* =================================
+               SIZE
+            ================================= */
 
             const sizeButtons =
                 document.querySelectorAll(
                     ".size-btn"
                 );
 
-
             const addToCart =
                 document.getElementById(
                     "addToCart"
                 );
-
 
             let selectedSize = "";
 
@@ -1091,11 +1042,9 @@ if (productSlider && sliderDots.length > 0) {
             sizeButtons.forEach(
                 function (button) {
 
-
                     button.addEventListener(
                         "click",
                         function () {
-
 
                             sizeButtons.forEach(
                                 function (btn) {
@@ -1125,131 +1074,11 @@ if (productSlider && sliderDots.length > 0) {
             );
 
 
-            /* =========================
-               MINI CART
-            ========================== */
-
-            const miniCart =
-                document.getElementById(
-                    "miniCart"
-                );
-
-
-            const miniCartContent =
-                document.getElementById(
-                    "miniCartContent"
-                );
-
-
-            const closeMiniCart =
-                document.getElementById(
-                    "closeMiniCart"
-                );
-
-
-            function showMiniCart(product) {
-
-
-                if (
-                    !miniCart ||
-                    !miniCartContent
-                ) {
-
-                    return;
-
-                }
-
-
-                miniCartContent.innerHTML = `
-
-                    <div class="mini-cart-product">
-
-
-                        <img
-                            src="${product.image}"
-                            alt="${product.name}">
-
-
-                        <div
-                            class="mini-cart-info">
-
-
-                            <strong>
-
-                                ${product.name}
-
-                            </strong>
-
-
-                            <span>
-
-                                SIZE:
-                                ${product.size}
-
-                            </span>
-
-
-                            <span>
-
-                                QTY:
-                                ${product.quantity}
-
-                            </span>
-
-
-                            <span>
-
-                                $${Number(
-                                    product.price
-                                ).toFixed(2)}
-
-                            </span>
-
-
-                        </div>
-
-
-                    </div>
-
-                `;
-
-
-                miniCart.classList.add(
-                    "show"
-                );
-
-            }
-
-
-            /* =========================
-               CLOSE MINI CART
-            ========================== */
-
-            if (
-                closeMiniCart &&
-                miniCart
-            ) {
-
-                closeMiniCart.addEventListener(
-                    "click",
-                    function () {
-
-                        miniCart.classList.remove(
-                            "show"
-                        );
-
-                    }
-                );
-
-            }
-
-
-            /* =========================
+            /* =================================
                ADD TO CART
-            ========================== */
+            ================================= */
 
             if (addToCart) {
-
 
                 addToCart.addEventListener(
                     "click",
@@ -1258,9 +1087,7 @@ if (productSlider && sliderDots.length > 0) {
 
                         /* CHECK SIZE */
 
-                        if (
-                            selectedSize === ""
-                        ) {
+                        if (!selectedSize) {
 
                             alert(
                                 "PLEASE SELECT A SIZE."
@@ -1271,10 +1098,9 @@ if (productSlider && sliderDots.length > 0) {
                         }
 
 
-                        /* GET EXISTING CART */
+                        /* GET CART */
 
                         let product = null;
-
 
                         const existingCart =
                             localStorage.getItem(
@@ -1300,9 +1126,7 @@ if (productSlider && sliderDots.length > 0) {
                         }
 
 
-                        /* =========================
-                           SAME PRODUCT + SAME SIZE
-                        ========================== */
+                        /* SAME PRODUCT + SAME SIZE */
 
                         if (
                             product &&
@@ -1314,15 +1138,13 @@ if (productSlider && sliderDots.length > 0) {
 
                             product.quantity =
                                 Number(
-                                    product.quantity
+                                    product.quantity || 0
                                 ) + 1;
 
                         }
 
 
-                        /* =========================
-                           NEW PRODUCT
-                        ========================== */
+                        /* NEW PRODUCT */
 
                         else {
 
@@ -1348,21 +1170,15 @@ if (productSlider && sliderDots.length > 0) {
                         }
 
 
-                        /* =========================
-                           SAVE CART
-                        ========================== */
+                        /* SAVE */
 
                         localStorage.setItem(
                             "setApartCart",
-                            JSON.stringify(
-                                product
-                            )
+                            JSON.stringify(product)
                         );
 
 
-                        /* =========================
-                           UPDATE RED CART NUMBER
-                        ========================== */
+                        /* UPDATE RED NUMBER */
 
                         if (
                             typeof updateCartCount ===
@@ -1374,13 +1190,298 @@ if (productSlider && sliderDots.length > 0) {
                         }
 
 
-                        /* =========================
-                           SHOW MINI CART
-                        ========================== */
+                        /* SHOW MINI CART */
 
-                        showMiniCart(
-                            product
+                        showMiniCart(product);
+
+                    }
+                );
+
+            }
+
+
+            /* =================================
+               MINI CART
+            ================================= */
+
+            const miniCart =
+                document.getElementById(
+                    "miniCart"
+                );
+
+            const miniCartContent =
+                document.getElementById(
+                    "miniCartContent"
+                );
+
+            const closeMiniCart =
+                document.getElementById(
+                    "closeMiniCart"
+                );
+
+
+            function showMiniCart(product) {
+
+                if (
+                    !miniCart ||
+                    !miniCartContent
+                ) {
+
+                    return;
+
+                }
+
+
+                miniCartContent.innerHTML = `
+
+                    <div class="mini-cart-product">
+
+                        <img
+                            src="${product.image}"
+                            alt="${product.name}">
+
+                        <div class="mini-cart-info">
+
+                            <strong>
+                                ${product.name}
+                            </strong>
+
+                            <span>
+                                SIZE: ${product.size}
+                            </span>
+
+                            <span>
+                                QTY: ${product.quantity}
+                            </span>
+
+                            <span>
+                                $${Number(
+                                    product.price
+                                ).toFixed(2)}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                `;
+
+
+                miniCart.classList.add(
+                    "show"
+                );
+
+            }
+
+
+            /* CLOSE MINI CART */
+
+            if (
+                closeMiniCart &&
+                miniCart
+            ) {
+
+                closeMiniCart.addEventListener(
+                    "click",
+                    function () {
+
+                        miniCart.classList.remove(
+                            "show"
                         );
+
+                    }
+                );
+
+            }
+
+
+            /* =================================
+               PRODUCT SLIDER
+            ================================= */
+
+            const productSlider =
+                document.getElementById(
+                    "productSlider"
+                );
+
+            const sliderPrev =
+                document.getElementById(
+                    "sliderPrev"
+                );
+
+            const sliderNext =
+                document.getElementById(
+                    "sliderNext"
+                );
+
+            const sliderDots =
+                document.querySelectorAll(
+                    ".slider-dot"
+                );
+
+
+            let currentSlide = 0;
+
+
+            function goToSlide(index) {
+
+                if (!productSlider) {
+                    return;
+                }
+
+
+                currentSlide = index;
+
+
+                const slideWidth =
+                    productSlider.clientWidth;
+
+
+                productSlider.scrollTo({
+
+                    left:
+                        slideWidth *
+                        currentSlide,
+
+                    behavior:
+                        "smooth"
+
+                });
+
+
+                updateDots();
+
+            }
+
+
+            function updateDots() {
+
+                sliderDots.forEach(
+                    function (dot, index) {
+
+                        dot.classList.toggle(
+                            "active",
+                            index === currentSlide
+                        );
+
+                    }
+                );
+
+            }
+
+
+            /* PREVIOUS */
+
+            if (sliderPrev) {
+
+                sliderPrev.addEventListener(
+                    "click",
+                    function () {
+
+                        if (currentSlide > 0) {
+
+                            goToSlide(
+                                currentSlide - 1
+                            );
+
+                        } else {
+
+                            goToSlide(1);
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* NEXT */
+
+            if (sliderNext) {
+
+                sliderNext.addEventListener(
+                    "click",
+                    function () {
+
+                        if (currentSlide < 1) {
+
+                            goToSlide(
+                                currentSlide + 1
+                            );
+
+                        } else {
+
+                            goToSlide(0);
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* SWIPE / SCROLL */
+
+            if (productSlider) {
+
+                productSlider.addEventListener(
+                    "scroll",
+                    function () {
+
+                        const slideWidth =
+                            productSlider.clientWidth;
+
+
+                        if (!slideWidth) {
+                            return;
+                        }
+
+
+                        const newSlide =
+                            Math.round(
+                                productSlider.scrollLeft /
+                                slideWidth
+                            );
+
+
+                        if (
+                            newSlide !==
+                            currentSlide
+                        ) {
+
+                            currentSlide =
+                                newSlide;
+
+                            updateDots();
+
+                        }
+
+                    }
+                );
+
+            }
+
+
+            /* =================================
+               CART BUTTON
+            ================================= */
+
+            const cartButton =
+                document.getElementById(
+                    "cartButton"
+                );
+
+
+            if (cartButton) {
+
+                cartButton.addEventListener(
+                    "click",
+                    function () {
+
+                        window.location.href =
+                            "cart.html";
 
                     }
                 );
@@ -1391,6 +1492,50 @@ if (productSlider && sliderDots.length > 0) {
     );
 
     </script>
+
+
+    <!-- =========================================
+         MINI CART
+    ========================================= -->
+
+    <div
+        id="miniCart"
+        class="mini-cart">
+
+
+        <div class="mini-cart-header">
+
+            <strong>
+                🛒 YOUR CART
+            </strong>
+
+
+            <button
+                type="button"
+                id="closeMiniCart"
+                aria-label="Close cart">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <div
+            id="miniCartContent">
+        </div>
+
+
+        <a
+            href="cart.html"
+            class="mini-cart-button">
+
+            VIEW CART
+
+        </a>
+
+    </div>
 
 
 </body>
