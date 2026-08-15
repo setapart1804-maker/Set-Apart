@@ -2556,3 +2556,92 @@ a {
     }
 
 }
+
+/* =========================================
+   PRODUCT IMAGE SLIDER
+========================================= */
+
+.product-gallery {
+    width: 100%;
+    overflow: hidden;
+}
+
+.product-slider {
+    width: 100%;
+    display: flex;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+
+    -webkit-overflow-scrolling: touch;
+
+    touch-action: pan-x;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.product-slide {
+    flex: 0 0 100%;
+    width: 100%;
+
+    scroll-snap-align: start;
+
+    background: #fff;
+}
+
+.product-slide img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+
+/* DOTS */
+
+.slider-dots {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 12px;
+}
+
+.slider-dot {
+    width: 7px;
+    height: 7px;
+
+    border-radius: 50%;
+
+    background: #ccc;
+}
+
+.slider-dot.active {
+    background: #111;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 600px) {
+
+    .product-slide img {
+        width: 100%;
+    }
+
+    .slider-dots {
+        margin-top: 10px;
+    }
+
+}
