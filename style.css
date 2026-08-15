@@ -1999,3 +1999,85 @@ textarea:focus-visible {
     outline: 2px solid #111;
     outline-offset: 3px;
 }
+
+/* =========================================
+   PRODUCT IMAGE — MOBILE + TABLET
+   CLEAN PROFESSIONAL SIZE
+========================================= */
+
+@media (max-width: 900px) {
+
+    .product-gallery {
+        width: 100%;
+        max-width: 680px;
+        margin: 0 auto;
+        overflow: hidden;
+    }
+
+    .product-slider {
+        width: 100%;
+    }
+
+    .product-slide {
+        width: 100%;
+        min-height: 0;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        background: #fff;
+    }
+
+    .product-slide img {
+        display: block;
+
+        width: 92%;
+        max-width: 620px;
+
+        height: auto;
+
+        object-fit: contain;
+        object-position: center;
+
+        margin: 0 auto;
+    }
+
+}
+
+
+/* =========================================
+   MOBILE — HOODIE BIGGER
+========================================= */
+
+@media (max-width: 600px) {
+
+    .product-gallery {
+        width: 100%;
+        max-width: 100%;
+        padding: 0;
+    }
+
+    .product-slide img {
+        width: 96%;
+        max-width: 100%;
+
+        height: auto;
+
+        object-fit: contain;
+    }
+
+}
+
+
+/* =========================================
+   SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    .product-slide img {
+        width: 94%;
+    }
+
+}
