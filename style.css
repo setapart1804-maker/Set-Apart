@@ -2415,3 +2415,39 @@ a {
         width: calc(100% - 24px);
     }
 }
+
+/* =========================================
+   STICKY TOP BAR + NAVBAR
+========================================= */
+
+.announcement {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Navbar rete kole anba announcement */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+/* Asire logo a rete vizib */
+.navbar .logo {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.navbar .logo img {
+    display: block;
+    height: auto;
+    max-height: 60px;
+    width: auto;
+}
+
+/* Asire navbar la gen background */
+.navbar {
+    background: #fff;
+}
