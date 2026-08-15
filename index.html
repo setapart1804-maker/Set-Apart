@@ -12,93 +12,90 @@
 
 <body>
 
-    <!-- =========================
-         ANNOUNCEMENT BAR
-    ========================== -->
+ <!-- =========================
+     ANNOUNCEMENT BAR
+========================== -->
 
-<div class="sticky-header">
-
-    <div class="announcement">
-        NEW DROP — CALLED TO LIVE DIFFERENTLY.
-    </div>
-
-    <header class="navbar">
-
-        <!-- tout sa ki te deja nan navbar la rete menm jan -->
-
-    </header>
-
+<div class="announcement">
+    NEW DROP — CALLED TO LIVE DIFFERENTLY.
 </div>
 
-    <!-- =========================
-         NAVBAR
-    ========================== -->
 
-    <header class="navbar">
+<!-- =========================
+     NAVBAR
+========================== -->
 
-        <!-- MOBILE / TABLET MENU -->
+<header class="navbar">
+
+    <!-- MOBILE / TABLET MENU -->
+
+    <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open menu"
+        aria-expanded="false">
+        ☰
+    </button>
+
+
+    <!-- LOGO -->
+
+    <a href="index.html" class="logo">
+
+        <img
+            src="LOGO (2).png"
+            alt="SET APART Logo">
+
+    </a>
+
+
+    <!-- NAVIGATION -->
+
+    <nav id="mainNav">
+
+        <a href="index.html">HOME</a>
+        <a href="shop.html">SHOP</a>
+        <a href="about.html">ABOUT</a>
+        <a href="contact.html">CONTACT</a>
+
+    </nav>
+
+
+    <!-- SEARCH + CART -->
+
+    <div class="nav-icons">
 
         <button
             type="button"
-            class="menu-toggle"
-            id="menuToggle"
-            aria-label="Open menu"
-            aria-expanded="false">
-            ☰
+            class="search-btn"
+            id="searchButton"
+            aria-label="Search">
+
+            🔍
+
         </button>
 
 
-        <!-- LOGO -->
+        <button
+            type="button"
+            class="cart-btn"
+            id="cartButton"
+            aria-label="Shopping Cart">
 
-        <a href="index.html" class="logo">
-            <img src="LOGO (2).png" alt="SET APART Logo">
-        </a>
+            🛒
 
+            <span
+                class="cart-count"
+                id="cartCount">
+                0
+            </span>
 
-        <!-- NAVIGATION -->
+        </button>
 
-        <nav id="mainNav">
+    </div>
 
-            <a href="index.html">HOME</a>
-            <a href="shop.html">SHOP</a>
-            <a href="about.html">ABOUT</a>
-            <a href="contact.html">CONTACT</a>
-
-        </nav>
-
-
-        <!-- SEARCH + CART -->
-
-        <div class="nav-icons">
-
-            <button
-                type="button"
-                class="search-btn"
-                id="searchButton"
-                aria-label="Search">
-                🔍
-            </button>
-
-          <button
-    type="button"
-    class="cart-btn"
-    id="cartButton"
-    aria-label="Shopping Cart">
-
-    🛒
-
-    <span
-        class="cart-count"
-        id="cartCount">
-        0
-    </span>
-
-</button>
-
-        </div>
-
-    </header>
-
+</header>
 
     <!-- =========================
          SEARCH BOX
