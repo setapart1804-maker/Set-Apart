@@ -876,24 +876,15 @@ if (addToCart) {
 
         /* SAVE CART */
 
-        localStorage.setItem(
-            "setApartCart",
-            JSON.stringify(product)
-        );
-
-        showMiniCart(product);
-
-        updateCartCount();
+localStorage.setItem(
+    "setApartCart",
+    JSON.stringify(product)
+);
 
 
-        /* UPDATE RED CART NUMBER */
+/* UPDATE RED CART NUMBER IMMEDIATELY */
 
-        if (
-            typeof updateCartCount ===
-            "function"
-        ) {
-
-            updateCartCount();
+updateCartCount();
 
         }
 
