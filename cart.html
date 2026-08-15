@@ -335,21 +335,21 @@
 
             <!-- CART -->
 
-           <button
-    type="button"
-    class="cart-btn"
-    id="cartButton"
-    aria-label="Shopping Cart">
+            <button
+                type="button"
+                class="cart-btn"
+                id="cartButton"
+                aria-label="Shopping Cart">
 
-    🛒
-               
-    <span
-        class="cart-count"
-        id="cartCount">
-        0
-    </span>
+                🛒
 
-</button>
+                <span
+                    class="cart-count"
+                    id="cartCount">
+                    0
+                </span>
+
+            </button>
 
         </div>
 
@@ -546,12 +546,85 @@
                     );
 
 
-                let cart =
-                    JSON.parse(
+                let cart = null;
+
+
+                /* =================================
+                   READ CART SAFELY
+                ================================= */
+
+                try {
+
+                    const savedCart =
                         localStorage.getItem(
                             "setApartCart"
-                        )
-                    );
+                        );
+
+                    if (savedCart) {
+
+                        cart =
+                            JSON.parse(savedCart);
+
+                    }
+
+                } catch (error) {
+
+                    cart = null;
+
+                }
+
+
+                /* =================================
+                   UPDATE RED CART COUNT
+                ================================= */
+
+                function refreshCartCount() {
+
+                    const cartCount =
+                        document.getElementById(
+                            "cartCount"
+                        );
+
+
+                    if (!cartCount) {
+                        return;
+                    }
+
+
+                    if (!cart) {
+
+                        cartCount.textContent = "0";
+
+                        cartCount.style.display =
+                            "none";
+
+                        return;
+
+                    }
+
+
+                    const quantity =
+                        Number(cart.quantity) || 0;
+
+
+                    if (quantity > 0) {
+
+                        cartCount.textContent =
+                            quantity;
+
+                        cartCount.style.display =
+                            "flex";
+
+                    } else {
+
+                        cartCount.textContent = "0";
+
+                        cartCount.style.display =
+                            "none";
+
+                    }
+
+                }
 
 
                 /* =================================
@@ -589,6 +662,12 @@
                             </div>
 
                         `;
+
+
+                        /* UPDATE RED NUMBER */
+
+                        refreshCartCount();
+
 
                         return;
 
@@ -726,35 +805,59 @@
                        INCREASE QUANTITY
                     ================================= */
 
-                    document
-                        .getElementById("increase")
-                        .addEventListener(
+                    const increase =
+                        document.getElementById(
+                            "increase"
+                        );
+
+
+                    if (increase) {
+
+                        increase.addEventListener(
                             "click",
                             function () {
 
-                                cart.quantity++;
+                                cart.quantity =
+                                    Number(
+                                        cart.quantity
+                                    ) + 1;
+
 
                                 saveCart();
 
                             }
                         );
 
+                    }
+
 
                     /* =================================
                        DECREASE QUANTITY
                     ================================= */
 
-                    document
-                        .getElementById("decrease")
-                        .addEventListener(
+                    const decrease =
+                        document.getElementById(
+                            "decrease"
+                        );
+
+
+                    if (decrease) {
+
+                        decrease.addEventListener(
                             "click",
                             function () {
 
                                 if (
-                                    cart.quantity > 1
+                                    Number(
+                                        cart.quantity
+                                    ) > 1
                                 ) {
 
-                                    cart.quantity--;
+                                    cart.quantity =
+                                        Number(
+                                            cart.quantity
+                                        ) - 1;
+
 
                                     saveCart();
 
@@ -763,36 +866,61 @@
                             }
                         );
 
+                    }
+
 
                     /* =================================
                        REMOVE PRODUCT
                     ================================= */
 
-                    document
-                        .getElementById("removeItem")
-                        .addEventListener(
+                    const removeItem =
+                        document.getElementById(
+                            "removeItem"
+                        );
+
+
+                    if (removeItem) {
+
+                        removeItem.addEventListener(
                             "click",
                             function () {
+
 
                                 localStorage.removeItem(
                                     "setApartCart"
                                 );
 
+
                                 cart = null;
+
+
+                                /* UPDATE RED NUMBER
+                                   IMMEDIATELY */
+
+                                refreshCartCount();
+
 
                                 displayCart();
 
                             }
                         );
 
+                    }
+
 
                     /* =================================
                        CHECKOUT
                     ================================= */
 
-                    document
-                        .getElementById("checkoutBtn")
-                        .addEventListener(
+                    const checkoutBtn =
+                        document.getElementById(
+                            "checkoutBtn"
+                        );
+
+
+                    if (checkoutBtn) {
+
+                        checkoutBtn.addEventListener(
                             "click",
                             function () {
 
@@ -803,6 +931,13 @@
                             }
                         );
 
+                    }
+
+
+                    /* UPDATE RED NUMBER */
+
+                    refreshCartCount();
+
                 }
 
 
@@ -812,12 +947,49 @@
 
                 function saveCart() {
 
+
+                    /* SAVE */
+
                     localStorage.setItem(
                         "setApartCart",
                         JSON.stringify(cart)
                     );
 
+
+                    /* UPDATE RED NUMBER
+                       IMMEDIATELY */
+
+                    refreshCartCount();
+
+
+                    /* UPDATE CART CONTENT */
+
                     displayCart();
+
+                }
+
+
+                /* =================================
+                   CART BUTTON
+                ================================= */
+
+                const cartButton =
+                    document.getElementById(
+                        "cartButton"
+                    );
+
+
+                if (cartButton) {
+
+                    cartButton.addEventListener(
+                        "click",
+                        function () {
+
+                            window.location.href =
+                                "cart.html";
+
+                        }
+                    );
 
                 }
 
@@ -827,6 +999,48 @@
                 ================================= */
 
                 displayCart();
+
+
+                /* =================================
+                   UPDATE IF CART CHANGES
+                ================================= */
+
+                window.addEventListener(
+                    "storage",
+                    function () {
+
+                        try {
+
+                            const savedCart =
+                                localStorage.getItem(
+                                    "setApartCart"
+                                );
+
+
+                            cart =
+                                savedCart
+                                    ? JSON.parse(
+                                        savedCart
+                                    )
+                                    : null;
+
+
+                            refreshCartCount();
+
+                            displayCart();
+
+                        } catch (error) {
+
+                            cart = null;
+
+                            refreshCartCount();
+
+                            displayCart();
+
+                        }
+
+                    }
+                );
 
             }
 
