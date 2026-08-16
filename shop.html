@@ -190,9 +190,9 @@
 
                 <div class="color-controls">
 
-    <div class="image-arrows">
-   <button class="image-arrow" type="button" onclick="moveSlide(this, -1)">←</button>
-<button class="image-arrow" type="button" onclick="moveSlide(this, 1)">→</button>
+  <div class="image-arrows">
+    <button class="image-arrow prev-image" type="button">←</button>
+    <button class="image-arrow next-image" type="button">→</button>
 </div>
 
 <div class="view-colors">
@@ -346,13 +346,14 @@
 
              <div class="color-controls">
 
-  <div class="image-arrows">
-   <button class="image-arrow" type="button" onclick="moveSlide(this, -1)">←</button>
-<button class="image-arrow" type="button" onclick="moveSlide(this, 1)">→</button>
+ <div class="image-arrows">
+    <button class="image-arrow prev-image" type="button">←</button>
+    <button class="image-arrow next-image" type="button">→</button>
 </div>
 
 <div class="view-colors">
     <button type="button">VIEW COLORS</button>
+</div>
 </div>
 
             <!-- PRODUCT INFO -->
@@ -1033,24 +1034,6 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCartCount();
 
 });
-
-<script>
-function moveSlide(button, direction) {
-
-    const gallery = button.closest('.product-gallery');
-
-    if (!gallery) return;
-
-    const slider = gallery.querySelector('.product-slider');
-
-    if (!slider) return;
-
-    slider.scrollBy({
-        left: direction * slider.clientWidth,
-        behavior: 'smooth'
-    });
-}
-</script>
 
 </body>
 </html>
