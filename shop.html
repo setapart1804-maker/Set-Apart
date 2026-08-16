@@ -56,32 +56,30 @@
     </nav>
 
 
-    <!-- SEARCH + CART -->
-
     <div class="nav-icons">
 
-    <button
-        type="button"
-        class="search-btn"
-        id="searchButton"
-        aria-label="Search">
-        ⌕
-    </button>
+        <button
+            type="button"
+            class="search-btn"
+            id="searchButton"
+            aria-label="Search">
+            ⌕
+        </button>
 
-    <button
-        type="button"
-        class="cart-btn"
-        id="cartButton"
-        aria-label="Shopping Cart">
-        🛒
-        <span
-            class="cart-count"
-            id="cartCount">
-            0
-        </span>
-    </button>
+        <button
+            type="button"
+            class="cart-btn"
+            id="cartButton"
+            aria-label="Shopping Cart">
+            🛒
+            <span
+                class="cart-count"
+                id="cartCount">
+                0
+            </span>
+        </button>
 
-</div>
+    </div>
 
 </header>
 
@@ -107,9 +105,7 @@
             id="closeSearch"
             class="close-search"
             aria-label="Close search">
-
             ×
-
         </button>
 
     </form>
@@ -125,19 +121,20 @@
 
     <section class="page-hero">
 
-    <div class="page-hero-content">
+        <div class="page-hero-content">
 
-        <p>FAITH-INSPIRED STREETWEAR</p>
+            <p>FAITH-INSPIRED STREETWEAR</p>
 
-        <h1>SHOP</h1>
+            <h1>SHOP</h1>
 
-        <h1>SET APART</h1>
+            <h1>SET APART</h1>
 
-        <span>CALLED TO LIVE DIFFERENTLY.</span>
+            <span>CALLED TO LIVE DIFFERENTLY.</span>
 
-    </div>
+        </div>
 
-</section>
+    </section>
+
 
     <!-- =====================================
          PRODUCT GRID
@@ -154,15 +151,9 @@
             class="shop-product-card"
             data-product="black">
 
-
-            <!-- PRODUCT IMAGES -->
-
             <div class="product-gallery">
 
                 <div class="product-slider">
-
-
-                    <!-- FRONT -->
 
                     <div class="product-slide">
 
@@ -171,9 +162,6 @@
                             alt="SET APART Hoodie Black Front">
 
                     </div>
-
-
-                    <!-- BACK -->
 
                     <div class="product-slide">
 
@@ -186,86 +174,35 @@
                 </div>
 
 
-                <!-- IMAGE ARROWS -->
+                <!-- IMAGE CONTROLS -->
 
                 <div class="color-controls">
 
-  <div class="image-arrows">
-    <button class="image-arrow prev-image" type="button">←</button>
-    <button class="image-arrow next-image" type="button">→</button>
-</div>
-
-<div class="view-colors">
-    <button type="button">VIEW COLORS</button>
-</div>
-
-
-            <!-- PRODUCT INFO -->
-
-            <div class="shop-product-info">
-
-                <h2>
-                    SET APART BACK HOODIE
-                </h2>
-
-
-                <p class="shop-product-price">
-                    $44.99
-                </p>
-
-
-                <!-- SIZE -->
-
-                <div class="shop-size">
-
-                    <span>
-                        SIZE
-                    </span>
-
-
-                    <div class="shop-size-options">
+                    <div class="image-arrows">
 
                         <button
+                            class="image-arrow prev-image"
                             type="button"
-                            class="shop-size-btn"
-                            data-product="black"
-                            data-size="S">
-
-                            S
-
+                            aria-label="Previous image">
+                            ←
                         </button>
 
-
                         <button
+                            class="image-arrow next-image"
                             type="button"
-                            class="shop-size-btn"
-                            data-product="black"
-                            data-size="M">
-
-                            M
-
+                            aria-label="Next image">
+                            →
                         </button>
 
+                    </div>
+
+
+                    <div class="view-colors">
 
                         <button
                             type="button"
-                            class="shop-size-btn"
-                            data-product="black"
-                            data-size="L">
-
-                            L
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="shop-size-btn"
-                            data-product="black"
-                            data-size="XL">
-
-                            XL
-
+                            class="view-colors-btn">
+                            VIEW COLORS
                         </button>
 
                     </div>
@@ -273,28 +210,84 @@
                 </div>
 
 
-                <!-- ADD TO CART -->
+                <!-- PRODUCT INFO -->
 
-                <button
-                    type="button"
-                    class="shop-add-cart"
-                    data-product="black">
+                <div class="shop-product-info">
 
-                    ADD TO CART
-
-                </button>
+                    <h2>
+                        SET APART BACK HOODIE
+                    </h2>
 
 
-                <!-- BUY NOW -->
+                    <p class="shop-product-price">
+                        $44.99
+                    </p>
 
-                <button
-                    type="button"
-                    class="buy-now-btn"
-                    data-product="black">
 
-                    BUY NOW
+                    <!-- SIZE -->
 
-                </button>
+                    <div class="shop-size">
+
+                        <span>
+                            SIZE
+                        </span>
+
+
+                        <div class="shop-size-options">
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="black"
+                                data-size="S">
+                                S
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="black"
+                                data-size="M">
+                                M
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="black"
+                                data-size="L">
+                                L
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="black"
+                                data-size="XL">
+                                XL
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="shop-add-cart"
+                        data-product="black">
+                        ADD TO CART
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="buy-now-btn"
+                        data-product="black">
+                        BUY NOW
+                    </button>
+
+                </div>
 
             </div>
 
@@ -310,15 +303,9 @@
             class="shop-product-card"
             data-product="beige">
 
-
-            <!-- PRODUCT IMAGES -->
-
             <div class="product-gallery">
 
                 <div class="product-slider">
-
-
-                    <!-- FRONT -->
 
                     <div class="product-slide">
 
@@ -327,9 +314,6 @@
                             alt="SET APART Hoodie Beige Front">
 
                     </div>
-
-
-                    <!-- BACK -->
 
                     <div class="product-slide">
 
@@ -342,86 +326,35 @@
                 </div>
 
 
-                <!-- IMAGE ARROWS -->
+                <!-- IMAGE CONTROLS -->
 
-             <div class="color-controls">
+                <div class="color-controls">
 
- <div class="image-arrows">
-    <button class="image-arrow prev-image" type="button">←</button>
-    <button class="image-arrow next-image" type="button">→</button>
-</div>
-
-<div class="view-colors">
-    <button type="button">VIEW COLORS</button>
-</div>
-</div>
-
-            <!-- PRODUCT INFO -->
-
-            <div class="shop-product-info">
-
-                <h2>
-                    SET APART BEIGE HOODIE
-                </h2>
-
-
-                <p class="shop-product-price">
-                    $44.99
-                </p>
-
-
-                <!-- SIZE -->
-
-                <div class="shop-size">
-
-                    <span>
-                        SIZE
-                    </span>
-
-
-                    <div class="shop-size-options">
+                    <div class="image-arrows">
 
                         <button
+                            class="image-arrow prev-image"
                             type="button"
-                            class="shop-size-btn"
-                            data-product="beige"
-                            data-size="S">
-
-                            S
-
+                            aria-label="Previous image">
+                            ←
                         </button>
 
-
                         <button
+                            class="image-arrow next-image"
                             type="button"
-                            class="shop-size-btn"
-                            data-product="beige"
-                            data-size="M">
-
-                            M
-
+                            aria-label="Next image">
+                            →
                         </button>
 
+                    </div>
+
+
+                    <div class="view-colors">
 
                         <button
                             type="button"
-                            class="shop-size-btn"
-                            data-product="beige"
-                            data-size="L">
-
-                            L
-
-                        </button>
-
-
-                        <button
-                            type="button"
-                            class="shop-size-btn"
-                            data-product="beige"
-                            data-size="XL">
-
-                            XL
-
+                            class="view-colors-btn">
+                            VIEW COLORS
                         </button>
 
                     </div>
@@ -429,28 +362,84 @@
                 </div>
 
 
-                <!-- ADD TO CART -->
+                <!-- PRODUCT INFO -->
 
-                <button
-                    type="button"
-                    class="shop-add-cart"
-                    data-product="beige">
+                <div class="shop-product-info">
 
-                    ADD TO CART
-
-                </button>
+                    <h2>
+                        SET APART BEIGE HOODIE
+                    </h2>
 
 
-                <!-- BUY NOW -->
+                    <p class="shop-product-price">
+                        $44.99
+                    </p>
 
-                <button
-                    type="button"
-                    class="buy-now-btn"
-                    data-product="beige">
 
-                    BUY NOW
+                    <!-- SIZE -->
 
-                </button>
+                    <div class="shop-size">
+
+                        <span>
+                            SIZE
+                        </span>
+
+
+                        <div class="shop-size-options">
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="beige"
+                                data-size="S">
+                                S
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="beige"
+                                data-size="M">
+                                M
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="beige"
+                                data-size="L">
+                                L
+                            </button>
+
+                            <button
+                                type="button"
+                                class="shop-size-btn"
+                                data-product="beige"
+                                data-size="XL">
+                                XL
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="shop-add-cart"
+                        data-product="beige">
+                        ADD TO CART
+                    </button>
+
+
+                    <button
+                        type="button"
+                        class="buy-now-btn"
+                        data-product="beige">
+                        BUY NOW
+                    </button>
+
+                </div>
 
             </div>
 
@@ -461,13 +450,11 @@
 </main>
 
 
-
 <!-- =========================================
      FOOTER
 ========================================== -->
 
 <footer class="footer">
-
 
     <div class="footer-brand">
 
@@ -487,9 +474,6 @@
 
 
     <div class="footer-links">
-
-
-        <!-- SHOP -->
 
         <div>
 
@@ -516,8 +500,6 @@
         </div>
 
 
-        <!-- ABOUT -->
-
         <div>
 
             <h3>
@@ -534,8 +516,6 @@
 
         </div>
 
-
-        <!-- FOLLOW -->
 
         <div>
 
@@ -567,7 +547,6 @@
 </footer>
 
 
-
 <!-- =========================================
      MAIN JAVASCRIPT
 ========================================== -->
@@ -590,141 +569,135 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    document
-        .querySelectorAll(".shop-size-btn")
-        .forEach(function (button) {
+    document.querySelectorAll(".shop-size-btn").forEach(function (button) {
 
-            button.addEventListener(
-                "click",
-                function () {
+        button.addEventListener("click", function () {
 
-                    const product =
-                        button.dataset.product;
+            const product = button.dataset.product;
 
+            document
+                .querySelectorAll(
+                    '.shop-size-btn[data-product="' + product + '"]'
+                )
+                .forEach(function (btn) {
 
-                    document
-                        .querySelectorAll(
-                            '.shop-size-btn[data-product="' +
-                            product +
-                            '"]'
-                        )
-                        .forEach(function (btn) {
+                    btn.classList.remove("selected");
 
-                            btn.classList.remove(
-                                "selected"
-                            );
-
-                        });
+                });
 
 
-                    button.classList.add(
-                        "selected"
-                    );
+            button.classList.add("selected");
 
-
-                    selectedSizes[product] =
-                        button.dataset.size;
-
-                }
-            );
+            selectedSizes[product] = button.dataset.size;
 
         });
+
+    });
 
 
 
     /* =====================================
        IMAGE SLIDERS
+       EACH HOODIE HAS ITS OWN SLIDER
     ====================================== */
 
-    document
-        .querySelectorAll(".product-gallery")
-        .forEach(function (gallery) {
+    document.querySelectorAll(".product-gallery").forEach(function (gallery) {
 
-            const slider =
-                gallery.querySelector(
-                    ".product-slider"
+        const slider =
+            gallery.querySelector(".product-slider");
+
+        const prev =
+            gallery.querySelector(".prev-image");
+
+        const next =
+            gallery.querySelector(".next-image");
+
+
+        if (!slider || !prev || !next) {
+            return;
+        }
+
+
+        next.addEventListener("click", function () {
+
+            slider.scrollBy({
+
+                left: slider.clientWidth,
+
+                behavior: "smooth"
+
+            });
+
+        });
+
+
+        prev.addEventListener("click", function () {
+
+            slider.scrollBy({
+
+                left: -slider.clientWidth,
+
+                behavior: "smooth"
+
+            });
+
+        });
+
+
+        slider
+            .querySelectorAll("img")
+            .forEach(function (img) {
+
+                img.addEventListener(
+                    "dragstart",
+                    function (event) {
+
+                        event.preventDefault();
+
+                    }
                 );
 
+            });
 
-            const prev =
-                gallery.querySelector(
-                    ".prev-image"
-                );
+    });
 
 
-            const next =
-                gallery.querySelector(
-                    ".next-image"
-                );
 
+    /* =====================================
+       VIEW COLORS
+    ====================================== */
 
-            if (
-                !slider ||
-                !prev ||
-                !next
-            ) {
+    document.querySelectorAll(".view-colors-btn").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const gallery =
+                button.closest(".product-gallery");
+
+            if (!gallery) {
                 return;
             }
 
 
-            /* NEXT IMAGE */
+            const slider =
+                gallery.querySelector(".product-slider");
 
-            next.addEventListener(
-                "click",
-                function () {
-
-                    slider.scrollBy({
-
-                        left:
-                            slider.clientWidth,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                }
-            );
+            if (!slider) {
+                return;
+            }
 
 
-            /* PREVIOUS IMAGE */
+            slider.scrollTo({
 
-            prev.addEventListener(
-                "click",
-                function () {
+                left: 0,
 
-                    slider.scrollBy({
+                behavior: "smooth"
 
-                        left:
-                            -slider.clientWidth,
-
-                        behavior:
-                            "smooth"
-
-                    });
-
-                }
-            );
-
-
-            /* PREVENT IMAGE DRAG */
-
-            slider
-                .querySelectorAll("img")
-                .forEach(function (img) {
-
-                    img.addEventListener(
-                        "dragstart",
-                        function (event) {
-
-                            event.preventDefault();
-
-                        }
-                    );
-
-                });
+            });
 
         });
+
+    });
 
 
 
@@ -733,9 +706,7 @@ document.addEventListener("DOMContentLoaded", function () {
     ====================================== */
 
     const cartCount =
-        document.getElementById(
-            "cartCount"
-        );
+        document.getElementById("cartCount");
 
 
     function updateCartCount() {
@@ -744,39 +715,31 @@ document.addEventListener("DOMContentLoaded", function () {
 
             const cart =
                 JSON.parse(
-                    localStorage.getItem(
-                        "setApartCart"
-                    )
+                    localStorage.getItem("setApartCart")
                 );
 
 
             const quantity =
                 cart
-                    ? Number(
-                        cart.quantity
-                    ) || 0
+                    ? Number(cart.quantity) || 0
                     : 0;
 
 
             if (quantity > 0) {
 
-                cartCount.textContent =
-                    quantity;
+                cartCount.textContent = quantity;
 
-                cartCount.style.display =
-                    "flex";
+                cartCount.style.display = "flex";
 
             } else {
 
-                cartCount.style.display =
-                    "none";
+                cartCount.style.display = "none";
 
             }
 
         } catch (error) {
 
-            cartCount.style.display =
-                "none";
+            cartCount.style.display = "none";
 
         }
 
@@ -788,127 +751,88 @@ document.addEventListener("DOMContentLoaded", function () {
        ADD TO CART
     ====================================== */
 
-    document
-        .querySelectorAll(".shop-add-cart")
-        .forEach(function (button) {
+    document.querySelectorAll(".shop-add-cart").forEach(function (button) {
 
-            button.addEventListener(
-                "click",
-                function () {
+        button.addEventListener("click", function () {
 
-                    const type =
-                        button.dataset.product;
+            const type =
+                button.dataset.product;
 
-
-                    const size =
-                        selectedSizes[type];
+            const size =
+                selectedSizes[type];
 
 
-                    if (!size) {
+            if (!size) {
 
-                        alert(
-                            "PLEASE SELECT A SIZE."
-                        );
+                alert("PLEASE SELECT A SIZE.");
 
-                        return;
+                return;
 
-                    }
+            }
 
 
-                    const image =
-                        type === "beige"
-
-                            ? "GOD FIRST BEIGE FRONT.png"
-
-                            : "PILGRIM BLACK FRONT 1.png";
+            const image =
+                type === "beige"
+                    ? "GOD FIRST BEIGE FRONT.png"
+                    : "PILGRIM BLACK FRONT 1.png";
 
 
-                    let quantity = 1;
+            let quantity = 1;
 
 
-                    try {
+            try {
 
-                        const oldCart =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "setApartCart"
-                                )
-                            );
-
-
-                        if (
-                            oldCart &&
-                            oldCart.name ===
-                                "SET APART HOODIE" &&
-                            oldCart.size ===
-                                size &&
-                            oldCart.image ===
-                                image
-                        ) {
-
-                            quantity =
-                                (
-                                    Number(
-                                        oldCart.quantity
-                                    ) || 0
-                                ) + 1;
-
-                        }
-
-                    } catch (error) {}
-
-
-                    const product = {
-
-                        name:
-                            "SET APART HOODIE",
-
-                        price:
-                            44.99,
-
-                        size:
-                            size,
-
-                        quantity:
-                            quantity,
-
-                        image:
-                            image
-
-                    };
-
-
-                    localStorage.setItem(
-                        "setApartCart",
-                        JSON.stringify(
-                            product
-                        )
+                const oldCart =
+                    JSON.parse(
+                        localStorage.getItem("setApartCart")
                     );
 
 
-                    updateCartCount();
+                if (
+                    oldCart &&
+                    oldCart.size === size &&
+                    oldCart.image === image
+                ) {
 
-
-                    if (
-                        typeof showMiniCart ===
-                        "function"
-                    ) {
-
-                        showMiniCart(
-                            product
-                        );
-
-                    }
-
-
-                    alert(
-                        "SET APART HOODIE ADDED TO CART."
-                    );
+                    quantity =
+                        (Number(oldCart.quantity) || 0) + 1;
 
                 }
+
+            } catch (error) {}
+
+
+            const product = {
+
+                name: "SET APART HOODIE",
+
+                price: 44.99,
+
+                size: size,
+
+                quantity: quantity,
+
+                image: image
+
+            };
+
+
+            localStorage.setItem(
+                "setApartCart",
+                JSON.stringify(product)
+            );
+
+
+            updateCartCount();
+
+
+            alert(
+                "SET APART HOODIE ADDED TO CART."
             );
 
         });
+
+    });
 
 
 
@@ -916,76 +840,58 @@ document.addEventListener("DOMContentLoaded", function () {
        BUY NOW
     ====================================== */
 
-    document
-        .querySelectorAll(".buy-now-btn")
-        .forEach(function (button) {
+    document.querySelectorAll(".buy-now-btn").forEach(function (button) {
 
-            button.addEventListener(
-                "click",
-                function () {
+        button.addEventListener("click", function () {
 
-                    const type =
-                        button.dataset.product;
+            const type =
+                button.dataset.product;
 
-
-                    const size =
-                        selectedSizes[type];
+            const size =
+                selectedSizes[type];
 
 
-                    if (!size) {
+            if (!size) {
 
-                        alert(
-                            "PLEASE SELECT A SIZE."
-                        );
+                alert("PLEASE SELECT A SIZE.");
 
-                        return;
+                return;
 
-                    }
+            }
 
 
-                    const image =
-                        type === "beige"
-
-                            ? "GOD FIRST BEIGE FRONT.png"
-
-                            : "PILGRIM BLACK FRONT 1.png";
+            const image =
+                type === "beige"
+                    ? "GOD FIRST BEIGE FRONT.png"
+                    : "PILGRIM BLACK FRONT 1.png";
 
 
-                    const product = {
+            const product = {
 
-                        name:
-                            "SET APART HOODIE",
+                name: "SET APART HOODIE",
 
-                        price:
-                            44.99,
+                price: 44.99,
 
-                        size:
-                            size,
+                size: size,
 
-                        quantity:
-                            1,
+                quantity: 1,
 
-                        image:
-                            image
+                image: image
 
-                    };
+            };
 
 
-                    localStorage.setItem(
-                        "setApartCart",
-                        JSON.stringify(
-                            product
-                        )
-                    );
-
-
-                    window.location.href =
-                        "cart.html";
-
-                }
+            localStorage.setItem(
+                "setApartCart",
+                JSON.stringify(product)
             );
 
+
+            window.location.href = "cart.html";
+
         });
+
+    });
 
 
 
@@ -994,39 +900,98 @@ document.addEventListener("DOMContentLoaded", function () {
     ====================================== */
 
     const cartButton =
-        document.getElementById(
-            "cartButton"
-        );
+        document.getElementById("cartButton");
 
 
     if (cartButton) {
 
-        cartButton.addEventListener(
-            "click",
-            function () {
+        cartButton.addEventListener("click", function () {
 
-                const cart =
-                    localStorage.getItem(
-                        "setApartCart"
-                    );
+            const cart =
+                localStorage.getItem("setApartCart");
 
 
-                if (!cart) {
+            if (!cart) {
 
-                    alert(
-                        "YOUR CART IS EMPTY."
-                    );
+                alert("YOUR CART IS EMPTY.");
 
-                    return;
-
-                }
-
-
-                window.location.href =
-                    "cart.html";
+                return;
 
             }
-        );
+
+
+            window.location.href = "cart.html";
+
+        });
+
+    }
+
+
+
+    /* =====================================
+       MOBILE MENU
+    ====================================== */
+
+    const menuToggle =
+        document.getElementById("menuToggle");
+
+    const mainNav =
+        document.getElementById("mainNav");
+
+
+    if (menuToggle && mainNav) {
+
+        menuToggle.addEventListener("click", function () {
+
+            mainNav.classList.toggle("active");
+
+            const opened =
+                mainNav.classList.contains("active");
+
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                opened ? "true" : "false"
+            );
+
+        });
+
+    }
+
+
+
+    /* =====================================
+       SEARCH
+    ====================================== */
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const searchBox =
+        document.getElementById("searchBox");
+
+    const closeSearch =
+        document.getElementById("closeSearch");
+
+
+    if (searchButton && searchBox) {
+
+        searchButton.addEventListener("click", function () {
+
+            searchBox.classList.toggle("active");
+
+        });
+
+    }
+
+
+    if (closeSearch && searchBox) {
+
+        closeSearch.addEventListener("click", function () {
+
+            searchBox.classList.remove("active");
+
+        });
 
     }
 
@@ -1034,6 +999,8 @@ document.addEventListener("DOMContentLoaded", function () {
     updateCartCount();
 
 });
+
+</script>
 
 </body>
 </html>
