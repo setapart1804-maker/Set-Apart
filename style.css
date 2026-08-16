@@ -1538,3 +1538,57 @@ button {
     font-weight: 700;
     line-height: 1;
 }
+
+/* =========================
+   SEARCH ICON — MOBILE / TABLET
+========================= */
+
+@media (max-width: 1024px) {
+
+    .nav-icons {
+        gap: 14px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+        font-weight: 400;
+        transform: scale(1.08);
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    .nav-icons button {
+        width: 44px;
+        height: 44px;
+    }
+
+    .search-btn {
+        font-size: 36px !important;
+        transform: scale(1.08);
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+
+}
