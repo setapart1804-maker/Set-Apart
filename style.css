@@ -2728,51 +2728,49 @@ body {
 }
 
 /* =========================================
-   SHOP — VIEW COLORS + ARROWS
+   ARROWS + VIEW COLORS UNDER PHOTO
 ========================================= */
 
-.color-controls {
+.image-arrows {
     display: flex;
-    align-items: center;
     justify-content: center;
-    gap: 10px;
-    margin-top: 10px;
-    margin-bottom: 18px;
+    align-items: center;
+    gap: 8px;
+    margin-top: 8px;
+    margin-bottom: 6px;
 }
 
-.color-controls .image-arrow {
-    width: 36px;
+.image-arrow {
+    width: 38px;
     height: 32px;
-    margin: 0;
     border: 1px solid #111;
     background: #fff;
     color: #111;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 17px;
-    cursor: pointer;
+    font-size: 18px;
+    padding: 0;
 }
 
-.color-controls .image-arrow:hover {
-    background: #111;
-    color: #fff;
+.view-colors {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 18px;
 }
 
-.view-colors-btn {
-    height: 32px;
-    padding: 0 18px;
+.view-colors button {
     border: 1px solid #111;
     background: #111;
     color: #fff;
+    padding: 9px 24px;
     font-size: 10px;
     font-weight: 700;
-    letter-spacing: 1.3px;
+    letter-spacing: 1.6px;
     cursor: pointer;
-    transition: all 0.2s ease;
 }
 
-.view-colors-btn:hover {
+.view-colors button:hover {
     background: #fff;
     color: #111;
 }
