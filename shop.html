@@ -1036,5 +1036,18 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
+<script>
+function moveSlide(direction) {
+    const slider = document.querySelector('.product-slider');
+
+    if (!slider) return;
+
+    slider.scrollBy({
+        left: direction * slider.clientWidth,
+        behavior: 'smooth'
+    });
+}
+</script>
+
 </body>
 </html>
