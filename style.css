@@ -477,6 +477,163 @@ button {
 }
 
 /* =========================================================
+   SHOP / ABOUT / CONTACT — FULL IMAGE HEADER
+========================================================= */
+
+.shop-header {
+    position: relative;
+
+    width: 100%;
+    min-height: 55vh;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 80px 20px;
+
+    text-align: center;
+
+    color: #ffffff;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.52),
+            rgba(0, 0, 0, 0.52)
+        ),
+        url("HOODIES.jpeg");
+
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+
+    overflow: hidden;
+}
+
+
+/* CONTENT ABOVE PHOTO */
+
+.shop-header > * {
+    position: relative;
+    z-index: 2;
+}
+
+
+/* FAITH-INSPIRED STREETWEAR */
+
+.shop-header p {
+    margin: 0 0 18px;
+
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 700;
+
+    letter-spacing: 3.5px;
+
+    text-transform: uppercase;
+}
+
+
+/* PAGE NAME */
+
+.shop-header h1 {
+    margin: 0 0 18px;
+
+    color: #ffffff;
+
+    font-size: clamp(55px, 10vw, 110px);
+
+    line-height: 0.9;
+
+    letter-spacing: -4px;
+
+    font-weight: 900;
+
+    text-transform: uppercase;
+}
+
+
+/* CALLED TO LIVE DIFFERENTLY */
+
+.shop-header span {
+    color: #ffffff;
+
+    font-size: 13px;
+    font-weight: 600;
+
+    letter-spacing: 3px;
+
+    text-transform: uppercase;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .shop-header {
+        min-height: 48vh;
+
+        padding: 70px 18px;
+
+        background-position: center center;
+    }
+
+    .shop-header p {
+        font-size: 9px;
+        letter-spacing: 2px;
+
+        margin-bottom: 15px;
+    }
+
+    .shop-header h1 {
+        font-size: clamp(50px, 16vw, 75px);
+
+        letter-spacing: -2.5px;
+
+        margin-bottom: 15px;
+    }
+
+    .shop-header span {
+        font-size: 10px;
+
+        letter-spacing: 1.8px;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .shop-header {
+        min-height: 45vh;
+
+        padding: 60px 15px;
+    }
+
+    .shop-header p {
+        font-size: 8px;
+        letter-spacing: 1.7px;
+    }
+
+    .shop-header h1 {
+        font-size: 48px;
+    }
+
+    .shop-header span {
+        font-size: 9px;
+        letter-spacing: 1.4px;
+    }
+}
+
+/* =========================================================
    BUTTONS
 ========================================================= */
 
