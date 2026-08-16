@@ -2525,3 +2525,34 @@ button {
 .shop-product-card {
     background: #ffffff !important;
 }
+/* =========================================================
+   SHOP — REMOVE ALL GRAY FRAMES AROUND HOODIE IMAGES
+========================================================= */
+
+.shop-products-grid,
+.shop-product-card,
+.shop-product-image,
+.product-gallery,
+.product-slider,
+.product-slide {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+.shop-product-image {
+    padding: 0 !important;
+}
+
+.product-slide {
+    padding: 0 !important;
+}
+
+.shop-product-image img,
+.product-slide img {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
