@@ -2658,3 +2658,30 @@ button {
     border: 0 !important;
     box-shadow: none !important;
 }
+/* =========================================================
+   SHOP — USE THE SAME IMAGE FRAME AS HOME
+   NOTHING ELSE CHANGES
+========================================================= */
+
+.shop-product-image {
+    aspect-ratio: 4 / 5 !important;
+    width: 100% !important;
+    height: auto !important;
+
+    overflow: hidden !important;
+    background: #f3f3f3 !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.shop-product-image img {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    display: block !important;
+}
