@@ -1592,3 +1592,98 @@ button {
     }
 
 }
+
+/* =================================
+   SEARCH ICON — ALL DEVICES
+================================= */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-icons button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #111;
+    cursor: pointer;
+}
+
+/* SEARCH */
+.search-btn {
+    font-family: Arial, sans-serif;
+    font-size: 32px !important;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* CART */
+.cart-btn {
+    font-size: 24px !important;
+    line-height: 1;
+}
+
+/* HOVER */
+.search-btn:hover,
+.cart-btn:hover {
+    opacity: .65;
+}
+
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 1024px) {
+
+    .nav-icons {
+        gap: 12px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 600px) {
+
+    .nav-icons {
+        gap: 8px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+}
