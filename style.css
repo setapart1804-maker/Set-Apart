@@ -2097,3 +2097,208 @@ textarea:focus-visible {
 .product-slide {
     background: transparent !important;
 }
+
+/* ==================================================
+   SHOP HOODIE — CLEAN FINAL
+================================================== */
+
+/* REMOVE PRODUCT IMAGE BORDERS */
+.product-image {
+    border: none !important;
+    outline: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+/* DESKTOP */
+@media (min-width: 901px) {
+
+    .product-gallery {
+        border: none !important;
+        box-shadow: none !important;
+        background: transparent !important;
+
+        gap: 14px;
+
+        /* make hoodies smaller */
+        max-width: 560px;
+    }
+
+    .product-image {
+        border: none !important;
+        background: transparent !important;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .product-image img {
+        width: 88% !important;
+        max-width: 100% !important;
+        height: auto;
+
+        object-fit: contain;
+
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+}
+
+
+/* ==================================================
+   MOBILE + TABLET
+================================================== */
+
+@media (max-width: 900px) {
+
+    .product-gallery {
+        width: 100%;
+
+        display: flex;
+
+        overflow-x: auto;
+        overflow-y: hidden;
+
+        gap: 0;
+
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+
+        background: transparent !important;
+
+        scroll-snap-type: x mandatory;
+
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+
+        -webkit-overflow-scrolling: touch;
+
+        touch-action: pan-x;
+    }
+
+    .product-gallery::-webkit-scrollbar {
+        display: none;
+    }
+
+
+    /* EACH SLIDE */
+
+    .product-image {
+        flex: 0 0 100%;
+
+        width: 100%;
+
+        min-width: 100%;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+
+        background: transparent !important;
+
+        scroll-snap-align: start;
+    }
+
+
+    /* REDUCE HOODIE SIZE */
+
+    .product-image img {
+        width: 78% !important;
+        max-width: 78% !important;
+        height: auto;
+
+        object-fit: contain;
+
+        border: none !important;
+        outline: none !important;
+        box-shadow: none !important;
+    }
+
+
+    /* SLIDE INSTRUCTION */
+
+    .product-gallery::after {
+        content: "2 PHOTOS — SWIPE LEFT / RIGHT";
+
+        position: absolute;
+
+        left: 50%;
+        transform: translateX(-50%);
+
+        bottom: 10px;
+
+        width: max-content;
+
+        padding: 7px 12px;
+
+        background: rgba(255,255,255,0.85);
+
+        color: #111;
+
+        font-size: 9px;
+        font-weight: 700;
+
+        letter-spacing: 1.5px;
+
+        pointer-events: none;
+    }
+
+}
+
+
+/* ==================================================
+   MOBILE
+================================================== */
+
+@media (max-width: 600px) {
+
+    .product-gallery {
+        position: relative;
+
+        width: 100%;
+
+        border: none !important;
+        box-shadow: none !important;
+    }
+
+
+    /* EVEN SMALLER HOODIES */
+
+    .product-image img {
+        width: 72% !important;
+        max-width: 72% !important;
+    }
+
+
+    .product-gallery::after {
+        bottom: 8px;
+
+        padding: 6px 10px;
+
+        font-size: 8px;
+
+        letter-spacing: 1.2px;
+    }
+
+}
+
+
+/* ==================================================
+   VERY SMALL PHONE
+================================================== */
+
+@media (max-width: 380px) {
+
+    .product-image img {
+        width: 68% !important;
+        max-width: 68% !important;
+    }
+
+}
