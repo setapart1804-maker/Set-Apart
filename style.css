@@ -2067,3 +2067,33 @@ button {
     }
 
 }
+
+/* =========================================
+   SHOP — REMOVE BORDERS AROUND PRODUCT IMAGES
+========================================= */
+
+.shop-product-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.shop-product-image {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    outline: none !important;
+}
+
+.shop-product-image img {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Remove any extra frame around the image */
+.shop-product-image::before,
+.shop-product-image::after {
+    display: none !important;
+    content: none !important;
+}
