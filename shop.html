@@ -191,8 +191,8 @@
                 <div class="color-controls">
 
     <div class="image-arrows">
-    <button class="image-arrow" type="button" onclick="moveSlide(-1)">←</button>
-    <button class="image-arrow" type="button" onclick="moveSlide(1)">→</button>
+   <button class="image-arrow" type="button" onclick="moveSlide(this, -1)">←</button>
+<button class="image-arrow" type="button" onclick="moveSlide(this, 1)">→</button>
 </div>
 
 <div class="view-colors">
@@ -347,8 +347,8 @@
              <div class="color-controls">
 
   <div class="image-arrows">
-    <button class="image-arrow" type="button" onclick="moveSlide(-1)">←</button>
-    <button class="image-arrow" type="button" onclick="moveSlide(1)">→</button>
+   <button class="image-arrow" type="button" onclick="moveSlide(this, -1)">←</button>
+<button class="image-arrow" type="button" onclick="moveSlide(this, 1)">→</button>
 </div>
 
 <div class="view-colors">
@@ -1034,11 +1034,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-</script>
-
 <script>
-function moveSlide(direction) {
-    const slider = document.querySelector('.product-slider');
+function moveSlide(button, direction) {
+
+    const gallery = button.closest('.product-gallery');
+
+    if (!gallery) return;
+
+    const slider = gallery.querySelector('.product-slider');
 
     if (!slider) return;
 
