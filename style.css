@@ -2685,3 +2685,27 @@ button {
 
     display: block !important;
 }
+
+/* =========================================================
+   FIXED ANNOUNCEMENT + NAVBAR
+========================================================= */
+
+.announcement {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 2000;
+}
+
+.navbar {
+    position: fixed;
+    top: 35px;
+    left: 0;
+    width: 100%;
+    z-index: 1999;
+}
+
+body {
+    padding-top: 111px;
+}
