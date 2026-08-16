@@ -2709,3 +2709,20 @@ button {
 body {
     padding-top: 111px;
 }
+
+/* =========================================================
+   SHOP — BRING PRODUCT DETAILS CLOSER TO IMAGE
+========================================================= */
+
+.single-product {
+    gap: 25px !important;
+}
+
+.product-details {
+    margin-top: -10px !important;
+}
+
+.image-arrows {
+    margin-top: 5px !important;
+    margin-bottom: 0 !important;
+}
