@@ -1,1265 +1,2250 @@
-<!DOCTYPE html>
-<html lang="en">
+/* =========================================================
+   SET APART — MASTER STYLE
+   Works with:
+   index.html
+   shop.html
+   about.html
+   contact.html
+========================================================= */
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #111111;
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
 
-<head>
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+button,
+input,
+textarea {
+    font: inherit;
+}
 
-    <meta charset="UTF-8">
+button {
+    cursor: pointer;
+}
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
 
-    <title>Shop — SET APART</title>
+/* =========================================================
+   ANNOUNCEMENT
+========================================================= */
 
-    <link rel="stylesheet" href="style.css">
+.announcement {
+    width: 100%;
+    background: #111111;
+    color: #ffffff;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
 
-</head>
 
+/* =========================================================
+   NAVBAR
+========================================================= */
 
-<body>
+.navbar {
+    position: relative;
+    z-index: 1000;
 
+    width: 100%;
+    min-height: 76px;
 
-<!-- =====================================================
-     ANNOUNCEMENT
-====================================================== -->
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-<div class="announcement">
-    FREE SHIPPING ON ORDERS OVER $100
-</div>
+    padding: 12px 5%;
 
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+}
 
-<!-- =====================================================
-     NAVBAR
-====================================================== -->
 
-<header class="navbar">
+/* LOGO */
 
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    <button
-        type="button"
-        class="menu-toggle"
-        id="menuToggle"
-        aria-label="Open menu"
-        aria-expanded="false">
+    flex-shrink: 0;
+}
 
-        ☰
+.logo img {
+    width: 125px;
+    height: auto;
+    object-fit: contain;
+}
 
-    </button>
 
+/* NAV */
 
-    <a
-        href="index.html"
-        class="logo">
+.navbar nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 34px;
+}
 
-        <img
-            src="LOGO (2).png"
-            alt="SET APART Logo">
+.navbar nav a {
+    position: relative;
 
-    </a>
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
 
+    transition: opacity 0.2s ease;
+}
 
-    <nav id="mainNav">
+.navbar nav a:hover {
+    opacity: 0.55;
+}
 
-        <a href="index.html">
-            HOME
-        </a>
 
-        <a href="shop.html">
-            SHOP
-        </a>
+/* NAV ICONS */
 
-        <a href="about.html">
-            ABOUT
-        </a>
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
 
-        <a href="contact.html">
-            CONTACT
-        </a>
+.nav-icons button {
+    position: relative;
 
-    </nav>
+    width: 38px;
+    height: 38px;
 
+    border: 0;
+    background: transparent;
 
-    <!-- SEARCH + CART -->
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    <div class="nav-icons">
+    font-size: 19px;
+}
 
+.search-btn {
+    font-size: 21px !important;
+}
 
-        <button
-            type="button"
-            class="search-btn"
-            id="searchButton"
-            aria-label="Search">
 
-            ⌕
+/* CART COUNT */
 
-        </button>
+.cart-count {
+    position: absolute;
 
+    top: -2px;
+    right: -3px;
 
-        <button
-            type="button"
-            class="cart-btn"
-            id="cartButton"
-            aria-label="Shopping Cart">
+    min-width: 17px;
+    height: 17px;
 
-            🛒
+    padding: 0 4px;
 
-            <span
-                class="cart-count"
-                id="cartCount">
+    border-radius: 50%;
 
-                0
+    background: #111111;
+    color: #ffffff;
 
-            </span>
+    font-size: 9px;
+    font-weight: 700;
 
-        </button>
+    display: none;
+    align-items: center;
+    justify-content: center;
+}
 
 
-    </div>
+/* MOBILE MENU BUTTON */
 
-</header>
+.menu-toggle {
+    display: none;
 
+    width: 40px;
+    height: 40px;
 
+    border: 0;
+    background: transparent;
 
-<!-- =====================================================
-     SEARCH
-====================================================== -->
+    font-size: 25px;
+    line-height: 1;
+}
 
-<div
-    class="search-box"
-    id="searchBox">
 
+/* =========================================================
+   SEARCH
+========================================================= */
 
-    <form id="searchForm">
+.search-box {
+    display: none;
 
+    position: relative;
+    z-index: 900;
 
-        <input
-            type="search"
-            id="searchInput"
-            placeholder="Search products..."
-            autocomplete="off">
+    width: 100%;
 
+    background: #ffffff;
+    border-bottom: 1px solid #dddddd;
 
-        <button
-            type="button"
-            id="closeSearch"
-            class="close-search"
-            aria-label="Close search">
+    padding: 15px 5%;
+}
 
-            ×
+.search-box.active {
+    display: block;
+}
 
-        </button>
+.search-box form {
+    max-width: 900px;
+    margin: 0 auto;
 
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
 
-    </form>
+.search-box input {
+    width: 100%;
 
+    border: 1px solid #cccccc;
+    border-radius: 0;
 
-</div>
+    padding: 13px 15px;
 
+    outline: none;
+    background: #ffffff;
+}
 
+.search-box input:focus {
+    border-color: #111111;
+}
 
-<!-- =====================================================
-     SHOP HEADER
-====================================================== -->
+.close-search {
+    width: 42px;
+    height: 42px;
 
-<main>
+    border: 0;
+    background: #111111;
+    color: #ffffff;
 
+    font-size: 25px;
+}
 
-<section class="shop-header">
 
+/* =========================================================
+   HERO — HOME
+========================================================= */
 
-    <p>
-        SET APART COLLECTION
-    </p>
+.hero {
+    min-height: 72vh;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-    <h1>
-        SHOP
-    </h1>
+    text-align: center;
 
+    padding: 80px 20px;
 
-    <span>
-        FAITH-INSPIRED STREETWEAR
-    </span>
-
-
-</section>
-
-
-
-<!-- =====================================================
-     PRODUCTS
-====================================================== -->
-
-<section class="shop-products-grid">
-
-
-
-    <!-- =================================================
-         PRODUCT 1 — BLACK
-    ================================================== -->
-
-    <article
-        class="shop-product-card"
-        data-product="black">
-
-
-        <!-- IMAGE GALLERY -->
-
-        <div class="shop-product-gallery">
-
-
-            <div
-                class="shop-product-image">
-
-
-                <div
-                    class="shop-product-slider"
-                    id="blackSlider">
-
-
-                    <!-- FRONT -->
-
-                    <div class="shop-product-slide">
-
-                        <img
-                            src="PILGRIM BLACK FRONT 1.png"
-                            alt="SET APART Black Hoodie Front">
-
-                    </div>
-
-
-                    <!-- BACK -->
-
-                    <div class="shop-product-slide">
-
-                        <img
-                            src="PILGRIM BLACK BACK.png"
-                            alt="SET APART Black Hoodie Back">
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- ARROWS -->
-
-            <div class="shop-image-arrows">
-
-
-                <button
-                    type="button"
-                    class="shop-image-arrow"
-                    data-slider="blackSlider"
-                    data-direction="prev"
-                    aria-label="Previous image">
-
-                    ←
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="shop-image-arrow"
-                    data-slider="blackSlider"
-                    data-direction="next"
-                    aria-label="Next image">
-
-                    →
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- PRODUCT INFO -->
-
-        <div class="shop-product-info">
-
-
-            <h2>
-                SET APART BLACK HOODIE
-            </h2>
-
-
-            <p class="shop-product-price">
-                $44.99
-            </p>
-
-
-
-            <!-- SIZE -->
-
-            <div class="shop-size">
-
-
-                <span>
-                    SIZE
-                </span>
-
-
-                <div class="shop-size-options">
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="black"
-                        data-size="S">
-
-                        S
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="black"
-                        data-size="M">
-
-                        M
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="black"
-                        data-size="L">
-
-                        L
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="black"
-                        data-size="XL">
-
-                        XL
-
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- ADD TO CART -->
-
-            <button
-                type="button"
-                class="shop-add-cart"
-                data-product="black">
-
-                ADD TO CART
-
-            </button>
-
-
-
-            <!-- BUY NOW -->
-
-            <button
-                type="button"
-                class="buy-now-btn"
-                data-product="black">
-
-                BUY NOW
-
-            </button>
-
-
-        </div>
-
-
-    </article>
-
-
-
-
-    <!-- =================================================
-         PRODUCT 2 — BEIGE
-    ================================================== -->
-
-    <article
-        class="shop-product-card"
-        data-product="beige">
-
-
-        <!-- IMAGE GALLERY -->
-
-        <div class="shop-product-gallery">
-
-
-            <div
-                class="shop-product-image">
-
-
-                <div
-                    class="shop-product-slider"
-                    id="beigeSlider">
-
-
-                    <!-- FRONT -->
-
-                    <div class="shop-product-slide">
-
-                        <img
-                            src="GOD FIRST BEIGE FRONT.png"
-                            alt="SET APART Beige Hoodie Front">
-
-                    </div>
-
-
-                    <!-- BACK -->
-
-                    <div class="shop-product-slide">
-
-                        <img
-                            src="GOD FIRST BEIGE BACK.png"
-                            alt="SET APART Beige Hoodie Back">
-
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-            <!-- ARROWS -->
-
-            <div class="shop-image-arrows">
-
-
-                <button
-                    type="button"
-                    class="shop-image-arrow"
-                    data-slider="beigeSlider"
-                    data-direction="prev"
-                    aria-label="Previous image">
-
-                    ←
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="shop-image-arrow"
-                    data-slider="beigeSlider"
-                    data-direction="next"
-                    aria-label="Next image">
-
-                    →
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-
-        <!-- PRODUCT INFO -->
-
-        <div class="shop-product-info">
-
-
-            <h2>
-                SET APART BEIGE HOODIE
-            </h2>
-
-
-            <p class="shop-product-price">
-                $44.99
-            </p>
-
-
-
-            <!-- SIZE -->
-
-            <div class="shop-size">
-
-
-                <span>
-                    SIZE
-                </span>
-
-
-                <div class="shop-size-options">
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="beige"
-                        data-size="S">
-
-                        S
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="beige"
-                        data-size="M">
-
-                        M
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="beige"
-                        data-size="L">
-
-                        L
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="shop-size-btn"
-                        data-product="beige"
-                        data-size="XL">
-
-                        XL
-
-                    </button>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <!-- ADD TO CART -->
-
-            <button
-                type="button"
-                class="shop-add-cart"
-                data-product="beige">
-
-                ADD TO CART
-
-            </button>
-
-
-
-            <!-- BUY NOW -->
-
-            <button
-                type="button"
-                class="buy-now-btn"
-                data-product="beige">
-
-                BUY NOW
-
-            </button>
-
-
-        </div>
-
-
-    </article>
-
-
-
-</section>
-
-</main>
-
-
-
-<!-- =====================================================
-     FOOTER
-====================================================== -->
-
-<footer class="footer">
-
-
-    <div class="footer-brand">
-
-
-        <img
-            src="LOGO (2).png"
-            alt="SET APART Logo">
-
-
-        <p>
-            Faith-Inspired Streetwear.
-        </p>
-
-
-        <p>
-            Called to Live Differently.
-        </p>
-
-
-    </div>
-
-
-
-    <div class="footer-links">
-
-
-        <div>
-
-            <h3>
-                SHOP
-            </h3>
-
-            <a href="shop.html">
-                All Products
-            </a>
-
-            <a href="shop.html">
-                Hoodies
-            </a>
-
-            <a href="shop.html">
-                T-Shirts
-            </a>
-
-            <a href="shop.html">
-                Accessories
-            </a>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                ABOUT
-            </h3>
-
-            <a href="about.html">
-                Our Story
-            </a>
-
-            <a href="contact.html">
-                Contact
-            </a>
-
-        </div>
-
-
-
-        <div>
-
-            <h3>
-                FOLLOW
-            </h3>
-
-            <a href="#">
-                Instagram
-            </a>
-
-            <a href="#">
-                TikTok
-            </a>
-
-        </div>
-
-
-    </div>
-
-
-
-    <div class="footer-bottom">
-
-        <p>
-            © 2026 SET APART. ALL RIGHTS RESERVED.
-        </p>
-
-    </div>
-
-
-</footer>
-
-
-
-<!-- =====================================================
-     SCRIPT
-====================================================== -->
-
-<script src="script.js"></script>
-
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-
-    /* =================================================
-       SELECTED SIZES
-    ================================================= */
-
-    const selectedSizes = {
-        black: "",
-        beige: ""
-    };
-
-
-
-    /* =================================================
-       SIZE BUTTONS
-    ================================================= */
-
-    document
-        .querySelectorAll(".shop-size-btn")
-        .forEach(function (button) {
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-
-                    const product =
-                        button.dataset.product;
-
-
-                    document
-                        .querySelectorAll(
-                            '.shop-size-btn[data-product="' +
-                            product +
-                            '"]'
-                        )
-                        .forEach(function (btn) {
-
-                            btn.classList.remove(
-                                "selected"
-                            );
-
-                        });
-
-
-                    button.classList.add(
-                        "selected"
-                    );
-
-
-                    selectedSizes[product] =
-                        button.dataset.size;
-
-
-                }
-            );
-
-        });
-
-
-
-    /* =================================================
-       IMAGE SLIDERS
-    ================================================= */
-
-    const sliderPositions = {
-        blackSlider: 0,
-        beigeSlider: 0
-    };
-
-
-    document
-        .querySelectorAll(".shop-image-arrow")
-        .forEach(function (button) {
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-
-                    const sliderId =
-                        button.dataset.slider;
-
-
-                    const direction =
-                        button.dataset.direction;
-
-
-                    const slider =
-                        document.getElementById(
-                            sliderId
-                        );
-
-
-                    if (!slider) {
-                        return;
-                    }
-
-
-                    const slides =
-                        slider.querySelectorAll(
-                            ".shop-product-slide"
-                        );
-
-
-                    const totalSlides =
-                        slides.length;
-
-
-                    if (!totalSlides) {
-                        return;
-                    }
-
-
-                    if (direction === "next") {
-
-                        sliderPositions[sliderId]++;
-
-                    } else {
-
-                        sliderPositions[sliderId]--;
-
-                    }
-
-
-                    if (
-                        sliderPositions[sliderId] >=
-                        totalSlides
-                    ) {
-
-                        sliderPositions[sliderId] = 0;
-
-                    }
-
-
-                    if (
-                        sliderPositions[sliderId] < 0
-                    ) {
-
-                        sliderPositions[sliderId] =
-                            totalSlides - 1;
-
-                    }
-
-
-                    slider.scrollTo({
-
-                        left:
-                            slider.clientWidth *
-                            sliderPositions[sliderId],
-
-                        behavior: "smooth"
-
-                    });
-
-
-                }
-            );
-
-        });
-
-
-
-    /* =================================================
-       CART
-    ================================================= */
-
-    const cartCount =
-        document.getElementById(
-            "cartCount"
+    background:
+        linear-gradient(
+            rgba(0, 0, 0, 0.58),
+            rgba(0, 0, 0, 0.58)
         );
 
+    background-color: #222222;
+}
 
-    function updateCartCount() {
+.hero-content {
+    width: 100%;
+    max-width: 900px;
 
+    color: #ffffff;
+}
 
-        try {
+.hero-small {
+    margin-bottom: 12px;
 
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
 
-            const cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "setApartCart"
-                    )
-                );
+.hero h1 {
+    margin-bottom: 10px;
 
+    font-size: clamp(48px, 9vw, 105px);
+    line-height: 0.95;
+    letter-spacing: -3px;
+    font-weight: 900;
+}
 
-            const quantity =
-                cart
-                    ? Number(cart.quantity) || 0
-                    : 0;
+.hero h2 {
+    margin-bottom: 32px;
 
-
-            if (quantity > 0) {
-
-
-                cartCount.textContent =
-                    quantity;
-
-
-                cartCount.style.display =
-                    "flex";
-
-
-            } else {
-
-
-                cartCount.style.display =
-                    "none";
+    font-size: clamp(15px, 2vw, 22px);
+    letter-spacing: 3px;
+    font-weight: 500;
+}
 
 
-            }
+/* =========================================================
+   BUTTONS
+========================================================= */
+
+.hero-button,
+.outline-button,
+.add-to-cart,
+.contact-form button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 48px;
+
+    padding: 13px 28px;
+
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.7px;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.hero-button {
+    background: #ffffff;
+    color: #111111;
+    border: 1px solid #ffffff;
+}
+
+.hero-button:hover {
+    background: transparent;
+    color: #ffffff;
+}
+
+.outline-button {
+    background: transparent;
+    color: #111111;
+    border: 1px solid #111111;
+}
+
+.outline-button:hover {
+    background: #111111;
+    color: #ffffff;
+}
 
 
-        } catch (error) {
+/* =========================================================
+   GENERAL SECTION
+========================================================= */
+
+.section-header {
+    text-align: center;
+    margin-bottom: 42px;
+}
+
+.section-header p,
+.section-label,
+.verse-label {
+    margin-bottom: 9px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.section-header h2 {
+    font-size: clamp(28px, 4vw, 46px);
+    line-height: 1;
+    letter-spacing: -1px;
+}
 
 
-            cartCount.style.display =
-                "none";
+/* =========================================================
+   NEW DROP
+========================================================= */
+
+.new-drop {
+    padding: 95px 5%;
+}
+
+.product-grid {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+
+    gap: 20px;
+}
+
+.product-card {
+    min-width: 0;
+}
+
+.product-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+
+    background: #f3f3f3;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.product-image span {
+    color: #999999;
+
+    font-size: 10px;
+    letter-spacing: 1.5px;
+}
+
+.product-info {
+    padding-top: 14px;
+}
+
+.product-info h3 {
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.product-info p {
+    margin-top: 4px;
+
+    font-size: 12px;
+    color: #555555;
+}
+
+.center-button {
+    margin-top: 45px;
+    text-align: center;
+}
 
 
-        }
+/* =========================================================
+   CATEGORIES
+========================================================= */
 
+.categories {
+    padding: 90px 5%;
+    background: #f6f6f6;
+}
+
+.category-grid {
+    width: 100%;
+    max-width: 1250px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 18px;
+}
+
+.category-card {
+    min-height: 280px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #dddddd;
+
+    transition: transform 0.25s ease;
+}
+
+.category-card:hover {
+    transform: translateY(-4px);
+}
+
+.category-card span {
+    font-size: 16px;
+    font-weight: 800;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   MISSION
+========================================================= */
+
+.mission {
+    padding: 110px 20px;
+    background: #111111;
+    color: #ffffff;
+
+    text-align: center;
+}
+
+.mission-content {
+    width: 100%;
+    max-width: 720px;
+    margin: 0 auto;
+}
+
+.mission .section-label {
+    color: #aaaaaa;
+}
+
+.mission h2 {
+    margin-bottom: 24px;
+
+    font-size: clamp(32px, 5vw, 58px);
+    line-height: 1;
+}
+
+.mission p:not(.section-label) {
+    max-width: 650px;
+    margin: 0 auto 30px;
+
+    color: #cccccc;
+    font-size: 15px;
+}
+
+.mission .outline-button {
+    color: #ffffff;
+    border-color: #ffffff;
+}
+
+.mission .outline-button:hover {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* =========================================================
+   VERSE
+========================================================= */
+
+.verse {
+    padding: 100px 20px;
+
+    background: #f5f5f5;
+
+    text-align: center;
+}
+
+.verse-content {
+    width: 100%;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.verse blockquote {
+    margin: 20px auto;
+
+    font-size: clamp(22px, 3.5vw, 38px);
+    line-height: 1.3;
+    font-weight: 500;
+}
+
+.verse-reference {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   SHOP / ABOUT / CONTACT HEADER
+========================================================= */
+
+.shop-header {
+    padding: 85px 20px 75px;
+
+    text-align: center;
+
+    background: #f5f5f5;
+}
+
+.shop-header p {
+    margin-bottom: 10px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+}
+
+.shop-header h1 {
+    margin-bottom: 12px;
+
+    font-size: clamp(48px, 8vw, 90px);
+    line-height: 0.95;
+    letter-spacing: -3px;
+}
+
+.shop-header span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+}
+
+
+/* =========================================================
+   SHOP PRODUCTS
+========================================================= */
+
+.shop-products {
+    width: 100%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+    padding: 90px 5%;
+}
+
+
+/* PRODUCT */
+
+.single-product {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+
+    align-items: center;
+    gap: 75px;
+
+    padding: 20px 0 85px;
+}
+
+
+/* =========================================================
+   PRODUCT GALLERY
+========================================================= */
+
+.product-gallery {
+    width: 100%;
+    min-width: 0;
+}
+
+
+/*
+   DESKTOP:
+   Show ONE hoodie image at a time.
+   No arrows.
+*/
+
+.product-slider {
+    width: 100%;
+
+    display: flex;
+
+    overflow: hidden;
+
+    scroll-behavior: smooth;
+
+    scrollbar-width: none;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.product-slide {
+    flex: 0 0 100%;
+
+    width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #f4f4f4;
+
+    overflow: hidden;
+}
+
+.product-slide img {
+    width: 100%;
+    height: auto;
+
+    max-height: 620px;
+
+    object-fit: contain;
+
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+
+/* DOTS */
+
+.slider-dots {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+
+    margin-top: 15px;
+}
+
+.slider-dot {
+    width: 7px;
+    height: 7px;
+
+    padding: 0;
+
+    border: 1px solid #111111;
+    border-radius: 50%;
+
+    background: transparent;
+}
+
+.slider-dot.active {
+    background: #111111;
+}
+
+
+/* =========================================================
+   PRODUCT DETAILS
+========================================================= */
+
+.product-details {
+    width: 100%;
+}
+
+.product-label {
+    margin-bottom: 12px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #777777;
+}
+
+.product-details h2 {
+    margin-bottom: 8px;
+
+    font-size: clamp(27px, 3vw, 42px);
+    line-height: 1;
+    letter-spacing: -1px;
+}
+
+.product-price {
+    margin-bottom: 22px;
+
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.product-description {
+    margin-bottom: 30px;
+
+    color: #666666;
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   SIZE SELECTOR
+========================================================= */
+
+.size-section {
+    margin-bottom: 25px;
+}
+
+.size-section > p {
+    margin-bottom: 12px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.size-options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.size-btn {
+    width: 47px;
+    height: 43px;
+
+    border: 1px solid #cccccc;
+    background: #ffffff;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition: all 0.2s ease;
+}
+
+.size-btn:hover,
+.size-btn.selected {
+    border-color: #111111;
+    background: #111111;
+    color: #ffffff;
+}
+
+
+/* ADD TO CART */
+
+.add-to-cart {
+    width: 100%;
+
+    border: 1px solid #111111;
+
+    background: #111111;
+    color: #ffffff;
+}
+
+.add-to-cart:hover {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* DIVIDER */
+
+.product-divider {
+    width: 100%;
+    height: 1px;
+
+    background: #e5e5e5;
+
+    margin-bottom: 70px;
+}
+
+
+/* =========================================================
+   CONTACT
+========================================================= */
+
+.contact-section {
+    padding: 95px 5%;
+}
+
+.contact-content {
+    width: 100%;
+    max-width: 1050px;
+
+    margin: 0 auto;
+
+    display: grid;
+    grid-template-columns: 0.9fr 1.1fr;
+
+    gap: 90px;
+}
+
+.contact-info h2 {
+    margin-bottom: 20px;
+
+    font-size: clamp(30px, 4vw, 52px);
+    line-height: 1;
+}
+
+.contact-info > p:not(.section-label) {
+    max-width: 480px;
+
+    margin-bottom: 25px;
+
+    color: #666666;
+    font-size: 14px;
+}
+
+.contact-info > a {
+    font-size: 13px;
+    font-weight: 700;
+
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+
+/* CONTACT FORM */
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form label {
+    margin-bottom: 8px;
+
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+}
+
+.contact-form input,
+.contact-form textarea {
+    width: 100%;
+
+    padding: 14px 15px;
+
+    margin-bottom: 22px;
+
+    border: 1px solid #cccccc;
+    background: #ffffff;
+
+    outline: none;
+
+    font-size: 13px;
+
+    resize: vertical;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: #111111;
+}
+
+.contact-form button {
+    width: 100%;
+
+    border: 1px solid #111111;
+
+    background: #111111;
+    color: #ffffff;
+}
+
+.contact-form button:hover {
+    background: #ffffff;
+    color: #111111;
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+.footer {
+    padding: 70px 5% 25px;
+
+    background: #111111;
+    color: #ffffff;
+}
+
+.footer-brand {
+    margin-bottom: 55px;
+}
+
+.footer-brand img {
+    width: 115px;
+    height: auto;
+
+    margin-bottom: 15px;
+
+    filter: brightness(0) invert(1);
+}
+
+.footer-brand p {
+    color: #aaaaaa;
+    font-size: 12px;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    max-width: 700px;
+
+    gap: 50px;
+
+    margin-bottom: 60px;
+}
+
+.footer-links h3 {
+    margin-bottom: 15px;
+
+    font-size: 11px;
+    letter-spacing: 2px;
+}
+
+.footer-links a {
+    display: block;
+
+    width: fit-content;
+
+    margin-bottom: 8px;
+
+    color: #aaaaaa;
+
+    font-size: 12px;
+
+    transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+    color: #ffffff;
+}
+
+.footer-bottom {
+    padding-top: 20px;
+
+    border-top: 1px solid #333333;
+}
+
+.footer-bottom p {
+    color: #777777;
+
+    font-size: 10px;
+    letter-spacing: 1px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+    .navbar {
+        padding-left: 4%;
+        padding-right: 4%;
+    }
+
+    .navbar nav {
+        gap: 20px;
+    }
+
+    .logo img {
+        width: 105px;
+    }
+
+    .single-product {
+        grid-template-columns: 1fr 0.85fr;
+        gap: 40px;
+    }
+
+    .product-slide img {
+        max-height: 500px;
+    }
+
+    .contact-content {
+        gap: 50px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .category-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+
+/* =========================================================
+   MOBILE + SMALL TABLET
+========================================================= */
+
+@media (max-width: 700px) {
+
+    body {
+        width: 100%;
     }
 
 
-
-    /* =================================================
-       ADD TO CART
-    ================================================= */
-
-    document
-        .querySelectorAll(".shop-add-cart")
-        .forEach(function (button) {
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-
-                    const type =
-                        button.dataset.product;
-
-
-                    const size =
-                        selectedSizes[type];
-
-
-                    if (!size) {
-
-
-                        alert(
-                            "PLEASE SELECT A SIZE."
-                        );
-
-
-                        return;
-
-                    }
-
-
-
-                    const image =
-                        type === "beige"
-                            ? "GOD FIRST BEIGE FRONT.png"
-                            : "PILGRIM BLACK FRONT 1.png";
-
-
-
-                    let quantity = 1;
-
-
-
-                    try {
-
-
-                        const oldCart =
-                            JSON.parse(
-                                localStorage.getItem(
-                                    "setApartCart"
-                                )
-                            );
-
-
-                        if (
-                            oldCart &&
-                            oldCart.product === type &&
-                            oldCart.size === size
-                        ) {
-
-
-                            quantity =
-                                (
-                                    Number(
-                                        oldCart.quantity
-                                    ) || 0
-                                ) + 1;
-
-
-                        }
-
-
-                    } catch (error) {}
-
-
-
-                    const product = {
-
-
-                        product:
-                            type,
-
-
-                        name:
-                            type === "beige"
-                                ? "SET APART BEIGE HOODIE"
-                                : "SET APART BLACK HOODIE",
-
-
-                        price:
-                            44.99,
-
-
-                        size:
-                            size,
-
-
-                        quantity:
-                            quantity,
-
-
-                        image:
-                            image
-
-
-                    };
-
-
-
-                    localStorage.setItem(
-
-                        "setApartCart",
-
-                        JSON.stringify(product)
-
-                    );
-
-
-
-                    updateCartCount();
-
-
-
-                    if (
-                        typeof showMiniCart ===
-                        "function"
-                    ) {
-
-
-                        showMiniCart(
-                            product
-                        );
-
-
-                    }
-
-
-                    alert(
-                        product.name +
-                        " ADDED TO CART."
-                    );
-
-
-                }
-            );
-
-        });
-
-
-
-    /* =================================================
-       BUY NOW
-    ================================================= */
-
-    document
-        .querySelectorAll(".buy-now-btn")
-        .forEach(function (button) {
-
-
-            button.addEventListener(
-                "click",
-                function () {
-
-
-                    const type =
-                        button.dataset.product;
-
-
-                    const size =
-                        selectedSizes[type];
-
-
-                    if (!size) {
-
-
-                        alert(
-                            "PLEASE SELECT A SIZE."
-                        );
-
-
-                        return;
-
-                    }
-
-
-
-                    const image =
-                        type === "beige"
-                            ? "GOD FIRST BEIGE FRONT.png"
-                            : "PILGRIM BLACK FRONT 1.png";
-
-
-
-                    const product = {
-
-
-                        product:
-                            type,
-
-
-                        name:
-                            type === "beige"
-                                ? "SET APART BEIGE HOODIE"
-                                : "SET APART BLACK HOODIE",
-
-
-                        price:
-                            44.99,
-
-
-                        size:
-                            size,
-
-
-                        quantity:
-                            1,
-
-
-                        image:
-                            image
-
-
-                    };
-
-
-
-                    localStorage.setItem(
-
-                        "setApartCart",
-
-                        JSON.stringify(product)
-
-                    );
-
-
-
-                    window.location.href =
-                        "cart.html";
-
-
-                }
-            );
-
-        });
-
-
-
-    /* =================================================
-       CART BUTTON
-    ================================================= */
-
-    const cartButton =
-        document.getElementById(
-            "cartButton"
-        );
-
-
-    if (cartButton) {
-
-
-        cartButton.addEventListener(
-            "click",
-            function () {
-
-
-                const cart =
-                    localStorage.getItem(
-                        "setApartCart"
-                    );
-
-
-                if (!cart) {
-
-
-                    alert(
-                        "YOUR CART IS EMPTY."
-                    );
-
-
-                    return;
-
-                }
-
-
-                window.location.href =
-                    "cart.html";
-
-
-            }
-        );
-
+    /* -----------------------------------------
+       ANNOUNCEMENT
+    ----------------------------------------- */
+
+    .announcement {
+        padding: 9px 10px;
+
+        font-size: 9px;
+        letter-spacing: 1.3px;
     }
 
 
+    /* -----------------------------------------
+       NAVBAR
+    ----------------------------------------- */
 
-    /* =================================================
-       INITIAL CART COUNT
-    ================================================= */
+    .navbar {
+        min-height: 65px;
 
-    updateCartCount();
+        padding: 9px 16px;
+
+        display: grid;
+        grid-template-columns: 42px 1fr 80px;
+        align-items: center;
+    }
+
+    .menu-toggle {
+        display: flex;
+
+        align-items: center;
+        justify-content: flex-start;
+
+        z-index: 1100;
+    }
+
+    .logo {
+        justify-self: center;
+    }
+
+    .logo img {
+        width: 92px;
+    }
+
+    .nav-icons {
+        justify-self: end;
+
+        gap: 2px;
+    }
+
+    .nav-icons button {
+        width: 35px;
+        height: 35px;
+
+        font-size: 17px;
+    }
 
 
-});
+    /* -----------------------------------------
+       MOBILE NAV
+    ----------------------------------------- */
 
-</script>
+    .navbar nav {
+        position: absolute;
+
+        top: 100%;
+        left: 0;
+
+        width: 100%;
+
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+
+        gap: 0;
+
+        padding: 8px 0;
+
+        background: #ffffff;
+
+        border-bottom: 1px solid #dddddd;
+
+        box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    }
+
+    .navbar nav.active {
+        display: flex;
+    }
+
+    .navbar nav a {
+        width: 100%;
+
+        padding: 15px 25px;
+
+        border-bottom: 1px solid #eeeeee;
+
+        font-size: 11px;
+    }
+
+    .navbar nav a:last-child {
+        border-bottom: 0;
+    }
 
 
-</body>
+    /* -----------------------------------------
+       SEARCH
+    ----------------------------------------- */
 
-</html>
+    .search-box {
+        padding: 12px 16px;
+    }
+
+
+    /* -----------------------------------------
+       HERO
+    ----------------------------------------- */
+
+    .hero {
+        min-height: 62vh;
+
+        padding: 70px 18px;
+    }
+
+    .hero h1 {
+        font-size: clamp(48px, 15vw, 75px);
+        letter-spacing: -2px;
+    }
+
+    .hero h2 {
+        font-size: 13px;
+        letter-spacing: 2px;
+    }
+
+
+    /* -----------------------------------------
+       HOME PRODUCT GRID
+    ----------------------------------------- */
+
+    .new-drop {
+        padding: 70px 16px;
+    }
+
+    .product-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .product-info h3 {
+        font-size: 10px;
+    }
+
+
+    /* -----------------------------------------
+       CATEGORIES
+    ----------------------------------------- */
+
+    .categories {
+        padding: 70px 16px;
+    }
+
+    .category-grid {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+    .category-card {
+        min-height: 190px;
+    }
+
+
+    /* -----------------------------------------
+       MISSION
+    ----------------------------------------- */
+
+    .mission {
+        padding: 80px 20px;
+    }
+
+
+    /* -----------------------------------------
+       VERSE
+    ----------------------------------------- */
+
+    .verse {
+        padding: 75px 20px;
+    }
+
+
+    /* -----------------------------------------
+       PAGE HEADER
+    ----------------------------------------- */
+
+    .shop-header {
+        padding: 65px 16px 55px;
+    }
+
+    .shop-header h1 {
+        font-size: clamp(48px, 16vw, 70px);
+        letter-spacing: -2px;
+    }
+
+
+    /* -----------------------------------------
+       SHOP
+    ----------------------------------------- */
+
+    .shop-products {
+        padding: 55px 16px;
+    }
+
+    .single-product {
+        display: flex;
+        flex-direction: column;
+
+        gap: 32px;
+
+        padding: 0 0 60px;
+    }
+
+    /*
+       IMPORTANT:
+       Hoodie image is smaller on mobile/tablet.
+       This prevents the hoodie from filling the entire screen.
+    */
+
+    .product-gallery {
+        width: 82%;
+        max-width: 390px;
+
+        margin: 0 auto;
+    }
+
+    .product-slide {
+        background: #f4f4f4;
+    }
+
+    .product-slide img {
+        width: 100%;
+        max-width: 100%;
+
+        max-height: 390px;
+
+        object-fit: contain;
+    }
+
+    .slider-dots {
+        margin-top: 12px;
+    }
+
+    .product-details {
+        width: 100%;
+        max-width: 500px;
+
+        margin: 0 auto;
+    }
+
+    .product-details h2 {
+        font-size: 29px;
+    }
+
+    .product-divider {
+        margin-bottom: 55px;
+    }
+
+
+    /* -----------------------------------------
+       CONTACT
+    ----------------------------------------- */
+
+    .contact-section {
+        padding: 65px 16px;
+    }
+
+    .contact-content {
+        grid-template-columns: 1fr;
+
+        gap: 55px;
+    }
+
+    .contact-info h2 {
+        font-size: 38px;
+    }
+
+
+    /* -----------------------------------------
+       FOOTER
+    ----------------------------------------- */
+
+    .footer {
+        padding: 55px 20px 22px;
+    }
+
+    .footer-brand {
+        margin-bottom: 40px;
+    }
+
+    .footer-links {
+        grid-template-columns: repeat(2, 1fr);
+
+        gap: 35px 25px;
+
+        margin-bottom: 45px;
+    }
+
+    .footer-links > div:last-child {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 420px) {
+
+    .navbar {
+        grid-template-columns: 38px 1fr 74px;
+    }
+
+    .logo img {
+        width: 82px;
+    }
+
+    .nav-icons button {
+        width: 32px;
+        height: 32px;
+    }
+
+    .hero {
+        min-height: 58vh;
+    }
+
+    .hero h1 {
+        font-size: 47px;
+    }
+
+    .hero h2 {
+        font-size: 11px;
+        letter-spacing: 1.5px;
+    }
+
+    .product-grid {
+        gap: 10px;
+    }
+
+    /*
+       Even smaller hoodie on very small phones.
+    */
+
+    .product-gallery {
+        width: 76%;
+        max-width: 330px;
+    }
+
+    .product-slide img {
+        max-height: 330px;
+    }
+
+    .product-details h2 {
+        font-size: 26px;
+    }
+
+    .size-btn {
+        width: 44px;
+        height: 40px;
+    }
+}
+
+
+/* =========================================================
+   ACCESSIBILITY / REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+        animation: none !important;
+    }
+}
+
+/* =========================
+   NAV ICONS
+========================= */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-icons button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #111;
+    cursor: pointer;
+
+    font-size: 24px;
+    line-height: 1;
+
+    position: relative;
+}
+
+.search-btn {
+    font-family: Arial, sans-serif;
+    font-size: 29px !important;
+    font-weight: 400;
+}
+
+.cart-btn {
+    font-size: 23px !important;
+}
+
+/* Hover */
+
+.nav-icons button:hover {
+    opacity: 0.65;
+}
+
+/* Cart number */
+
+.cart-count {
+    position: absolute;
+
+    top: -4px;
+    right: -7px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 4px;
+
+    border-radius: 50%;
+
+    background: #111;
+    color: #fff;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =========================
+   SEARCH ICON — MOBILE / TABLET
+========================= */
+
+@media (max-width: 1024px) {
+
+    .nav-icons {
+        gap: 14px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+        font-weight: 400;
+        transform: scale(1.08);
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+
+}
+
+
+/* =========================
+   SMALL MOBILE
+========================= */
+
+@media (max-width: 600px) {
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    .nav-icons button {
+        width: 44px;
+        height: 44px;
+    }
+
+    .search-btn {
+        font-size: 36px !important;
+        transform: scale(1.08);
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+
+}
+
+/* =================================
+   SEARCH ICON — ALL DEVICES
+================================= */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.nav-icons button {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border: 0;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #111;
+    cursor: pointer;
+}
+
+/* SEARCH */
+.search-btn {
+    font-family: Arial, sans-serif;
+    font-size: 32px !important;
+    font-weight: 400;
+    line-height: 1;
+}
+
+/* CART */
+.cart-btn {
+    font-size: 24px !important;
+    line-height: 1;
+}
+
+/* HOVER */
+.search-btn:hover,
+.cart-btn:hover {
+    opacity: .65;
+}
+
+
+/* =================================
+   TABLET
+================================= */
+
+@media (max-width: 1024px) {
+
+    .nav-icons {
+        gap: 12px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+}
+
+
+/* =================================
+   MOBILE
+================================= */
+
+@media (max-width: 600px) {
+
+    .nav-icons {
+        gap: 8px;
+    }
+
+    .nav-icons button {
+        width: 46px;
+        height: 46px;
+    }
+
+    .search-btn {
+        font-size: 34px !important;
+    }
+
+    .cart-btn {
+        font-size: 25px !important;
+    }
+}
+
+/* =========================================================
+   SHOP PRODUCT GRID — ALIGNED CARDS
+========================================================= */
+
+.shop-products-grid {
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 20px 20px 80px;
+
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px;
+
+    align-items: stretch;
+}
+
+
+/* =========================================================
+   PRODUCT CARD
+========================================================= */
+
+.shop-product-card {
+    width: 100%;
+    min-width: 0;
+
+    background: #fff;
+    border: 1px solid #e5e5e5;
+
+    display: flex;
+    flex-direction: column;
+
+    box-sizing: border-box;
+
+    padding: 6px;
+
+    height: 100%;
+}
+
+
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
+.shop-product-image {
+    width: 100%;
+    aspect-ratio: 1 / 1.12;
+
+    background: #f7f7f7;
+
+    overflow: hidden;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+.shop-product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+
+    display: block;
+}
+
+
+/* =========================================================
+   PRODUCT INFORMATION
+========================================================= */
+
+.shop-product-info {
+    display: flex;
+    flex-direction: column;
+
+    flex: 1;
+
+    padding: 18px 10px 12px;
+}
+
+
+.shop-product-info h2 {
+    margin: 0 0 5px;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    font-weight: 600;
+
+    color: #111;
+
+    min-height: 47px;
+}
+
+
+.shop-product-price {
+    margin: 0 0 25px;
+
+    font-size: 22px;
+    line-height: 1.2;
+
+    font-weight: 600;
+
+    color: #111;
+}
+
+
+/* =========================================================
+   SIZE
+========================================================= */
+
+.shop-size {
+    margin-top: auto;
+}
+
+
+.shop-size > span {
+    display: block;
+
+    margin-bottom: 10px;
+
+    font-size: 14px;
+
+    color: #111;
+}
+
+
+.shop-size-options {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+
+    gap: 8px;
+}
+
+
+.shop-size-btn {
+    width: 100%;
+    height: 38px;
+
+    background: #fff;
+
+    border: 1px solid #aaa;
+
+    color: #111;
+
+    font-size: 13px;
+
+    cursor: pointer;
+
+    transition: all 0.2s ease;
+}
+
+
+.shop-size-btn:hover,
+.shop-size-btn.selected {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
+
+
+/* =========================================================
+   ADD TO CART
+========================================================= */
+
+.shop-add-cart {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 18px;
+
+    border: 1px solid #111;
+
+    background: #111;
+
+    color: #fff;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.shop-add-cart:hover {
+    background: #333;
+}
+
+
+/* =========================================================
+   BUY NOW
+========================================================= */
+
+.buy-now-btn {
+    width: 100%;
+
+    height: 48px;
+
+    margin-top: 12px;
+
+    border: 1px solid #111;
+
+    background: #fff;
+
+    color: #111;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    letter-spacing: 1px;
+
+    cursor: pointer;
+
+    transition: 0.2s ease;
+}
+
+
+.buy-now-btn:hover {
+    background: #111;
+    color: #fff;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1000px) {
+
+    .shop-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 16px;
+
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .shop-products-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+
+        gap: 10px;
+
+        padding: 10px 10px 50px;
+    }
+
+
+    .shop-product-card {
+        padding: 4px;
+    }
+
+
+    .shop-product-info {
+        padding: 12px 7px 8px;
+    }
+
+
+    .shop-product-info h2 {
+        font-size: 14px;
+
+        min-height: 38px;
+
+        margin-bottom: 4px;
+    }
+
+
+    .shop-product-price {
+        font-size: 17px;
+
+        margin-bottom: 18px;
+    }
+
+
+    .shop-size > span {
+        font-size: 12px;
+
+        margin-bottom: 7px;
+    }
+
+
+    .shop-size-options {
+        gap: 4px;
+    }
+
+
+    .shop-size-btn {
+        height: 32px;
+
+        font-size: 11px;
+    }
+
+
+    .shop-add-cart,
+    .buy-now-btn {
+        height: 40px;
+
+        font-size: 11px;
+
+        letter-spacing: 0.6px;
+    }
+
+
+    .shop-add-cart {
+        margin-top: 12px;
+    }
+
+
+    .buy-now-btn {
+        margin-top: 8px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .shop-products-grid {
+        gap: 8px;
+
+        padding-left: 7px;
+        padding-right: 7px;
+    }
+
+
+    .shop-product-info h2 {
+        font-size: 13px;
+    }
+
+
+    .shop-product-price {
+        font-size: 16px;
+    }
+
+
+    .shop-size-options {
+        grid-template-columns: repeat(5, 1fr);
+
+        gap: 3px;
+    }
+
+
+    .shop-size-btn {
+        height: 29px;
+
+        font-size: 10px;
+    }
+
+
+    .shop-add-cart,
+    .buy-now-btn {
+        height: 37px;
+
+        font-size: 10px;
+    }
+
+}
+
+/* =========================================
+   SHOP — REMOVE BORDERS AROUND PRODUCT IMAGES
+========================================= */
+
+.shop-product-card {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+}
+
+.shop-product-image {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    outline: none !important;
+}
+
+.shop-product-image img {
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+/* Remove any extra frame around the image */
+.shop-product-image::before,
+.shop-product-image::after {
+    display: none !important;
+    content: none !important;
+}
+
+/* =========================================
+   SHOP IMAGE SLIDER
+========================================= */
+
+.product-gallery {
+    width: 100%;
+}
+
+.product-slider {
+    display: flex;
+    width: 100%;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.product-slide {
+    flex: 0 0 100%;
+    width: 100%;
+
+    scroll-snap-align: start;
+}
+
+.product-slide img {
+    width: 100%;
+    height: auto;
+
+    display: block;
+
+    object-fit: contain;
+
+    border: none !important;
+    box-shadow: none !important;
+}
+
+
+/* =========================================
+   ARROWS UNDER PHOTO
+========================================= */
+
+.image-arrows {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    gap: 8px;
+
+    margin-top: 10px;
+    margin-bottom: 5px;
+}
+
+.image-arrow {
+    width: 38px;
+    height: 32px;
+
+    background: #fff;
+    color: #111;
+
+    border: 1px solid #111;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 19px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.image-arrow:hover {
+    background: #111;
+    color: #fff;
+}
+
+/* =========================================
+   SHOP PRODUCT IMAGES
+   BLACK + BEIGE SAME SIZE
+========================================= */
+
+.shop-product-image,
+.product-gallery {
+    width: 100%;
+    overflow: hidden;
+}
+
+.product-slider {
+    width: 100%;
+    display: flex;
+
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.product-slide {
+    flex: 0 0 100%;
+    width: 100%;
+    height: 520px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    scroll-snap-align: start;
+}
+
+.product-slide img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    display: block;
+
+    border: none !important;
+    box-shadow: none !important;
+}
+
+@media (max-width: 900px) {
+
+    .product-slide {
+        height: 420px;
+    }
+
+}
+
+@media (max-width: 600px) {
+
+    .product-slide {
+        height: 360px;
+    }
+
+}
