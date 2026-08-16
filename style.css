@@ -2605,3 +2605,35 @@ button {
     border: none !important;
     box-shadow: none !important;
 }
+
+/* =========================================================
+   SHOP — ALL HOODIE FRAMES SAME SIZE
+========================================================= */
+
+.shop-product-image {
+    width: 100% !important;
+    aspect-ratio: 4 / 5 !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+    max-height: none !important;
+
+    background: #ffffff !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    overflow: hidden !important;
+}
+
+/* All hoodie images stay inside the same-size frame */
+.shop-product-image img {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center !important;
+
+    display: block !important;
+}
