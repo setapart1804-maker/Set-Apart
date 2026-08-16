@@ -477,163 +477,6 @@ button {
 }
 
 /* =========================================================
-   SHOP / ABOUT / CONTACT — HERO HEADER
-========================================================= */
-
-.shop-header {
-    position: relative;
-
-    width: 100%;
-    min-height: 65vh;
-
-    display: flex;
-    flex-direction: column;
-
-    align-items: center;
-    justify-content: center;
-
-    text-align: center;
-
-    padding: 90px 20px;
-
-    color: #ffffff;
-
-    background-image:
-        linear-gradient(
-            rgba(0, 0, 0, 0.50),
-            rgba(0, 0, 0, 0.50)
-        ),
-        url("HOODIES.jpeg");
-
-    background-size: cover;
-    background-position: center center;
-    background-repeat: no-repeat;
-
-    overflow: hidden;
-}
-
-
-/* TEXT ABOVE BACKGROUND */
-
-.shop-header p,
-.shop-header h1,
-.shop-header span {
-    position: relative;
-    z-index: 2;
-
-    color: #ffffff;
-}
-
-
-/* FAITH-INSPIRED STREETWEAR */
-
-.shop-header p {
-    margin: 0 0 18px;
-
-    font-size: 12px;
-    font-weight: 700;
-
-    letter-spacing: 3.5px;
-
-    text-transform: uppercase;
-}
-
-
-/* ABOUT / SHOP / CONTACT */
-
-.shop-header h1 {
-    margin: 0 0 18px;
-
-    font-size: clamp(55px, 10vw, 110px);
-
-    line-height: 0.9;
-
-    letter-spacing: -4px;
-
-    font-weight: 900;
-
-    text-transform: uppercase;
-}
-
-
-/* CALLED TO LIVE DIFFERENTLY */
-
-.shop-header span {
-    font-size: 13px;
-    font-weight: 600;
-
-    letter-spacing: 3px;
-
-    text-transform: uppercase;
-}
-
-
-/* =========================================================
-   MOBILE
-========================================================= */
-
-@media (max-width: 700px) {
-
-    .shop-header {
-        min-height: 52vh;
-
-        padding: 75px 18px;
-
-        background-position: center center;
-    }
-
-    .shop-header p {
-        margin-bottom: 15px;
-
-        font-size: 9px;
-
-        letter-spacing: 2px;
-    }
-
-    .shop-header h1 {
-        margin-bottom: 15px;
-
-        font-size: clamp(50px, 16vw, 78px);
-
-        letter-spacing: -2.5px;
-    }
-
-    .shop-header span {
-        font-size: 10px;
-
-        letter-spacing: 2px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .shop-header {
-        min-height: 48vh;
-
-        padding: 65px 15px;
-    }
-
-    .shop-header p {
-        font-size: 8px;
-        letter-spacing: 1.7px;
-    }
-
-    .shop-header h1 {
-        font-size: 50px;
-    }
-
-    .shop-header span {
-        font-size: 9px;
-        letter-spacing: 1.5px;
-    }
-}
-
-/* =========================================================
    BUTTONS
 ========================================================= */
 
@@ -2562,4 +2405,107 @@ button {
         height: 360px;
     }
 
+}
+
+/* =========================================================
+   SHOP / ABOUT / CONTACT — FULL HERO
+========================================================= */
+
+.page-hero {
+    width: 100%;
+    min-height: 72vh;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    text-align: center;
+
+    padding: 80px 20px;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.55),
+            rgba(0, 0, 0, 0.55)
+        ),
+        url("HOODIES.jpeg");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.page-hero-content {
+    width: 100%;
+    max-width: 1000px;
+
+    color: #ffffff;
+}
+
+.page-hero-content p {
+    margin-bottom: 15px;
+
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 3px;
+}
+
+.page-hero-content h1 {
+    margin: 0 0 15px;
+
+    font-size: clamp(55px, 10vw, 120px);
+    line-height: 0.9;
+
+    font-weight: 900;
+    letter-spacing: -4px;
+}
+
+.page-hero-content span {
+    font-size: clamp(12px, 2vw, 18px);
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .page-hero {
+        min-height: 62vh;
+        padding: 70px 18px;
+
+        background-position: center;
+    }
+
+    .page-hero-content p {
+        font-size: 9px;
+        letter-spacing: 2px;
+    }
+
+    .page-hero-content h1 {
+        font-size: clamp(48px, 15vw, 78px);
+        letter-spacing: -2px;
+    }
+
+    .page-hero-content span {
+        font-size: 11px;
+        letter-spacing: 1.8px;
+    }
+}
+
+
+/* VERY SMALL PHONES */
+
+@media (max-width: 420px) {
+
+    .page-hero {
+        min-height: 58vh;
+    }
+
+    .page-hero-content h1 {
+        font-size: 47px;
+    }
 }
