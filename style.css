@@ -1465,3 +1465,76 @@ button {
         animation: none !important;
     }
 }
+
+/* =========================
+   NAV ICONS
+========================= */
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-icons button {
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #111;
+    cursor: pointer;
+
+    font-size: 24px;
+    line-height: 1;
+
+    position: relative;
+}
+
+.search-btn {
+    font-family: Arial, sans-serif;
+    font-size: 29px !important;
+    font-weight: 400;
+}
+
+.cart-btn {
+    font-size: 23px !important;
+}
+
+/* Hover */
+
+.nav-icons button:hover {
+    opacity: 0.65;
+}
+
+/* Cart number */
+
+.cart-count {
+    position: absolute;
+
+    top: -4px;
+    right: -7px;
+
+    min-width: 18px;
+    height: 18px;
+
+    padding: 0 4px;
+
+    border-radius: 50%;
+
+    background: #111;
+    color: #fff;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 10px;
+    font-weight: 700;
+    line-height: 1;
+}
