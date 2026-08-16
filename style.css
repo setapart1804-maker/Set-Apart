@@ -2726,3 +2726,53 @@ body {
     margin-top: 5px !important;
     margin-bottom: 0 !important;
 }
+
+/* =========================================
+   SHOP — VIEW COLORS + ARROWS
+========================================= */
+
+.color-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 18px;
+}
+
+.color-controls .image-arrow {
+    width: 36px;
+    height: 32px;
+    margin: 0;
+    border: 1px solid #111;
+    background: #fff;
+    color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.color-controls .image-arrow:hover {
+    background: #111;
+    color: #fff;
+}
+
+.view-colors-btn {
+    height: 32px;
+    padding: 0 18px;
+    border: 1px solid #111;
+    background: #111;
+    color: #fff;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.view-colors-btn:hover {
+    background: #fff;
+    color: #111;
+}
