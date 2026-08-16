@@ -2509,3 +2509,19 @@ button {
         font-size: 47px;
     }
 }
+
+/* =========================================================
+   SHOP — WHITE SPACE AROUND HOODIE IMAGES
+========================================================= */
+
+.shop-product-image {
+    background: #ffffff !important;
+}
+
+.shop-product-image img {
+    background: #ffffff !important;
+}
+
+.shop-product-card {
+    background: #ffffff !important;
+}
