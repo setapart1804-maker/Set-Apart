@@ -2607,33 +2607,54 @@ button {
 }
 
 /* =========================================================
-   SHOP — ALL HOODIE FRAMES SAME SIZE
+   SHOP — FORCE ALL HOODIE IMAGE FRAMES SAME SIZE
+   LAST OVERRIDE
 ========================================================= */
 
-.shop-product-image {
+.shop-products-grid .shop-product-card {
     width: 100% !important;
+    height: auto !important;
+}
+
+/* THE ACTUAL IMAGE FRAME */
+.shop-products-grid .shop-product-image {
+    width: 100% !important;
+    height: auto !important;
     aspect-ratio: 4 / 5 !important;
 
-    height: auto !important;
     min-height: 0 !important;
     max-height: none !important;
 
     background: #ffffff !important;
+    overflow: hidden !important;
 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 
-    overflow: hidden !important;
+    padding: 0 !important;
+    margin: 0 !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
 }
 
-/* All hoodie images stay inside the same-size frame */
-.shop-product-image img {
+/* IMAGE INSIDE THE FRAME */
+.shop-products-grid .shop-product-image img {
     width: 100% !important;
     height: 100% !important;
+
+    max-width: none !important;
+    max-height: none !important;
 
     object-fit: contain !important;
     object-position: center !important;
 
     display: block !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    border: 0 !important;
+    box-shadow: none !important;
 }
