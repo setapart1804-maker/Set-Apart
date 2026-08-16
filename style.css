@@ -2570,3 +2570,38 @@ button {
 
     display: block;
 }
+
+/* =========================================================
+   SHOP — SAME PRODUCT IMAGE FRAME AS HOME
+   ONLY CHANGES THE PRODUCT IMAGE FRAMES
+========================================================= */
+
+.shop-product-image {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+
+    background: #ffffff !important;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+    border: none !important;
+    box-shadow: none !important;
+}
+
+/* Keep hoodie inside the same frame */
+.shop-product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    object-position: center;
+
+    display: block;
+
+    border: none !important;
+    box-shadow: none !important;
+}
