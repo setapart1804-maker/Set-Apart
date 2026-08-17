@@ -1020,5 +1020,111 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    /* =========================
+       MOBILE MENU ☰
+    ========================= */
+
+    const menuToggle = document.getElementById("menuToggle");
+    const mainNav = document.getElementById("mainNav");
+
+    if (menuToggle && mainNav) {
+
+        menuToggle.addEventListener("click", function () {
+
+            const isOpen = mainNav.classList.toggle("active");
+
+            menuToggle.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+
+            menuToggle.setAttribute(
+                "aria-label",
+                isOpen ? "Close menu" : "Open menu"
+            );
+
+            menuToggle.textContent = isOpen ? "×" : "☰";
+
+        });
+
+    }
+
+
+    /* =========================
+       SEARCH ⌕
+    ========================= */
+
+    const searchButton =
+        document.getElementById("searchButton");
+
+    const searchBox =
+        document.getElementById("searchBox");
+
+    const closeSearch =
+        document.getElementById("closeSearch");
+
+    const searchInput =
+        document.getElementById("searchInput");
+
+    const searchForm =
+        document.getElementById("searchForm");
+
+
+    if (searchButton && searchBox) {
+
+        searchButton.addEventListener("click", function () {
+
+            searchBox.classList.toggle("active");
+
+            if (
+                searchBox.classList.contains("active") &&
+                searchInput
+            ) {
+                searchInput.focus();
+            }
+
+        });
+
+    }
+
+
+    if (closeSearch && searchBox) {
+
+        closeSearch.addEventListener("click", function () {
+
+            searchBox.classList.remove("active");
+
+        });
+
+    }
+
+
+    if (searchForm) {
+
+        searchForm.addEventListener("submit", function (event) {
+
+            event.preventDefault();
+
+            const query =
+                searchInput
+                    ? searchInput.value.trim()
+                    : "";
+
+            if (!query) return;
+
+            window.location.href =
+                "shop.html?search=" +
+                encodeURIComponent(query);
+
+        });
+
+    }
+
+});
+</script>
+    
 </body>
 </html>
