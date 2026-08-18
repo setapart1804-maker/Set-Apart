@@ -1125,6 +1125,55 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 </script>
+
+    <script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    document.querySelectorAll(".buy-now-btn").forEach(function (button) {
+
+        button.addEventListener("click", function () {
+
+            const productType = button.dataset.product;
+
+            const sizeButton = document.querySelector(
+                '.shop-size-btn.selected[data-product="' +
+                productType +
+                '"]'
+            );
+
+            if (!sizeButton) {
+                alert("PLEASE SELECT A SIZE.");
+                return;
+            }
+
+            const size = sizeButton.dataset.size;
+
+            const image =
+                productType === "beige"
+                    ? "GOD FIRST BEIGE FRONT.png"
+                    : "PILGRIM BLACK FRONT 1.png";
+
+            const product = {
+                name: "SET APART HOODIE",
+                price: 44.99,
+                size: size,
+                quantity: 1,
+                image: image
+            };
+
+            localStorage.setItem(
+                "setApartCart",
+                JSON.stringify(product)
+            );
+
+            window.location.href = "cart.html";
+
+        });
+
+    });
+
+});
+</script>
     
 </body>
 </html>
