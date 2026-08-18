@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="style.css">
 
     <!-- PAYPAL -->
-    <script src="https://www.paypal.com/sdk/js?client-id=AaTz2vD2J4B7bNFz41KD39gEZqOb25JRei9CAm-sjiDBrB91bef9pHzd0iDTCd3SYWzHtQiC0En7cDFV"></script>
+    <script src="https://www.paypal.com/sdk/js?client-id=AaTz2vD2J4B7bNFz41KD39gEZqOb25JRei9CAm-sjiDBrB91bef9pHzd0iDTCd3SYWzHtQiC0En7cDFV&currency=USD&intent=capture&components=buttons"></script>
 
 </head>
 
@@ -550,9 +550,15 @@ document.addEventListener("DOMContentLoaded", function () {
             "paymentForm"
         );
 
+    const paypalContainer =
+        document.getElementById(
+            "paypal-button-container"
+        );
+
 
     if (
         paymentForm &&
+        paypalContainer &&
         typeof paypal !== "undefined"
     ) {
 
@@ -573,7 +579,6 @@ document.addEventListener("DOMContentLoaded", function () {
                 data,
                 actions
             ) {
-
 
                 /* CHECK CUSTOMER INFORMATION */
 
@@ -596,7 +601,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 let cart = null;
 
-
                 try {
 
                     cart = JSON.parse(
@@ -612,16 +616,23 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
+                if (!cart) {
+
+                    alert("YOUR CART IS EMPTY.");
+
+                    return Promise.reject(
+                        new Error("Cart is empty.")
+                    );
+
+                }
+
+
                 const price =
-                    cart
-                        ? Number(cart.price) || 44.99
-                        : 44.99;
+                    Number(cart.price) || 44.99;
 
 
                 const quantity =
-                    cart
-                        ? Number(cart.quantity) || 1
-                        : 1;
+                    Number(cart.quantity) || 1;
 
 
                 const total =
@@ -633,16 +644,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 return actions.order.create({
 
+                    intent: "CAPTURE",
+
                     purchase_units: [
 
                         {
 
                             description:
-                                cart &&
-                                cart.name
-                                    ? cart.name
-                                    : "SET APART HOODIE",
-
+                                cart.name ||
+                                "SET APART HOODIE",
 
                             amount: {
 
@@ -677,22 +687,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     .then(function (details) {
 
-
-                        /* CLEAR CART */
-
                         localStorage.removeItem(
                             "setApartCart"
                         );
 
-
-                        /* SUCCESS */
-
                         alert(
                             "PAYMENT SUCCESSFUL! THANK YOU FOR YOUR ORDER."
                         );
-
-
-                        /* GO HOME */
 
                         window.location.href =
                             "index.html";
@@ -725,7 +726,6 @@ document.addEventListener("DOMContentLoaded", function () {
                     "PayPal Error:",
                     error
                 );
-
 
                 alert(
                     "PAYMENT COULD NOT BE COMPLETED. PLEASE TRY AGAIN."
@@ -770,12 +770,10 @@ document.addEventListener("DOMContentLoaded", function () {
             "click",
             function () {
 
-
                 const isOpen =
                     mainNav.classList.toggle(
                         "active"
                     );
-
 
                 menuToggle.setAttribute(
                     "aria-expanded",
@@ -784,6 +782,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         : "false"
                 );
 
+                menuToggle.setAttribute(
+                    "aria-label",
+                    isOpen
+                        ? "Close menu"
+                        : "Open menu"
+                );
 
                 menuToggle.textContent =
                     isOpen
@@ -872,7 +876,6 @@ document.addEventListener("DOMContentLoaded", function () {
     function updateCartCount() {
 
         let cart = null;
-
 
         try {
 
