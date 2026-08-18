@@ -908,31 +908,28 @@
                     }
 
 
-                    /* =================================
-                       CHECKOUT
-                    ================================= */
+                   /* =================================
+   CHECKOUT
+================================= */
 
-                    const checkoutBtn =
-                        document.getElementById(
-                            "checkoutBtn"
-                        );
+const checkoutBtn =
+    document.getElementById(
+        "checkoutBtn"
+    );
 
+if (checkoutBtn) {
 
-                    if (checkoutBtn) {
+    checkoutBtn.addEventListener(
+        "click",
+        function () {
 
-                        checkoutBtn.addEventListener(
-                            "click",
-                            function () {
+            window.location.href =
+                "payment.html";
 
-                                alert(
-                                    "CHECKOUT WILL BE AVAILABLE SOON."
-                                );
+        }
+    );
 
-                            }
-                        );
-
-                    }
-
+}
 
                     /* UPDATE RED NUMBER */
 
