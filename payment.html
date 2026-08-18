@@ -8,6 +8,10 @@
     <title>Payment — SET APART</title>
 
     <link rel="stylesheet" href="style.css">
+
+    <!-- PAYPAL -->
+    <script src="https://www.paypal.com/sdk/js?client-id=AaTz2vD2J4B7bNFz41KD39gEZqOb25JRei9CAm-sjiDBrB91bef9pHzd0iDTCd3SYWzHtQiC0En7cDFV"></script>
+
 </head>
 
 <body>
@@ -69,16 +73,47 @@
             id="cartButton"
             aria-label="Shopping Cart">
             🛒
+
             <span
                 class="cart-count"
                 id="cartCount">
                 0
             </span>
+
         </button>
 
     </div>
 
 </header>
+
+
+<!-- =========================
+     SEARCH BOX
+========================== -->
+
+<div
+    class="search-box"
+    id="searchBox">
+
+    <form id="searchForm">
+
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search products..."
+            autocomplete="off">
+
+        <button
+            type="button"
+            id="closeSearch"
+            class="close-search"
+            aria-label="Close search">
+            ×
+        </button>
+
+    </form>
+
+</div>
 
 
 <!-- =========================
@@ -90,6 +125,7 @@
 <section class="payment-page">
 
     <div class="payment-container">
+
 
         <div class="payment-header">
 
@@ -131,16 +167,23 @@
                 </h2>
 
                 <p>
+
                     SIZE:
+
                     <strong id="paymentProductSize">
                         —
                     </strong>
+
                 </p>
 
                 <p class="payment-price">
-                    $<span id="paymentProductPrice">
+
+                    $
+
+                    <span id="paymentProductPrice">
                         44.99
                     </span>
+
                 </p>
 
             </div>
@@ -259,29 +302,30 @@
                 </span>
 
                 <strong>
-                    $<span id="paymentTotal">
+
+                    $
+
+                    <span id="paymentTotal">
                         44.99
                     </span>
+
                 </strong>
 
             </div>
 
 
             <!-- =====================
-                 PAY NOW
+                 PAYPAL
             ====================== -->
 
-            <button
-                type="submit"
-                class="pay-now-btn">
-
-                PAY NOW
-
-            </button>
+            <div
+                id="paypal-button-container"
+                style="margin-top:25px;">
+            </div>
 
 
             <p class="payment-note">
-                Secure checkout. Payment processing will be connected here.
+                Secure checkout. Payment processed securely with PayPal.
             </p>
 
         </form>
@@ -398,6 +442,7 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
+
     /* =========================
        GET PRODUCT FROM CART
     ========================== */
@@ -446,17 +491,23 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (image && product.image) {
+
             image.src = product.image;
+
         }
 
 
         if (name && product.name) {
+
             name.textContent = product.name;
+
         }
 
 
         if (size && product.size) {
+
             size.textContent = product.size;
+
         }
 
 
@@ -473,21 +524,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         if (price) {
+
             price.textContent =
                 productPrice.toFixed(2);
+
         }
 
 
         if (total) {
+
             total.textContent =
                 totalPrice.toFixed(2);
+
         }
 
     }
 
 
     /* =========================
-       PAY NOW
+       PAYPAL CHECKOUT
     ========================== */
 
     const paymentForm =
@@ -496,25 +551,196 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    if (paymentForm) {
+    if (
+        paymentForm &&
+        typeof paypal !== "undefined"
+    ) {
 
-        paymentForm.addEventListener(
-            "submit",
-            function (event) {
+        paypal.Buttons({
 
-                event.preventDefault();
+            style: {
+
+                layout: "vertical",
+
+                shape: "rect",
+
+                label: "paypal"
+
+            },
 
 
-                /*
-                 * Payment provider will be
-                 * connected here later.
-                 */
+            createOrder: function (
+                data,
+                actions
+            ) {
+
+
+                /* CHECK CUSTOMER INFORMATION */
+
+                if (
+                    !paymentForm.checkValidity()
+                ) {
+
+                    paymentForm.reportValidity();
+
+                    return Promise.reject(
+                        new Error(
+                            "Please complete all required information."
+                        )
+                    );
+
+                }
+
+
+                /* GET CART */
+
+                let cart = null;
+
+
+                try {
+
+                    cart = JSON.parse(
+                        localStorage.getItem(
+                            "setApartCart"
+                        )
+                    );
+
+                } catch (error) {
+
+                    cart = null;
+
+                }
+
+
+                const price =
+                    cart
+                        ? Number(cart.price) || 44.99
+                        : 44.99;
+
+
+                const quantity =
+                    cart
+                        ? Number(cart.quantity) || 1
+                        : 1;
+
+
+                const total =
+                    (
+                        price *
+                        quantity
+                    ).toFixed(2);
+
+
+                return actions.order.create({
+
+                    purchase_units: [
+
+                        {
+
+                            description:
+                                cart &&
+                                cart.name
+                                    ? cart.name
+                                    : "SET APART HOODIE",
+
+
+                            amount: {
+
+                                currency_code:
+                                    "USD",
+
+                                value:
+                                    total
+
+                            }
+
+                        }
+
+                    ]
+
+                });
+
+            },
+
+
+            /* =========================
+               PAYMENT APPROVED
+            ========================== */
+
+            onApprove: function (
+                data,
+                actions
+            ) {
+
+                return actions.order
+                    .capture()
+
+                    .then(function (details) {
+
+
+                        /* CLEAR CART */
+
+                        localStorage.removeItem(
+                            "setApartCart"
+                        );
+
+
+                        /* SUCCESS */
+
+                        alert(
+                            "PAYMENT SUCCESSFUL! THANK YOU FOR YOUR ORDER."
+                        );
+
+
+                        /* GO HOME */
+
+                        window.location.href =
+                            "index.html";
+
+                    });
+
+            },
+
+
+            /* =========================
+               PAYMENT CANCELLED
+            ========================== */
+
+            onCancel: function () {
 
                 alert(
-                    "YOUR ORDER INFORMATION HAS BEEN RECEIVED. PAYMENT PROCESSING WILL BE CONNECTED SOON."
+                    "PAYMENT WAS CANCELLED."
+                );
+
+            },
+
+
+            /* =========================
+               PAYPAL ERROR
+            ========================== */
+
+            onError: function (error) {
+
+                console.error(
+                    "PayPal Error:",
+                    error
+                );
+
+
+                alert(
+                    "PAYMENT COULD NOT BE COMPLETED. PLEASE TRY AGAIN."
                 );
 
             }
+
+        }).render(
+            "#paypal-button-container"
+        );
+
+    } else {
+
+        console.error(
+            "PayPal SDK was not loaded."
         );
 
     }
@@ -535,11 +761,15 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-    if (menuToggle && mainNav) {
+    if (
+        menuToggle &&
+        mainNav
+    ) {
 
         menuToggle.addEventListener(
             "click",
             function () {
+
 
                 const isOpen =
                     mainNav.classList.toggle(
@@ -580,14 +810,41 @@ document.addEventListener("DOMContentLoaded", function () {
             "searchBox"
         );
 
+    const closeSearch =
+        document.getElementById(
+            "closeSearch"
+        );
 
-    if (searchButton && searchBox) {
+
+    if (
+        searchButton &&
+        searchBox
+    ) {
 
         searchButton.addEventListener(
             "click",
             function () {
 
                 searchBox.classList.toggle(
+                    "active"
+                );
+
+            }
+        );
+
+    }
+
+
+    if (
+        closeSearch &&
+        searchBox
+    ) {
+
+        closeSearch.addEventListener(
+            "click",
+            function () {
+
+                searchBox.classList.remove(
                     "active"
                 );
 
@@ -605,6 +862,61 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById(
             "cartButton"
         );
+
+    const cartCount =
+        document.getElementById(
+            "cartCount"
+        );
+
+
+    function updateCartCount() {
+
+        let cart = null;
+
+
+        try {
+
+            cart = JSON.parse(
+                localStorage.getItem(
+                    "setApartCart"
+                )
+            );
+
+        } catch (error) {
+
+            cart = null;
+
+        }
+
+
+        const quantity =
+            cart
+                ? Number(cart.quantity) || 0
+                : 0;
+
+
+        if (
+            cartCount &&
+            quantity > 0
+        ) {
+
+            cartCount.textContent =
+                quantity;
+
+            cartCount.style.display =
+                "flex";
+
+        } else if (cartCount) {
+
+            cartCount.style.display =
+                "none";
+
+        }
+
+    }
+
+
+    updateCartCount();
 
 
     if (cartButton) {
