@@ -3027,8 +3027,10 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: -2px;
+
+    margin-top: -10px;
     padding: 0;
+
     position: relative;
     z-index: 5;
 }
@@ -3041,24 +3043,20 @@ body {
 }
 
 .image-arrow {
-    width: 35px;
-    height: 35px;
+    width: 32px;
+    height: 32px;
     padding: 0;
+
     border: none;
     background: transparent;
     color: #111;
-    font-size: 22px;
+
+    font-size: 21px;
     cursor: pointer;
 
     display: flex;
     align-items: center;
     justify-content: center;
-
-    transition: transform .2s ease;
-}
-
-.image-arrow:hover {
-    transform: scale(1.15);
 }
 
 /* Remove VIEW COLORS completely */
@@ -3076,9 +3074,7 @@ body {
     grid-row: 1 / span 2;
 
     height: 100%;
-    min-height: 100%;
-
-    padding: 35px 30px;
+    padding: 15px 20px;
 
     display: flex;
     flex-direction: column;
@@ -3088,100 +3084,67 @@ body {
 }
 
 .shop-product-info h2 {
-    margin: 0 0 10px;
-
-    font-size: 30px;
+    margin: 0 0 6px;
+    font-size: 28px;
     line-height: 1.1;
     font-weight: 800;
     letter-spacing: 1px;
 }
 
 .shop-product-price {
-    margin: 0 0 35px;
-
+    margin: 0 0 20px;
     font-size: 18px;
     font-weight: 600;
 }
 
-/* =========================================
-   COLOR
-========================================= */
-
 .shop-color {
-    margin: 0 0 30px;
+    margin: 0 0 18px;
 }
 
 .shop-color > span,
 .shop-size > span {
     display: block;
-    margin-bottom: 12px;
-
+    margin-bottom: 8px;
     font-size: 12px;
     font-weight: 700;
     letter-spacing: 1.5px;
 }
 
-.shop-color-options {
-    display: flex;
-    align-items: center;
-    gap: 12px;
+.selected-color-name {
+    margin-top: 5px;
+    font-size: 11px;
 }
-
-.shop-color-btn {
-    width: 28px;
-    height: 28px;
-}
-
-/* =========================================
-   SIZE
-========================================= */
 
 .shop-size {
-    margin-bottom: 30px;
+    margin: 0 0 20px;
 }
 
 .shop-size-options {
     display: flex;
     align-items: center;
-    gap: 0;
+    gap: 3px;
 }
 
 .shop-size-btn {
     min-width: 38px;
-    height: 40px;
-
+    height: 38px;
     padding: 0;
-
-    border: none;
-    background: transparent;
-
-    font-size: 13px;
-    font-weight: 700;
-    cursor: pointer;
 }
 
-.shop-size-btn.selected {
-    background: #111;
-    color: #fff;
-}
-
-/* =========================================
-   BUTTONS
-========================================= */
+/* BUTTONS */
 
 .shop-add-cart,
 .buy-now-btn {
     width: 100%;
-    height: 50px;
-    flex-shrink: 0;
+    height: 48px;
 }
 
 .shop-add-cart {
-    margin-top: auto;
+    margin-top: 0;
 }
 
 .buy-now-btn {
-    margin-top: 10px;
+    margin-top: 8px;
 }
 
 /* =====================================================
