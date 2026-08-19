@@ -1,15 +1,9 @@
 /* =========================================================
    SET APART — MASTER STYLE
-   Works with:
    index.html
    shop.html
    about.html
    contact.html
-========================================================= */
-
-
-/* =========================================================
-   RESET
 ========================================================= */
 
 * {
@@ -64,6 +58,11 @@ button {
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 2px;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 2000;
 }
 
 
@@ -72,8 +71,11 @@ button {
 ========================================================= */
 
 .navbar {
-    position: relative;
-    z-index: 1000;
+    position: fixed;
+    top: 35px;
+    left: 0;
+
+    z-index: 1999;
 
     width: 100%;
     min-height: 76px;
@@ -95,7 +97,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: center;
-
     flex-shrink: 0;
 }
 
@@ -204,7 +205,7 @@ button {
 }
 
 
-/* MOBILE MENU BUTTON */
+/* MOBILE MENU */
 
 .menu-toggle {
     display: none;
@@ -312,9 +313,6 @@ button {
 
     overflow: hidden;
 }
-
-
-/* HERO CONTENT */
 
 .hero-content {
     position: relative;
@@ -667,7 +665,7 @@ button {
 
 
 /* =========================================================
-   SHOP / ABOUT / CONTACT PAGE HERO
+   PAGE HERO
 ========================================================= */
 
 .page-hero {
@@ -1177,8 +1175,8 @@ button {
 
 
 /* =========================================================
-   FINAL PRODUCT IMAGE ARROWS
-   ARROWS STAY ON THE SIDES OF HOODIE
+   IMAGE ARROWS
+   ARROWS STAY ON IMAGE FRAME
 ========================================================= */
 
 .color-controls {
@@ -1187,17 +1185,15 @@ button {
     top: 0;
     left: 0;
 
-    width: 65.9%;
+    width: calc(100% - 375px);
     height: 520px;
 
     display: flex;
 
     align-items: center;
-
     justify-content: center;
 
     padding: 0;
-
     margin: 0;
 
     pointer-events: none;
@@ -1206,10 +1202,11 @@ button {
 }
 
 
-/* ARROW CONTAINER */
+/* ARROW ROW */
 
 .image-arrows {
     width: 100%;
+    height: 100%;
 
     display: flex;
 
@@ -1218,14 +1215,13 @@ button {
     justify-content: space-between;
 
     padding: 0;
-
     margin: 0;
 
     pointer-events: none;
 }
 
 
-/* ARROW BUTTON */
+/* ARROW */
 
 .image-arrow {
     width: 38px;
@@ -1262,17 +1258,17 @@ button {
 }
 
 
-/* LEFT */
+/* LEFT ARROW */
 
 .prev-image {
-    transform: translateX(-8px);
+    transform: translateX(0);
 }
 
 
-/* RIGHT */
+/* RIGHT ARROW */
 
 .next-image {
-    transform: translateX(8px);
+    transform: translateX(0);
 }
 
 
@@ -1288,7 +1284,7 @@ button {
 
 
 /* =========================================================
-   VIEW COLORS — COMPLETELY REMOVED
+   VIEW COLORS REMOVED
 ========================================================= */
 
 .view-colors {
@@ -1497,37 +1493,6 @@ button {
 
 
 /* =========================================================
-   FIXED ANNOUNCEMENT + NAVBAR
-========================================================= */
-
-.announcement {
-    position: fixed;
-
-    top: 0;
-    left: 0;
-
-    width: 100%;
-
-    z-index: 2000;
-}
-
-.navbar {
-    position: fixed;
-
-    top: 35px;
-    left: 0;
-
-    width: 100%;
-
-    z-index: 1999;
-}
-
-body {
-    padding-top: 111px;
-}
-
-
-/* =========================================================
    TABLET
 ========================================================= */
 
@@ -1543,6 +1508,10 @@ body {
     }
 }
 
+
+/* =========================================================
+   TABLET / SMALL DESKTOP
+========================================================= */
 
 @media (max-width: 900px) {
 
@@ -1589,12 +1558,16 @@ body {
     }
 
 
-    /* ARROWS FOLLOW IMAGE */
+    /* ARROWS */
 
     .color-controls {
         width: 100%;
 
         height: 420px;
+    }
+
+    .image-arrows {
+        width: 100%;
     }
 
     .image-arrow {
@@ -1780,7 +1753,7 @@ body {
     }
 
 
-    /* HOME PRODUCT GRID */
+    /* HOME PRODUCTS */
 
     .new-drop {
         padding: 70px 16px;
@@ -1910,235 +1883,19 @@ body {
     }
 
 
-    /* ARROWS */
+    /* =====================================================
+       MOBILE ARROWS
+       STAY ON IMAGE EDGES
+    ===================================================== */
 
     .color-controls {
         width: 100%;
 
         height: 360px;
 
-        padding: 0 2px;
+        padding: 0;
+
+        left: 0;
     }
 
-    .image-arrows {
-        width: 100%;
-    }
-
-    .image-arrow {
-        width: 34px;
-
-        height: 40px;
-
-        font-size: 26px;
-    }
-
-
-    /* PRODUCT INFO */
-
-    .shop-product-info {
-        width: 100%;
-
-        padding: 10px 15px 25px;
-    }
-
-    .shop-product-info h2 {
-        font-size: 22px;
-    }
-
-    .shop-product-price {
-        font-size: 17px;
-    }
-
-
-    /* COLOR */
-
-    .shop-color > span,
-    .shop-size > span {
-        font-size: 11px;
-    }
-
-
-    /* SIZE */
-
-    .shop-size-options {
-        gap: 4px;
-    }
-
-    .shop-size-btn {
-        min-width: 42px;
-
-        height: 40px;
-
-        font-size: 11px;
-    }
-
-
-    /* BUTTONS */
-
-    .shop-add-cart,
-    .buy-now-btn {
-        height: 40px;
-
-        font-size: 11px;
-
-        letter-spacing: 0.6px;
-    }
-
-    .shop-add-cart {
-        margin-top: 0;
-    }
-
-    .buy-now-btn {
-        margin-top: 8px;
-    }
-
-
-    /* CONTACT */
-
-    .contact-section {
-        padding: 65px 16px;
-    }
-
-    .contact-content {
-        grid-template-columns: 1fr;
-
-        gap: 55px;
-    }
-
-    .contact-info h2 {
-        font-size: 38px;
-    }
-
-
-    /* FOOTER */
-
-    .footer {
-        padding: 55px 20px 22px;
-    }
-
-    .footer-brand {
-        margin-bottom: 40px;
-    }
-
-    .footer-links {
-        grid-template-columns: repeat(2, 1fr);
-
-        gap: 35px 25px;
-
-        margin-bottom: 45px;
-    }
-
-    .footer-links > div:last-child {
-        grid-column: 1 / -1;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
-
-@media (max-width: 420px) {
-
-    .navbar {
-        grid-template-columns: 38px 1fr 74px;
-    }
-
-    .logo img {
-        width: 82px;
-    }
-
-    .nav-icons {
-        gap: 5px;
-    }
-
-    .nav-icons button {
-        width: 38px;
-
-        height: 38px;
-    }
-
-    .search-btn {
-        font-size: 31px !important;
-    }
-
-    .cart-btn {
-        font-size: 23px !important;
-    }
-
-
-    /* HERO */
-
-    .hero {
-        min-height: 58vh;
-    }
-
-    .hero h1 {
-        font-size: 47px;
-    }
-
-    .hero h2 {
-        font-size: 11px;
-
-        letter-spacing: 1.5px;
-    }
-
-
-    /* PAGE HERO */
-
-    .page-hero {
-        min-height: 58vh;
-    }
-
-    .page-hero-content h1 {
-        font-size: 47px;
-    }
-
-
-    /* PRODUCT */
-
-    .product-slide {
-        height: 330px;
-    }
-
-    .color-controls {
-        height: 330px;
-    }
-
-    .image-arrow {
-        width: 32px;
-
-        height: 38px;
-
-        font-size: 24px;
-    }
-
-    .shop-product-info h2 {
-        font-size: 20px;
-    }
-
-    .shop-size-btn {
-        min-width: 38px;
-
-        height: 38px;
-    }
-}
-
-
-/* =========================================================
-   REDUCED MOTION
-========================================================= */
-
-@media (prefers-reduced-motion: reduce) {
-
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition: none !important;
-        animation: none !important;
-    }
-}
+    .image
