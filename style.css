@@ -3355,3 +3355,53 @@ body {
 .view-colors {
     display: none !important;
 }
+
+/* =========================================================
+   ARROWS — OUTSIDE THE PRODUCT CARD
+========================================================= */
+
+.product-gallery {
+    position: relative;
+}
+
+.gallery-controls {
+    position: static;
+}
+
+.image-arrows {
+    position: static;
+}
+
+.image-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 40px;
+    height: 50px;
+
+    padding: 0;
+    border: none;
+    background: transparent;
+
+    color: #111;
+    font-size: 30px;
+    line-height: 1;
+
+    cursor: pointer;
+    z-index: 20;
+}
+
+.prev-image {
+    left: -55px;
+}
+
+.next-image {
+    right: -55px;
+}
+
+.image-arrow:hover {
+    background: transparent;
+    color: #777;
+    transform: translateY(-50%);
+}
