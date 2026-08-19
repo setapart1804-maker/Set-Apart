@@ -3269,70 +3269,85 @@ body {
     transform: scale(1.08);
 }
 
-/* ARROWS ONLY — DO NOT CHANGE PRODUCT FRAME */
+/* =========================================
+   PERFECT PRODUCT IMAGE ARROWS
+========================================= */
 
 .product-gallery {
     position: relative;
 }
 
-.product-slider {
-    position: relative;
-}
-
+/* Arrow area = IMAGE AREA ONLY */
 .color-controls {
     position: absolute;
-    top: 50%;
+
     left: 0;
-    width: 100%;
-    transform: translateY(-50%);
+    top: 0;
+
+    width: calc((100% - 55px) * 1.45 / 2.20);
+    height: 100%;
 
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
 
     padding: 0;
-    margin: 0;
+    box-sizing: border-box;
 
     pointer-events: none;
     z-index: 20;
 }
 
+/* Keep arrows separated */
 .image-arrows {
-    width: 100%;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
+
+    width: 100%;
 }
 
+/* Arrow style */
 .image-arrow {
-    width: 32px;
-    height: 32px;
-
-    border: 1px solid #222;
-    background: #fff;
-    color: #111;
+    width: 36px;
+    height: 36px;
 
     padding: 0;
-    margin: 0;
+
+    border: 1px solid #222;
+    background: rgba(255, 255, 255, 0.95);
+
+    color: #111;
+
+    font-size: 20px;
+    line-height: 1;
 
     display: flex;
     align-items: center;
     justify-content: center;
 
-    font-size: 18px;
     cursor: pointer;
     pointer-events: auto;
+
+    transition: all 0.2s ease;
 }
 
-/* Put them right beside the image frame */
+/* Put arrows slightly outside the image frame */
 .prev-image {
-    transform: translateX(-16px);
+    transform: translateX(-18px);
 }
 
 .next-image {
-    transform: translateX(16px);
+    transform: translateX(18px);
 }
 
+/* Hover */
+.image-arrow:hover {
+    background: #111;
+    color: #fff;
+}
+
+/* Remove VIEW COLORS */
 .view-colors {
     display: none !important;
 }
