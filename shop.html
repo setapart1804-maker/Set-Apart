@@ -1,23 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Shop — SET APART</title>
 
 <style>
-
 /* =========================================================
    RESET
 ========================================================= */
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -25,10 +22,20 @@ html {
 }
 
 body {
-    background: #ffffff;
-    color: #111111;
     font-family: Arial, Helvetica, sans-serif;
-    line-height: 1.4;
+    background: #fff;
+    color: #111;
+    overflow-x: hidden;
+}
+
+button,
+input {
+    font-family: inherit;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
 }
 
 
@@ -37,16 +44,19 @@ body {
 ========================================================= */
 
 .announcement {
-    width: 100%;
-    background: #111111;
-    color: #ffffff;
+    height: 58px;
+    background: #111;
+    color: #fff;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     text-align: center;
 
-    padding: 11px 15px;
-
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 2.5px;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 2px;
 }
 
 
@@ -55,102 +65,150 @@ body {
 ========================================================= */
 
 .navbar {
+    height: 140px;
     width: 100%;
-    height: 78px;
 
-    display: flex;
+    background: #fff;
+
+    display: grid;
+    grid-template-columns: 260px 1fr 260px;
     align-items: center;
-    justify-content: space-between;
 
-    padding: 0 42px;
-
-    background: #ffffff;
-    border-bottom: 1px solid #e8e8e8;
+    padding: 0 55px;
 
     position: relative;
-    z-index: 20;
+    z-index: 1000;
 }
 
 
 /* LOGO */
 
 .logo {
+    width: 150px;
+    height: 120px;
+
     display: flex;
     align-items: center;
-
-    text-decoration: none;
-
-    width: 120px;
+    justify-content: center;
 }
 
 .logo img {
-    width: 100%;
-    max-height: 52px;
-
+    width: 145px;
+    max-height: 115px;
     object-fit: contain;
     display: block;
 }
 
 
-/* NAV */
+/* NAV LINKS */
 
-.main-nav {
+.nav-links {
     display: flex;
-    align-items: center;
     justify-content: center;
-
-    gap: 38px;
+    align-items: center;
+    gap: 48px;
 }
 
-.main-nav a {
-    color: #111111;
-    text-decoration: none;
-
-    font-size: 11px;
-    font-weight: 700;
-
+.nav-links a {
+    font-size: 15px;
+    font-weight: 800;
     letter-spacing: 2px;
 
-    transition: opacity .2s;
+    transition: opacity .2s ease;
 }
 
-.main-nav a:hover {
-    opacity: .5;
+.nav-links a:hover {
+    opacity: .55;
+}
+
+.nav-links a.active {
+    text-decoration: underline;
+    text-underline-offset: 6px;
 }
 
 
-/* RIGHT NAV */
+/* NAV RIGHT */
 
 .nav-right {
-    width: 120px;
-
     display: flex;
     justify-content: flex-end;
     align-items: center;
-
-    gap: 14px;
+    gap: 28px;
 }
 
-.nav-icon {
+
+/* SEARCH */
+
+.search-button,
+.cart-button {
     border: none;
     background: transparent;
-
-    color: #111111;
-
     cursor: pointer;
+    position: relative;
+}
 
-    font-size: 21px;
+.search-icon {
+    width: 23px;
+    height: 23px;
 
-    width: 34px;
-    height: 34px;
+    border: 2.5px solid #111;
+    border-radius: 50%;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;
+    position: relative;
+}
+
+.search-icon::after {
+    content: "";
+
+    position: absolute;
+
+    width: 9px;
+    height: 2.5px;
+
+    background: #111;
+
+    right: -7px;
+    bottom: -4px;
+
+    transform: rotate(-48deg);
+    transform-origin: left center;
 }
 
 
-/* MOBILE MENU */
+/* CART */
+
+.cart-icon {
+    font-size: 27px;
+    line-height: 1;
+}
+
+.cart-count {
+    position: absolute;
+
+    top: -10px;
+    right: -12px;
+
+    min-width: 23px;
+    height: 23px;
+
+    padding: 0 5px;
+
+    border-radius: 50%;
+
+    background: #111;
+    color: #fff;
+
+    display: none;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 11px;
+    font-weight: 800;
+}
+
+
+/* MOBILE MENU BUTTON */
 
 .menu-button {
     display: none;
@@ -158,110 +216,192 @@ body {
     border: none;
     background: transparent;
 
-    font-size: 25px;
-
+    font-size: 27px;
     cursor: pointer;
 }
 
 
 /* =========================================================
-   SEARCH
+   SEARCH BOX
 ========================================================= */
 
-.search-area {
+.search-box {
     display: none;
 
     width: 100%;
 
-    padding: 18px 40px;
+    background: #fff;
 
-    background: #ffffff;
+    padding: 22px 55px;
 
-    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #ddd;
+
+    position: relative;
+    z-index: 999;
 }
 
-.search-area.active {
+.search-box.active {
     display: block;
 }
 
 .search-form {
-    width: 100%;
     max-width: 900px;
-
-    margin: 0 auto;
+    margin: auto;
 
     display: flex;
+    align-items: center;
 
-    border-bottom: 1px solid #111111;
+    border-bottom: 1px solid #111;
 }
 
 .search-form input {
-    flex: 1;
+    width: 100%;
 
     border: none;
     outline: none;
 
-    padding: 12px 5px;
+    padding: 14px 5px;
 
-    font-size: 15px;
-
-    background: transparent;
+    font-size: 17px;
 }
 
-.search-close {
+.close-search {
     border: none;
     background: transparent;
 
+    font-size: 28px;
     cursor: pointer;
-
-    font-size: 22px;
 }
 
 
 /* =========================================================
-   SHOP HEADER
+   SHOP HERO
 ========================================================= */
 
-.shop-header {
-    width: 100%;
+.shop-hero {
+    min-height: 650px;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: center;
 
     text-align: center;
 
-    padding: 85px 25px 65px;
+    color: #fff;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            rgba(0,0,0,.54),
+            rgba(0,0,0,.68)
+        ),
+        url("background.jpg") center center / cover no-repeat;
 }
 
-.shop-header-small {
-    font-size: 11px;
 
+/*
+   SI background.jpg PA NON NON BACKGROUND OU,
+   ranplase background.jpg ak non image Home ou a.
+*/
+
+
+.shop-hero-content {
+    position: relative;
+    z-index: 2;
+
+    width: min(1200px, 94%);
+}
+
+.shop-eyebrow {
+    font-size: 15px;
+    font-weight: 800;
+
+    letter-spacing: 5px;
+
+    margin-bottom: 28px;
+}
+
+.shop-title {
+    font-size: clamp(65px, 11vw, 170px);
+
+    line-height: .88;
+
+    font-weight: 900;
+
+    letter-spacing: -5px;
+
+    margin-bottom: 32px;
+}
+
+.shop-tagline {
+    font-size: clamp(19px, 2.5vw, 31px);
+
+    letter-spacing: 6px;
+
+    font-weight: 500;
+
+    margin-bottom: 40px;
+}
+
+.shop-button {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    min-width: 175px;
+    height: 62px;
+
+    background: #fff;
+    color: #111;
+
+    font-size: 12px;
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    transition: .25s ease;
+}
+
+.shop-button:hover {
+    background: #111;
+    color: #fff;
+}
+
+
+/* =========================================================
+   SHOP INTRO
+========================================================= */
+
+.shop-intro {
+    padding: 90px 30px 50px;
+
+    text-align: center;
+}
+
+.shop-intro p {
+    color: #777;
+
+    font-size: 12px;
     font-weight: 700;
 
     letter-spacing: 4px;
 
-    color: #777777;
-
-    margin-bottom: 16px;
+    margin-bottom: 15px;
 }
 
-.shop-header h1 {
-    font-size: clamp(50px, 8vw, 92px);
-
-    line-height: .95;
-
-    letter-spacing: 1px;
+.shop-intro h1 {
+    font-size: clamp(42px, 6vw, 75px);
 
     font-weight: 900;
-}
 
-.shop-header-subtitle {
-    margin-top: 20px;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 3px;
-
-    color: #777777;
+    letter-spacing: -2px;
 }
 
 
@@ -269,12 +409,17 @@ body {
    PRODUCTS
 ========================================================= */
 
-.shop-container {
-    width: min(1500px, 92%);
+.products {
+    width: min(1450px, 94%);
 
-    margin: 0 auto;
+    margin: auto;
 
-    padding-bottom: 120px;
+    padding: 40px 0 120px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 120px;
 }
 
 
@@ -285,23 +430,25 @@ body {
 .product {
     width: 100%;
 
-    padding: 70px 0;
+    border-top: 1px solid #ddd;
 
-    border-top: 1px solid #dddddd;
+    padding-top: 70px;
 }
 
 
-/* =========================================================
-   PRODUCT LAYOUT
-========================================================= */
+/*
+   EXACT LAYOUT:
+
+   IMAGE LEFT
+   INFO RIGHT
+*/
 
 .product-layout {
-
     display: grid;
 
     grid-template-columns:
         minmax(0, 1.45fr)
-        minmax(340px, .8fr);
+        minmax(320px, .75fr);
 
     gap: 75px;
 
@@ -310,7 +457,7 @@ body {
 
 
 /* =========================================================
-   GALLERY
+   PRODUCT GALLERY
 ========================================================= */
 
 .gallery {
@@ -321,39 +468,25 @@ body {
 
 /* IMAGE WINDOW */
 
-.image-window {
-
+.slider {
     width: 100%;
 
     aspect-ratio: 1 / 1;
 
-    background: #f3f3f3;
-
-    overflow: hidden;
-
-    position: relative;
-}
-
-
-/* IMAGE TRACK */
-
-.image-track {
-
-    width: 100%;
-    height: 100%;
+    overflow-x: auto;
 
     display: flex;
 
-    overflow-x: auto;
-
     scroll-snap-type: x mandatory;
+
+    scroll-behavior: smooth;
 
     scrollbar-width: none;
 
-    scroll-behavior: smooth;
+    background: #f2f2f2;
 }
 
-.image-track::-webkit-scrollbar {
+.slider::-webkit-scrollbar {
     display: none;
 }
 
@@ -361,12 +494,11 @@ body {
 /* EACH IMAGE */
 
 .slide {
-
-    min-width: 100%;
-    width: 100%;
-    height: 100%;
-
     flex: 0 0 100%;
+
+    width: 100%;
+
+    height: 100%;
 
     scroll-snap-align: start;
 
@@ -378,95 +510,69 @@ body {
     background: #f3f3f3;
 }
 
-
-/*
-   IMPORTANT:
-   contain keeps the WHOLE hoodie visible.
-*/
-
 .slide img {
-
     width: 100%;
     height: 100%;
 
     object-fit: contain;
 
     display: block;
-
-    user-select: none;
-
-    -webkit-user-drag: none;
 }
 
 
 /* =========================================================
-   GALLERY BOTTOM
+   GALLERY CONTROLS
 ========================================================= */
 
 .gallery-bottom {
-
-    width: 100%;
+    margin-top: 20px;
 
     display: flex;
 
-    justify-content: space-between;
-
     align-items: center;
-
-    margin-top: 18px;
+    justify-content: space-between;
 }
 
 
 /* ARROWS */
 
-.gallery-arrows {
-
+.arrows {
     display: flex;
-
-    align-items: center;
-
-    gap: 7px;
+    gap: 8px;
 }
 
-.gallery-arrow {
+.arrow {
+    width: 55px;
+    height: 45px;
 
-    width: 52px;
-    height: 43px;
+    border: 1px solid #222;
 
-    background: #ffffff;
-
-    border: 1px solid #cccccc;
-
-    color: #111111;
-
-    font-size: 18px;
+    background: #fff;
+    color: #111;
 
     cursor: pointer;
 
-    transition: .2s;
+    font-size: 20px;
+
+    transition: .2s ease;
 }
 
-.gallery-arrow:hover {
-
-    background: #111111;
-
-    color: #ffffff;
-
-    border-color: #111111;
+.arrow:hover {
+    background: #111;
+    color: #fff;
 }
 
 
 /* LABEL */
 
 .gallery-label {
-
-    font-size: 10px;
+    font-size: 11px;
 
     font-weight: 800;
 
     letter-spacing: 3px;
 
-    color: #777777;
+    color: #777;
 }
 
 
@@ -475,50 +581,35 @@ body {
 ========================================================= */
 
 .product-info {
-
-    padding-top: 4px;
-
-    max-width: 470px;
+    padding-top: 5px;
 }
 
-
-/* BRAND */
-
 .product-brand {
-
-    font-size: 10px;
+    font-size: 12px;
 
     font-weight: 800;
 
-    letter-spacing: 3px;
+    letter-spacing: 4px;
 
-    color: #777777;
+    color: #777;
 
-    margin-bottom: 17px;
+    margin-bottom: 18px;
 }
 
-
-/* NAME */
-
 .product-name {
+    font-size: clamp(30px, 4vw, 55px);
 
-    font-size: clamp(30px, 4vw, 53px);
-
-    line-height: .98;
-
-    letter-spacing: -1px;
+    line-height: 1;
 
     font-weight: 900;
 
-    margin-bottom: 20px;
+    letter-spacing: -1px;
+
+    margin-bottom: 22px;
 }
 
-
-/* PRICE */
-
 .product-price {
-
-    font-size: 20px;
+    font-size: 21px;
 
     font-weight: 700;
 
@@ -530,39 +621,36 @@ body {
    OPTIONS
 ========================================================= */
 
-.option-label {
-
+.option-title {
     display: block;
 
-    font-size: 10px;
+    font-size: 11px;
 
-    font-weight: 800;
+    font-weight: 900;
 
-    letter-spacing: 2.5px;
+    letter-spacing: 3px;
 
-    margin-bottom: 13px;
+    margin-bottom: 15px;
 }
 
 
 /* COLORS */
 
 .color-buttons {
-
     display: flex;
 
-    gap: 11px;
+    gap: 12px;
 
-    margin-bottom: 11px;
+    margin-bottom: 13px;
 }
 
 .color-button {
-
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
 
     border-radius: 50%;
 
-    border: 1px solid #bbbbbb;
+    border: 1px solid #aaa;
 
     cursor: pointer;
 
@@ -570,37 +658,35 @@ body {
 }
 
 .color-button.black {
-    background: #111111;
+    background: #111;
 }
 
 .color-button.white {
-    background: #ffffff;
+    background: #fff;
 }
 
 .color-button.brown {
-    background: #6a4228;
+    background: #6b4226;
 }
 
 .color-button.beige {
-    background: #d6c0a0;
+    background: #d8c2a4;
 }
 
 .color-button.selected {
-
     box-shadow:
-        0 0 0 2px #ffffff,
-        0 0 0 3px #111111;
+        0 0 0 2px #fff,
+        0 0 0 4px #111;
 }
 
 .selected-color {
+    font-size: 11px;
 
-    font-size: 10px;
-
-    font-weight: 700;
+    font-weight: 800;
 
     letter-spacing: 2px;
 
-    color: #777777;
+    color: #777;
 
     margin-bottom: 38px;
 }
@@ -611,26 +697,22 @@ body {
 ========================================================= */
 
 .size-buttons {
-
     display: flex;
 
     gap: 8px;
 
-    margin-bottom: 35px;
+    margin-bottom: 38px;
 }
 
 .size-button {
+    width: 55px;
+    height: 48px;
 
-    width: 52px;
-    height: 45px;
+    background: #fff;
 
-    border: 1px solid #cccccc;
+    border: 1px solid #aaa;
 
-    background: #ffffff;
-
-    color: #111111;
-
-    font-size: 11px;
+    font-size: 12px;
 
     font-weight: 800;
 
@@ -640,119 +722,65 @@ body {
 }
 
 .size-button:hover {
-
-    border-color: #111111;
+    border-color: #111;
 }
 
 .size-button.selected {
-
-    background: #111111;
-
-    color: #ffffff;
-
-    border-color: #111111;
+    background: #111;
+    color: #fff;
+    border-color: #111;
 }
 
 
 /* =========================================================
-   ACTIONS
+   PRODUCT ACTIONS
 ========================================================= */
 
 .actions {
-
     display: flex;
 
     flex-direction: column;
 
-    gap: 9px;
+    gap: 10px;
+}
+
+.add-cart,
+.buy-now {
+    width: 100%;
+
+    min-height: 55px;
+
+    cursor: pointer;
+
+    font-size: 11px;
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    transition: .2s;
 }
 
 .add-cart {
-
-    width: 100%;
-
-    min-height: 53px;
-
-    border: 1px solid #111111;
-
-    background: #111111;
-
-    color: #ffffff;
-
-    cursor: pointer;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 2.5px;
-
-    transition: .2s;
+    background: #111;
+    color: #fff;
+    border: 1px solid #111;
 }
 
 .add-cart:hover {
-
-    background: #ffffff;
-
-    color: #111111;
+    background: #333;
 }
 
 .buy-now {
+    background: #fff;
+    color: #111;
 
-    width: 100%;
-
-    min-height: 53px;
-
-    border: 1px solid #111111;
-
-    background: #ffffff;
-
-    color: #111111;
-
-    cursor: pointer;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
-    letter-spacing: 2.5px;
-
-    transition: .2s;
+    border: 1px solid #111;
 }
 
 .buy-now:hover {
-
-    background: #111111;
-
-    color: #ffffff;
-}
-
-
-/* =========================================================
-   CART MESSAGE
-========================================================= */
-
-.cart-message {
-
-    display: none;
-
-    margin-top: 15px;
-
-    padding: 13px;
-
-    background: #f2f2f2;
-
-    text-align: center;
-
-    font-size: 10px;
-
-    font-weight: 700;
-
-    letter-spacing: 1.5px;
-}
-
-.cart-message.show {
-    display: block;
+    background: #111;
+    color: #fff;
 }
 
 
@@ -761,126 +789,96 @@ body {
 ========================================================= */
 
 .footer {
+    background: #111;
 
-    background: #111111;
+    color: #fff;
 
-    color: #ffffff;
-
-    padding: 70px 7% 25px;
+    padding: 80px 7% 30px;
 }
 
-.footer-top {
 
+/* FOOTER TOP */
+
+.footer-top {
     display: grid;
 
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 2fr;
 
     gap: 80px;
 
-    padding-bottom: 60px;
+    padding-bottom: 70px;
 }
 
+
+/* FOOTER BRAND */
+
 .footer-brand img {
+    width: 135px;
 
-    width: 130px;
+    filter: invert(1);
 
-    max-height: 70px;
-
-    object-fit: contain;
-
-    margin-bottom: 20px;
-
-    filter: brightness(0) invert(1);
+    margin-bottom: 22px;
 }
 
 .footer-brand p {
+    color: #aaa;
 
-    color: #aaaaaa;
-
-    font-size: 11px;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 7px;
-}
-
-.footer-links {
-
-    display: grid;
-
-    grid-template-columns: repeat(3, 1fr);
-
-    gap: 35px;
-}
-
-.footer-column h3 {
-
-    font-size: 10px;
+    font-size: 12px;
 
     letter-spacing: 2px;
 
-    margin-bottom: 20px;
+    line-height: 2;
+}
+
+
+/* FOOTER LINKS */
+
+.footer-links {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 40px;
+}
+
+.footer-column h3 {
+    font-size: 12px;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 22px;
 }
 
 .footer-column a {
-
     display: block;
 
-    color: #aaaaaa;
+    color: #aaa;
 
-    text-decoration: none;
+    font-size: 12px;
 
-    font-size: 10px;
-
-    letter-spacing: 1px;
-
-    margin-bottom: 12px;
+    margin-bottom: 13px;
 
     transition: color .2s;
 }
 
 .footer-column a:hover {
-
-    color: #ffffff;
+    color: #fff;
 }
+
+
+/* FOOTER BOTTOM */
 
 .footer-bottom {
+    padding-top: 25px;
 
-    border-top: 1px solid #333333;
+    border-top: 1px solid #333;
 
-    padding-top: 22px;
+    color: #777;
 
-    color: #777777;
+    font-size: 10px;
 
-    font-size: 9px;
-
-    letter-spacing: 1.5px;
-}
-
-
-/* =========================================================
-   TABLET
-========================================================= */
-
-@media (max-width: 1050px) {
-
-    .navbar {
-        padding: 0 25px;
-    }
-
-    .product-layout {
-
-        grid-template-columns:
-            minmax(0, 1.25fr)
-            minmax(300px, .75fr);
-
-        gap: 45px;
-    }
-
-    .product-name {
-        font-size: 38px;
-    }
-
+    letter-spacing: 2px;
 }
 
 
@@ -888,163 +886,229 @@ body {
    MOBILE
 ========================================================= */
 
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
 
     .navbar {
+        height: 105px;
 
-        height: 70px;
+        grid-template-columns:
+            1fr auto 1fr;
 
-        padding: 0 18px;
+        padding: 0 25px;
+    }
+
+    .logo {
+        width: 115px;
+        height: 90px;
+    }
+
+    .logo img {
+        width: 110px;
+        max-height: 85px;
     }
 
     .menu-button {
         display: block;
+        grid-column: 1;
+        justify-self: start;
     }
 
-    .logo {
-        width: 105px;
-    }
-
-    .nav-right {
-        width: auto;
-    }
-
-    .main-nav {
-
+    .nav-links {
         display: none;
 
         position: absolute;
 
-        top: 70px;
-
         left: 0;
         right: 0;
+        top: 105px;
 
-        background: #ffffff;
+        background: #fff;
 
-        border-bottom: 1px solid #dddddd;
-
-        padding: 22px;
+        padding: 25px;
 
         flex-direction: column;
 
-        gap: 20px;
+        gap: 25px;
+
+        border-top: 1px solid #eee;
+        border-bottom: 1px solid #ddd;
     }
 
-    .main-nav.active {
+    .nav-links.open {
         display: flex;
     }
 
-    .shop-header {
-
-        padding: 60px 20px 45px;
+    .logo {
+        grid-column: 2;
+        grid-row: 1;
     }
 
-    .shop-container {
+    .nav-right {
+        grid-column: 3;
+        grid-row: 1;
 
-        width: 92%;
-    }
-
-    .product {
-
-        padding: 50px 0;
+        gap: 18px;
     }
 
     .product-layout {
-
-        grid-template-columns: 1fr;
-
-        gap: 35px;
-    }
-
-    .product-info {
-
-        max-width: none;
-
-        padding: 0 2px;
-    }
-
-    .product-name {
-
-        font-size: 38px;
-    }
-
-    .footer-top {
-
         grid-template-columns: 1fr;
 
         gap: 45px;
     }
 
-    .footer-links {
-
-        grid-template-columns: 1fr 1fr;
+    .product-info {
+        max-width: 700px;
     }
 
+    .footer-top {
+        grid-template-columns: 1fr;
+    }
 }
 
 
 /* =========================================================
-   SMALL PHONE
+   SMALL MOBILE
 ========================================================= */
 
-@media (max-width: 430px) {
+@media (max-width: 600px) {
 
     .announcement {
+        height: 48px;
 
-        font-size: 8px;
+        font-size: 10px;
 
-        letter-spacing: 2px;
+        letter-spacing: 1.5px;
+
+        padding: 0 15px;
     }
 
-    .shop-header h1 {
+    .navbar {
+        height: 90px;
 
-        font-size: 54px;
+        padding: 0 17px;
+    }
+
+    .nav-links {
+        top: 90px;
+    }
+
+    .logo {
+        width: 90px;
+        height: 78px;
+    }
+
+    .logo img {
+        width: 90px;
+        max-height: 75px;
+    }
+
+    .cart-icon {
+        font-size: 23px;
+    }
+
+    .search-icon {
+        width: 20px;
+        height: 20px;
+    }
+
+    .shop-hero {
+        min-height: 530px;
+    }
+
+    .shop-eyebrow {
+        font-size: 10px;
+        letter-spacing: 3px;
+    }
+
+    .shop-title {
+        font-size: clamp(55px, 18vw, 100px);
+        letter-spacing: -3px;
+    }
+
+    .shop-tagline {
+        font-size: 14px;
+        letter-spacing: 3px;
+    }
+
+    .shop-intro {
+        padding: 65px 20px 30px;
+    }
+
+    .products {
+        width: 92%;
+
+        gap: 85px;
+
+        padding-bottom: 80px;
+    }
+
+    .product {
+        padding-top: 50px;
+    }
+
+    .product-layout {
+        gap: 35px;
     }
 
     .product-name {
-
         font-size: 32px;
     }
 
-    .gallery-arrow {
-
-        width: 46px;
-        height: 40px;
+    .product-price {
+        margin-bottom: 32px;
     }
 
-    .size-button {
-
-        width: 47px;
+    .footer {
+        padding: 60px 25px 25px;
     }
 
     .footer-links {
-
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr 1fr;
     }
-
 }
 
-</style>
 
+/* =========================================================
+   VERY SMALL
+========================================================= */
+
+@media (max-width: 400px) {
+
+    .nav-right {
+        gap: 12px;
+    }
+
+    .menu-button {
+        font-size: 23px;
+    }
+
+    .shop-title {
+        font-size: 53px;
+    }
+
+    .size-button {
+        width: 48px;
+    }
+}
+</style>
 </head>
 
 
 <body>
 
 
-<!-- =========================================================
+<!-- =======================================================
      ANNOUNCEMENT
-========================================================= -->
+======================================================= -->
 
 <div class="announcement">
     NEW DROP — CALLED TO LIVE DIFFERENTLY.
 </div>
 
 
-<!-- =========================================================
+<!-- =======================================================
      NAVBAR
-========================================================= -->
+======================================================= -->
 
 <header class="navbar">
 
@@ -1052,33 +1116,29 @@ body {
         class="menu-button"
         id="menuButton"
         type="button"
-        aria-label="Open menu">
-
+        aria-label="Open Menu">
         ☰
-
     </button>
 
 
-    <a
-        class="logo"
-        href="index.html">
+    <a href="index.html" class="logo">
 
         <img
             src="LOGO (2).png"
-            alt="SET APART">
+            alt="SET APART Logo">
 
     </a>
 
 
-    <nav
-        class="main-nav"
-        id="mainNav">
+    <nav class="nav-links" id="navLinks">
 
         <a href="index.html">
             HOME
         </a>
 
-        <a href="shop.html">
+        <a
+            href="shop.html"
+            class="active">
             SHOP
         </a>
 
@@ -1096,23 +1156,31 @@ body {
     <div class="nav-right">
 
         <button
-            class="nav-icon"
-            id="searchButton"
             type="button"
+            class="search-button"
+            id="searchButton"
             aria-label="Search">
 
-            ⌕
+            <span class="search-icon"></span>
 
         </button>
 
 
         <button
-            class="nav-icon"
-            id="cartButton"
             type="button"
-            aria-label="Cart">
+            class="cart-button"
+            id="cartButton"
+            aria-label="Shopping Cart">
 
-            🛒
+            <span class="cart-icon">
+                🛒
+            </span>
+
+            <span
+                class="cart-count"
+                id="cartCount">
+                0
+            </span>
 
         </button>
 
@@ -1121,31 +1189,29 @@ body {
 </header>
 
 
-<!-- =========================================================
+<!-- =======================================================
      SEARCH
-========================================================= -->
+======================================================= -->
 
 <div
-    class="search-area"
-    id="searchArea">
+    class="search-box"
+    id="searchBox">
 
     <form
         class="search-form"
         id="searchForm">
 
         <input
-            id="searchInput"
             type="search"
+            id="searchInput"
             placeholder="Search products..."
             autocomplete="off">
 
         <button
-            class="search-close"
-            id="searchClose"
-            type="button">
-
+            type="button"
+            class="close-search"
+            id="closeSearch">
             ×
-
         </button>
 
     </form>
@@ -1153,106 +1219,116 @@ body {
 </div>
 
 
-<!-- =========================================================
-     SHOP HEADER
-========================================================= -->
+<!-- =======================================================
+     SHOP HERO
+======================================================= -->
 
-<section class="shop-header">
+<section class="shop-hero">
 
-    <p class="shop-header-small">
-        FAITH-INSPIRED STREETWEAR
-    </p>
+    <div class="shop-hero-content">
 
-    <h1>
-        SHOP
-    </h1>
+        <p class="shop-eyebrow">
+            FAITH-INSPIRED STREETWEAR
+        </p>
 
-    <p class="shop-header-subtitle">
-        CALLED TO LIVE DIFFERENTLY.
-    </p>
+        <h1 class="shop-title">
+            SET APART
+        </h1>
+
+        <p class="shop-tagline">
+            CALLED TO LIVE DIFFERENTLY.
+        </p>
+
+        <a
+            href="#products"
+            class="shop-button">
+            SHOP NOW
+        </a>
+
+    </div>
 
 </section>
 
 
-<!-- =========================================================
+<!-- =======================================================
+     SHOP INTRO
+======================================================= -->
+
+<section class="shop-intro">
+
+    <p>
+        THE COLLECTION
+    </p>
+
+    <h1>
+        FEATURED HOODIES
+    </h1>
+
+</section>
+
+
+<!-- =======================================================
      PRODUCTS
-========================================================= -->
+======================================================= -->
 
-<main class="shop-container">
+<main
+    class="products"
+    id="products">
 
 
-<!-- =========================================================
-     GOD FIRST HOODIE
-========================================================= -->
+<!-- =======================================================
+     GOD FIRST
+======================================================= -->
 
 <article
     class="product"
     data-product="god-first">
 
-
     <div class="product-layout">
 
 
-        <!-- =========================
-             IMAGE
-        ========================== -->
+        <!-- GALLERY -->
 
         <div class="gallery">
 
+            <div class="slider">
 
-            <div class="image-window">
+                <div class="slide">
 
-                <div class="image-track">
+                    <img
+                        class="front-image"
+                        src="GOD FIRST BEIGE FRONT.jpeg"
+                        alt="God First Hoodie Front">
 
-
-                    <!-- FRONT -->
-
-                    <div class="slide">
-
-                        <img
-                            src="GOD FIRST BEIGE FRONT.jpeg"
-                            alt="God First Hoodie Front">
-
-                    </div>
+                </div>
 
 
-                    <!-- BACK -->
+                <div class="slide">
 
-                    <div class="slide">
-
-                        <img
-                            src="GOD FIRST BEIGE BACK.jpeg"
-                            alt="God First Hoodie Back">
-
-                    </div>
-
+                    <img
+                        class="back-image"
+                        src="GOD FIRST BEIGE BACK.jpeg"
+                        alt="God First Hoodie Back">
 
                 </div>
 
             </div>
 
 
-            <!-- ARROWS -->
-
             <div class="gallery-bottom">
 
-
-                <div class="gallery-arrows">
+                <div class="arrows">
 
                     <button
                         type="button"
-                        class="gallery-arrow previous">
-
+                        class="arrow previous">
                         ←
-
                     </button>
 
                     <button
                         type="button"
-                        class="gallery-arrow next">
-
+                        class="arrow next">
                         →
-
                     </button>
 
                 </div>
@@ -1262,28 +1338,22 @@ body {
                     HOODIE
                 </span>
 
-
             </div>
 
         </div>
 
 
-        <!-- =========================
-             INFO
-        ========================== -->
+        <!-- INFO -->
 
         <div class="product-info">
-
 
             <p class="product-brand">
                 SET APART
             </p>
 
-
             <h2 class="product-name">
                 GOD FIRST HOODIE
             </h2>
-
 
             <p class="product-price">
                 $44.99
@@ -1292,13 +1362,11 @@ body {
 
             <!-- COLOR -->
 
-            <span class="option-label">
+            <span class="option-title">
                 COLOR
             </span>
 
-
             <div class="color-buttons">
-
 
                 <button
                     type="button"
@@ -1307,14 +1375,12 @@ body {
                     aria-label="Black">
                 </button>
 
-
                 <button
                     type="button"
                     class="color-button white"
                     data-color="white"
                     aria-label="White">
                 </button>
-
 
                 <button
                     type="button"
@@ -1323,7 +1389,6 @@ body {
                     aria-label="Brown">
                 </button>
 
-
                 <button
                     type="button"
                     class="color-button beige"
@@ -1331,9 +1396,7 @@ body {
                     aria-label="Beige">
                 </button>
 
-
             </div>
-
 
             <p class="selected-color">
                 BROWN
@@ -1342,53 +1405,39 @@ body {
 
             <!-- SIZE -->
 
-            <span class="option-label">
+            <span class="option-title">
                 SIZE
             </span>
 
-
             <div class="size-buttons">
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="S">
-
                     S
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="M">
-
                     M
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="L">
-
                     L
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="XL">
-
                     XL
-
                 </button>
-
 
             </div>
 
@@ -1397,32 +1446,19 @@ body {
 
             <div class="actions">
 
-
                 <button
                     type="button"
                     class="add-cart">
-
                     ADD TO CART
-
                 </button>
-
 
                 <button
                     type="button"
                     class="buy-now">
-
                     BUY NOW
-
                 </button>
 
-
             </div>
-
-
-            <div class="cart-message">
-                ADDED TO CART.
-            </div>
-
 
         </div>
 
@@ -1431,52 +1467,39 @@ body {
 </article>
 
 
-
-<!-- =========================================================
-     PILGRIM HOODIE
-========================================================= -->
+<!-- =======================================================
+     PILGRIM
+======================================================= -->
 
 <article
     class="product"
     data-product="pilgrim">
 
-
     <div class="product-layout">
 
 
-        <!-- =========================
-             IMAGE
-        ========================== -->
+        <!-- GALLERY -->
 
         <div class="gallery">
 
+            <div class="slider">
 
-            <div class="image-window">
+                <div class="slide">
 
-                <div class="image-track">
+                    <img
+                        class="front-image"
+                        src="PILGRIM BLACK FRONT 1.png"
+                        alt="Pilgrim Hoodie Front">
 
-
-                    <!-- FRONT -->
-
-                    <div class="slide">
-
-                        <img
-                            src="PILGRIM BLACK FRONT 1.png"
-                            alt="Pilgrim Hoodie Front">
-
-                    </div>
+                </div>
 
 
-                    <!-- BACK -->
+                <div class="slide">
 
-                    <div class="slide">
-
-                        <img
-                            src="PILGRIM BLACK BACK.png"
-                            alt="Pilgrim Hoodie Back">
-
-                    </div>
-
+                    <img
+                        class="back-image"
+                        src="PILGRIM BLACK BACK.png"
+                        alt="Pilgrim Hoodie Back">
 
                 </div>
 
@@ -1485,24 +1508,18 @@ body {
 
             <div class="gallery-bottom">
 
-
-                <div class="gallery-arrows">
+                <div class="arrows">
 
                     <button
                         type="button"
-                        class="gallery-arrow previous">
-
+                        class="arrow previous">
                         ←
-
                     </button>
 
-
                     <button
                         type="button"
-                        class="gallery-arrow next">
-
+                        class="arrow next">
                         →
-
                     </button>
 
                 </div>
@@ -1514,26 +1531,20 @@ body {
 
             </div>
 
-
         </div>
 
 
-        <!-- =========================
-             INFO
-        ========================== -->
+        <!-- INFO -->
 
         <div class="product-info">
-
 
             <p class="product-brand">
                 SET APART
             </p>
 
-
             <h2 class="product-name">
                 PILGRIM HOODIE
             </h2>
-
 
             <p class="product-price">
                 $44.99
@@ -1542,13 +1553,11 @@ body {
 
             <!-- COLOR -->
 
-            <span class="option-label">
+            <span class="option-title">
                 COLOR
             </span>
 
-
             <div class="color-buttons">
-
 
                 <button
                     type="button"
@@ -1557,14 +1566,12 @@ body {
                     aria-label="Black">
                 </button>
 
-
                 <button
                     type="button"
                     class="color-button white"
                     data-color="white"
                     aria-label="White">
                 </button>
-
 
                 <button
                     type="button"
@@ -1573,7 +1580,6 @@ body {
                     aria-label="Brown">
                 </button>
 
-
                 <button
                     type="button"
                     class="color-button beige"
@@ -1581,9 +1587,7 @@ body {
                     aria-label="Beige">
                 </button>
 
-
             </div>
-
 
             <p class="selected-color">
                 BLACK
@@ -1592,53 +1596,39 @@ body {
 
             <!-- SIZE -->
 
-            <span class="option-label">
+            <span class="option-title">
                 SIZE
             </span>
 
-
             <div class="size-buttons">
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="S">
-
                     S
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="M">
-
                     M
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="L">
-
                     L
-
                 </button>
-
 
                 <button
                     type="button"
                     class="size-button"
                     data-size="XL">
-
                     XL
-
                 </button>
-
 
             </div>
 
@@ -1647,32 +1637,19 @@ body {
 
             <div class="actions">
 
-
                 <button
                     type="button"
                     class="add-cart">
-
                     ADD TO CART
-
                 </button>
-
 
                 <button
                     type="button"
                     class="buy-now">
-
                     BUY NOW
-
                 </button>
 
-
             </div>
-
-
-            <div class="cart-message">
-                ADDED TO CART.
-            </div>
-
 
         </div>
 
@@ -1684,12 +1661,11 @@ body {
 </main>
 
 
-<!-- =========================================================
+<!-- =======================================================
      FOOTER
-========================================================= -->
+======================================================= -->
 
 <footer class="footer">
-
 
     <div class="footer-top">
 
@@ -1698,7 +1674,7 @@ body {
 
             <img
                 src="LOGO (2).png"
-                alt="SET APART">
+                alt="SET APART Logo">
 
             <p>
                 Faith-Inspired Streetwear.
@@ -1787,11 +1763,10 @@ body {
 </footer>
 
 
-
 <script>
 
 /* =========================================================
-   PRODUCT IMAGE DATA
+   PRODUCT DATA
 ========================================================= */
 
 const products = {
@@ -1799,8 +1774,6 @@ const products = {
     "god-first": {
 
         name: "GOD FIRST HOODIE",
-
-        price: 44.99,
 
         colors: {
 
@@ -1833,8 +1806,6 @@ const products = {
 
         name: "PILGRIM HOODIE",
 
-        price: 44.99,
-
         colors: {
 
             black: {
@@ -1865,186 +1836,103 @@ const products = {
 
 
 /* =========================================================
-   CART
+   SELECTIONS
 ========================================================= */
 
-function getCart() {
+const selections = {
 
-    try {
+    "god-first": {
+        color: "brown",
+        size: ""
+    },
 
-        const saved =
-            localStorage.getItem("setApartCart");
-
-        return saved
-            ? JSON.parse(saved)
-            : null;
-
-    } catch (error) {
-
-        return null;
-
+    "pilgrim": {
+        color: "black",
+        size: ""
     }
 
-}
-
-
-function saveCart(product) {
-
-    localStorage.setItem(
-        "setApartCart",
-        JSON.stringify(product)
-    );
-
-}
+};
 
 
 /* =========================================================
-   PRODUCT CARDS
+   PRODUCT FUNCTIONALITY
 ========================================================= */
 
-document
-.querySelectorAll(".product")
-.forEach(function(productCard) {
+document.querySelectorAll(".product").forEach(product => {
+
+    const type = product.dataset.product;
+
+    const data = products[type];
+
+    if (!data) return;
 
 
-    const productID =
-        productCard.dataset.product;
+    const slider =
+        product.querySelector(".slider");
 
+    const front =
+        product.querySelector(".front-image");
 
-    const productData =
-        products[productID];
+    const back =
+        product.querySelector(".back-image");
 
-
-    if (!productData) {
-        return;
-    }
-
-
-    let selectedColor =
-        productID === "god-first"
-            ? "brown"
-            : "black";
-
-
-    let selectedSize = "";
-
-
-    const track =
-        productCard.querySelector(".image-track");
-
-
-    const slides =
-        productCard.querySelectorAll(".slide");
-
-
-    const images =
-        productCard.querySelectorAll(".slide img");
-
-
-    const colorText =
-        productCard.querySelector(".selected-color");
+    const selectedColorText =
+        product.querySelector(".selected-color");
 
 
     /* =====================================================
        COLOR
     ===================================================== */
 
-    productCard
-    .querySelectorAll(".color-button")
-    .forEach(function(button) {
+    product.querySelectorAll(".color-button")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const color =
+                button.dataset.color;
+
+            if (!data.colors[color]) {
+
+                alert(
+                    "THIS COLOR IS NOT AVAILABLE."
+                );
+
+                return;
+            }
 
 
-        button.addEventListener(
-            "click",
-            function() {
+            selections[type].color =
+                color;
 
 
-                const color =
-                    button.dataset.color;
-
-
-                if (
-                    !productData.colors[color]
-                ) {
-
-                    alert(
-                        "THIS COLOR IS NOT AVAILABLE."
-                    );
-
-                    return;
-
-                }
-
-
-                selectedColor =
-                    color;
-
-
-                /* selected */
-
-                productCard
+            product
                 .querySelectorAll(".color-button")
-                .forEach(function(btn) {
-
-                    btn.classList.remove(
-                        "selected"
-                    );
-
-                });
-
-
-                button.classList.add(
-                    "selected"
+                .forEach(btn =>
+                    btn.classList.remove("selected")
                 );
 
 
-                /* update images */
-
-                const imageData =
-                    productData.colors[color];
+            button.classList.add("selected");
 
 
-                images[0].src =
-                    imageData.front;
+            front.src =
+                data.colors[color].front;
+
+            back.src =
+                data.colors[color].back;
 
 
-                images[1].src =
-                    imageData.back;
+            selectedColorText.textContent =
+                color.toUpperCase();
 
 
-                images[0].alt =
-                    productData.name +
-                    " " +
-                    color +
-                    " Front";
+            slider.scrollTo({
+                left: 0,
+                behavior: "smooth"
+            });
 
-
-                images[1].alt =
-                    productData.name +
-                    " " +
-                    color +
-                    " Back";
-
-
-                /* text */
-
-                colorText.textContent =
-                    color.toUpperCase();
-
-
-                /* back to front */
-
-                track.scrollTo({
-
-                    left: 0,
-
-                    behavior: "smooth"
-
-                });
-
-            }
-
-        );
+        });
 
     });
 
@@ -2053,38 +1941,29 @@ document
        SIZE
     ===================================================== */
 
-    productCard
-    .querySelectorAll(".size-button")
-    .forEach(function(button) {
+    product.querySelectorAll(".size-button")
+    .forEach(button => {
+
+        button.addEventListener("click", () => {
+
+            const size =
+                button.dataset.size;
 
 
-        button.addEventListener(
-            "click",
-            function() {
+            selections[type].size =
+                size;
 
 
-                selectedSize =
-                    button.dataset.size;
-
-
-                productCard
+            product
                 .querySelectorAll(".size-button")
-                .forEach(function(btn) {
-
-                    btn.classList.remove(
-                        "selected"
-                    );
-
-                });
-
-
-                button.classList.add(
-                    "selected"
+                .forEach(btn =>
+                    btn.classList.remove("selected")
                 );
 
-            }
 
-        );
+            button.classList.add("selected");
+
+        });
 
     });
 
@@ -2094,31 +1973,17 @@ document
     ===================================================== */
 
     const previous =
-        productCard.querySelector(
-            ".previous"
-        );
+        product.querySelector(".previous");
 
 
-    if (previous) {
+    previous.addEventListener("click", () => {
 
-        previous.addEventListener(
-            "click",
-            function() {
+        slider.scrollBy({
+            left: -slider.clientWidth,
+            behavior: "smooth"
+        });
 
-                track.scrollBy({
-
-                    left:
-                        -track.clientWidth,
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            }
-        );
-
-    }
+    });
 
 
     /* =====================================================
@@ -2126,155 +1991,119 @@ document
     ===================================================== */
 
     const next =
-        productCard.querySelector(
-            ".next"
-        );
+        product.querySelector(".next");
 
 
-    if (next) {
+    next.addEventListener("click", () => {
 
-        next.addEventListener(
-            "click",
-            function() {
+        slider.scrollBy({
+            left: slider.clientWidth,
+            behavior: "smooth"
+        });
 
-                track.scrollBy({
-
-                    left:
-                        track.clientWidth,
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            }
-        );
-
-    }
+    });
 
 
     /* =====================================================
-       ADD TO CART
+       ADD CART
     ===================================================== */
 
     const addCart =
-        productCard.querySelector(
-            ".add-cart"
+        product.querySelector(".add-cart");
+
+
+    addCart.addEventListener("click", () => {
+
+        const selected =
+            selections[type];
+
+
+        if (!selected.size) {
+
+            alert(
+                "PLEASE SELECT A SIZE."
+            );
+
+            return;
+        }
+
+
+        const colorData =
+            data.colors[selected.color];
+
+
+        const item = {
+
+            id: type,
+
+            name: data.name,
+
+            price: 44.99,
+
+            color:
+                selected.color.toUpperCase(),
+
+            size:
+                selected.size,
+
+            quantity: 1,
+
+            image:
+                colorData.front,
+
+            backImage:
+                colorData.back
+
+        };
+
+
+        let cart = null;
+
+
+        try {
+
+            cart =
+                JSON.parse(
+                    localStorage.getItem(
+                        "setApartCart"
+                    )
+                );
+
+        } catch (error) {
+
+            cart = null;
+
+        }
+
+
+        if (
+            cart &&
+            cart.id === item.id &&
+            cart.color === item.color &&
+            cart.size === item.size
+        ) {
+
+            item.quantity =
+                (Number(cart.quantity) || 0) + 1;
+
+        }
+
+
+        localStorage.setItem(
+            "setApartCart",
+            JSON.stringify(item)
         );
 
 
-    const message =
-        productCard.querySelector(
-            ".cart-message"
+        updateCart();
+
+
+        alert(
+            data.name +
+            " ADDED TO CART."
         );
 
-
-    if (addCart) {
-
-        addCart.addEventListener(
-            "click",
-            function() {
-
-
-                if (!selectedSize) {
-
-                    alert(
-                        "PLEASE SELECT A SIZE."
-                    );
-
-                    return;
-
-                }
-
-
-                const imageData =
-                    productData.colors[
-                        selectedColor
-                    ];
-
-
-                const cartProduct = {
-
-                    id:
-                        productID,
-
-                    name:
-                        productData.name,
-
-                    price:
-                        productData.price,
-
-                    color:
-                        selectedColor.toUpperCase(),
-
-                    size:
-                        selectedSize,
-
-                    quantity:
-                        1,
-
-                    image:
-                        imageData.front,
-
-                    backImage:
-                        imageData.back
-
-                };
-
-
-                const oldCart =
-                    getCart();
-
-
-                if (
-
-                    oldCart &&
-
-                    oldCart.id ===
-                        cartProduct.id &&
-
-                    oldCart.color ===
-                        cartProduct.color &&
-
-                    oldCart.size ===
-                        cartProduct.size
-
-                ) {
-
-                    cartProduct.quantity =
-                        (Number(
-                            oldCart.quantity
-                        ) || 0) + 1;
-
-                }
-
-
-                saveCart(
-                    cartProduct
-                );
-
-
-                message.classList.add(
-                    "show"
-                );
-
-
-                setTimeout(
-                    function() {
-
-                        message.classList.remove(
-                            "show"
-                        );
-
-                    },
-                    2500
-                );
-
-            }
-
-        );
-
-    }
+    });
 
 
     /* =====================================================
@@ -2282,95 +2111,62 @@ document
     ===================================================== */
 
     const buyNow =
-        productCard.querySelector(
-            ".buy-now"
+        product.querySelector(".buy-now");
+
+
+    buyNow.addEventListener("click", () => {
+
+        const selected =
+            selections[type];
+
+
+        if (!selected.size) {
+
+            alert(
+                "PLEASE SELECT A SIZE."
+            );
+
+            return;
+        }
+
+
+        const colorData =
+            data.colors[selected.color];
+
+
+        const item = {
+
+            id: type,
+
+            name: data.name,
+
+            price: 44.99,
+
+            color:
+                selected.color.toUpperCase(),
+
+            size:
+                selected.size,
+
+            quantity: 1,
+
+            image:
+                colorData.front,
+
+            backImage:
+                colorData.back
+
+        };
+
+
+        localStorage.setItem(
+            "setApartCart",
+            JSON.stringify(item)
         );
 
 
-    if (buyNow) {
-
-        buyNow.addEventListener(
-            "click",
-            function() {
-
-
-                if (!selectedSize) {
-
-                    alert(
-                        "PLEASE SELECT A SIZE."
-                    );
-
-                    return;
-
-                }
-
-
-                const imageData =
-                    productData.colors[
-                        selectedColor
-                    ];
-
-
-                const cartProduct = {
-
-                    id:
-                        productID,
-
-                    name:
-                        productData.name,
-
-                    price:
-                        productData.price,
-
-                    color:
-                        selectedColor.toUpperCase(),
-
-                    size:
-                        selectedSize,
-
-                    quantity:
-                        1,
-
-                    image:
-                        imageData.front,
-
-                    backImage:
-                        imageData.back
-
-                };
-
-
-                saveCart(
-                    cartProduct
-                );
-
-
-                window.location.href =
-                    "payment.html";
-
-            }
-
-        );
-
-    }
-
-
-    /* =====================================================
-       PREVENT DRAG
-    ===================================================== */
-
-    productCard
-    .querySelectorAll("img")
-    .forEach(function(img) {
-
-        img.addEventListener(
-            "dragstart",
-            function(event) {
-
-                event.preventDefault();
-
-            }
-        );
+        window.location.href =
+            "payment.html";
 
     });
 
@@ -2378,44 +2174,92 @@ document
 
 
 /* =========================================================
+   CART COUNT
+========================================================= */
+
+const cartCount =
+    document.getElementById("cartCount");
+
+
+function updateCart() {
+
+    if (!cartCount) return;
+
+
+    let cart = null;
+
+
+    try {
+
+        cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "setApartCart"
+                )
+            );
+
+    } catch (error) {
+
+        cart = null;
+
+    }
+
+
+    const quantity =
+        cart
+            ? Number(cart.quantity) || 0
+            : 0;
+
+
+    if (quantity > 0) {
+
+        cartCount.textContent =
+            quantity;
+
+        cartCount.style.display =
+            "flex";
+
+    } else {
+
+        cartCount.style.display =
+            "none";
+
+    }
+
+}
+
+
+updateCart();
+
+
+/* =========================================================
    CART BUTTON
 ========================================================= */
 
-const cartButton =
-    document.getElementById(
-        "cartButton"
-    );
+document
+.getElementById("cartButton")
+.addEventListener("click", () => {
+
+    const cart =
+        localStorage.getItem(
+            "setApartCart"
+        );
 
 
-if (cartButton) {
+    if (!cart) {
 
-    cartButton.addEventListener(
-        "click",
-        function() {
+        alert(
+            "YOUR CART IS EMPTY."
+        );
 
-
-            const cart =
-                getCart();
-
-
-            if (!cart) {
-
-                alert(
-                    "YOUR CART IS EMPTY."
-                );
-
-                return;
-
-            }
+        return;
+    }
 
 
-            window.location.href =
-                "cart.html";
+    window.location.href =
+        "cart.html";
 
-        }
-    );
-
-}
+});
 
 
 /* =========================================================
@@ -2423,34 +2267,25 @@ if (cartButton) {
 ========================================================= */
 
 const menuButton =
-    document.getElementById(
-        "menuButton"
-    );
+    document.getElementById("menuButton");
+
+const navLinks =
+    document.getElementById("navLinks");
 
 
-const mainNav =
-    document.getElementById(
-        "mainNav"
-    );
+menuButton.addEventListener("click", () => {
+
+    navLinks.classList.toggle("open");
 
 
-if (
-    menuButton &&
-    mainNav
-) {
+    const open =
+        navLinks.classList.contains("open");
 
-    menuButton.addEventListener(
-        "click",
-        function() {
 
-            mainNav.classList.toggle(
-                "active"
-            );
+    menuButton.textContent =
+        open ? "×" : "☰";
 
-        }
-    );
-
-}
+});
 
 
 /* =========================================================
@@ -2458,121 +2293,61 @@ if (
 ========================================================= */
 
 const searchButton =
-    document.getElementById(
-        "searchButton"
-    );
+    document.getElementById("searchButton");
 
+const searchBox =
+    document.getElementById("searchBox");
 
-const searchArea =
-    document.getElementById(
-        "searchArea"
-    );
-
-
-const searchClose =
-    document.getElementById(
-        "searchClose"
-    );
-
+const closeSearch =
+    document.getElementById("closeSearch");
 
 const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
-
-
-if (
-    searchButton &&
-    searchArea
-) {
-
-    searchButton.addEventListener(
-        "click",
-        function() {
-
-            searchArea.classList.toggle(
-                "active"
-            );
-
-
-            if (
-                searchArea.classList.contains(
-                    "active"
-                ) &&
-                searchInput
-            ) {
-
-                searchInput.focus();
-
-            }
-
-        }
-    );
-
-}
-
-
-if (
-    searchClose &&
-    searchArea
-) {
-
-    searchClose.addEventListener(
-        "click",
-        function() {
-
-            searchArea.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   SEARCH FORM
-========================================================= */
+    document.getElementById("searchInput");
 
 const searchForm =
-    document.getElementById(
-        "searchForm"
-    );
+    document.getElementById("searchForm");
 
 
-if (searchForm) {
+searchButton.addEventListener("click", () => {
 
-    searchForm.addEventListener(
-        "submit",
-        function(event) {
-
-            event.preventDefault();
+    searchBox.classList.toggle("active");
 
 
-            const query =
-                searchInput.value.trim();
+    if (searchBox.classList.contains("active")) {
+
+        searchInput.focus();
+
+    }
+
+});
 
 
-            if (!query) {
-                return;
-            }
+closeSearch.addEventListener("click", () => {
+
+    searchBox.classList.remove("active");
+
+});
 
 
-            window.location.href =
-                "shop.html?search=" +
-                encodeURIComponent(
-                    query
-                );
+searchForm.addEventListener("submit", event => {
 
-        }
-    );
+    event.preventDefault();
 
-}
+
+    const query =
+        searchInput.value.trim();
+
+
+    if (!query) return;
+
+
+    window.location.href =
+        "shop.html?search=" +
+        encodeURIComponent(query);
+
+});
 
 </script>
 
-
 </body>
-
 </html>
