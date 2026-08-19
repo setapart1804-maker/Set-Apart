@@ -3015,17 +3015,19 @@ body {
 .color-controls {
     grid-column: 1;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin-top: -45px;
+    margin-top: 20px;
+    padding: 0;
     position: relative;
     z-index: 5;
-    padding: 0 15px;
 }
 
 .image-arrows {
     display: flex;
-    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .image-arrow {
@@ -3045,10 +3047,6 @@ body {
 .image-arrow:hover {
     background: #111;
     color: #fff;
-}
-
-.view-colors {
-    display: none;
 }
 
 /* ================================
@@ -3268,4 +3266,8 @@ body {
         min-width: 42px;
         height: 40px;
     }
+}
+
+.view-colors {
+    display: none !important;
 }
