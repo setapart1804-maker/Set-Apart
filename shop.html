@@ -85,7 +85,6 @@ body {
 ========================================================= */
 
 .product-layout {
-
     display: grid;
 
     grid-template-columns:
@@ -125,15 +124,24 @@ body {
 
     background: #f5f5f5;
 
-    aspect-ratio: 1 / 1;
-
     scroll-behavior: smooth;
+
+    /*
+     * Retire aspect-ratio 1/1 la.
+     * Sa bay foto hoodie yo plis espas
+     * pou yo parèt antye.
+     */
+    min-height: 520px;
 }
 
 .product-slider::-webkit-scrollbar {
     display: none;
 }
 
+
+/* =========================================================
+   PRODUCT SLIDE
+========================================================= */
 
 .product-slide {
 
@@ -150,18 +158,34 @@ body {
     justify-content: center;
 
     background: #f5f5f5;
+
+    min-height: 520px;
+
+    overflow: hidden;
 }
 
 
+/* =========================================================
+   PRODUCT IMAGE
+========================================================= */
+
 .product-slide img {
+
+    display: block;
 
     width: 100%;
 
-    height: 100%;
+    height: auto;
+
+    max-width: 100%;
+
+    max-height: 620px;
 
     object-fit: contain;
 
-    display: block;
+    object-position: center;
+
+    user-select: none;
 }
 
 
@@ -173,7 +197,7 @@ body {
 
     display: flex;
 
-    justify-content: space-between;
+    justify-content: flex-start;
 
     align-items: center;
 
@@ -217,18 +241,6 @@ body {
 }
 
 
-.gallery-label {
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 3px;
-
-    color: #aaa;
-}
-
-
 /* =========================================================
    PRODUCT INFO
 ========================================================= */
@@ -249,7 +261,25 @@ body {
 
     color: #aaa;
 
-    margin-bottom: 15px;
+    margin: 0 0 8px;
+}
+
+
+/*
+ * HOODIE APRE SET APART
+ */
+
+.product-type {
+
+    font-size: 11px;
+
+    font-weight: 700;
+
+    letter-spacing: 3px;
+
+    color: #aaa;
+
+    margin: 0 0 10px;
 }
 
 
@@ -559,18 +589,20 @@ body {
         grid-template-columns: 1fr;
 
         width: min(760px, 94%);
-
     }
 
 }
 
+
+/* =========================================================
+   TABLET / PHONE
+========================================================= */
 
 @media (max-width: 700px) {
 
     .shop-hero {
 
         padding: 70px 20px 45px;
-
     }
 
 
@@ -581,7 +613,6 @@ body {
         gap: 70px;
 
         padding-bottom: 70px;
-
     }
 
 
@@ -590,28 +621,46 @@ body {
         grid-template-columns: 1fr;
 
         gap: 35px;
-
     }
 
 
     .product-info {
 
         padding: 0 5px;
-
     }
 
 
     .product-price {
 
         margin-bottom: 30px;
-
     }
 
 
     .selected-color {
 
         margin-bottom: 30px;
+    }
 
+
+    /*
+     * MOBILE GALLERY
+     */
+
+    .product-slider {
+
+        min-height: 420px;
+    }
+
+
+    .product-slide {
+
+        min-height: 420px;
+    }
+
+
+    .product-slide img {
+
+        max-height: 500px;
     }
 
 }
@@ -626,13 +675,30 @@ body {
     .size-btn {
 
         width: 48px;
-
     }
+
 
     .product-name {
 
         font-size: 27px;
+    }
 
+
+    .product-slider {
+
+        min-height: 380px;
+    }
+
+
+    .product-slide {
+
+        min-height: 380px;
+    }
+
+
+    .product-slide img {
+
+        max-height: 440px;
     }
 
 }
@@ -659,7 +725,6 @@ body {
 ======================================================= -->
 
 <header class="navbar">
-
 
     <button
         type="button"
@@ -707,7 +772,6 @@ body {
 
     <div class="nav-icons">
 
-
         <button
             type="button"
             class="search-btn"
@@ -736,7 +800,6 @@ body {
             </span>
 
         </button>
-
 
     </div>
 
@@ -770,1556 +833,3 @@ body {
         </button>
 
     </form>
-
-</div>
-
-
-<!-- =======================================================
-     SHOP HERO
-======================================================= -->
-
-<section class="shop-hero">
-
-    <p>
-        FAITH-INSPIRED STREETWEAR
-    </p>
-
-    <h1>
-        SHOP
-    </h1>
-
-    <span>
-        CALLED TO LIVE DIFFERENTLY.
-    </span>
-
-</section>
-
-
-<!-- =======================================================
-     PRODUCTS
-======================================================= -->
-
-<main class="shop-products">
-
-
-<!-- =======================================================
-     GOD FIRST
-======================================================= -->
-
-<article
-    class="shop-product"
-    data-product="god-first">
-
-
-    <div class="product-layout">
-
-
-        <!-- GALLERY -->
-
-        <div class="product-gallery">
-
-
-            <div class="product-slider">
-
-
-                <div class="product-slide">
-
-                    <img
-                        class="product-front"
-                        src="GOD FIRST BEIGE FRONT.jpeg"
-                        alt="God First Brown Hoodie Front">
-
-                </div>
-
-
-                <div class="product-slide">
-
-                    <img
-                        class="product-back"
-                        src="GOD FIRST BEIGE BACK.jpeg"
-                        alt="God First Brown Hoodie Back">
-
-                </div>
-
-
-            </div>
-
-
-            <div class="gallery-controls">
-
-
-                <div class="image-arrows">
-
-
-                    <button
-                        type="button"
-                        class="image-arrow prev-image">
-
-                        ←
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="image-arrow next-image">
-
-                        →
-
-                    </button>
-
-
-                </div>
-
-
-                <span class="gallery-label">
-                    HOODIE
-                </span>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- INFO -->
-
-        <div class="product-info">
-
-
-            <p class="product-brand">
-                SET APART
-            </p>
-
-
-            <h2 class="product-name">
-                GOD FIRST HOODIE
-            </h2>
-
-
-            <p class="product-price">
-                $44.99
-            </p>
-
-
-            <!-- COLOR -->
-
-            <span class="product-option-title">
-                COLOR
-            </span>
-
-
-            <div class="color-buttons">
-
-
-                <button
-                    type="button"
-                    class="color-btn black"
-                    data-color="black"
-                    aria-label="Black">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn white"
-                    data-color="white"
-                    aria-label="White">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn brown selected"
-                    data-color="brown"
-                    aria-label="Brown">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn beige"
-                    data-color="beige"
-                    aria-label="Beige">
-                </button>
-
-
-            </div>
-
-
-            <p class="selected-color">
-                BROWN
-            </p>
-
-
-            <!-- SIZE -->
-
-            <span class="size-title">
-                SIZE
-            </span>
-
-
-            <div class="size-buttons">
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="S">
-
-                    S
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="M">
-
-                    M
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="L">
-
-                    L
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="XL">
-
-                    XL
-
-                </button>
-
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div class="product-actions">
-
-
-                <button
-                    type="button"
-                    class="add-cart-btn">
-
-                    ADD TO CART
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="buy-now-btn">
-
-                    BUY NOW
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-</article>
-
-
-
-<!-- =======================================================
-     PILGRIM
-======================================================= -->
-
-<article
-    class="shop-product"
-    data-product="pilgrim">
-
-
-    <div class="product-layout">
-
-
-        <!-- GALLERY -->
-
-        <div class="product-gallery">
-
-
-            <div class="product-slider">
-
-
-                <div class="product-slide">
-
-                    <img
-                        class="product-front"
-                        src="PILGRIM BLACK FRONT 1.png"
-                        alt="Pilgrim Black Hoodie Front">
-
-                </div>
-
-
-                <div class="product-slide">
-
-                    <img
-                        class="product-back"
-                        src="PILGRIM BLACK BACK.png"
-                        alt="Pilgrim Black Hoodie Back">
-
-                </div>
-
-
-            </div>
-
-
-            <div class="gallery-controls">
-
-
-                <div class="image-arrows">
-
-
-                    <button
-                        type="button"
-                        class="image-arrow prev-image">
-
-                        ←
-
-                    </button>
-
-
-                    <button
-                        type="button"
-                        class="image-arrow next-image">
-
-                        →
-
-                    </button>
-
-
-                </div>
-
-
-                <span class="gallery-label">
-                    HOODIE
-                </span>
-
-
-            </div>
-
-
-        </div>
-
-
-        <!-- INFO -->
-
-        <div class="product-info">
-
-
-            <p class="product-brand">
-                SET APART
-            </p>
-
-
-            <h2 class="product-name">
-                PILGRIM HOODIE
-            </h2>
-
-
-            <p class="product-price">
-                $44.99
-            </p>
-
-
-            <!-- COLOR -->
-
-            <span class="product-option-title">
-                COLOR
-            </span>
-
-
-            <div class="color-buttons">
-
-
-                <button
-                    type="button"
-                    class="color-btn black selected"
-                    data-color="black"
-                    aria-label="Black">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn white"
-                    data-color="white"
-                    aria-label="White">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn brown"
-                    data-color="brown"
-                    aria-label="Brown">
-                </button>
-
-
-                <button
-                    type="button"
-                    class="color-btn beige"
-                    data-color="beige"
-                    aria-label="Beige">
-                </button>
-
-
-            </div>
-
-
-            <p class="selected-color">
-                BLACK
-            </p>
-
-
-            <!-- SIZE -->
-
-            <span class="size-title">
-                SIZE
-            </span>
-
-
-            <div class="size-buttons">
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="S">
-
-                    S
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="M">
-
-                    M
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="L">
-
-                    L
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="size-btn"
-                    data-size="XL">
-
-                    XL
-
-                </button>
-
-
-            </div>
-
-
-            <!-- ACTIONS -->
-
-            <div class="product-actions">
-
-
-                <button
-                    type="button"
-                    class="add-cart-btn">
-
-                    ADD TO CART
-
-                </button>
-
-
-                <button
-                    type="button"
-                    class="buy-now-btn">
-
-                    BUY NOW
-
-                </button>
-
-
-            </div>
-
-
-        </div>
-
-
-    </div>
-
-</article>
-
-
-</main>
-
-
-<!-- =======================================================
-     FOOTER
-======================================================= -->
-
-<footer class="footer">
-
-
-    <div class="footer-brand">
-
-        <img
-            src="LOGO (2).png"
-            alt="SET APART Logo">
-
-        <p>
-            Faith-Inspired Streetwear.
-        </p>
-
-        <p>
-            Called to Live Differently.
-        </p>
-
-    </div>
-
-
-    <div class="footer-links">
-
-
-        <div>
-
-            <h3>
-                SHOP
-            </h3>
-
-            <a href="shop.html">
-                All Products
-            </a>
-
-            <a href="shop.html">
-                Hoodies
-            </a>
-
-            <a href="shop.html">
-                T-Shirts
-            </a>
-
-            <a href="shop.html">
-                Accessories
-            </a>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                ABOUT
-            </h3>
-
-            <a href="about.html">
-                Our Story
-            </a>
-
-            <a href="contact.html">
-                Contact
-            </a>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                FOLLOW
-            </h3>
-
-            <a href="#">
-                Instagram
-            </a>
-
-            <a href="#">
-                TikTok
-            </a>
-
-        </div>
-
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-        <p>
-            © 2026 SET APART. ALL RIGHTS RESERVED.
-        </p>
-
-    </div>
-
-
-</footer>
-
-
-<!-- =======================================================
-     SCRIPT
-======================================================= -->
-
-<script src="script.js"></script>
-
-
-<script>
-
-document.addEventListener("DOMContentLoaded", function () {
-
-
-/* =========================================================
-   PRODUCT IMAGE DATA
-
-   IMPORTANT:
-   GOD FIRST "BEIGE" FILES ARE BEING USED
-   FOR THE BROWN PHOTO YOU PROVIDED.
-========================================================= */
-
-const productData = {
-
-
-    "god-first": {
-
-        name: "GOD FIRST HOODIE",
-
-        colors: {
-
-            brown: {
-
-                front:
-                    "GOD FIRST BEIGE FRONT.jpeg",
-
-                back:
-                    "GOD FIRST BEIGE BACK.jpeg"
-
-            },
-
-            black: {
-
-                front:
-                    "GOD FIRST BLACK FRONT.jpeg",
-
-                back:
-                    "GOD FIRST BLACK BACK.jpeg"
-
-            },
-
-            white: {
-
-                front:
-                    "GOD FIRST WHITE FRONT.jpeg",
-
-                back:
-                    "GOD FIRST WHITE BACK.jpeg"
-
-            },
-
-            beige: {
-
-                front:
-                    "GOD FIRST BEIGE FRONT.jpeg",
-
-                back:
-                    "GOD FIRST BEIGE BACK.jpeg"
-
-            }
-
-        }
-
-    },
-
-
-    "pilgrim": {
-
-        name: "PILGRIM HOODIE",
-
-        colors: {
-
-            black: {
-
-                front:
-                    "PILGRIM BLACK FRONT 1.png",
-
-                back:
-                    "PILGRIM BLACK BACK.png"
-
-            },
-
-            brown: {
-
-                front:
-                    "PILGRIM BROWN FRONT.jpeg",
-
-                back:
-                    "PILGRIM BROWN BLACK.jpeg"
-
-            },
-
-            white: {
-
-                front:
-                    "PILGRIM WHITE FRONT.jpeg",
-
-                back:
-                    "PILGRIM WHITE BACK.jpeg"
-
-            },
-
-            beige: {
-
-                front:
-                    "PILGRIM BEIGE FRONT.jpeg",
-
-                back:
-                    "PILGRIM BEIGE BACK.jpeg"
-
-            }
-
-        }
-
-    }
-
-};
-
-
-/* =========================================================
-   SELECTIONS
-========================================================= */
-
-const selections = {
-
-    "god-first": {
-
-        color: "brown",
-
-        size: ""
-
-    },
-
-    "pilgrim": {
-
-        color: "black",
-
-        size: ""
-
-    }
-
-};
-
-
-/* =========================================================
-   PRODUCT CARDS
-========================================================= */
-
-document
-.querySelectorAll(".shop-product")
-.forEach(function (card) {
-
-
-    const productType =
-        card.dataset.product;
-
-
-    const data =
-        productData[productType];
-
-
-    if (!data) {
-        return;
-    }
-
-
-    const slider =
-        card.querySelector(".product-slider");
-
-
-    const frontImage =
-        card.querySelector(".product-front");
-
-
-    const backImage =
-        card.querySelector(".product-back");
-
-
-    const colorName =
-        card.querySelector(".selected-color");
-
-
-    /* =====================================================
-       COLOR BUTTONS
-    ===================================================== */
-
-    card
-    .querySelectorAll(".color-btn")
-    .forEach(function (button) {
-
-
-        button.addEventListener(
-            "click",
-            function () {
-
-
-                const color =
-                    button.dataset.color;
-
-
-                if (!data.colors[color]) {
-
-                    alert(
-                        "THIS COLOR IS NOT AVAILABLE."
-                    );
-
-                    return;
-
-                }
-
-
-                /*
-                 * SAVE COLOR ONLY
-                 * FOR THIS PRODUCT
-                 */
-
-                selections[productType].color =
-                    color;
-
-
-                /*
-                 * REMOVE SELECTED
-                 * ONLY INSIDE THIS CARD
-                 */
-
-                card
-                .querySelectorAll(".color-btn")
-                .forEach(function (btn) {
-
-                    btn.classList.remove(
-                        "selected"
-                    );
-
-                });
-
-
-                button.classList.add(
-                    "selected"
-                );
-
-
-                /*
-                 * CHANGE IMAGES
-                 */
-
-                frontImage.src =
-                    data.colors[color].front;
-
-
-                backImage.src =
-                    data.colors[color].back;
-
-
-                frontImage.alt =
-                    data.name +
-                    " " +
-                    color +
-                    " Front";
-
-
-                backImage.alt =
-                    data.name +
-                    " " +
-                    color +
-                    " Back";
-
-
-                /*
-                 * CHANGE COLOR NAME
-                 */
-
-                colorName.textContent =
-                    color.toUpperCase();
-
-
-                /*
-                 * RETURN TO FRONT
-                 */
-
-                slider.scrollTo({
-
-                    left: 0,
-
-                    behavior: "smooth"
-
-                });
-
-            }
-
-        );
-
-    });
-
-
-    /* =====================================================
-       SIZE BUTTONS
-    ===================================================== */
-
-    card
-    .querySelectorAll(".size-btn")
-    .forEach(function (button) {
-
-
-        button.addEventListener(
-            "click",
-            function () {
-
-
-                const size =
-                    button.dataset.size;
-
-
-                /*
-                 * ONLY THIS PRODUCT
-                 */
-
-                selections[productType].size =
-                    size;
-
-
-                card
-                .querySelectorAll(".size-btn")
-                .forEach(function (btn) {
-
-                    btn.classList.remove(
-                        "selected"
-                    );
-
-                });
-
-
-                button.classList.add(
-                    "selected"
-                );
-
-            }
-
-        );
-
-    });
-
-
-    /* =====================================================
-       PREVIOUS IMAGE
-    ===================================================== */
-
-    const prev =
-        card.querySelector(".prev-image");
-
-
-    if (prev) {
-
-        prev.addEventListener(
-            "click",
-            function () {
-
-                slider.scrollBy({
-
-                    left:
-                        -slider.clientWidth,
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       NEXT IMAGE
-    ===================================================== */
-
-    const next =
-        card.querySelector(".next-image");
-
-
-    if (next) {
-
-        next.addEventListener(
-            "click",
-            function () {
-
-                slider.scrollBy({
-
-                    left:
-                        slider.clientWidth,
-
-                    behavior:
-                        "smooth"
-
-                });
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       PREVENT IMAGE DRAG
-    ===================================================== */
-
-    card
-    .querySelectorAll("img")
-    .forEach(function (image) {
-
-        image.addEventListener(
-            "dragstart",
-            function (event) {
-
-                event.preventDefault();
-
-            }
-        );
-
-    });
-
-
-    /* =====================================================
-       ADD TO CART
-    ===================================================== */
-
-    const addCart =
-        card.querySelector(".add-cart-btn");
-
-
-    if (addCart) {
-
-        addCart.addEventListener(
-            "click",
-            function () {
-
-
-                const selected =
-                    selections[productType];
-
-
-                if (!selected.size) {
-
-                    alert(
-                        "PLEASE SELECT A SIZE."
-                    );
-
-                    return;
-
-                }
-
-
-                const colorData =
-                    data.colors[
-                        selected.color
-                    ];
-
-
-                const product = {
-
-                    id:
-                        productType,
-
-                    name:
-                        data.name,
-
-                    price:
-                        44.99,
-
-                    color:
-                        selected.color
-                        .toUpperCase(),
-
-                    size:
-                        selected.size,
-
-                    quantity:
-                        1,
-
-                    image:
-                        colorData.front,
-
-                    backImage:
-                        colorData.back
-
-                };
-
-
-                /*
-                 * CHECK EXISTING CART
-                 */
-
-                let cart = null;
-
-
-                try {
-
-                    cart =
-                        JSON.parse(
-                            localStorage.getItem(
-                                "setApartCart"
-                            )
-                        );
-
-                } catch (error) {
-
-                    cart = null;
-
-                }
-
-
-                if (
-
-                    cart &&
-
-                    cart.id === product.id &&
-
-                    cart.color === product.color &&
-
-                    cart.size === product.size
-
-                ) {
-
-                    product.quantity =
-                        (Number(
-                            cart.quantity
-                        ) || 0) + 1;
-
-                }
-
-
-                localStorage.setItem(
-
-                    "setApartCart",
-
-                    JSON.stringify(product)
-
-                );
-
-
-                updateCartCount();
-
-
-                alert(
-                    data.name +
-                    " ADDED TO CART."
-                );
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       BUY NOW
-    ===================================================== */
-
-    const buyNow =
-        card.querySelector(".buy-now-btn");
-
-
-    if (buyNow) {
-
-        buyNow.addEventListener(
-            "click",
-            function () {
-
-
-                const selected =
-                    selections[productType];
-
-
-                if (!selected.size) {
-
-                    alert(
-                        "PLEASE SELECT A SIZE."
-                    );
-
-                    return;
-
-                }
-
-
-                const colorData =
-                    data.colors[
-                        selected.color
-                    ];
-
-
-                const product = {
-
-                    id:
-                        productType,
-
-                    name:
-                        data.name,
-
-                    price:
-                        44.99,
-
-                    color:
-                        selected.color
-                        .toUpperCase(),
-
-                    size:
-                        selected.size,
-
-                    quantity:
-                        1,
-
-                    image:
-                        colorData.front,
-
-                    backImage:
-                        colorData.back
-
-                };
-
-
-                localStorage.setItem(
-
-                    "setApartCart",
-
-                    JSON.stringify(product)
-
-                );
-
-
-                window.location.href =
-                    "payment.html";
-
-            }
-        );
-
-    }
-
-});
-
-
-/* =========================================================
-   CART COUNT
-========================================================= */
-
-const cartCount =
-    document.getElementById(
-        "cartCount"
-    );
-
-
-function updateCartCount() {
-
-
-    if (!cartCount) {
-        return;
-    }
-
-
-    try {
-
-
-        const cart =
-            JSON.parse(
-                localStorage.getItem(
-                    "setApartCart"
-                )
-            );
-
-
-        const quantity =
-            cart
-                ? Number(cart.quantity) || 0
-                : 0;
-
-
-        if (quantity > 0) {
-
-            cartCount.textContent =
-                quantity;
-
-            cartCount.style.display =
-                "flex";
-
-        } else {
-
-            cartCount.style.display =
-                "none";
-
-        }
-
-
-    } catch (error) {
-
-        cartCount.style.display =
-            "none";
-
-    }
-
-}
-
-
-updateCartCount();
-
-
-/* =========================================================
-   CART BUTTON
-========================================================= */
-
-const cartButton =
-    document.getElementById(
-        "cartButton"
-    );
-
-
-if (cartButton) {
-
-    cartButton.addEventListener(
-        "click",
-        function () {
-
-
-            const cart =
-                localStorage.getItem(
-                    "setApartCart"
-                );
-
-
-            if (!cart) {
-
-                alert(
-                    "YOUR CART IS EMPTY."
-                );
-
-                return;
-
-            }
-
-
-            window.location.href =
-                "cart.html";
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   MOBILE MENU
-========================================================= */
-
-const menuToggle =
-    document.getElementById(
-        "menuToggle"
-    );
-
-
-const mainNav =
-    document.getElementById(
-        "mainNav"
-    );
-
-
-if (
-    menuToggle &&
-    mainNav
-) {
-
-
-    menuToggle.addEventListener(
-        "click",
-        function () {
-
-
-            const isOpen =
-                mainNav.classList.toggle(
-                    "active"
-                );
-
-
-            menuToggle.setAttribute(
-                "aria-expanded",
-                isOpen
-                    ? "true"
-                    : "false"
-            );
-
-
-            menuToggle.setAttribute(
-                "aria-label",
-                isOpen
-                    ? "Close menu"
-                    : "Open menu"
-            );
-
-
-            menuToggle.textContent =
-                isOpen
-                    ? "×"
-                    : "☰";
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   SEARCH
-========================================================= */
-
-const searchButton =
-    document.getElementById(
-        "searchButton"
-    );
-
-
-const searchBox =
-    document.getElementById(
-        "searchBox"
-    );
-
-
-const closeSearch =
-    document.getElementById(
-        "closeSearch"
-    );
-
-
-const searchInput =
-    document.getElementById(
-        "searchInput"
-    );
-
-
-const searchForm =
-    document.getElementById(
-        "searchForm"
-    );
-
-
-if (
-    searchButton &&
-    searchBox
-) {
-
-    searchButton.addEventListener(
-        "click",
-        function () {
-
-
-            searchBox.classList.toggle(
-                "active"
-            );
-
-
-            if (
-                searchBox.classList.contains(
-                    "active"
-                ) &&
-                searchInput
-            ) {
-
-                searchInput.focus();
-
-            }
-
-        }
-    );
-
-}
-
-
-if (
-    closeSearch &&
-    searchBox
-) {
-
-    closeSearch.addEventListener(
-        "click",
-        function () {
-
-            searchBox.classList.remove(
-                "active"
-            );
-
-        }
-    );
-
-}
-
-
-if (searchForm) {
-
-    searchForm.addEventListener(
-        "submit",
-        function (event) {
-
-
-            event.preventDefault();
-
-
-            const query =
-                searchInput
-                    ? searchInput.value.trim()
-                    : "";
-
-
-            if (!query) {
-                return;
-            }
-
-
-            window.location.href =
-                "shop.html?search=" +
-                encodeURIComponent(
-                    query
-                );
-
-        }
-    );
-
-}
-
-});
-
-</script>
-
-
-</body>
-
-</html>
