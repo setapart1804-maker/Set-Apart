@@ -1,56 +1,215 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>Shop — SET APART</title>
 
-<link rel="stylesheet" href="style.css">
-
 <style>
 
 /* =========================================================
-   SHOP PAGE
+   RESET
 ========================================================= */
 
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    background: #111;
-    color: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #ffffff;
+    color: #111111;
 }
 
 
 /* =========================================================
-   SHOP HERO
+   ANNOUNCEMENT
 ========================================================= */
 
-.shop-hero {
-    padding: 90px 30px 55px;
-    text-align: center;
+.announcement {
+    width: 100%;
     background: #111;
-}
-
-.shop-hero p {
-    font-size: 12px;
-    letter-spacing: 3px;
-    color: #aaa;
-    margin: 0 0 15px;
-}
-
-.shop-hero h1 {
-    font-size: clamp(42px, 7vw, 80px);
+    color: #fff;
+    text-align: center;
+    padding: 10px 15px;
+    font-size: 10px;
+    font-weight: 700;
     letter-spacing: 2px;
-    margin: 0;
 }
 
-.shop-hero span {
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+
+.navbar {
+    width: 100%;
+    height: 82px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 45px;
+    background: #fff;
+    border-bottom: 1px solid #e8e8e8;
+    position: relative;
+    z-index: 1000;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+.logo img {
+    width: 115px;
+    height: auto;
     display: block;
-    margin-top: 15px;
-    font-size: 13px;
+}
+
+#mainNav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 38px;
+}
+
+#mainNav a {
+    color: #111;
+    text-decoration: none;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    transition: .2s ease;
+}
+
+#mainNav a:hover {
+    opacity: .55;
+}
+
+.nav-icons {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.nav-icons button,
+.menu-toggle {
+    border: 0;
+    background: transparent;
+    color: #111;
+    cursor: pointer;
+}
+
+.search-btn {
+    font-size: 27px;
+    line-height: 1;
+}
+
+.cart-btn {
+    font-size: 19px;
+    position: relative;
+}
+
+.cart-count {
+    display: none;
+    position: absolute;
+    top: -9px;
+    right: -10px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #111;
+    color: #fff;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.menu-toggle {
+    display: none;
+    font-size: 25px;
+}
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+.search-box {
+    display: none;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    padding: 18px 45px;
+}
+
+.search-box.active {
+    display: block;
+}
+
+.search-box form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box input {
+    width: 100%;
+    border: 0;
+    border-bottom: 1px solid #111;
+    padding: 12px 5px;
+    outline: none;
+    font-size: 14px;
+}
+
+.close-search {
+    border: 0;
+    background: transparent;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+
+/* =========================================================
+   SHOP HEADER
+========================================================= */
+
+.shop-header {
+    text-align: center;
+    padding: 75px 20px 55px;
+    background: #fff;
+}
+
+.shop-header p {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: #777;
+    margin-bottom: 15px;
+}
+
+.shop-header h1 {
+    font-size: clamp(48px, 8vw, 92px);
+    line-height: .9;
     letter-spacing: 3px;
-    color: #aaa;
+    font-weight: 900;
+}
+
+.shop-header span {
+    display: block;
+    margin-top: 20px;
+    color: #777;
+    font-size: 11px;
+    letter-spacing: 3px;
 }
 
 
@@ -59,72 +218,50 @@ body {
 ========================================================= */
 
 .shop-products {
-
-    width: min(1500px, 94%);
-
+    width: min(1450px, 92%);
     margin: 0 auto;
-
-    padding: 35px 0 100px;
-
-    display: grid;
-
-    grid-template-columns:
-        repeat(2, minmax(0, 1fr));
-
-    gap: 55px;
+    padding: 20px 0 110px;
 }
 
 
 /* =========================================================
-   PRODUCT CARD
+   PRODUCT
 ========================================================= */
 
-.shop-product {
-
-    min-width: 0;
-
-    background: #111;
-
+.product {
+    width: 100%;
+    margin-bottom: 120px;
 }
 
 
 /* =========================================================
-   PRODUCT LAYOUT
+   EXACT PRODUCT LAYOUT
 ========================================================= */
 
 .product-layout {
-
     display: grid;
 
     grid-template-columns:
-        minmax(0, 1.25fr)
-        minmax(260px, .75fr);
+        minmax(0, 1.45fr)
+        minmax(350px, .75fr);
 
-    gap: 35px;
+    gap: 70px;
 
     align-items: start;
 }
 
 
 /* =========================================================
-   GALLERY
+   IMAGE SIDE
 ========================================================= */
 
 .product-gallery {
-
+    width: 100%;
     min-width: 0;
-
 }
 
-
-/* =========================================================
-   SLIDER
-========================================================= */
-
 .product-slider {
-
     width: 100%;
-
     aspect-ratio: 1 / 1;
 
     display: flex;
@@ -133,297 +270,202 @@ body {
 
     scroll-snap-type: x mandatory;
 
-    scroll-behavior: smooth;
-
     scrollbar-width: none;
 
     background: #f5f5f5;
 
+    scroll-behavior: smooth;
 }
 
 .product-slider::-webkit-scrollbar {
     display: none;
 }
 
-
-/* =========================================================
-   SLIDE
-========================================================= */
-
 .product-slide {
-
     min-width: 100%;
-
     width: 100%;
-
-    height: 100%;
 
     flex: 0 0 100%;
 
     scroll-snap-align: start;
 
     display: flex;
-
     align-items: center;
-
     justify-content: center;
 
     background: #f5f5f5;
-
-    overflow: hidden;
-
 }
 
-
-/* =========================================================
-   PRODUCT IMAGE
-========================================================= */
-
 .product-slide img {
-
     width: 100%;
-
     height: 100%;
-
-    display: block;
 
     object-fit: contain;
 
-    object-position: center;
-
-    user-select: none;
-
-    -webkit-user-drag: none;
-
+    display: block;
 }
 
 
 /* =========================================================
-   GALLERY CONTROLS
+   ARROWS UNDER IMAGE
 ========================================================= */
 
-.gallery-controls {
-
+.gallery-bottom {
     width: 100%;
 
     display: flex;
 
-    justify-content: flex-start;
-
     align-items: center;
 
-    margin-top: 14px;
+    justify-content: space-between;
 
+    margin-top: 18px;
 }
-
-
-/*
-   IMPORTANT:
-   NO "HOODIE" LABEL HERE.
-*/
 
 .image-arrows {
-
     display: flex;
-
+    align-items: center;
     gap: 8px;
-
 }
 
-
-/* =========================================================
-   ARROWS
-========================================================= */
-
 .image-arrow {
+    width: 52px;
+    height: 42px;
 
-    width: 46px;
+    background: #fff;
 
-    height: 40px;
+    border: 1px solid #cfcfcf;
 
-    display: flex;
-
-    align-items: center;
-
-    justify-content: center;
-
-    background: transparent;
-
-    color: #fff;
-
-    border: 1px solid #555;
+    color: #111;
 
     cursor: pointer;
 
     font-size: 18px;
 
-    transition: .2s;
-
+    transition: .2s ease;
 }
 
 .image-arrow:hover {
+    background: #111;
+    color: #fff;
+    border-color: #111;
+}
 
-    background: #fff;
-
-    color: #111;
-
+.gallery-label {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #777;
 }
 
 
 /* =========================================================
-   PRODUCT INFO
+   PRODUCT INFORMATION — RIGHT SIDE
 ========================================================= */
 
 .product-info {
-
-    padding-top: 3px;
-
-    min-width: 0;
-
+    padding-top: 5px;
 }
-
 
 .product-brand {
-
-    margin: 0 0 10px;
-
     font-size: 11px;
-
-    font-weight: 700;
-
+    font-weight: 800;
     letter-spacing: 3px;
+    color: #777;
 
-    color: #aaa;
-
+    margin-bottom: 17px;
 }
 
-
 .product-name {
+    font-size: clamp(32px, 4vw, 58px);
+    line-height: .95;
 
-    margin: 0 0 18px;
-
-    font-size: clamp(24px, 2.6vw, 38px);
-
-    line-height: 1.05;
+    font-weight: 900;
 
     letter-spacing: 1px;
 
-    font-weight: 800;
-
+    margin-bottom: 22px;
 }
 
-
 .product-price {
-
-    margin: 0 0 32px;
-
     font-size: 19px;
-
     font-weight: 700;
 
+    margin-bottom: 45px;
 }
 
 
 /* =========================================================
-   COLOR
+   PRODUCT DETAILS
 ========================================================= */
 
-.product-option-title {
-
+.option-title {
     display: block;
 
-    margin-bottom: 12px;
-
-    font-size: 11px;
-
-    font-weight: 700;
+    font-size: 10px;
+    font-weight: 800;
 
     letter-spacing: 2px;
 
+    margin-bottom: 14px;
 }
-
 
 .color-buttons {
-
     display: flex;
+    align-items: center;
+    gap: 12px;
 
-    gap: 10px;
-
-    flex-wrap: wrap;
-
-    margin-bottom: 11px;
-
+    margin-bottom: 13px;
 }
 
-
 .color-btn {
-
     width: 34px;
-
     height: 34px;
-
-    padding: 0;
 
     border-radius: 50%;
 
-    border: 1px solid #555;
+    border: 1px solid #aaa;
 
     cursor: pointer;
 
     position: relative;
 
-    transition: .2s;
-
+    transition: .2s ease;
 }
-
 
 .color-btn:hover {
-
     transform: scale(1.08);
-
 }
-
 
 .color-btn.selected {
-
     box-shadow:
-        0 0 0 2px #111,
-        0 0 0 3px #fff;
-
+        0 0 0 2px #fff,
+        0 0 0 3px #111;
 }
 
-
-/* COLORS */
-
-.color-btn.black {
+.color-black {
     background: #111;
 }
 
-.color-btn.white {
+.color-white {
     background: #fff;
 }
 
-.color-btn.brown {
-    background: #6b4226;
+.color-brown {
+    background: #6a432b;
 }
 
-.color-btn.beige {
+.color-beige {
     background: #d8c2a4;
 }
 
-
 .selected-color {
-
-    margin: 0 0 30px;
-
     font-size: 10px;
-
     font-weight: 700;
-
     letter-spacing: 2px;
+    color: #777;
 
-    color: #bbb;
-
+    margin-bottom: 38px;
 }
 
 
@@ -431,186 +473,226 @@ body {
    SIZE
 ========================================================= */
 
-.size-title {
-
-    display: block;
-
-    margin-bottom: 12px;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    letter-spacing: 2px;
-
-}
-
-
 .size-buttons {
-
     display: flex;
-
     gap: 7px;
 
-    flex-wrap: wrap;
-
-    margin-bottom: 25px;
-
+    margin-bottom: 35px;
 }
-
 
 .size-btn {
-
-    width: 48px;
-
-    height: 42px;
-
-    background: transparent;
-
-    color: #fff;
-
-    border: 1px solid #555;
-
-    cursor: pointer;
-
-    font-size: 11px;
-
-    font-weight: 700;
-
-    transition: .2s;
-
-}
-
-
-.size-btn:hover {
-
-    border-color: #fff;
-
-}
-
-
-.size-btn.selected {
+    width: 53px;
+    height: 45px;
 
     background: #fff;
 
     color: #111;
 
-    border-color: #fff;
+    border: 1px solid #cfcfcf;
 
+    cursor: pointer;
+
+    font-size: 11px;
+    font-weight: 700;
+
+    transition: .2s ease;
+}
+
+.size-btn:hover {
+    border-color: #111;
+}
+
+.size-btn.selected {
+    background: #111;
+    color: #fff;
+    border-color: #111;
 }
 
 
 /* =========================================================
-   ACTION BUTTONS
+   BUTTONS
 ========================================================= */
 
 .product-actions {
-
     display: flex;
-
     flex-direction: column;
-
-    gap: 9px;
-
-}
-
-
-.add-cart-btn,
-.buy-now-btn {
+    gap: 10px;
 
     width: 100%;
+}
 
-    min-height: 48px;
-
-    border: none;
+.add-cart,
+.buy-now {
+    width: 100%;
+    min-height: 53px;
 
     cursor: pointer;
 
     font-size: 10px;
-
     font-weight: 800;
 
     letter-spacing: 2px;
 
-    transition: .2s;
-
+    transition: .2s ease;
 }
 
-
-.add-cart-btn {
-
-    background: #fff;
-
-    color: #111;
-
-}
-
-
-.add-cart-btn:hover {
-
-    background: #ddd;
-
-}
-
-
-.buy-now-btn {
-
-    background: transparent;
-
+.add-cart {
+    background: #111;
     color: #fff;
-
-    border: 1px solid #555;
-
+    border: 1px solid #111;
 }
 
+.add-cart:hover {
+    background: #333;
+}
 
-.buy-now-btn:hover {
-
+.buy-now {
     background: #fff;
-
     color: #111;
+    border: 1px solid #111;
+}
 
+.buy-now:hover {
+    background: #111;
+    color: #fff;
 }
 
 
 /* =========================================================
-   CART COUNT
+   PRODUCT DIVIDER
 ========================================================= */
 
-.cart-count {
-
-    display: none;
-
-    align-items: center;
-
-    justify-content: center;
-
-    position: absolute;
-
-    top: -7px;
-
-    right: -7px;
-
-    width: 18px;
-
-    height: 18px;
-
-    background: #fff;
-
-    color: #111;
-
-    border-radius: 50%;
-
-    font-size: 10px;
-
-    font-weight: 800;
-
+.product + .product {
+    border-top: 1px solid #e5e5e5;
+    padding-top: 100px;
 }
 
 
-.cart-btn {
+/* =========================================================
+   FOOTER
+========================================================= */
 
-    position: relative;
+.footer {
+    background: #111;
+    color: #fff;
+
+    padding: 75px 7% 30px;
+}
+
+.footer-top {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 70px;
+}
+
+.footer-brand img {
+    width: 125px;
+    height: auto;
+    filter: brightness(0) invert(1);
+    margin-bottom: 20px;
+}
+
+.footer-brand p {
+    color: #aaa;
+    font-size: 11px;
+    letter-spacing: 1px;
+    line-height: 1.8;
+}
+
+.footer-links {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+}
+
+.footer-column h3 {
+    font-size: 10px;
+    letter-spacing: 3px;
+    margin-bottom: 20px;
+}
+
+.footer-column a {
+    display: block;
+    color: #aaa;
+    text-decoration: none;
+    font-size: 11px;
+    margin-bottom: 12px;
+}
+
+.footer-column a:hover {
+    color: #fff;
+}
+
+.footer-bottom {
+    border-top: 1px solid #333;
+    margin-top: 65px;
+    padding-top: 25px;
+}
+
+.footer-bottom p {
+    font-size: 9px;
+    letter-spacing: 2px;
+    color: #777;
+}
+
+
+/* =========================================================
+   MOBILE NAV
+========================================================= */
+
+@media (max-width: 850px) {
+
+    .navbar {
+        height: 72px;
+        padding: 0 20px;
+    }
+
+    .menu-toggle {
+        display: block;
+    }
+
+    .logo img {
+        width: 100px;
+    }
+
+    #mainNav {
+        display: none;
+
+        position: absolute;
+
+        top: 72px;
+        left: 0;
+
+        width: 100%;
+
+        background: #fff;
+
+        border-bottom: 1px solid #ddd;
+
+        flex-direction: column;
+
+        gap: 0;
+
+        padding: 10px 0 20px;
+    }
+
+    #mainNav.active {
+        display: flex;
+    }
+
+    #mainNav a {
+        width: 100%;
+        padding: 17px 20px;
+        text-align: center;
+    }
+
+    .search-btn {
+        font-size: 24px;
+    }
+
+    .cart-btn {
+        font-size: 17px;
+    }
 
 }
 
@@ -619,74 +701,86 @@ body {
    TABLET
 ========================================================= */
 
-@media (max-width: 1100px) {
+@media (max-width: 1050px) {
 
-    .shop-products {
+    .product-layout {
+        grid-template-columns:
+            minmax(0, 1.2fr)
+            minmax(280px, .8fr);
 
-        grid-template-columns: 1fr;
+        gap: 40px;
+    }
 
-        width: min(850px, 94%);
-
-        gap: 75px;
-
+    .product-name {
+        font-size: 38px;
     }
 
 }
 
 
 /* =========================================================
-   MOBILE
+   MOBILE PRODUCT
 ========================================================= */
 
 @media (max-width: 700px) {
 
-    .shop-hero {
-
-        padding: 65px 20px 45px;
-
+    .announcement {
+        font-size: 8px;
+        letter-spacing: 1.5px;
     }
 
+    .shop-header {
+        padding: 55px 20px 40px;
+    }
+
+    .shop-header h1 {
+        font-size: 54px;
+    }
 
     .shop-products {
-
         width: 92%;
-
-        padding-top: 20px;
-
-        padding-bottom: 70px;
-
-        gap: 70px;
-
+        padding-bottom: 60px;
     }
 
+    .product {
+        margin-bottom: 75px;
+    }
 
     .product-layout {
+        display: flex;
+        flex-direction: column;
 
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-
+        gap: 35px;
     }
-
 
     .product-info {
-
+        width: 100%;
         padding: 0 3px;
-
     }
-
 
     .product-name {
-
-        font-size: 30px;
-
+        font-size: 34px;
     }
 
-
     .product-price {
+        margin-bottom: 32px;
+    }
 
-        margin-bottom: 28px;
+    .product + .product {
+        padding-top: 65px;
+    }
 
+    .footer {
+        padding: 60px 25px 25px;
+    }
+
+    .footer-top {
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .footer-links {
+        grid-template-columns: 1fr 1fr;
     }
 
 }
@@ -698,38 +792,1226 @@ body {
 
 @media (max-width: 430px) {
 
+    .logo img {
+        width: 90px;
+    }
+
+    .nav-icons {
+        gap: 10px;
+    }
+
+    .shop-header h1 {
+        font-size: 48px;
+    }
+
     .product-name {
-
-        font-size: 27px;
-
+        font-size: 30px;
     }
 
-
-    .product-slider {
-
-        aspect-ratio: 1 / 1;
-
+    .image-arrow {
+        width: 48px;
+        height: 40px;
     }
-
 
     .size-btn {
+        width: 48px;
+    }
 
-        width: 46px;
-
+    .footer-links {
+        grid-template-columns: 1fr;
     }
 
 }
 
 </style>
-
 </head>
 
 
 <body>
 
 
-<!-- =======================================================
+<!-- =========================================================
      ANNOUNCEMENT
-======================================================= -->
+========================================================= -->
 
-<div class="announcement
+<div class="announcement">
+    NEW DROP — CALLED TO LIVE DIFFERENTLY.
+</div>
+
+
+<!-- =========================================================
+     NAVBAR
+========================================================= -->
+
+<header class="navbar">
+
+    <button
+        class="menu-toggle"
+        id="menuToggle"
+        type="button"
+        aria-label="Open menu">
+        ☰
+    </button>
+
+
+    <a href="index.html" class="logo">
+
+        <img
+            src="LOGO (2).png"
+            alt="SET APART">
+
+    </a>
+
+
+    <nav id="mainNav">
+
+        <a href="index.html">HOME</a>
+
+        <a href="shop.html">SHOP</a>
+
+        <a href="about.html">ABOUT</a>
+
+        <a href="contact.html">CONTACT</a>
+
+    </nav>
+
+
+    <div class="nav-icons">
+
+        <button
+            type="button"
+            class="search-btn"
+            id="searchButton"
+            aria-label="Search">
+            ⌕
+        </button>
+
+
+        <button
+            type="button"
+            class="cart-btn"
+            id="cartButton"
+            aria-label="Cart">
+
+            🛒
+
+            <span
+                id="cartCount"
+                class="cart-count">
+                0
+            </span>
+
+        </button>
+
+    </div>
+
+</header>
+
+
+<!-- =========================================================
+     SEARCH
+========================================================= -->
+
+<div
+    class="search-box"
+    id="searchBox">
+
+    <form id="searchForm">
+
+        <input
+            id="searchInput"
+            type="search"
+            placeholder="Search products..."
+            autocomplete="off">
+
+        <button
+            id="closeSearch"
+            class="close-search"
+            type="button">
+            ×
+        </button>
+
+    </form>
+
+</div>
+
+
+<!-- =========================================================
+     SHOP HEADER
+========================================================= -->
+
+<section class="shop-header">
+
+    <p>
+        FAITH-INSPIRED STREETWEAR
+    </p>
+
+    <h1>
+        SHOP
+    </h1>
+
+    <span>
+        CALLED TO LIVE DIFFERENTLY.
+    </span>
+
+</section>
+
+
+<!-- =========================================================
+     PRODUCTS
+========================================================= -->
+
+<main class="shop-products">
+
+
+<!-- =========================================================
+     GOD FIRST
+========================================================= -->
+
+<article
+    class="product"
+    data-product="god-first">
+
+    <div class="product-layout">
+
+
+        <!-- ================= IMAGE ================= -->
+
+        <div class="product-gallery">
+
+            <div class="product-slider">
+
+                <div class="product-slide">
+
+                    <img
+                        class="front-image"
+                        src="GOD FIRST BEIGE FRONT.jpeg"
+                        alt="God First Hoodie Front">
+
+                </div>
+
+                <div class="product-slide">
+
+                    <img
+                        class="back-image"
+                        src="GOD FIRST BEIGE BACK.jpeg"
+                        alt="God First Hoodie Back">
+
+                </div>
+
+            </div>
+
+
+            <div class="gallery-bottom">
+
+                <div class="image-arrows">
+
+                    <button
+                        type="button"
+                        class="image-arrow prev-image">
+                        ←
+                    </button>
+
+                    <button
+                        type="button"
+                        class="image-arrow next-image">
+                        →
+                    </button>
+
+                </div>
+
+
+                <span class="gallery-label">
+                    HOODIE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= INFO ================= -->
+
+        <div class="product-info">
+
+            <p class="product-brand">
+                SET APART
+            </p>
+
+            <h2 class="product-name">
+                GOD FIRST HOODIE
+            </h2>
+
+            <p class="product-price">
+                $44.99
+            </p>
+
+
+            <!-- COLOR -->
+
+            <span class="option-title">
+                COLOR
+            </span>
+
+            <div class="color-buttons">
+
+                <button
+                    type="button"
+                    class="color-btn color-black"
+                    data-color="black"
+                    aria-label="Black">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-white"
+                    data-color="white"
+                    aria-label="White">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-brown selected"
+                    data-color="brown"
+                    aria-label="Brown">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-beige"
+                    data-color="beige"
+                    aria-label="Beige">
+                </button>
+
+            </div>
+
+            <p class="selected-color">
+                BROWN
+            </p>
+
+
+            <!-- SIZE -->
+
+            <span class="option-title">
+                SIZE
+            </span>
+
+            <div class="size-buttons">
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="S">
+                    S
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="M">
+                    M
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="L">
+                    L
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="XL">
+                    XL
+                </button>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="product-actions">
+
+                <button
+                    type="button"
+                    class="add-cart">
+                    ADD TO CART
+                </button>
+
+                <button
+                    type="button"
+                    class="buy-now">
+                    BUY NOW
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+
+<!-- =========================================================
+     PILGRIM
+========================================================= -->
+
+<article
+    class="product"
+    data-product="pilgrim">
+
+    <div class="product-layout">
+
+
+        <!-- ================= IMAGE ================= -->
+
+        <div class="product-gallery">
+
+            <div class="product-slider">
+
+                <div class="product-slide">
+
+                    <img
+                        class="front-image"
+                        src="PILGRIM BLACK FRONT 1.png"
+                        alt="Pilgrim Hoodie Front">
+
+                </div>
+
+                <div class="product-slide">
+
+                    <img
+                        class="back-image"
+                        src="PILGRIM BLACK BACK.png"
+                        alt="Pilgrim Hoodie Back">
+
+                </div>
+
+            </div>
+
+
+            <div class="gallery-bottom">
+
+                <div class="image-arrows">
+
+                    <button
+                        type="button"
+                        class="image-arrow prev-image">
+                        ←
+                    </button>
+
+                    <button
+                        type="button"
+                        class="image-arrow next-image">
+                        →
+                    </button>
+
+                </div>
+
+
+                <span class="gallery-label">
+                    HOODIE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================= INFO ================= -->
+
+        <div class="product-info">
+
+            <p class="product-brand">
+                SET APART
+            </p>
+
+            <h2 class="product-name">
+                PILGRIM HOODIE
+            </h2>
+
+            <p class="product-price">
+                $44.99
+            </p>
+
+
+            <!-- COLOR -->
+
+            <span class="option-title">
+                COLOR
+            </span>
+
+            <div class="color-buttons">
+
+                <button
+                    type="button"
+                    class="color-btn color-black selected"
+                    data-color="black"
+                    aria-label="Black">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-white"
+                    data-color="white"
+                    aria-label="White">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-brown"
+                    data-color="brown"
+                    aria-label="Brown">
+                </button>
+
+                <button
+                    type="button"
+                    class="color-btn color-beige"
+                    data-color="beige"
+                    aria-label="Beige">
+                </button>
+
+            </div>
+
+            <p class="selected-color">
+                BLACK
+            </p>
+
+
+            <!-- SIZE -->
+
+            <span class="option-title">
+                SIZE
+            </span>
+
+            <div class="size-buttons">
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="S">
+                    S
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="M">
+                    M
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="L">
+                    L
+                </button>
+
+                <button
+                    type="button"
+                    class="size-btn"
+                    data-size="XL">
+                    XL
+                </button>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="product-actions">
+
+                <button
+                    type="button"
+                    class="add-cart">
+                    ADD TO CART
+                </button>
+
+                <button
+                    type="button"
+                    class="buy-now">
+                    BUY NOW
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</article>
+
+
+</main>
+
+
+<!-- =========================================================
+     FOOTER
+========================================================= -->
+
+<footer class="footer">
+
+    <div class="footer-top">
+
+
+        <div class="footer-brand">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART">
+
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+
+            <div class="footer-column">
+
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
+                <a href="shop.html">
+                    T-Shirts
+                </a>
+
+                <a href="shop.html">
+                    Accessories
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    FOLLOW
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 SET APART. ALL RIGHTS RESERVED.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<script>
+
+/* =========================================================
+   PRODUCT DATA
+========================================================= */
+
+const productData = {
+
+    "god-first": {
+
+        name: "GOD FIRST HOODIE",
+
+        price: 44.99,
+
+        colors: {
+
+            black: {
+                front: "GOD FIRST BLACK FRONT.jpeg",
+                back: "GOD FIRST BLACK BACK.jpeg"
+            },
+
+            white: {
+                front: "GOD FIRST WHITE FRONT.jpeg",
+                back: "GOD FIRST WHITE BACK.jpeg"
+            },
+
+            brown: {
+                front: "GOD FIRST BEIGE FRONT.jpeg",
+                back: "GOD FIRST BEIGE BACK.jpeg"
+            },
+
+            beige: {
+                front: "GOD FIRST BEIGE FRONT.jpeg",
+                back: "GOD FIRST BEIGE BACK.jpeg"
+            }
+
+        }
+
+    },
+
+
+    "pilgrim": {
+
+        name: "PILGRIM HOODIE",
+
+        price: 44.99,
+
+        colors: {
+
+            black: {
+                front: "PILGRIM BLACK FRONT 1.png",
+                back: "PILGRIM BLACK BACK.png"
+            },
+
+            brown: {
+                front: "PILGRIM BROWN FRONT.jpeg",
+                back: "PILGRIM BROWN BLACK.jpeg"
+            },
+
+            white: {
+                front: "PILGRIM WHITE FRONT.jpeg",
+                back: "PILGRIM WHITE BACK.jpeg"
+            },
+
+            beige: {
+                front: "PILGRIM BEIGE FRONT.jpeg",
+                back: "PILGRIM BEIGE BACK.jpeg"
+            }
+
+        }
+
+    }
+
+};
+
+
+/* =========================================================
+   INITIALIZE PRODUCTS
+========================================================= */
+
+document.querySelectorAll(".product").forEach(product => {
+
+    const productId = product.dataset.product;
+
+    const data = productData[productId];
+
+    if (!data) return;
+
+
+    const slider =
+        product.querySelector(".product-slider");
+
+    const frontImage =
+        product.querySelector(".front-image");
+
+    const backImage =
+        product.querySelector(".back-image");
+
+    const selectedColorText =
+        product.querySelector(".selected-color");
+
+
+    let selectedColor =
+        productId === "god-first"
+            ? "brown"
+            : "black";
+
+    let selectedSize = "";
+
+
+    /* =====================================================
+       COLOR
+    ===================================================== */
+
+    product
+        .querySelectorAll(".color-btn")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                const color =
+                    button.dataset.color;
+
+                if (!data.colors[color]) {
+
+                    alert(
+                        "THIS COLOR IS NOT AVAILABLE."
+                    );
+
+                    return;
+                }
+
+
+                selectedColor = color;
+
+
+                product
+                    .querySelectorAll(".color-btn")
+                    .forEach(btn => {
+
+                        btn.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                button.classList.add(
+                    "selected"
+                );
+
+
+                frontImage.src =
+                    data.colors[color].front;
+
+                backImage.src =
+                    data.colors[color].back;
+
+
+                selectedColorText.textContent =
+                    color.toUpperCase();
+
+
+                slider.scrollTo({
+
+                    left: 0,
+
+                    behavior: "smooth"
+
+                });
+
+            });
+
+        });
+
+
+    /* =====================================================
+       SIZE
+    ===================================================== */
+
+    product
+        .querySelectorAll(".size-btn")
+        .forEach(button => {
+
+            button.addEventListener("click", () => {
+
+                selectedSize =
+                    button.dataset.size;
+
+
+                product
+                    .querySelectorAll(".size-btn")
+                    .forEach(btn => {
+
+                        btn.classList.remove(
+                            "selected"
+                        );
+
+                    });
+
+
+                button.classList.add(
+                    "selected"
+                );
+
+            });
+
+        });
+
+
+    /* =====================================================
+       PREVIOUS
+    ===================================================== */
+
+    const previous =
+        product.querySelector(".prev-image");
+
+    previous.addEventListener("click", () => {
+
+        slider.scrollBy({
+
+            left:
+                -slider.clientWidth,
+
+            behavior:
+                "smooth"
+
+        });
+
+    });
+
+
+    /* =====================================================
+       NEXT
+    ===================================================== */
+
+    const next =
+        product.querySelector(".next-image");
+
+    next.addEventListener("click", () => {
+
+        slider.scrollBy({
+
+            left:
+                slider.clientWidth,
+
+            behavior:
+                "smooth"
+
+        });
+
+    });
+
+
+    /* =====================================================
+       ADD TO CART
+    ===================================================== */
+
+    const addCart =
+        product.querySelector(".add-cart");
+
+
+    addCart.addEventListener("click", () => {
+
+        if (!selectedSize) {
+
+            alert(
+                "PLEASE SELECT A SIZE."
+            );
+
+            return;
+
+        }
+
+
+        const colorData =
+            data.colors[selectedColor];
+
+
+        const item = {
+
+            id: productId,
+
+            name: data.name,
+
+            price: data.price,
+
+            color:
+                selectedColor.toUpperCase(),
+
+            size: selectedSize,
+
+            quantity: 1,
+
+            image: colorData.front,
+
+            backImage: colorData.back
+
+        };
+
+
+        localStorage.setItem(
+
+            "setApartCart",
+
+            JSON.stringify(item)
+
+        );
+
+
+        updateCartCount();
+
+
+        alert(
+            data.name +
+            " ADDED TO CART."
+        );
+
+    });
+
+
+    /* =====================================================
+       BUY NOW
+    ===================================================== */
+
+    const buyNow =
+        product.querySelector(".buy-now");
+
+
+    buyNow.addEventListener("click", () => {
+
+        if (!selectedSize) {
+
+            alert(
+                "PLEASE SELECT A SIZE."
+            );
+
+            return;
+
+        }
+
+
+        const colorData =
+            data.colors[selectedColor];
+
+
+        const item = {
+
+            id: productId,
+
+            name: data.name,
+
+            price: data.price,
+
+            color:
+                selectedColor.toUpperCase(),
+
+            size: selectedSize,
+
+            quantity: 1,
+
+            image: colorData.front,
+
+            backImage: colorData.back
+
+        };
+
+
+        localStorage.setItem(
+
+            "setApartCart",
+
+            JSON.stringify(item)
+
+        );
+
+
+        window.location.href =
+            "payment.html";
+
+    });
+
+});
+
+
+/* =========================================================
+   CART COUNT
+========================================================= */
+
+const cartCount =
+    document.getElementById("cartCount");
+
+
+function updateCartCount() {
+
+    if (!cartCount) return;
+
+
+    try {
+
+        const cart =
+            JSON.parse(
+                localStorage.getItem(
+                    "setApartCart"
+                )
+            );
+
+
+        const quantity =
+            cart
+                ? Number(cart.quantity) || 0
+                : 0;
+
+
+        if (quantity > 0) {
+
+            cartCount.textContent =
+                quantity;
+
+            cartCount.style.display =
+                "flex";
+
+        } else {
+
+            cartCount.style.display =
+                "none";
+
+        }
+
+    } catch {
+
+        cartCount.style.display =
+            "none";
+
+    }
+
+}
+
+
+updateCartCount();
+
+
+/* =========================================================
+   CART
+========================================================= */
+
+document
+    .getElementById("cartButton")
+    .addEventListener("click", () => {
+
+        const cart =
+            localStorage.getItem(
+                "setApartCart"
+            );
+
+
+        if (!cart) {
+
+            alert(
+                "YOUR CART IS EMPTY."
+            );
+
+            return;
+
+        }
+
+
+        window.location.href =
+            "cart.html";
+
+    });
+
+
+/* =========================================================
+   MOBILE MENU
+========================================================= */
+
+const menuToggle =
+    document.getElementById("menuToggle");
+
+const mainNav =
+    document.getElementById("mainNav");
+
+
+menuToggle.addEventListener("click", () => {
+
+    const open =
+        mainNav.classList.toggle("active");
+
+
+    menuToggle.textContent =
+        open
+            ? "×"
+            : "☰";
+
+});
+
+
+/* =========================================================
+   SEARCH
+========================================================= */
+
+const searchButton =
+    document.getElementById("searchButton");
+
+const searchBox =
+    document.getElementById("searchBox");
+
+const closeSearch =
+    document.getElementById("closeSearch");
+
+const searchInput =
+    document.getElementById("searchInput");
+
+const searchForm =
+    document.getElementById("searchForm");
+
+
+searchButton.addEventListener("click", () => {
+
+    searchBox.classList.toggle("active");
+
+
+    if (
+        searchBox.classList.contains("active")
+    ) {
+
+        searchInput.focus();
+
+    }
+
+});
+
+
+closeSearch.addEventListener("click", () => {
+
+    searchBox.classList.remove("active");
+
+});
+
+
+searchForm.addEventListener("submit", event => {
+
+    event.preventDefault();
+
+
+    const query =
+        searchInput.value.trim();
+
+
+    if (!query) return;
+
+
+    window.location.href =
+        "shop.html?search=" +
+        encodeURIComponent(query);
+
+});
+
+</script>
+
+</body>
+</html>
