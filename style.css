@@ -3212,3 +3212,59 @@ body {
 .view-colors {
     display: none !important;
 }
+
+.view-colors {
+    display: none !important;
+}
+
+.product-gallery {
+    position: relative;
+}
+
+.color-controls {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 0 10px;
+    box-sizing: border-box;
+
+    pointer-events: none;
+    z-index: 10;
+}
+
+.image-arrows {
+    display: contents;
+}
+
+.image-arrow {
+    width: 36px;
+    height: 36px;
+
+    border: none;
+    background: rgba(255, 255, 255, 0.9);
+
+    color: #111;
+    font-size: 20px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    pointer-events: auto;
+
+    transition: all 0.2s ease;
+}
+
+.image-arrow:hover {
+    background: #111;
+    color: #fff;
+    transform: scale(1.08);
+}
