@@ -850,48 +850,40 @@ button {
 }
 
 /* =========================================================
-   PRODUCT GALLERY — FIXED EQUAL HEIGHT
+   PRODUCT GALLERY — SMALL & CLEAN
 ========================================================= */
 
 .product-gallery {
     position: relative;
 
     width: 100%;
-    max-width: 1450px;
+    max-width: 1050px;
 
     margin: 0 auto;
 
     display: grid;
 
-    grid-template-columns:
-        minmax(0, 1.45fr)
-        minmax(320px, 0.75fr);
+    grid-template-columns: 1fr 0.72fr;
 
-    gap: 55px;
+    gap: 25px;
 
     align-items: stretch;
 }
 
 
 /* =========================================================
-   LEFT PRODUCT IMAGE FRAME
-   SAME HEIGHT AS RIGHT INFORMATION
+   PRODUCT IMAGE FRAME
 ========================================================= */
 
 .shop-product-image {
     position: relative;
 
     width: 100%;
-
-    height: 100%;
-    min-height: 520px;
-
-    aspect-ratio: auto;
+    height: 440px;
 
     background: #ffffff !important;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -902,26 +894,14 @@ button {
 
     border: none !important;
     box-shadow: none !important;
-    outline: none !important;
-}
-
-
-/* REMOVE UNWANTED FRAME EFFECTS */
-
-.shop-product-image::before,
-.shop-product-image::after {
-    display: none !important;
-    content: none !important;
 }
 
 
 /* =========================================================
-   PRODUCT SLIDER
+   SLIDER
 ========================================================= */
 
 .product-slider {
-    position: relative;
-
     width: 100%;
     height: 100%;
 
@@ -933,7 +913,6 @@ button {
     scroll-behavior: smooth;
 
     scrollbar-width: none;
-
     -ms-overflow-style: none;
 }
 
@@ -943,7 +922,7 @@ button {
 
 
 /* =========================================================
-   PRODUCT SLIDE
+   SLIDE
 ========================================================= */
 
 .product-slide {
@@ -951,10 +930,9 @@ button {
 
     min-width: 100%;
     width: 100%;
-    height: 100%;
+    height: 440px;
 
     display: flex;
-
     align-items: center;
     justify-content: center;
 
@@ -981,8 +959,8 @@ button {
     width: 100%;
     height: 100%;
 
-    max-width: none;
-    max-height: none;
+    max-width: 100%;
+    max-height: 100%;
 
     object-fit: contain;
     object-position: center;
@@ -1005,40 +983,33 @@ button {
 
 
 /* =========================================================
-   RIGHT PRODUCT INFORMATION
+   PRODUCT INFORMATION
    SAME HEIGHT AS IMAGE
 ========================================================= */
 
 .shop-product-info {
-    grid-column: 2;
-    grid-row: 1;
-
     width: 100%;
+    height: 440px;
 
-    height: 100%;
-
-    min-height: 520px;
-
-    padding: 15px 20px;
+    padding: 15px 18px;
 
     display: flex;
-
     flex-direction: column;
 
     justify-content: flex-start;
 
     box-sizing: border-box;
+
+    background: #ffffff;
 }
 
 
-/* =========================================================
-   PRODUCT TITLE
-========================================================= */
+/* PRODUCT NAME */
 
 .shop-product-info h2 {
-    margin: 0 0 6px;
+    margin: 0 0 5px;
 
-    font-size: 28px;
+    font-size: 22px;
 
     line-height: 1.1;
 
@@ -1050,14 +1021,12 @@ button {
 }
 
 
-/* =========================================================
-   PRICE
-========================================================= */
+/* PRICE */
 
 .shop-product-price {
-    margin: 0 0 20px;
+    margin: 0 0 18px;
 
-    font-size: 18px;
+    font-size: 15px;
 
     font-weight: 600;
 
@@ -1070,16 +1039,16 @@ button {
 ========================================================= */
 
 .shop-color {
-    margin: 0 0 18px;
+    margin: 0 0 15px;
 }
 
 .shop-color > span,
 .shop-size > span {
     display: block;
 
-    margin-bottom: 8px;
+    margin-bottom: 7px;
 
-    font-size: 12px;
+    font-size: 10px;
 
     font-weight: 700;
 
@@ -1089,12 +1058,12 @@ button {
 .selected-color-name {
     margin-top: 5px;
 
-    font-size: 11px;
+    font-size: 10px;
 }
 
 
 /* =========================================================
-   COLOR CIRCLES
+   COLOR OPTIONS
 ========================================================= */
 
 .color-options {
@@ -1102,32 +1071,18 @@ button {
 
     align-items: center;
 
-    gap: 10px;
+    gap: 9px;
 }
 
 .color-option {
-    width: 34px;
-    height: 34px;
+    width: 32px;
+    height: 32px;
 
     border-radius: 50%;
 
-    border: 2px solid transparent;
+    border: 1px solid #999999;
 
     cursor: pointer;
-
-    transition:
-        transform 0.2s ease,
-        border-color 0.2s ease;
-}
-
-.color-option:hover {
-    transform: scale(1.08);
-}
-
-.color-option.selected {
-    border-color: #111111;
-
-    transform: scale(1.05);
 }
 
 
@@ -1136,7 +1091,7 @@ button {
 ========================================================= */
 
 .shop-size {
-    margin: 0 0 20px;
+    margin: 0 0 18px;
 }
 
 .shop-size-options {
@@ -1148,8 +1103,8 @@ button {
 }
 
 .shop-size-btn {
-    min-width: 38px;
-    height: 38px;
+    min-width: 34px;
+    height: 34px;
 
     padding: 0;
 
@@ -1159,7 +1114,7 @@ button {
 
     color: #111111;
 
-    font-size: 13px;
+    font-size: 11px;
 
     cursor: pointer;
 
@@ -1183,7 +1138,7 @@ button {
 .shop-add-cart {
     width: 100%;
 
-    height: 48px;
+    height: 42px;
 
     margin-top: 0;
 
@@ -1193,9 +1148,9 @@ button {
 
     color: #ffffff;
 
-    font-size: 14px;
+    font-size: 11px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     letter-spacing: 1px;
 
@@ -1216,9 +1171,9 @@ button {
 .buy-now-btn {
     width: 100%;
 
-    height: 48px;
+    height: 42px;
 
-    margin-top: 8px;
+    margin-top: 7px;
 
     border: 1px solid #111111;
 
@@ -1226,9 +1181,9 @@ button {
 
     color: #111111;
 
-    font-size: 14px;
+    font-size: 11px;
 
-    font-weight: 600;
+    font-weight: 700;
 
     letter-spacing: 1px;
 
@@ -1245,8 +1200,7 @@ button {
 
 
 /* =========================================================
-   ARROWS
-   STAY EXACTLY ON LEFT IMAGE FRAME
+   ARROWS — STICK TO IMAGE EDGES
 ========================================================= */
 
 .color-controls {
@@ -1256,45 +1210,47 @@ button {
     left: 0;
 
     width: calc(
-        (100% - 55px) * 0.659
+        100% - 0.72fr
     );
 
-    height: 520px;
+    height: 440px;
 
     pointer-events: none;
 
-    z-index: 100;
+    z-index: 50;
 }
 
 
-/* =========================================================
-   ARROW ROW
-========================================================= */
+/* ARROW ROW */
 
 .image-arrows {
+    position: absolute;
+
+    top: 0;
+    left: 0;
+
     width: 100%;
     height: 100%;
 
     display: flex;
 
     align-items: center;
+
     justify-content: space-between;
 
     padding: 0;
-
-    margin: 0;
 
     pointer-events: none;
 }
 
 
 /* =========================================================
-   ARROW BUTTON
+   ARROW
 ========================================================= */
 
 .image-arrow {
-    width: 42px;
-    height: 48px;
+    width: 32px;
+    height: 40px;
 
     padding: 0;
     margin: 0;
@@ -1305,7 +1261,7 @@ button {
 
     color: #111111;
 
-    font-size: 30px;
+    font-size: 25px;
 
     font-weight: 400;
 
@@ -1352,21 +1308,17 @@ button {
 
 
 /* =========================================================
-   IMPORTANT:
-   ARROWS NEVER LEAVE IMAGE FRAME
+   REMOVE VIEW COLORS
 ========================================================= */
 
-.color-controls .prev-image {
-    margin-left: 0;
-}
-
-.color-controls .next-image {
-    margin-right: 0;
+.view-colors,
+.view-colors button {
+    display: none !important;
 }
 
 
 /* =========================================================
-   DIVIDER
+   PRODUCT DIVIDER
 ========================================================= */
 
 .product-divider {
@@ -1376,7 +1328,7 @@ button {
 
     background: #e5e5e5;
 
-    margin: 70px 0;
+    margin: 55px 0;
 }
 
 
@@ -1389,21 +1341,19 @@ button {
     .product-gallery {
         grid-template-columns: 1fr;
 
-        gap: 30px;
+        gap: 20px;
+
+        max-width: 650px;
+    }
+
+    .shop-product-image,
+    .product-slide,
+    .shop-product-info {
+        height: auto;
     }
 
     .shop-product-image {
-        width: 100%;
-
-        height: 420px;
-
-        min-height: 420px;
-
-        aspect-ratio: auto;
-    }
-
-    .product-slider {
-        height: 420px;
+        aspect-ratio: 4 / 5;
     }
 
     .product-slide {
@@ -1411,45 +1361,17 @@ button {
     }
 
     .shop-product-info {
-        grid-column: 1;
-
-        grid-row: auto;
-
-        width: 100%;
-
-        height: auto;
-
-        min-height: auto;
-
-        padding: 10px 20px 30px;
+        padding: 15px 5px 30px;
     }
-
-
-    /* ARROWS */
 
     .color-controls {
         width: 100%;
-
         height: 420px;
-
-        left: 0;
-    }
-
-    .image-arrows {
-        width: 100%;
     }
 
     .image-arrow {
-        width: 42px;
-
-        height: 44px;
-
-        font-size: 28px;
-    }
-
-    .prev-image,
-    .next-image {
-        transform: none;
+        width: 36px;
+        height: 42px;
     }
 }
 
@@ -1461,496 +1383,76 @@ button {
 @media (max-width: 700px) {
 
     .product-gallery {
+        width: 100%;
+
         grid-template-columns: 1fr;
 
-        gap: 20px;
+        gap: 18px;
+
+        max-width: 100%;
     }
-
-
-    /* IMAGE */
 
     .shop-product-image {
         width: 100%;
 
-        height: 360px;
+        height: auto;
 
-        min-height: 360px;
-
-        aspect-ratio: auto;
+        aspect-ratio: 4 / 5;
     }
 
     .product-slider {
-        height: 360px;
+        height: 100%;
     }
 
     .product-slide {
-        height: 360px;
+        width: 100%;
+
+        min-width: 100%;
+
+        height: 350px;
     }
-
-
-    /* INFO */
 
     .shop-product-info {
         width: 100%;
 
         height: auto;
-
-        min-height: auto;
-
-        padding: 10px 0 30px;
-    }
-
-    .shop-product-info h2 {
-        font-size: 23px;
-    }
-
-
-    /* =====================================================
-       MOBILE ARROWS
-       EXACT IMAGE EDGES
-    ===================================================== */
-
-    .color-controls {
-        position: absolute;
-
-        top: 0;
-        left: 0;
-
-        width: 100%;
-
-        height: 360px;
-
-        padding: 0;
-
-        margin: 0;
-    }
-
-    .image-arrows {
-        width: 100%;
-
-        height: 100%;
-
-        padding: 0;
-    }
-
-    .image-arrow {
-        width: 40px;
-
-        height: 44px;
-
-        font-size: 27px;
-    }
-
-    .prev-image,
-    .next-image {
-        transform: none;
-    }
-}
-
-    /* HOME PRODUCTS */
-
-    .product-grid {
-        grid-template-columns:
-            repeat(2, minmax(0, 1fr));
-    }
-
-
-    /* CATEGORIES */
-
-    .category-grid {
-        grid-template-columns:
-            repeat(3, 1fr);
-    }
-
-
-    /* CONTACT */
-
-    .contact-content {
-        gap: 50px;
-    }
-}
-
-
-/* =========================================================
-   MOBILE + SMALL TABLET
-========================================================= */
-
-@media (max-width: 700px) {
-
-    body {
-        width: 100%;
-    }
-
-
-    /* ANNOUNCEMENT */
-
-    .announcement {
-        padding: 9px 10px;
-
-        font-size: 9px;
-
-        letter-spacing: 1.3px;
-    }
-
-
-    /* NAVBAR */
-
-    .navbar {
-        min-height: 65px;
-
-        padding: 9px 16px;
-
-        display: grid;
-
-        grid-template-columns:
-            42px 1fr 80px;
-
-        align-items: center;
-    }
-
-    .menu-toggle {
-        display: flex;
-
-        align-items: center;
-        justify-content: flex-start;
-
-        z-index: 1100;
-    }
-
-    .logo {
-        justify-self: center;
-    }
-
-    .logo img {
-        width: 92px;
-    }
-
-    .nav-icons {
-        justify-self: end;
-
-        gap: 8px;
-    }
-
-    .nav-icons button {
-        width: 46px;
-        height: 46px;
-    }
-
-    .search-btn {
-        font-size: 34px !important;
-    }
-
-    .cart-btn {
-        font-size: 25px !important;
-    }
-
-
-    /* MOBILE NAV */
-
-    .navbar nav {
-        position: absolute;
-
-        top: 100%;
-        left: 0;
-
-        width: 100%;
-
-        display: none;
-
-        flex-direction: column;
-
-        align-items: stretch;
-
-        gap: 0;
-
-        padding: 8px 0;
-
-        background: #ffffff;
-
-        border-bottom: 1px solid #dddddd;
-
-        box-shadow:
-            0 10px 25px rgba(0, 0, 0, 0.08);
-    }
-
-    .navbar nav.active {
-        display: flex;
-    }
-
-    .navbar nav a {
-        width: 100%;
-
-        padding: 15px 25px;
-
-        border-bottom: 1px solid #eeeeee;
-
-        font-size: 11px;
-    }
-
-    .navbar nav a:last-child {
-        border-bottom: 0;
-    }
-
-
-    /* SEARCH */
-
-    .search-box {
-        padding: 12px 16px;
-    }
-
-
-    /* HERO */
-
-    .hero {
-        min-height: 62vh;
-
-        padding: 70px 18px;
-    }
-
-    .hero-small {
-        margin-bottom: 15px;
-
-        font-size: 10px;
-
-        letter-spacing: 2.5px;
-    }
-
-    .hero h1 {
-        font-size: clamp(48px, 15vw, 75px);
-
-        letter-spacing: -2px;
-    }
-
-    .hero h2 {
-        font-size: 13px;
-
-        letter-spacing: 2px;
-    }
-
-
-    /* HOME PRODUCTS */
-
-    .new-drop {
-        padding: 70px 16px;
-    }
-
-    .product-grid {
-        grid-template-columns: 1fr;
-
-        gap: 30px;
-    }
-
-    .product-info h3 {
-        font-size: 10px;
-    }
-
-
-    /* CATEGORIES */
-
-    .categories {
-        padding: 70px 16px;
-    }
-
-    .category-grid {
-        grid-template-columns: 1fr;
-
-        gap: 12px;
-    }
-
-    .category-card {
-        min-height: 190px;
-    }
-
-
-    /* MISSION */
-
-    .mission {
-        padding: 80px 20px;
-    }
-
-
-    /* VERSE */
-
-    .verse {
-        padding: 75px 20px;
-    }
-
-
-    /* PAGE HERO */
-
-    .page-hero {
-        min-height: 62vh;
-
-        padding: 70px 18px;
-
-        background-position: center;
-    }
-
-    .page-hero-content p {
-        font-size: 9px;
-
-        letter-spacing: 2px;
-    }
-
-    .page-hero-content h1 {
-        font-size: clamp(48px, 15vw, 78px);
-
-        letter-spacing: -2px;
-    }
-
-    .page-hero-content span {
-        font-size: 11px;
-
-        letter-spacing: 1.8px;
-    }
-
-
-    /* SHOP HEADER */
-
-    .shop-header {
-        padding: 65px 16px 55px;
-    }
-
-    .shop-header h1 {
-        font-size: clamp(48px, 16vw, 70px);
-
-        letter-spacing: -2px;
-    }
-
-
-    /* SHOP */
-
-    .shop-products {
-        padding: 55px 16px;
-    }
-
-    .shop-products-grid {
-        display: block;
-
-        padding: 10px 0 50px;
-    }
-
-    .shop-product-card {
-        width: 100%;
-
-        margin-bottom: 70px;
-
-        padding: 0;
-    }
-
-
-    /* PRODUCT */
-
-    .product-gallery {
-        grid-template-columns: 1fr;
-
-        gap: 20px;
-    }
-
-    .shop-product-image {
-        width: 100%;
-
-        max-width: 100%;
-
-        aspect-ratio: 4 / 5;
-    }
-
-    .shop-product-info {
-        width: 100%;
-
-        max-width: 100%;
 
         padding: 5px 0 25px;
     }
 
     .shop-product-info h2 {
-        font-size: 24px;
+        font-size: 20px;
     }
 
     .shop-product-price {
-        font-size: 17px;
+        font-size: 14px;
     }
 
-
-    /* =====================================================
-       MOBILE ARROWS
-       TOUJOU KOLE AK KAD FOTO A
-    ===================================================== */
-
     .color-controls {
-        top: 0;
-
-        left: 0;
-
-        transform: none;
-
         width: 100%;
 
-        height: auto;
+        height: 350px;
 
-        aspect-ratio: 4 / 5;
+        left: 0;
     }
 
     .image-arrows {
         width: 100%;
-        height: 100%;
-
-        padding: 0;
     }
 
     .image-arrow {
-        width: 38px;
-        height: 44px;
+        width: 34px;
 
-        font-size: 27px;
+        height: 40px;
+
+        font-size: 24px;
     }
-
-    .prev-image {
-        transform: translateX(0);
-    }
-
-    .next-image {
-        transform: translateX(0);
-    }
-
-    .image-arrow:hover {
-        transform: scale(1.05);
-    }
-
-
-    /* COLOR */
-
-    .shop-color-options {
-        gap: 9px;
-    }
-
-    .shop-color-btn {
-        width: 32px;
-        height: 32px;
-    }
-
-
-    /* SIZE */
-
-    .shop-size-options {
-        gap: 3px;
-    }
-
-    .shop-size-btn {
-        min-width: 37px;
-        height: 37px;
-    }
-
-
-    /* BUTTONS */
 
     .shop-add-cart,
     .buy-now-btn {
-        height: 50px;
-
-        font-size: 13px;
+        height: 44px;
     }
-
+}
 
     /* CONTACT */
 
