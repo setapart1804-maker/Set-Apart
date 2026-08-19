@@ -2,8 +2,12 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
 
     <title>Payment — SET APART</title>
 
@@ -12,22 +16,265 @@
     <!-- PAYPAL -->
     <script src="https://www.paypal.com/sdk/js?client-id=AaTz2vD2J4B7bNFz41KD39gEZqOb25JRei9CAm-sjiDBrB91bef9pHzd0iDTCd3SYWzHtQiC0En7cDFV&currency=USD&intent=capture&components=buttons"></script>
 
+    <style>
+
+        /* =========================================
+           PAYMENT PAGE
+        ========================================= */
+
+        .payment-page {
+            width: 100%;
+            padding: 70px 20px;
+        }
+
+        .payment-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+
+        /* =========================================
+           HEADER
+        ========================================= */
+
+        .payment-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .payment-header .section-label {
+            margin-bottom: 10px;
+        }
+
+        .payment-header h1 {
+            margin: 0;
+            font-size: 48px;
+            letter-spacing: 2px;
+        }
+
+        .payment-header > p:last-child {
+            margin-top: 12px;
+            letter-spacing: 1px;
+        }
+
+
+        /* =========================================
+           PRODUCT INFORMATION
+        ========================================= */
+
+        .payment-product {
+            display: grid;
+            grid-template-columns: 220px 1fr;
+            gap: 35px;
+
+            padding: 30px 0;
+            margin-bottom: 40px;
+
+            border-top: 1px solid #ddd;
+            border-bottom: 1px solid #ddd;
+
+            align-items: center;
+        }
+
+        .payment-product-image {
+            width: 220px;
+        }
+
+        .payment-product-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+            object-fit: contain;
+        }
+
+        .payment-product-info h2 {
+            margin: 0 0 18px;
+            font-size: 25px;
+            letter-spacing: .5px;
+        }
+
+        .payment-product-info p {
+            margin: 9px 0;
+            font-size: 15px;
+        }
+
+        .payment-product-info strong {
+            margin-left: 5px;
+        }
+
+        .payment-price {
+            margin-top: 20px !important;
+            font-size: 22px !important;
+            font-weight: 700;
+        }
+
+
+        /* =========================================
+           PAYMENT FORM
+        ========================================= */
+
+        .payment-form {
+            width: 100%;
+        }
+
+        .payment-section {
+            margin-bottom: 35px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .payment-section h2 {
+            margin: 0 0 25px;
+            font-size: 20px;
+            letter-spacing: 1px;
+        }
+
+        .payment-section label {
+            display: block;
+            margin: 18px 0 8px;
+
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+        }
+
+        .payment-section input {
+            width: 100%;
+            min-height: 50px;
+
+            padding: 0 15px;
+
+            border: 1px solid #bbb;
+            background: #fff;
+
+            font-size: 15px;
+
+            box-sizing: border-box;
+        }
+
+        .payment-section input:focus {
+            outline: none;
+            border-color: #111;
+        }
+
+
+        /* =========================================
+           TOTAL
+        ========================================= */
+
+        .payment-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            padding: 25px 0;
+
+            font-size: 18px;
+            font-weight: 700;
+
+            border-bottom: 1px solid #111;
+        }
+
+        .payment-total strong {
+            font-size: 26px;
+        }
+
+
+        /* =========================================
+           PAYPAL
+        ========================================= */
+
+        #paypal-button-container {
+            width: 100%;
+            max-width: 500px;
+            margin: 30px auto 0;
+        }
+
+        .payment-note {
+            text-align: center;
+
+            margin-top: 18px;
+
+            font-size: 12px;
+            color: #666;
+            letter-spacing: .5px;
+        }
+
+
+        /* =========================================
+           MOBILE
+        ========================================= */
+
+        @media (max-width: 700px) {
+
+            .payment-page {
+                padding: 45px 15px;
+            }
+
+            .payment-header {
+                margin-bottom: 30px;
+            }
+
+            .payment-header h1 {
+                font-size: 36px;
+            }
+
+            .payment-product {
+                grid-template-columns: 120px 1fr;
+                gap: 20px;
+                padding: 22px 0;
+            }
+
+            .payment-product-image {
+                width: 120px;
+            }
+
+            .payment-product-info h2 {
+                font-size: 18px;
+                line-height: 1.3;
+            }
+
+            .payment-product-info p {
+                font-size: 14px;
+            }
+
+            .payment-price {
+                font-size: 19px !important;
+            }
+
+            .payment-section h2 {
+                font-size: 17px;
+            }
+
+            .payment-total strong {
+                font-size: 22px;
+            }
+
+        }
+
+    </style>
+
 </head>
+
 
 <body>
 
-<!-- =========================
+
+<!-- =========================================
      ANNOUNCEMENT
-========================== -->
+========================================= -->
 
 <div class="announcement">
+
     NEW DROP — CALLED TO LIVE DIFFERENTLY.
+
 </div>
 
 
-<!-- =========================
+<!-- =========================================
      NAVBAR
-========================== -->
+========================================= -->
 
 <header class="navbar">
 
@@ -37,10 +284,15 @@
         id="menuToggle"
         aria-label="Open menu"
         aria-expanded="false">
+
         ☰
+
     </button>
 
-    <a href="index.html" class="logo">
+
+    <a
+        href="index.html"
+        class="logo">
 
         <img
             src="LOGO (2).png"
@@ -48,14 +300,19 @@
 
     </a>
 
+
     <nav id="mainNav">
 
         <a href="index.html">HOME</a>
+
         <a href="shop.html">SHOP</a>
+
         <a href="about.html">ABOUT</a>
+
         <a href="contact.html">CONTACT</a>
 
     </nav>
+
 
     <div class="nav-icons">
 
@@ -64,20 +321,26 @@
             class="search-btn"
             id="searchButton"
             aria-label="Search">
+
             ⌕
+
         </button>
+
 
         <button
             type="button"
             class="cart-btn"
             id="cartButton"
             aria-label="Shopping Cart">
+
             🛒
 
             <span
                 class="cart-count"
                 id="cartCount">
+
                 0
+
             </span>
 
         </button>
@@ -87,9 +350,9 @@
 </header>
 
 
-<!-- =========================
-     SEARCH BOX
-========================== -->
+<!-- =========================================
+     SEARCH
+========================================= -->
 
 <div
     class="search-box"
@@ -108,7 +371,9 @@
             id="closeSearch"
             class="close-search"
             aria-label="Close search">
+
             ×
+
         </button>
 
     </form>
@@ -116,230 +381,271 @@
 </div>
 
 
-<!-- =========================
+<!-- =========================================
      PAYMENT
-========================== -->
+========================================= -->
 
 <main>
 
 <section class="payment-page">
 
-    <div class="payment-container">
+<div class="payment-container">
 
 
-        <div class="payment-header">
+    <!-- =====================================
+         PAYMENT HEADER
+    ====================================== -->
 
-            <p class="section-label">
-                CHECKOUT
-            </p>
+    <div class="payment-header">
 
-            <h1>
-                PAYMENT
-            </h1>
+        <p class="section-label">
+            CHECKOUT
+        </p>
 
-            <p>
-                COMPLETE YOUR ORDER
-            </p>
+        <h1>
+            PAYMENT
+        </h1>
 
-        </div>
-
-
-        <!-- =====================
-             ORDER SUMMARY
-        ====================== -->
-
-        <div class="payment-product">
-
-            <div class="payment-product-image">
-
-                <img
-                    id="paymentProductImage"
-                    src="PILGRIM BLACK FRONT 1.png"
-                    alt="SET APART Hoodie">
-
-            </div>
-
-
-            <div class="payment-product-info">
-
-                <h2 id="paymentProductName">
-                    SET APART HOODIE
-                </h2>
-
-                <p>
-
-                    SIZE:
-
-                    <strong id="paymentProductSize">
-                        —
-                    </strong>
-
-                </p>
-
-                <p class="payment-price">
-
-                    $
-
-                    <span id="paymentProductPrice">
-                        44.99
-                    </span>
-
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <!-- =====================
-             CUSTOMER INFORMATION
-        ====================== -->
-
-        <form id="paymentForm">
-
-            <div class="payment-section">
-
-                <h2>
-                    CUSTOMER INFORMATION
-                </h2>
-
-
-                <label for="customerName">
-                    FULL NAME
-                </label>
-
-                <input
-                    type="text"
-                    id="customerName"
-                    name="name"
-                    placeholder="Your full name"
-                    required>
-
-
-                <label for="customerEmail">
-                    EMAIL
-                </label>
-
-                <input
-                    type="email"
-                    id="customerEmail"
-                    name="email"
-                    placeholder="you@email.com"
-                    required>
-
-
-                <label for="customerPhone">
-                    PHONE
-                </label>
-
-                <input
-                    type="tel"
-                    id="customerPhone"
-                    name="phone"
-                    placeholder="Your phone number"
-                    required>
-
-            </div>
-
-
-            <!-- =====================
-                 SHIPPING
-            ====================== -->
-
-            <div class="payment-section">
-
-                <h2>
-                    SHIPPING ADDRESS
-                </h2>
-
-
-                <label for="address">
-                    ADDRESS
-                </label>
-
-                <input
-                    type="text"
-                    id="address"
-                    name="address"
-                    placeholder="Street address"
-                    required>
-
-
-                <label for="city">
-                    CITY
-                </label>
-
-                <input
-                    type="text"
-                    id="city"
-                    name="city"
-                    placeholder="City"
-                    required>
-
-
-                <label for="country">
-                    COUNTRY
-                </label>
-
-                <input
-                    type="text"
-                    id="country"
-                    name="country"
-                    placeholder="Country"
-                    required>
-
-            </div>
-
-
-            <!-- =====================
-                 ORDER TOTAL
-            ====================== -->
-
-            <div class="payment-total">
-
-                <span>
-                    TOTAL
-                </span>
-
-                <strong>
-
-                    $
-
-                    <span id="paymentTotal">
-                        44.99
-                    </span>
-
-                </strong>
-
-            </div>
-
-
-            <!-- =====================
-                 PAYPAL
-            ====================== -->
-
-            <div
-                id="paypal-button-container"
-                style="margin-top:25px;">
-            </div>
-
-
-            <p class="payment-note">
-                Secure checkout. Payment processed securely with PayPal.
-            </p>
-
-        </form>
+        <p>
+            COMPLETE YOUR ORDER
+        </p>
 
     </div>
+
+
+    <!-- =====================================
+         PRODUCT INFORMATION
+    ====================================== -->
+
+    <div class="payment-product">
+
+        <div class="payment-product-image">
+
+            <img
+                id="paymentProductImage"
+                src="PILGRIM BLACK FRONT 1.png"
+                alt="SET APART Hoodie">
+
+        </div>
+
+
+        <div class="payment-product-info">
+
+            <h2 id="paymentProductName">
+                SET APART HOODIE
+            </h2>
+
+
+            <p>
+
+                COLOR:
+
+                <strong id="paymentProductColor">
+                    BLACK
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                SIZE:
+
+                <strong id="paymentProductSize">
+                    —
+                </strong>
+
+            </p>
+
+
+            <p>
+
+                QUANTITY:
+
+                <strong id="paymentProductQuantity">
+                    1
+                </strong>
+
+            </p>
+
+
+            <p class="payment-price">
+
+                $
+
+                <span id="paymentProductPrice">
+                    44.99
+                </span>
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================
+         CUSTOMER + SHIPPING FORM
+    ====================================== -->
+
+    <form
+        id="paymentForm"
+        class="payment-form">
+
+
+        <!-- =================================
+             CUSTOMER INFORMATION
+        ================================== -->
+
+        <div class="payment-section">
+
+            <h2>
+                CUSTOMER INFORMATION
+            </h2>
+
+
+            <label for="customerName">
+                FULL NAME
+            </label>
+
+            <input
+                type="text"
+                id="customerName"
+                name="name"
+                placeholder="Your full name"
+                autocomplete="name"
+                required>
+
+
+            <label for="customerEmail">
+                EMAIL
+            </label>
+
+            <input
+                type="email"
+                id="customerEmail"
+                name="email"
+                placeholder="you@email.com"
+                autocomplete="email"
+                required>
+
+
+            <label for="customerPhone">
+                PHONE
+            </label>
+
+            <input
+                type="tel"
+                id="customerPhone"
+                name="phone"
+                placeholder="Your phone number"
+                autocomplete="tel"
+                required>
+
+        </div>
+
+
+        <!-- =================================
+             SHIPPING ADDRESS
+        ================================== -->
+
+        <div class="payment-section">
+
+            <h2>
+                SHIPPING ADDRESS
+            </h2>
+
+
+            <label for="address">
+                ADDRESS
+            </label>
+
+            <input
+                type="text"
+                id="address"
+                name="address"
+                placeholder="Street address"
+                autocomplete="street-address"
+                required>
+
+
+            <label for="city">
+                CITY
+            </label>
+
+            <input
+                type="text"
+                id="city"
+                name="city"
+                placeholder="City"
+                autocomplete="address-level2"
+                required>
+
+
+            <label for="country">
+                COUNTRY
+            </label>
+
+            <input
+                type="text"
+                id="country"
+                name="country"
+                placeholder="Country"
+                autocomplete="country-name"
+                required>
+
+        </div>
+
+
+        <!-- =================================
+             TOTAL
+        ================================== -->
+
+        <div class="payment-total">
+
+            <span>
+                TOTAL
+            </span>
+
+            <strong>
+
+                $
+
+                <span id="paymentTotal">
+                    44.99
+                </span>
+
+            </strong>
+
+        </div>
+
+
+        <!-- =================================
+             PAYPAL
+        ================================== -->
+
+        <div id="paypal-button-container"></div>
+
+
+        <p class="payment-note">
+
+            Secure checkout.
+            Payment processed securely with PayPal.
+
+        </p>
+
+    </form>
+
+</div>
 
 </section>
 
 </main>
 
 
-<!-- =========================
+<!-- =========================================
      FOOTER
-========================== -->
+========================================= -->
 
 <footer class="footer">
 
@@ -434,18 +740,18 @@
 </footer>
 
 
-<!-- =========================
+<!-- =========================================
      JAVASCRIPT
-========================== -->
+========================================= -->
 
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
 
-    /* =========================
-       GET PRODUCT FROM CART
-    ========================== */
+    /* =========================================
+       GET CART
+    ========================================= */
 
     let product = null;
 
@@ -462,6 +768,10 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
+    /* =========================================
+       PRODUCT INFORMATION
+    ========================================= */
+
     if (product) {
 
         const image =
@@ -474,9 +784,19 @@ document.addEventListener("DOMContentLoaded", function () {
                 "paymentProductName"
             );
 
+        const color =
+            document.getElementById(
+                "paymentProductColor"
+            );
+
         const size =
             document.getElementById(
                 "paymentProductSize"
+            );
+
+        const quantity =
+            document.getElementById(
+                "paymentProductQuantity"
             );
 
         const price =
@@ -490,37 +810,102 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-        if (image && product.image) {
+        /* IMAGE */
 
-            image.src = product.image;
+        if (
+            image &&
+            product.image
+        ) {
 
-        }
-
-
-        if (name && product.name) {
-
-            name.textContent = product.name;
-
-        }
-
-
-        if (size && product.size) {
-
-            size.textContent = product.size;
+            image.src =
+                product.image;
 
         }
 
 
-        const productPrice =
-            Number(product.price) || 44.99;
+        /* NAME */
+
+        if (
+            name &&
+            product.name
+        ) {
+
+            name.textContent =
+                product.name;
+
+        }
 
 
-        const quantity =
+        /* =====================================
+           COLOR
+        ====================================== */
+
+        let productColor = "BLACK";
+
+
+        if (
+            product.image &&
+            product.image
+                .toLowerCase()
+                .includes("beige")
+        ) {
+
+            productColor = "BEIGE";
+
+        }
+
+
+        if (
+            product.image &&
+            product.image
+                .toLowerCase()
+                .includes("black")
+        ) {
+
+            productColor = "BLACK";
+
+        }
+
+
+        if (color) {
+
+            color.textContent =
+                productColor;
+
+        }
+
+
+        /* SIZE */
+
+        if (
+            size &&
+            product.size
+        ) {
+
+            size.textContent =
+                product.size;
+
+        }
+
+
+        /* QUANTITY */
+
+        const productQuantity =
             Number(product.quantity) || 1;
 
 
-        const totalPrice =
-            productPrice * quantity;
+        if (quantity) {
+
+            quantity.textContent =
+                productQuantity;
+
+        }
+
+
+        /* PRICE */
+
+        const productPrice =
+            Number(product.price) || 44.99;
 
 
         if (price) {
@@ -529,6 +914,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 productPrice.toFixed(2);
 
         }
+
+
+        /* TOTAL */
+
+        const totalPrice =
+            productPrice *
+            productQuantity;
 
 
         if (total) {
@@ -541,9 +933,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =========================
-       PAYPAL CHECKOUT
-    ========================== */
+    /* =========================================
+       PAYPAL
+    ========================================= */
 
     const paymentForm =
         document.getElementById(
@@ -575,12 +967,17 @@ document.addEventListener("DOMContentLoaded", function () {
             },
 
 
+            /* =================================
+               CREATE ORDER
+            ================================= */
+
             createOrder: function (
                 data,
                 actions
             ) {
 
-                /* CHECK CUSTOMER INFORMATION */
+
+                /* CUSTOMER INFORMATION */
 
                 if (
                     !paymentForm.checkValidity()
@@ -597,7 +994,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
 
 
-                /* GET CART */
+                /* CART */
 
                 let cart = null;
 
@@ -618,21 +1015,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 if (!cart) {
 
-                    alert("YOUR CART IS EMPTY.");
+                    alert(
+                        "YOUR CART IS EMPTY."
+                    );
 
                     return Promise.reject(
-                        new Error("Cart is empty.")
+                        new Error(
+                            "Cart is empty."
+                        )
                     );
 
                 }
 
 
                 const price =
-                    Number(cart.price) || 44.99;
+                    Number(cart.price) ||
+                    44.99;
 
 
                 const quantity =
-                    Number(cart.quantity) || 1;
+                    Number(cart.quantity) ||
+                    1;
 
 
                 const total =
@@ -643,8 +1046,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 return actions.order.create({
-
-                    intent: "CAPTURE",
 
                     purchase_units: [
 
@@ -673,9 +1074,9 @@ document.addEventListener("DOMContentLoaded", function () {
             },
 
 
-            /* =========================
-               PAYMENT APPROVED
-            ========================== */
+            /* =================================
+               APPROVED
+            ================================== */
 
             onApprove: function (
                 data,
@@ -685,15 +1086,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 return actions.order
                     .capture()
 
-                    .then(function (details) {
+                    .then(function () {
+
 
                         localStorage.removeItem(
                             "setApartCart"
                         );
 
+
                         alert(
                             "PAYMENT SUCCESSFUL! THANK YOU FOR YOUR ORDER."
                         );
+
 
                         window.location.href =
                             "index.html";
@@ -703,9 +1107,9 @@ document.addEventListener("DOMContentLoaded", function () {
             },
 
 
-            /* =========================
-               PAYMENT CANCELLED
-            ========================== */
+            /* =================================
+               CANCEL
+            ================================== */
 
             onCancel: function () {
 
@@ -716,9 +1120,9 @@ document.addEventListener("DOMContentLoaded", function () {
             },
 
 
-            /* =========================
-               PAYPAL ERROR
-            ========================== */
+            /* =================================
+               ERROR
+            ================================== */
 
             onError: function (error) {
 
@@ -726,6 +1130,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     "PayPal Error:",
                     error
                 );
+
 
                 alert(
                     "PAYMENT COULD NOT BE COMPLETED. PLEASE TRY AGAIN."
@@ -746,9 +1151,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =========================
+    /* =========================================
        MOBILE MENU
-    ========================== */
+    ========================================= */
 
     const menuToggle =
         document.getElementById(
@@ -775,6 +1180,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         "active"
                     );
 
+
                 menuToggle.setAttribute(
                     "aria-expanded",
                     isOpen
@@ -782,12 +1188,14 @@ document.addEventListener("DOMContentLoaded", function () {
                         : "false"
                 );
 
+
                 menuToggle.setAttribute(
                     "aria-label",
                     isOpen
                         ? "Close menu"
                         : "Open menu"
                 );
+
 
                 menuToggle.textContent =
                     isOpen
@@ -797,12 +1205,45 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         );
 
+
+        /* CLOSE MENU WHEN LINK IS CLICKED */
+
+        mainNav
+            .querySelectorAll("a")
+            .forEach(function (link) {
+
+                link.addEventListener(
+                    "click",
+                    function () {
+
+                        mainNav.classList.remove(
+                            "active"
+                        );
+
+                        menuToggle.setAttribute(
+                            "aria-expanded",
+                            "false"
+                        );
+
+                        menuToggle.setAttribute(
+                            "aria-label",
+                            "Open menu"
+                        );
+
+                        menuToggle.textContent =
+                            "☰";
+
+                    }
+                );
+
+            });
+
     }
 
 
-    /* =========================
+    /* =========================================
        SEARCH
-    ========================== */
+    ========================================= */
 
     const searchButton =
         document.getElementById(
@@ -858,9 +1299,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =========================
+    /* =========================================
        CART
-    ========================== */
+    ========================================= */
 
     const cartButton =
         document.getElementById(
@@ -911,6 +1352,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         } else if (cartCount) {
 
+            cartCount.textContent =
+                "0";
+
             cartCount.style.display =
                 "none";
 
@@ -941,4 +1385,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 </body>
+
 </html>
