@@ -4880,35 +4880,82 @@ body {
 }
 
 /* =========================================================
-   SHOP ARROWS — NO BACKGROUND
+   SHOP — FORCE ARROWS LEFT / RIGHT
 ========================================================= */
 
-.image-arrows button,
-.image-arrow {
-    width: 34px !important;
-    height: 34px !important;
+.shop-item-gallery {
+    position: relative !important;
+}
+
+.image-arrows {
+    position: absolute !important;
+
+    top: 50% !important;
+    left: 0 !important;
+    right: 0 !important;
+
+    width: 100% !important;
+    height: 0 !important;
+
+    transform: translateY(-50%) !important;
+
+    z-index: 50 !important;
+
+    pointer-events: none !important;
+}
+
+
+/* LEFT ARROW */
+
+.image-arrows .prev-image {
+    position: absolute !important;
+
+    left: 10px !important;
+    right: auto !important;
+
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+}
+
+
+/* RIGHT ARROW */
+
+.image-arrows .next-image {
+    position: absolute !important;
+
+    right: 10px !important;
+    left: auto !important;
+
+    top: 50% !important;
+
+    transform: translateY(-50%) !important;
+}
+
+
+/* BOTH BUTTONS */
+
+.image-arrows .shop-arrow {
+    width: 30px !important;
+    height: 30px !important;
 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
 
-    margin: 0 !important;
     padding: 0 !important;
+    margin: 0 !important;
 
-    /* NO BACKGROUND */
-    background: none !important;
+    background: transparent !important;
     background-color: transparent !important;
 
-    /* NO BORDER */
     border: none !important;
     outline: none !important;
-
-    /* NO SHADOW */
     box-shadow: none !important;
 
     color: #000 !important;
 
-    font-size: 28px !important;
+    font-size: 30px !important;
     font-weight: 300 !important;
     line-height: 1 !important;
 
@@ -4921,25 +4968,37 @@ body {
 }
 
 
-/* KEEP ARROWS CENTERED VERTICALLY */
+/* TABLET */
 
-.image-arrows {
-    position: absolute !important;
+@media (max-width: 1024px) {
 
-    top: 50% !important;
-    left: 0 !important;
+    .image-arrows .prev-image {
+        left: 8px !important;
+    }
 
-    width: 100% !important;
+    .image-arrows .next-image {
+        right: 8px !important;
+    }
 
-    transform: translateY(-50%) !important;
+}
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: space-between !important;
 
-    padding: 0 12px !important;
+/* PHONE */
 
-    z-index: 20 !important;
+@media (max-width: 700px) {
 
-    pointer-events: none !important;
+    .image-arrows .prev-image {
+        left: 5px !important;
+    }
+
+    .image-arrows .next-image {
+        right: 5px !important;
+    }
+
+    .image-arrows .shop-arrow {
+        width: 26px !important;
+        height: 26px !important;
+
+        font-size: 25px !important;
+    }
 }
