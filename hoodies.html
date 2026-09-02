@@ -17,15 +17,18 @@
 
 </head>
 
+
 <body>
 
 
     <!-- =====================================================
-         ANNOUNCEMENT
+         ANNOUNCEMENT BAR
     ====================================================== -->
 
     <div class="announcement-bar">
+
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
+
     </div>
 
 
@@ -38,6 +41,8 @@
 
         <div class="navbar container">
 
+
+            <!-- MOBILE MENU BUTTON -->
 
             <button
                 type="button"
@@ -54,6 +59,8 @@
 
 
 
+            <!-- LOGO -->
+
             <a
                 href="index.html"
                 class="site-logo">
@@ -65,6 +72,8 @@
             </a>
 
 
+
+            <!-- DESKTOP NAVIGATION -->
 
             <nav
                 class="main-nav"
@@ -92,8 +101,12 @@
 
 
 
+            <!-- NAV ACTIONS -->
+
             <div class="nav-actions">
 
+
+                <!-- SEARCH BUTTON -->
 
                 <button
                     type="button"
@@ -109,15 +122,23 @@
                         stroke="currentColor"
                         stroke-width="1.7">
 
-                        <circle cx="11" cy="11" r="7"></circle>
+                        <circle
+                            cx="11"
+                            cy="11"
+                            r="7">
+                        </circle>
 
-                        <path d="M20 20L16.5 16.5"></path>
+                        <path
+                            d="M20 20L16.5 16.5">
+                        </path>
 
                     </svg>
 
                 </button>
 
 
+
+                <!-- CART -->
 
                 <a
                     href="cart.html"
@@ -132,7 +153,9 @@
                         stroke="currentColor"
                         stroke-width="1.7">
 
-                        <path d="M6 7H18L17 20H7L6 7Z"></path>
+                        <path
+                            d="M6 7H18L17 20H7L6 7Z">
+                        </path>
 
                         <path
                             d="M9 7V5C9 3.3 10.3 2 12 2C13.7 2 15 3.3 15 5V7">
@@ -143,7 +166,9 @@
                     <span
                         class="cart-count"
                         id="cartCount">
+
                         0
+
                     </span>
 
                 </a>
@@ -151,6 +176,8 @@
             </div>
 
 
+
+            <!-- MOBILE NAVIGATION -->
 
             <nav
                 class="mobile-menu"
@@ -181,7 +208,7 @@
 
 
     <!-- =====================================================
-         SEARCH
+         SEARCH PANEL
     ====================================================== -->
 
     <div
@@ -189,6 +216,7 @@
         id="searchPanel">
 
         <div class="container search-panel-inner">
+
 
             <form id="searchForm">
 
@@ -209,6 +237,7 @@
             </form>
 
 
+
             <button
                 type="button"
                 id="closeSearch"
@@ -218,6 +247,7 @@
                 ×
 
             </button>
+
 
         </div>
 
@@ -232,29 +262,75 @@
     <main>
 
 
-        <section class="hoodies-final-section">
 
-            <div class="hoodies-final-container">
+        <!-- =================================================
+             HOODIES HERO
+             SAME BACKGROUND AS HOME
+        ================================================== -->
+
+        <section class="hoodies-hero">
+
+
+            <div class="hoodies-hero-overlay"></div>
+
+
+            <div class="hoodies-hero-content">
+
+
+                <p>
+                    SET APART COLLECTION
+                </p>
+
+
+                <h1>
+                    HOODIES
+                </h1>
+
+
+                <span>
+                    FAITH-INSPIRED STREETWEAR
+                </span>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =================================================
+             HOODIES COLLECTION
+        ================================================== -->
+
+        <section class="hoodies-page">
+
+
+            <div class="hoodies-page-container">
+
 
 
                 <!-- =========================================
-                     TITLE
+                     COLLECTION TITLE
                 ========================================== -->
 
-                <div class="hoodies-final-heading">
+                <div class="hoodies-page-heading">
+
 
                     <p>
-                        SET APART COLLECTION
+                        NEW DROP
                     </p>
 
-                    <h1>
+
+                    <h2>
                         HOODIES
-                    </h1>
+                    </h2>
+
 
                     <span>
-                        FAITH-INSPIRED STREETWEAR.<br>
-                        CALLED TO LIVE DIFFERENTLY.
+                        8 PRODUCTS
                     </span>
+
 
                 </div>
 
@@ -264,331 +340,660 @@
                      PRODUCT GRID
                 ========================================== -->
 
-                <div class="hoodies-final-grid">
+                <div class="hoodies-grid-final">
+
 
 
                     <!-- =====================================
-                         1 — GOD FIRST BROWN
+                         01
+                         GOD FIRST — BROWN
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="GOD FIRST BROWN FRONT.png"
-                                alt="GOD FIRST Brown Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="GOD FIRST BROWN BACK.png"
-                                alt="GOD FIRST Brown Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <!-- FRONT -->
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BROWN FRONT.png"
+                                        alt="GOD FIRST Brown Hoodie Front">
+
+                                </div>
+
+
+
+                                <!-- BACK -->
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BROWN BACK.png"
+                                        alt="GOD FIRST Brown Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 GOD FIRST — BROWN
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         2 — PILGRIM BLACK
+                         02
+                         PILGRIM — BLACK
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="PILGRIM BLACK FRONT 1.png"
-                                alt="PILGRIM Black Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="PILGRIM BLACK BACK.png"
-                                alt="PILGRIM Black Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BLACK FRONT 1.png"
+                                        alt="PILGRIM Black Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BLACK BACK.png"
+                                        alt="PILGRIM Black Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 PILGRIM — BLACK
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         3 — PILGRIM WHITE
+                         03
+                         PILGRIM — WHITE
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="PILGRIM WHITE FRONT.jpeg"
-                                alt="PILGRIM White Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="PILGRIM WHITE BACK.jpeg"
-                                alt="PILGRIM White Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM WHITE FRONT.jpeg"
+                                        alt="PILGRIM White Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM WHITE BACK.jpeg"
+                                        alt="PILGRIM White Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 PILGRIM — WHITE
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         4 — PILGRIM BROWN
+                         04
+                         PILGRIM — BROWN
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="PILGRIM BROWN FRONT.jpeg"
-                                alt="PILGRIM Brown Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="PILGRIM BROWN BLACK.jpeg"
-                                alt="PILGRIM Brown Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BROWN FRONT.jpeg"
+                                        alt="PILGRIM Brown Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BROWN BLACK.jpeg"
+                                        alt="PILGRIM Brown Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 PILGRIM — BROWN
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         5 — PILGRIM BEIGE
+                         05
+                         PILGRIM — BEIGE
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="PILGRIM BEIGE FRONT.jpeg"
-                                alt="PILGRIM Beige Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="PILGRIM BEIGE BACK.jpeg"
-                                alt="PILGRIM Beige Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BEIGE FRONT.jpeg"
+                                        alt="PILGRIM Beige Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="PILGRIM BEIGE BACK.jpeg"
+                                        alt="PILGRIM Beige Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 PILGRIM — BEIGE
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         6 — GOD FIRST BLACK
+                         06
+                         GOD FIRST — BLACK
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="GOD FIRST BLACK FRONT.jpeg"
-                                alt="GOD FIRST Black Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="GOD FIRST BLACK BACK.jpeg"
-                                alt="GOD FIRST Black Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BLACK FRONT.jpeg"
+                                        alt="GOD FIRST Black Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BLACK BACK.jpeg"
+                                        alt="GOD FIRST Black Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 GOD FIRST — BLACK
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         7 — GOD FIRST WHITE
+                         07
+                         GOD FIRST — WHITE
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="GOD FIRST WHITE FRONT.jpeg"
-                                alt="GOD FIRST White Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="GOD FIRST WHITE BACK.jpeg"
-                                alt="GOD FIRST White Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST WHITE FRONT.jpeg"
+                                        alt="GOD FIRST White Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST WHITE BACK.jpeg"
+                                        alt="GOD FIRST White Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 GOD FIRST — WHITE
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
+
 
                     </article>
 
 
 
                     <!-- =====================================
-                         8 — GOD FIRST BEIGE
+                         08
+                         GOD FIRST — BEIGE
                     ====================================== -->
 
-                    <article class="hoodies-final-card">
+                    <article class="hoodie-product-final">
 
-                        <div class="hoodies-final-image">
 
-                            <img
-                                class="hoodies-front"
-                                src="GOD FIRST BEIGE FRONT.jpeg"
-                                alt="GOD FIRST Beige Hoodie Front">
+                        <div class="hoodie-slider">
 
-                            <img
-                                class="hoodies-back"
-                                src="GOD FIRST BEIGE BACK.jpeg"
-                                alt="GOD FIRST Beige Hoodie Back">
+
+                            <div class="hoodie-slider-track">
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BEIGE FRONT.jpeg"
+                                        alt="GOD FIRST Beige Hoodie Front">
+
+                                </div>
+
+
+                                <div class="hoodie-slide">
+
+                                    <img
+                                        src="GOD FIRST BEIGE BACK.jpeg"
+                                        alt="GOD FIRST Beige Hoodie Back">
+
+                                </div>
+
+
+                            </div>
+
 
                         </div>
 
-                        <a href="shop.html">
 
-                            <h2>
+
+                        <div class="hoodie-slide-hint">
+
+                            <span>
+                                SLIDE
+                            </span>
+
+                            <span>
+                                →
+                            </span>
+
+                        </div>
+
+
+
+                        <a
+                            href="shop.html"
+                            class="hoodie-product-info">
+
+
+                            <h3>
                                 GOD FIRST — BEIGE
-                            </h2>
+                            </h3>
+
 
                             <p>
                                 HOODIE
                             </p>
 
+
                             <strong>
                                 $44.99
                             </strong>
 
+
                         </a>
 
+
                     </article>
+
 
 
                 </div>
 
+
             </div>
+
 
         </section>
 
@@ -603,23 +1008,36 @@
 
     <footer class="footer">
 
+
         <div class="container">
+
 
             <p>
                 © 2026 SET APART
             </p>
 
+
         </div>
+
 
     </footer>
 
 
+
+    <!-- =====================================================
+         PAGE OVERLAY
+    ====================================================== -->
 
     <div
         class="page-overlay"
         id="pageOverlay">
     </div>
 
+
+
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
     <script src="script.js"></script>
 
