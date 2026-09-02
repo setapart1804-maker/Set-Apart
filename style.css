@@ -4880,12 +4880,14 @@ body {
 }
 
 /* =========================================================
-   SET APART — HOODIES.HTML COMPLETE CSS
+   SET APART — HOODIES.HTML
+   FINAL CLEAN CSS
 ========================================================= */
 
 
 /* =========================================================
    HERO
+   SAME BACKGROUND AS HOME
 ========================================================= */
 
 .hoodies-hero {
@@ -4898,9 +4900,9 @@ body {
     align-items: center !important;
     justify-content: center !important;
 
-    text-align: center !important;
-
     overflow: hidden !important;
+
+    text-align: center !important;
 
     background-image:
         linear-gradient(
@@ -4910,25 +4912,24 @@ body {
         url("HOODIES.jpeg") !important;
 
     background-size: cover !important;
-    background-position: center 35% !important;
+
+    /* MOVE IMAGE HIGHER */
+    background-position: center 10% !important;
+
     background-repeat: no-repeat !important;
 }
 
-
-/* HERO OVERLAY */
 
 .hoodies-hero-overlay {
     position: absolute !important;
 
     inset: 0 !important;
 
-    background: rgba(0, 0, 0, 0.08) !important;
+    background: rgba(0, 0, 0, 0.05) !important;
 
     pointer-events: none !important;
 }
 
-
-/* HERO CONTENT */
 
 .hoodies-hero-content {
     position: relative !important;
@@ -4942,7 +4943,6 @@ body {
     padding: 40px 20px !important;
 
     display: flex !important;
-
     flex-direction: column !important;
 
     align-items: center !important;
@@ -4952,6 +4952,7 @@ body {
 
     color: #fff !important;
 }
+
 
 
 /* SET APART COLLECTION */
@@ -4964,13 +4965,13 @@ body {
     text-align: center !important;
 
     font-size: 11px !important;
-
     font-weight: 700 !important;
 
     letter-spacing: 3px !important;
 
     color: #fff !important;
 }
+
 
 
 /* HOODIES */
@@ -4982,7 +4983,7 @@ body {
 
     text-align: center !important;
 
-    font-size: clamp(52px, 7vw, 90px) !important;
+    font-size: clamp(52px, 7vw, 88px) !important;
 
     line-height: 1 !important;
 
@@ -4994,7 +4995,8 @@ body {
 }
 
 
-/* FAITH INSPIRED STREETWEAR */
+
+/* FAITH-INSPIRED STREETWEAR */
 
 .hoodies-hero-content span {
     display: block !important;
@@ -5006,7 +5008,6 @@ body {
     text-align: center !important;
 
     font-size: 11px !important;
-
     font-weight: 600 !important;
 
     letter-spacing: 2.4px !important;
@@ -5017,53 +5018,56 @@ body {
 
 
 /* =========================================================
-   HOODIES PRODUCTS SECTION
+   PRODUCTS SECTION
 ========================================================= */
 
 .hoodies-page {
     width: 100% !important;
 
-    padding: 80px 0 120px !important;
+    padding: 72px 0 115px !important;
 
     background: #fff !important;
 }
 
 
-/* PAGE CONTAINER */
+
+/* =========================================================
+   MAIN PRODUCTS CONTAINER
+========================================================= */
 
 .hoodies-page-container {
     width: 100% !important;
 
-    max-width: none !important;
+    max-width: 1320px !important;
 
     margin: 0 auto !important;
 
-    padding: 0 14px !important;
+    padding: 0 24px !important;
 }
 
 
 
 /* =========================================================
-   PRODUCTS SECTION TITLE
+   SECTION HEADING
 ========================================================= */
 
 .hoodies-page-heading {
+    width: 100% !important;
+
     display: flex !important;
 
     align-items: flex-end !important;
-
     justify-content: space-between !important;
 
     gap: 20px !important;
 
-    width: 100% !important;
+    margin: 0 0 36px !important;
 
-    margin: 0 0 38px !important;
+    padding: 0 0 17px !important;
 
-    padding: 0 0 18px !important;
-
-    border-bottom: 1px solid #ddd !important;
+    border-bottom: 1px solid #dedede !important;
 }
+
 
 
 /* NEW DROP */
@@ -5081,12 +5085,13 @@ body {
 }
 
 
+
 /* HOODIES */
 
 .hoodies-page-heading h2 {
     margin: 0 !important;
 
-    font-size: 32px !important;
+    font-size: 31px !important;
 
     line-height: 1 !important;
 
@@ -5098,6 +5103,7 @@ body {
 }
 
 
+
 /* 8 PRODUCTS */
 
 .hoodies-page-heading > span {
@@ -5107,7 +5113,7 @@ body {
 
     font-weight: 700 !important;
 
-    letter-spacing: 1.5px !important;
+    letter-spacing: 1.4px !important;
 
     white-space: nowrap !important;
 
@@ -5118,7 +5124,7 @@ body {
 
 /* =========================================================
    PRODUCT GRID
-   LAPTOP = 4 PER ROW
+   LAPTOP = 4 PRODUCTS
 ========================================================= */
 
 .hoodies-grid-final {
@@ -5127,9 +5133,9 @@ body {
     grid-template-columns:
         repeat(4, minmax(0, 1fr)) !important;
 
-    column-gap: 30px !important;
+    column-gap: 22px !important;
 
-    row-gap: 85px !important;
+    row-gap: 78px !important;
 
     width: 100% !important;
 
@@ -5159,8 +5165,8 @@ body {
 
 
 /* =========================================================
-   IMAGE SLIDER FRAME
-   SAME FORMAT AS HOME
+   PRODUCT IMAGE FRAME
+   SAME FORMAT / PROPORTION AS HOME
 ========================================================= */
 
 .hoodie-slider {
@@ -5180,7 +5186,7 @@ body {
 
     overflow-y: hidden !important;
 
-    background: #f3f3f3 !important;
+    background: #f4f4f4 !important;
 
     scroll-snap-type: x mandatory !important;
 
@@ -5196,14 +5202,16 @@ body {
 }
 
 
-/* HIDE SCROLLBAR */
+
+/* HIDE SCROLL BAR */
 
 .hoodie-slider::-webkit-scrollbar {
     display: none !important;
 }
 
 
-/* WHEN USER DRAGS */
+
+/* DRAGGING */
 
 .hoodie-slider.dragging {
     cursor: grabbing !important;
@@ -5234,7 +5242,7 @@ body {
 
 
 /* =========================================================
-   EACH SLIDE
+   FRONT / BACK SLIDES
 ========================================================= */
 
 .hoodie-slide {
@@ -5256,7 +5264,7 @@ body {
 
 
 /* =========================================================
-   HOODIE IMAGE
+   PRODUCT IMAGE
 ========================================================= */
 
 .hoodie-slide img {
@@ -5270,9 +5278,16 @@ body {
 
     padding: 0 !important;
 
-    object-fit: cover !important;
+    /*
+       IMPORTANT:
+       DON'T ZOOM OR CROP HOODIE
+    */
+
+    object-fit: contain !important;
 
     object-position: center !important;
+
+    transform: none !important;
 
     user-select: none !important;
 
@@ -5284,7 +5299,7 @@ body {
 
 
 /* =========================================================
-   SLIDE → TEXT
+   SLIDE INDICATOR
 ========================================================= */
 
 .hoodie-slide-hint {
@@ -5317,7 +5332,7 @@ body {
 
 
 .hoodie-slide-hint span:last-child {
-    font-size: 13px !important;
+    font-size: 12px !important;
 
     line-height: 1 !important;
 }
@@ -5333,7 +5348,7 @@ body {
 
     width: 100% !important;
 
-    padding-top: 18px !important;
+    padding-top: 17px !important;
 
     color: #000 !important;
 
@@ -5345,17 +5360,17 @@ body {
 /* PRODUCT NAME */
 
 .hoodie-product-info h3 {
-    margin: 0 0 10px !important;
+    margin: 0 0 8px !important;
 
     padding: 0 !important;
 
-    font-size: 17px !important;
+    font-size: 15px !important;
 
-    line-height: 1.2 !important;
+    line-height: 1.25 !important;
 
     font-weight: 800 !important;
 
-    letter-spacing: 1.4px !important;
+    letter-spacing: 1.2px !important;
 
     color: #000 !important;
 }
@@ -5365,15 +5380,15 @@ body {
 /* PRODUCT TYPE */
 
 .hoodie-product-info p {
-    margin: 0 0 20px !important;
+    margin: 0 0 16px !important;
 
     padding: 0 !important;
 
-    font-size: 13px !important;
+    font-size: 12px !important;
 
     font-weight: 400 !important;
 
-    letter-spacing: 1.5px !important;
+    letter-spacing: 1.4px !important;
 
     color: #777 !important;
 }
@@ -5389,7 +5404,7 @@ body {
 
     padding: 0 !important;
 
-    font-size: 16px !important;
+    font-size: 15px !important;
 
     font-weight: 700 !important;
 
@@ -5399,7 +5414,7 @@ body {
 
 
 /* =========================================================
-   HOVER
+   PRODUCT HOVER
 ========================================================= */
 
 @media (hover: hover) {
@@ -5414,34 +5429,136 @@ body {
 
 
 
+/* =========================================================
+   LAPTOP / DESKTOP
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    /* HERO */
+
+    .hoodies-hero {
+        min-height: 430px !important;
+
+        background-position: center 10% !important;
+    }
+
+
+
+    /* PRODUCTS */
+
+    .hoodies-page {
+        padding:
+            72px 0
+            115px !important;
+    }
+
+
+    .hoodies-page-container {
+        width: 100% !important;
+
+        max-width: 1320px !important;
+
+        margin: 0 auto !important;
+
+        padding-left: 24px !important;
+
+        padding-right: 24px !important;
+    }
+
+
+
+    /* EXACTLY FOUR PER ROW */
+
+    .hoodies-grid-final {
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr)) !important;
+
+        column-gap: 22px !important;
+
+        row-gap: 78px !important;
+    }
+
+
+
+    /* CARD */
+
+    .hoodie-product-final {
+        width: 100% !important;
+
+        min-width: 0 !important;
+    }
+
+
+
+    /* HOME-LIKE FRAME */
+
+    .hoodie-slider {
+        width: 100% !important;
+
+        aspect-ratio: 4 / 5 !important;
+
+        background: #f4f4f4 !important;
+    }
+
+
+
+    /* NO PHOTO ZOOM */
+
+    .hoodie-slide img {
+        width: 100% !important;
+
+        height: 100% !important;
+
+        object-fit: contain !important;
+
+        object-position: center !important;
+
+        transform: none !important;
+    }
+
+}
+
 
 
 /* =========================================================
    TABLET
 ========================================================= */
 
-@media (max-width: 1024px) {
+@media (min-width: 701px) and (max-width: 1024px) {
+
+    /* HERO */
 
     .hoodies-hero {
         min-height: 360px !important;
 
-        background-position: center 35% !important;
+        background-position: center 10% !important;
     }
 
 
+
+    /* SECTION */
+
     .hoodies-page {
         padding:
-            65px 0
-            90px !important;
+            60px 0
+            85px !important;
     }
 
 
     .hoodies-page-container {
+        max-width: 100% !important;
+
         padding:
             0
             16px !important;
     }
 
+
+
+    /* TWO PRODUCTS */
 
     .hoodies-grid-final {
         grid-template-columns:
@@ -5449,7 +5566,13 @@ body {
 
         column-gap: 14px !important;
 
-        row-gap: 55px !important;
+        row-gap: 52px !important;
+    }
+
+
+
+    .hoodie-slide img {
+        object-fit: contain !important;
     }
 
 }
@@ -5462,19 +5585,27 @@ body {
 
 @media (max-width: 700px) {
 
-    /* HERO */
+    /* =====================================================
+       HERO
+    ====================================================== */
 
     .hoodies-hero {
         min-height: 310px !important;
 
-        background-position: center 35% !important;
+        background-position: center 10% !important;
     }
 
 
     .hoodies-hero-content {
+        width: 100% !important;
+
         max-width: 100% !important;
 
-        padding: 30px 15px !important;
+        padding:
+            30px
+            15px !important;
+
+        text-align: center !important;
     }
 
 
@@ -5504,7 +5635,9 @@ body {
 
 
 
-    /* SECTION */
+    /* =====================================================
+       PRODUCTS
+    ====================================================== */
 
     .hoodies-page {
         padding:
@@ -5514,6 +5647,8 @@ body {
 
 
     .hoodies-page-container {
+        max-width: 100% !important;
+
         padding:
             0
             9px !important;
@@ -5521,7 +5656,9 @@ body {
 
 
 
-    /* SECTION HEADING */
+    /* =====================================================
+       SECTION HEADING
+    ====================================================== */
 
     .hoodies-page-heading {
         gap: 8px !important;
@@ -5535,7 +5672,7 @@ body {
     .hoodies-page-heading p {
         font-size: 7px !important;
 
-        letter-spacing: 1.3px !important;
+        letter-spacing: 1.2px !important;
     }
 
 
@@ -5554,7 +5691,9 @@ body {
 
 
 
-    /* 2 PRODUCTS PER ROW */
+    /* =====================================================
+       TWO PRODUCTS PER ROW
+    ====================================================== */
 
     .hoodies-grid-final {
         grid-template-columns:
@@ -5567,7 +5706,28 @@ body {
 
 
 
-    /* SLIDE TEXT */
+    /* =====================================================
+       IMAGE
+    ====================================================== */
+
+    .hoodie-slider {
+        width: 100% !important;
+
+        aspect-ratio: 4 / 5 !important;
+    }
+
+
+    .hoodie-slide img {
+        object-fit: contain !important;
+
+        object-position: center !important;
+    }
+
+
+
+    /* =====================================================
+       SLIDE TEXT
+    ====================================================== */
 
     .hoodie-slide-hint {
         margin-top: 7px !important;
@@ -5586,7 +5746,9 @@ body {
 
 
 
-    /* PRODUCT INFO */
+    /* =====================================================
+       PRODUCT INFO
+    ====================================================== */
 
     .hoodie-product-info {
         padding-top: 11px !important;
@@ -5638,214 +5800,4 @@ body {
         font-size: 9px !important;
     }
 
-}
-
-   /* =========================================================
-   HOODIES — FINAL DESKTOP FIX
-========================================================= */
-
-@media (min-width: 1025px) {
-
-    .hoodies-page {
-        width: 100% !important;
-        padding: 80px 0 120px !important;
-    }
-
-    .hoodies-page-container {
-        width: 100% !important;
-        max-width: none !important;
-        margin: 0 auto !important;
-        padding: 0 14px !important;
-    }
-
-    .hoodies-grid-final {
-        display: grid !important;
-
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr)) !important;
-
-        column-gap: 28px !important;
-        row-gap: 80px !important;
-
-        width: 100% !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .hoodie-product-final {
-        width: 100% !important;
-        min-width: 0 !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    .hoodie-slider {
-        width: 100% !important;
-
-        aspect-ratio: 4 / 5 !important;
-
-        margin: 0 !important;
-
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-    }
-
-    .hoodie-slider-track {
-        display: flex !important;
-
-        width: 200% !important;
-        height: 100% !important;
-    }
-
-    .hoodie-slide {
-        flex: 0 0 50% !important;
-
-        width: 50% !important;
-        height: 100% !important;
-    }
-
-    .hoodie-slide img {
-        display: block !important;
-
-        width: 100% !important;
-        height: 100% !important;
-
-        object-fit: cover !important;
-        object-position: center !important;
-    }
-
-    .hoodie-slide-hint {
-        width: 100% !important;
-
-        display: flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-
-        text-align: center !important;
-    }
-}
-
-   /* =========================================================
-   HOODIES — DESKTOP SAME SIZE / FEEL AS HOME
-========================================================= */
-
-@media (min-width: 1025px) {
-
-    /* SECTION */
-    .hoodies-page {
-        padding: 70px 0 110px !important;
-    }
-
-    /* SAME CONTROLLED WIDTH FEEL AS HOME */
-    .hoodies-page-container {
-        width: 100% !important;
-        max-width: 1440px !important;
-
-        margin: 0 auto !important;
-
-        padding-left: 28px !important;
-        padding-right: 28px !important;
-    }
-
-    /* 4 PRODUCTS ON SAME ROW */
-    .hoodies-grid-final {
-        display: grid !important;
-
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr)) !important;
-
-        gap: 70px 24px !important;
-
-        width: 100% !important;
-    }
-
-    /* PRODUCT CARD */
-    .hoodie-product-final {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    /* IMAGE FRAME */
-    .hoodie-slider {
-        width: 100% !important;
-
-        aspect-ratio: 4 / 5 !important;
-
-        margin: 0 !important;
-
-        overflow-x: auto !important;
-        overflow-y: hidden !important;
-
-        background: #f4f4f4 !important;
-    }
-
-    /* SLIDER */
-    .hoodie-slider-track {
-        display: flex !important;
-
-        width: 200% !important;
-        height: 100% !important;
-    }
-
-    .hoodie-slide {
-        flex: 0 0 50% !important;
-
-        width: 50% !important;
-        height: 100% !important;
-    }
-
-    /* IMPORTANT:
-       SHOW THE WHOLE HOODIE — DON'T ZOOM/CROP IT */
-    .hoodie-slide img {
-        display: block !important;
-
-        width: 100% !important;
-        height: 100% !important;
-
-        object-fit: contain !important;
-        object-position: center !important;
-
-        transform: none !important;
-
-        margin: 0 !important;
-        padding: 0 !important;
-    }
-
-    /* SLIDE INDICATOR */
-    .hoodie-slide-hint {
-        display: flex !important;
-
-        justify-content: center !important;
-        align-items: center !important;
-
-        margin-top: 10px !important;
-
-        font-size: 8px !important;
-
-        text-align: center !important;
-    }
-
-    /* PRODUCT TEXT */
-    .hoodie-product-info {
-        padding-top: 17px !important;
-    }
-
-    .hoodie-product-info h3 {
-        margin-bottom: 9px !important;
-
-        font-size: 15px !important;
-        line-height: 1.25 !important;
-    }
-
-    .hoodie-product-info p {
-        margin-bottom: 16px !important;
-
-        font-size: 12px !important;
-    }
-
-    .hoodie-product-info strong {
-        font-size: 15px !important;
-    }
 }
