@@ -498,47 +498,88 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    /* =====================================================
-       IMAGE GALLERY ARROWS
-    ===================================================== */
+ /* =========================================================
+   SET APART — SHOP IMAGE SLIDER
+   FRONT <-> BACK
+========================================================= */
 
-    document
-        .querySelectorAll(".shop-item-gallery")
-        .forEach(function (gallery) {
+document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
 
-            const slider =
-                gallery.querySelector(
-                    ".shop-image-slider"
-                );
+    const slider = gallery.querySelector(".shop-image-slider");
+    const slides = gallery.querySelectorAll(".shop-image-slide");
 
-            const previous =
-                gallery.querySelector(
-                    ".shop-arrow-prev"
-                );
+    const prevButton = gallery.querySelector(".prev-image");
+    const nextButton = gallery.querySelector(".next-image");
 
-            const next =
-                gallery.querySelector(
-                    ".shop-arrow-next"
-                );
+    if (!slider || slides.length < 2) return;
+
+    let currentSlide = 0;
 
 
-            if (previous && slider) {
+    function goToSlide(index) {
 
-                previous.addEventListener(
-                    "click",
-                    function (event) {
+        if (index < 0) {
+            index = slides.length - 1;
+        }
 
-                        event.preventDefault();
+        if (index >= slides.length) {
+            index = 0;
+        }
 
-                        slider.scrollBy({
-                            left:
-                                -slider.clientWidth,
-                            behavior: "smooth"
-                        });
-                    }
-                );
-            }
+        currentSlide = index;
 
+        slider.scrollTo({
+            left: slider.clientWidth * currentSlide,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* LEFT < */
+
+    if (prevButton) {
+
+        prevButton.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            goToSlide(currentSlide - 1);
+
+        });
+
+    }
+
+
+    /* RIGHT > */
+
+    if (nextButton) {
+
+        nextButton.addEventListener("click", function (event) {
+
+            event.preventDefault();
+            event.stopPropagation();
+
+            goToSlide(currentSlide + 1);
+
+        });
+
+    }
+
+
+    /* UPDATE POSITION AFTER MANUAL SWIPE */
+
+    slider.addEventListener("scroll", function () {
+
+        if (slider.clientWidth === 0) return;
+
+        currentSlide = Math.round(
+            slider.scrollLeft / slider.clientWidth
+        );
+
+    });
+
+});
 
             if (next && slider) {
 
