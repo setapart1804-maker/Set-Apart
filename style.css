@@ -4674,3 +4674,36 @@ body {
     }
 
 }
+
+/* =========================================================
+   SHOP — REDUCE PRODUCT IMAGE SIZE ON LAPTOP
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .shop-item {
+        grid-template-columns: 1.15fr 0.85fr !important;
+        gap: 60px !important;
+        align-items: start !important;
+    }
+
+    .shop-item-gallery {
+        max-width: 760px !important;
+        width: 100% !important;
+        margin: 0 auto !important;
+    }
+
+    .shop-image-slide img {
+        width: 100% !important;
+        height: auto !important;
+        max-height: 720px !important;
+        object-fit: contain !important;
+    }
+
+    .shop-item-info,
+    .shop-product-info {
+        padding-top: 0 !important;
+        margin-top: 0 !important;
+    }
+
+}
