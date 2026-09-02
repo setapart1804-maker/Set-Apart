@@ -498,105 +498,158 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
- /* =========================================================
-   SET APART — SHOP IMAGE SLIDER
-   FRONT <-> BACK
-========================================================= */
+    /* =====================================================
+       SHOP IMAGE SLIDER
+       FRONT <-> BACK
+    ===================================================== */
 
-document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
+    document
+        .querySelectorAll(".shop-item-gallery")
+        .forEach(function (gallery) {
 
-    const slider = gallery.querySelector(".shop-image-slider");
-    const slides = gallery.querySelectorAll(".shop-image-slide");
+            const slider =
+                gallery.querySelector(
+                    ".shop-image-slider"
+                );
 
-    const prevButton = gallery.querySelector(".prev-image");
-    const nextButton = gallery.querySelector(".next-image");
+            const slides =
+                gallery.querySelectorAll(
+                    ".shop-image-slide"
+                );
 
-    if (!slider || slides.length < 2) return;
+            const prevButton =
+                gallery.querySelector(
+                    ".prev-image"
+                );
 
-    let currentSlide = 0;
+            const nextButton =
+                gallery.querySelector(
+                    ".next-image"
+                );
 
-
-    function goToSlide(index) {
-
-        if (index < 0) {
-            index = slides.length - 1;
-        }
-
-        if (index >= slides.length) {
-            index = 0;
-        }
-
-        currentSlide = index;
-
-        slider.scrollTo({
-            left: slider.clientWidth * currentSlide,
-            behavior: "smooth"
-        });
-    }
-
-
-    /* LEFT < */
-
-    if (prevButton) {
-
-        prevButton.addEventListener("click", function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            goToSlide(currentSlide - 1);
-
-        });
-
-    }
+            if (
+                !slider ||
+                slides.length < 2
+            ) {
+                return;
+            }
 
 
-    /* RIGHT > */
-
-    if (nextButton) {
-
-        nextButton.addEventListener("click", function (event) {
-
-            event.preventDefault();
-            event.stopPropagation();
-
-            goToSlide(currentSlide + 1);
-
-        });
-
-    }
+            let currentSlide = 0;
 
 
-    /* UPDATE POSITION AFTER MANUAL SWIPE */
+            slider.style.position =
+                "relative";
 
-    slider.addEventListener("scroll", function () {
+            slider.style.overflow =
+                "hidden";
 
-        if (slider.clientWidth === 0) return;
 
-        currentSlide = Math.round(
-            slider.scrollLeft / slider.clientWidth
-        );
+            slides.forEach(
+                function (slide, index) {
 
-    });
+                    slide.style.position =
+                        "absolute";
 
-});
+                    slide.style.top =
+                        "0";
 
-            if (next && slider) {
+                    slide.style.left =
+                        "0";
 
-                next.addEventListener(
+                    slide.style.width =
+                        "100%";
+
+                    slide.style.height =
+                        "100%";
+
+                    slide.style.transition =
+                        "transform 0.45s ease";
+
+                    slide.style.transform =
+                        "translateX(" +
+                        (index * 100) +
+                        "%)";
+                }
+            );
+
+
+            function showSlide(index) {
+
+                if (index < 0) {
+                    index =
+                        slides.length - 1;
+                }
+
+                if (
+                    index >=
+                    slides.length
+                ) {
+                    index = 0;
+                }
+
+
+                currentSlide =
+                    index;
+
+
+                slides.forEach(
+                    function (
+                        slide,
+                        slideIndex
+                    ) {
+
+                        const position =
+                            (
+                                slideIndex -
+                                currentSlide
+                            ) * 100;
+
+                        slide.style.transform =
+                            "translateX(" +
+                            position +
+                            "%)";
+                    }
+                );
+            }
+
+
+            if (prevButton) {
+
+                prevButton.addEventListener(
                     "click",
                     function (event) {
 
                         event.preventDefault();
+                        event.stopPropagation();
 
-                        slider.scrollBy({
-                            left:
-                                slider.clientWidth,
-                            behavior: "smooth"
-                        });
+                        showSlide(
+                            currentSlide - 1
+                        );
                     }
                 );
             }
+
+
+            if (nextButton) {
+
+                nextButton.addEventListener(
+                    "click",
+                    function (event) {
+
+                        event.preventDefault();
+                        event.stopPropagation();
+
+                        showSlide(
+                            currentSlide + 1
+                        );
+                    }
+                );
+            }
+
+
+            showSlide(0);
+
         });
 
 
@@ -630,7 +683,9 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
 
 
         const shopItem =
-            colorButton.closest(".shop-item");
+            colorButton.closest(
+                ".shop-item"
+            );
 
         if (!shopItem) return;
 
@@ -654,18 +709,21 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
         );
 
 
-        const slider =
-            shopItem.querySelector(
-                ".shop-image-slider"
+        const slides =
+            shopItem.querySelectorAll(
+                ".shop-image-slide"
             );
 
-        if (slider) {
 
-            slider.scrollTo({
-                left: 0,
-                behavior: "smooth"
-            });
-        }
+        slides.forEach(
+            function (slide, index) {
+
+                slide.style.transform =
+                    "translateX(" +
+                    (index * 100) +
+                    "%)";
+            }
+        );
     }
 
 
@@ -844,8 +902,6 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
             return false;
         }
 
-
-        /* SIZE REQUIRED */
 
         if (!state.size) {
 
@@ -1188,8 +1244,6 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
             "";
 
 
-        /* EMPTY CART */
-
         if (cart.length === 0) {
 
             if (cartLayout) {
@@ -1414,8 +1468,6 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
                     getCart();
 
 
-                /* PLUS */
-
                 if (plus) {
 
                     const index =
@@ -1441,8 +1493,6 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
                     }
                 }
 
-
-                /* MINUS */
 
                 if (minus) {
 
@@ -1472,8 +1522,6 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
                     }
                 }
 
-
-                /* REMOVE */
 
                 if (remove) {
 
@@ -1825,89 +1873,4 @@ document.querySelectorAll(".shop-item-gallery").forEach((gallery) => {
         );
     }
 
-/* =========================================================
-   HOODIES — DRAG / SWIPE SLIDER
-========================================================= */
-
-const hoodieSliders = document.querySelectorAll(".hoodie-slider");
-
-hoodieSliders.forEach((slider) => {
-
-    let isDragging = false;
-    let startX = 0;
-    let startScrollLeft = 0;
-
-
-    /* MOUSE DOWN */
-
-    slider.addEventListener("mousedown", (event) => {
-
-        isDragging = true;
-
-        startX = event.pageX;
-
-        startScrollLeft = slider.scrollLeft;
-
-        slider.classList.add("dragging");
-
-    });
-
-
-    /* MOUSE MOVE */
-
-    slider.addEventListener("mousemove", (event) => {
-
-        if (!isDragging) {
-            return;
-        }
-
-        event.preventDefault();
-
-        const distance = event.pageX - startX;
-
-        slider.scrollLeft = startScrollLeft - distance;
-
-    });
-
-
-    /* MOUSE UP */
-
-    slider.addEventListener("mouseup", () => {
-
-        isDragging = false;
-
-        slider.classList.remove("dragging");
-
-        snapHoodieSlider(slider);
-
-    });
-
-
-    /* MOUSE LEAVE */
-
-    slider.addEventListener("mouseleave", () => {
-
-        if (!isDragging) {
-            return;
-        }
-
-        isDragging = false;
-
-        slider.classList.remove("dragging");
-
-        snapHoodieSlider(slider);
-
-    });
-
-
-    /* PREVENT IMAGE DRAG */
-
-    slider.addEventListener("dragstart", (event) => {
-
-        event.preventDefault();
-
-    });
-
 });
-
-
