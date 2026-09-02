@@ -429,3 +429,854 @@ document.addEventListener("DOMContentLoaded", function () {
         updateCartCount;
 
 });
+
+/* =========================================================
+   SET APART — SHOP PAGE JAVASCRIPT
+   Product Gallery + Colors + Sizes + Filters
+   Search + Add To Cart + Buy Now
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       PRODUCT INFORMATION
+    ===================================================== */
+
+    const productData = {
+
+        pilgrim: {
+            id: "pilgrim",
+            name: "PILGRIM HOODIE",
+            price: 44.99,
+
+            images: {
+                black: [
+                    "PILGRIM BLACK FRONT 1.png",
+                    "PILGRIM BLACK BACK.png"
+                ]
+            }
+        },
+
+        godfirst: {
+            id: "godfirst",
+            name: "GOD FIRST HOODIE",
+            price: 44.99,
+
+            images: {
+                black: [
+                    "GOD FIRST BLACK FRONT.jpeg",
+                    "GOD FIRST BLACK BACK.jpeg"
+                ]
+            }
+        }
+
+    };
+
+
+    /* =====================================================
+       PRODUCT STATE
+    ===================================================== */
+
+    const productState = {
+
+        pilgrim: {
+            color: "black",
+            size: null
+        },
+
+        godfirst: {
+            color: "black",
+            size: null
+        }
+
+    };
+
+
+    /* =====================================================
+       PRODUCT GALLERY ARROWS
+    ===================================================== */
+
+    const productGalleries =
+        document.querySelectorAll(".shop-item-gallery");
+
+
+    productGalleries.forEach(function (gallery) {
+
+        const slider =
+            gallery.querySelector(".shop-image-slider");
+
+        const previousButton =
+            gallery.querySelector(".shop-arrow-prev");
+
+        const nextButton =
+            gallery.querySelector(".shop-arrow-next");
+
+
+        if (!slider) {
+            return;
+        }
+
+
+        function getSlideWidth() {
+
+            return slider.clientWidth;
+
+        }
+
+
+        /* PREVIOUS */
+
+        if (previousButton) {
+
+            previousButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    slider.scrollBy({
+                        left: -getSlideWidth(),
+                        behavior: "smooth"
+                    });
+
+                }
+            );
+
+        }
+
+
+        /* NEXT */
+
+        if (nextButton) {
+
+            nextButton.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    slider.scrollBy({
+                        left: getSlideWidth(),
+                        behavior: "smooth"
+                    });
+
+                }
+            );
+
+        }
+
+    });
+
+
+    /* =====================================================
+       COLOR SELECTION
+    ===================================================== */
+
+    const colorButtons =
+        document.querySelectorAll(".color-option");
+
+
+    colorButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const productId =
+                    button.dataset.product;
+
+                const color =
+                    button.dataset.color;
+
+
+                if (
+                    !productId ||
+                    !color ||
+                    !productState[productId]
+                ) {
+                    return;
+                }
+
+
+                /* SAVE COLOR */
+
+                productState[productId].color =
+                    color;
+
+
+                /* PRODUCT CONTAINER */
+
+                const productElement =
+                    button.closest(".shop-item");
+
+
+                if (!productElement) {
+                    return;
+                }
+
+
+                /* REMOVE OLD SELECTED COLOR */
+
+                const productColorButtons =
+                    productElement.querySelectorAll(
+                        ".color-option"
+                    );
+
+
+                productColorButtons.forEach(
+                    function (colorButton) {
+
+                        colorButton.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                /* SELECT CURRENT COLOR */
+
+                button.classList.add("selected");
+
+
+                /* UPDATE COLOR NAME */
+
+                const selectedColorText =
+                    productElement.querySelector(
+                        ".selected-color"
+                    );
+
+
+                if (selectedColorText) {
+
+                    selectedColorText.textContent =
+                        color.toUpperCase();
+
+                }
+
+
+                /* CHANGE IMAGES IF AVAILABLE */
+
+                updateProductImages(
+                    productId,
+                    color,
+                    productElement
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       UPDATE PRODUCT IMAGES
+    ===================================================== */
+
+    function updateProductImages(
+        productId,
+        color,
+        productElement
+    ) {
+
+        const product =
+            productData[productId];
+
+
+        if (!product) {
+            return;
+        }
+
+
+        const colorImages =
+            product.images[color];
+
+
+        /*
+           IMPORTANT:
+
+           Si nou poko ajoute foto pou yon koulè,
+           sit la pap mete yon imaj ki kraze.
+
+           Li ap kite foto aktyèl la anplas.
+        */
+
+        if (
+            !colorImages ||
+            colorImages.length === 0
+        ) {
+
+            return;
+
+        }
+
+
+        const images =
+            productElement.querySelectorAll(
+                ".shop-image-slide img"
+            );
+
+
+        images.forEach(
+            function (image, index) {
+
+                if (colorImages[index]) {
+
+                    image.src =
+                        colorImages[index];
+
+                }
+
+            }
+        );
+
+
+        /* RETURN TO FRONT IMAGE */
+
+        const slider =
+            productElement.querySelector(
+                ".shop-image-slider"
+            );
+
+
+        if (slider) {
+
+            slider.scrollTo({
+                left: 0,
+                behavior: "smooth"
+            });
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SIZE SELECTION
+    ===================================================== */
+
+    const sizeButtons =
+        document.querySelectorAll(".size-option");
+
+
+    sizeButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const productId =
+                    button.dataset.product;
+
+                const size =
+                    button.dataset.size;
+
+
+                if (
+                    !productId ||
+                    !size ||
+                    !productState[productId]
+                ) {
+                    return;
+                }
+
+
+                const productElement =
+                    button.closest(".shop-item");
+
+
+                if (!productElement) {
+                    return;
+                }
+
+
+                /* REMOVE OLD SIZE */
+
+                const productSizeButtons =
+                    productElement.querySelectorAll(
+                        ".size-option"
+                    );
+
+
+                productSizeButtons.forEach(
+                    function (sizeButton) {
+
+                        sizeButton.classList.remove(
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+                /* SELECT NEW SIZE */
+
+                button.classList.add("selected");
+
+
+                /* SAVE SIZE */
+
+                productState[productId].size =
+                    size;
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       FILTER PRODUCTS
+    ===================================================== */
+
+    const filterButtons =
+        document.querySelectorAll(".filter-button");
+
+    const shopItems =
+        document.querySelectorAll(".shop-item");
+
+
+    filterButtons.forEach(function (button) {
+
+        button.addEventListener(
+            "click",
+            function () {
+
+                const selectedFilter =
+                    button.dataset.filter;
+
+
+                /* ACTIVE FILTER */
+
+                filterButtons.forEach(
+                    function (filterButton) {
+
+                        filterButton.classList.remove(
+                            "active"
+                        );
+
+                    }
+                );
+
+
+                button.classList.add("active");
+
+
+                /* FILTER PRODUCTS */
+
+                shopItems.forEach(
+                    function (item) {
+
+                        const category =
+                            item.dataset.category;
+
+
+                        if (
+                            selectedFilter === "all" ||
+                            category === selectedFilter
+                        ) {
+
+                            item.classList.remove(
+                                "filter-hidden"
+                            );
+
+                        } else {
+
+                            item.classList.add(
+                                "filter-hidden"
+                            );
+
+                        }
+
+                    }
+                );
+
+            }
+        );
+
+    });
+
+
+    /* =====================================================
+       SEARCH FROM URL
+       Example:
+       shop.html?search=pilgrim
+    ===================================================== */
+
+    function applyShopSearch() {
+
+        const params =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const searchTerm =
+            params.get("search");
+
+
+        if (!searchTerm) {
+            return;
+        }
+
+
+        const normalizedSearch =
+            searchTerm
+                .toLowerCase()
+                .trim();
+
+
+        shopItems.forEach(
+            function (item) {
+
+                const productName =
+                    (
+                        item.dataset.name || ""
+                    ).toLowerCase();
+
+
+                if (
+                    productName.includes(
+                        normalizedSearch
+                    )
+                ) {
+
+                    item.classList.remove(
+                        "search-hidden"
+                    );
+
+                } else {
+
+                    item.classList.add(
+                        "search-hidden"
+                    );
+
+                }
+
+            }
+        );
+
+    }
+
+
+    applyShopSearch();
+
+
+    /* =====================================================
+       GET CART
+    ===================================================== */
+
+    function getCart() {
+
+        try {
+
+            const savedCart =
+                localStorage.getItem(
+                    "setApartCart"
+                );
+
+
+            if (!savedCart) {
+
+                return [];
+
+            }
+
+
+            const parsedCart =
+                JSON.parse(savedCart);
+
+
+            if (Array.isArray(parsedCart)) {
+
+                return parsedCart;
+
+            }
+
+
+            if (
+                parsedCart &&
+                typeof parsedCart === "object"
+            ) {
+
+                return [parsedCart];
+
+            }
+
+
+            return [];
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read cart:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       SAVE CART
+    ===================================================== */
+
+    function saveCart(cart) {
+
+        localStorage.setItem(
+            "setApartCart",
+            JSON.stringify(cart)
+        );
+
+
+        /*
+           This function comes from our main
+           SET APART JavaScript above.
+        */
+
+        if (
+            typeof window.updateSetApartCartCount
+            === "function"
+        ) {
+
+            window.updateSetApartCartCount();
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CREATE CART PRODUCT
+    ===================================================== */
+
+    function createCartItem(productId) {
+
+        const product =
+            productData[productId];
+
+        const state =
+            productState[productId];
+
+
+        if (
+            !product ||
+            !state
+        ) {
+
+            return null;
+
+        }
+
+
+        /* SIZE REQUIRED */
+
+        if (!state.size) {
+
+            alert(
+                "Please select a size first."
+            );
+
+            return null;
+
+        }
+
+
+        return {
+
+            id: product.id,
+
+            name: product.name,
+
+            price: product.price,
+
+            color: state.color,
+
+            size: state.size,
+
+            quantity: 1,
+
+            image:
+                product.images[state.color]?.[0]
+                ||
+                product.images.black?.[0]
+                ||
+                ""
+
+        };
+
+    }
+
+
+    /* =====================================================
+       ADD PRODUCT TO CART
+    ===================================================== */
+
+    function addProductToCart(productId) {
+
+        const newItem =
+            createCartItem(productId);
+
+
+        if (!newItem) {
+
+            return false;
+
+        }
+
+
+        const cart =
+            getCart();
+
+
+        /*
+           Check whether same product +
+           same color + same size
+           already exists.
+        */
+
+        const existingItem =
+            cart.find(
+                function (item) {
+
+                    return (
+                        item.id === newItem.id &&
+                        item.color === newItem.color &&
+                        item.size === newItem.size
+                    );
+
+                }
+            );
+
+
+        if (existingItem) {
+
+            existingItem.quantity =
+                (
+                    Number(existingItem.quantity)
+                    || 0
+                ) + 1;
+
+        } else {
+
+            cart.push(newItem);
+
+        }
+
+
+        saveCart(cart);
+
+
+        return true;
+
+    }
+
+
+    /* =====================================================
+       ADD TO CART BUTTONS
+    ===================================================== */
+
+    const addToCartButtons =
+        document.querySelectorAll(
+            ".add-to-cart"
+        );
+
+
+    addToCartButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const productId =
+                        button.dataset.product;
+
+
+                    const added =
+                        addProductToCart(
+                            productId
+                        );
+
+
+                    if (!added) {
+                        return;
+                    }
+
+
+                    /* BUTTON FEEDBACK */
+
+                    const originalText =
+                        button.textContent;
+
+
+                    button.textContent =
+                        "ADDED ✓";
+
+
+                    setTimeout(
+                        function () {
+
+                            button.textContent =
+                                originalText;
+
+                        },
+                        1200
+                    );
+
+                }
+            );
+
+        }
+    );
+
+
+    /* =====================================================
+       BUY NOW
+    ===================================================== */
+
+    const buyNowButtons =
+        document.querySelectorAll(
+            ".product-buy-now"
+        );
+
+
+    buyNowButtons.forEach(
+        function (button) {
+
+            button.addEventListener(
+                "click",
+                function () {
+
+                    const productId =
+                        button.dataset.product;
+
+
+                    const added =
+                        addProductToCart(
+                            productId
+                        );
+
+
+                    if (!added) {
+
+                        return;
+
+                    }
+
+
+                    window.location.href =
+                        "cart.html";
+
+                }
+            );
+
+        }
+    );
+
+
+});
