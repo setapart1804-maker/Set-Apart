@@ -1784,102 +1784,118 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     }
 
-   /* =========================================================
-   HOODIES COLLECTION — COLOR SWITCHER
+/* =========================================================
+   HOODIES — DRAG / SWIPE SLIDER
 ========================================================= */
 
-const hoodieCollectionImages = {
+const hoodieSliders = document.querySelectorAll(".hoodie-slider");
 
-    pilgrim: {
-        black: "PILGRIM BLACK FRONT 1.png",
-        white: "PILGRIM WHITE FRONT.jpeg",
-        brown: "PILGRIM BROWN FRONT.jpeg",
-        beige: "PILGRIM BEIGE FRONT.jpeg"
-    },
+hoodieSliders.forEach((slider) => {
 
-    godfirst: {
-        black: "GOD FIRST BLACK FRONT.jpeg",
-        white: "GOD FIRST WHITE FRONT.jpeg",
-        brown: "GOD FIRST BROWN FRONT.png",
-        beige: "GOD FIRST BEIGE FRONT.jpeg"
-    }
-
-};
+    let isDragging = false;
+    let startX = 0;
+    let startScrollLeft = 0;
 
 
-document
-    .querySelectorAll(".hoodie-card-colors")
-    .forEach(colorGroup => {
+    /* MOUSE DOWN */
 
-        const product = colorGroup.dataset.product;
+    slider.addEventListener("mousedown", (event) => {
 
+        isDragging = true;
 
-        colorGroup
-            .querySelectorAll(".hoodie-color")
-            .forEach(button => {
+        startX = event.pageX;
 
-                button.addEventListener("click", () => {
+        startScrollLeft = slider.scrollLeft;
 
-                    const color = button.dataset.color;
-
-
-                    /* REMOVE OLD ACTIVE COLOR */
-
-                    colorGroup
-                        .querySelectorAll(".hoodie-color")
-                        .forEach(item => {
-
-                            item.classList.remove("active");
-
-                        });
-
-
-                    /* ACTIVE COLOR */
-
-                    button.classList.add("active");
-
-
-                    /* CHANGE IMAGE */
-
-                    let image;
-
-
-                    if (product === "pilgrim") {
-
-                        image =
-                            document.getElementById(
-                                "pilgrimCollectionImage"
-                            );
-
-                    }
-
-
-                    if (product === "godfirst") {
-
-                        image =
-                            document.getElementById(
-                                "godfirstCollectionImage"
-                            );
-
-                    }
-
-
-                    if (
-                        image &&
-                        hoodieCollectionImages[product] &&
-                        hoodieCollectionImages[product][color]
-                    ) {
-
-                        image.src =
-                            hoodieCollectionImages
-                            [product]
-                            [color];
-
-                    }
-
-                });
-
-            });
+        slider.classList.add("dragging");
 
     });
+
+
+    /* MOUSE MOVE */
+
+    slider.addEventListener("mousemove", (event) => {
+
+        if (!isDragging) {
+            return;
+        }
+
+        event.preventDefault();
+
+        const distance = event.pageX - startX;
+
+        slider.scrollLeft = startScrollLeft - distance;
+
+    });
+
+
+    /* MOUSE UP */
+
+    slider.addEventListener("mouseup", () => {
+
+        isDragging = false;
+
+        slider.classList.remove("dragging");
+
+        snapHoodieSlider(slider);
+
+    });
+
+
+    /* MOUSE LEAVE */
+
+    slider.addEventListener("mouseleave", () => {
+
+        if (!isDragging) {
+            return;
+        }
+
+        isDragging = false;
+
+        slider.classList.remove("dragging");
+
+        snapHoodieSlider(slider);
+
+    });
+
+
+    /* PREVENT IMAGE DRAG */
+
+    slider.addEventListener("dragstart", (event) => {
+
+        event.preventDefault();
+
+    });
+
+});
+
+
+/* =========================================================
+   SNAP TO FRONT OR BACK
+========================================================= */
+
+function snapHoodieSlider(slider) {
+
+    const slideWidth = slider.clientWidth;
+
+    const currentScroll = slider.scrollLeft;
+
+    if (currentScroll > slideWidth / 2) {
+
+        slider.scrollTo({
+            left: slideWidth,
+            behavior: "smooth"
+        });
+
+    } else {
+
+        slider.scrollTo({
+            left: 0,
+            behavior: "smooth"
+        });
+
+    }
+
+}
+   
 });
