@@ -4335,3 +4335,11 @@ button {
     }
 
 }
+
+.cart-count {
+    display: none;
+}
+
+.cart-count.active {
+    display: flex;
+}
