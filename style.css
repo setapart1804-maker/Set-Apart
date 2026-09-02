@@ -5495,3 +5495,28 @@ body {
     }
 
 }
+
+   /* =========================================================
+   HOODIE COLLECTION — ACTIVE COLOR
+========================================================= */
+
+.hoodie-card-colors .hoodie-color {
+    padding: 0;
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+
+.hoodie-card-colors .hoodie-color.active {
+    transform: scale(1.15);
+
+    box-shadow:
+        0 0 0 2px #fff,
+        0 0 0 3px #000;
+}
