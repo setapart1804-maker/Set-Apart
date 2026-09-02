@@ -446,32 +446,68 @@ document.addEventListener("DOMContentLoaded", function () {
     const productData = {
 
         pilgrim: {
-            id: "pilgrim",
-            name: "PILGRIM HOODIE",
-            price: 44.99,
 
-            images: {
-                black: [
-                    "PILGRIM BLACK FRONT 1.png",
-                    "PILGRIM BLACK BACK.png"
-                ]
-            }
-        },
+    id: "pilgrim",
+    name: "PILGRIM HOODIE",
+    price: 44.99,
+
+    images: {
+
+        black: [
+            "PILGRIM BLACK FRONT 1.png",
+            "PILGRIM BLACK BACK.png"
+        ],
+
+        white: [
+            "PILGRIM WHITE FRONT.png",
+            "PILGRIM WHITE BACK.png"
+        ],
+
+        brown: [
+            "PILGRIM BROWN FRONT.png",
+            "PILGRIM BROWN BACK.png"
+        ],
+
+        beige: [
+            "PILGRIM BEIGE FRONT.png",
+            "PILGRIM BEIGE BACK.png"
+        ]
+
+    }
+
+},
 
         godfirst: {
-            id: "godfirst",
-            name: "GOD FIRST HOODIE",
-            price: 44.99,
 
-            images: {
-                black: [
-                    "GOD FIRST BLACK FRONT.jpeg",
-                    "GOD FIRST BLACK BACK.jpeg"
-                ]
-            }
-        }
+    id: "godfirst",
+    name: "GOD FIRST HOODIE",
+    price: 44.99,
 
-    };
+    images: {
+
+        black: [
+            "GOD FIRST BLACK FRONT.jpeg",
+            "GOD FIRST BLACK BACK.jpeg"
+        ],
+
+        white: [
+            "GOD FIRST WHITE FRONT.jpeg",
+            "GOD FIRST WHITE BACK.jpeg"
+        ],
+
+        brown: [
+            "GOD FIRST BROWN FRONT.png",
+            "GOD FIRST BROWN BACK.png"
+        ],
+
+        beige: [
+            "GOD FIRST BEIGE FRONT.png",
+            "GOD FIRST BEIGE BACK.png"
+        ]
+
+    }
+
+}
 
 
     /* =====================================================
