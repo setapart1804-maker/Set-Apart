@@ -4675,16 +4675,83 @@ body {
 
 }
 
-/* Hoodie itself — smaller without shrinking gallery frame */
-.shop-image-slide img {
+/* =========================================================
+   SHOP — SAME IMAGE FRAME AS HOME NEW DROP
+========================================================= */
+
+.shop-item-gallery {
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+/* Same image proportions as NEW DROP */
+
+.shop-image-slider {
+    width: 100% !important;
+    aspect-ratio: 4 / 5 !important;
+
+    overflow: hidden !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+.shop-image-slide {
+    flex: 0 0 100% !important;
+
     width: 100% !important;
     height: 100% !important;
 
-    object-fit: contain !important;
-    object-position: center top !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
 
-    transform: scale(0.88) translateY(-55px) !important;
-    transform-origin: top center !important;
+
+.shop-image-slide img {
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
 
     margin: 0 !important;
+    padding: 0 !important;
+
+    transform: none !important;
+}
+
+
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .shop-item {
+        grid-template-columns:
+            minmax(0, 1fr)
+            minmax(360px, 0.72fr) !important;
+
+        gap: 60px !important;
+
+        align-items: start !important;
+    }
+
+
+    .shop-item-info,
+    .shop-product-info {
+        position: static !important;
+
+        margin: 0 !important;
+        padding-top: 0 !important;
+
+        align-self: start !important;
+    }
+
 }
