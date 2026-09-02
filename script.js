@@ -1870,32 +1870,3 @@ hoodieSliders.forEach((slider) => {
 });
 
 
-/* =========================================================
-   SNAP TO FRONT OR BACK
-========================================================= */
-
-function snapHoodieSlider(slider) {
-
-    const slideWidth = slider.clientWidth;
-
-    const currentScroll = slider.scrollLeft;
-
-    if (currentScroll > slideWidth / 2) {
-
-        slider.scrollTo({
-            left: slideWidth,
-            behavior: "smooth"
-        });
-
-    } else {
-
-        slider.scrollTo({
-            left: 0,
-            behavior: "smooth"
-        });
-
-    }
-
-}
-   
-});
