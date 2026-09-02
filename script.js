@@ -486,12 +486,12 @@ document.addEventListener("DOMContentLoaded", function () {
     const productState = {
 
         pilgrim: {
-            color: "black",
+            color: "beige",
             size: null
         },
 
         godfirst: {
-            color: "black",
+            color: "brown",
             size: null
         }
 
@@ -499,8 +499,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SHOP IMAGE SLIDER
-       FRONT <-> BACK
+       SHOP IMAGE SLIDER — ARROWS + SWIPE + DRAG
     ===================================================== */
 
     document
@@ -537,6 +536,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let currentSlide = 0;
 
+            let startX = 0;
+
+            let currentX = 0;
+
+            let dragging = false;
+
 
             slider.style.position =
                 "relative";
@@ -544,9 +549,15 @@ document.addEventListener("DOMContentLoaded", function () {
             slider.style.overflow =
                 "hidden";
 
+            slider.style.touchAction =
+                "pan-y";
+
+            slider.style.cursor =
+                "grab";
+
 
             slides.forEach(
-                function (slide, index) {
+                function (slide) {
 
                     slide.style.position =
                         "absolute";
@@ -563,29 +574,30 @@ document.addEventListener("DOMContentLoaded", function () {
                     slide.style.height =
                         "100%";
 
-                    slide.style.transition =
-                        "transform 0.45s ease";
-
-                    slide.style.transform =
-                        "translateX(" +
-                        (index * 100) +
-                        "%)";
                 }
             );
 
 
-            function showSlide(index) {
+            function showSlide(
+                index,
+                animate = true
+            ) {
 
                 if (index < 0) {
+
                     index =
                         slides.length - 1;
+
                 }
+
 
                 if (
                     index >=
                     slides.length
                 ) {
+
                     index = 0;
+
                 }
 
 
@@ -599,11 +611,18 @@ document.addEventListener("DOMContentLoaded", function () {
                         slideIndex
                     ) {
 
+                        slide.style.transition =
+                            animate
+                                ? "transform 0.4s ease"
+                                : "none";
+
+
                         const position =
                             (
                                 slideIndex -
                                 currentSlide
                             ) * 100;
+
 
                         slide.style.transform =
                             "translateX(" +
@@ -614,6 +633,43 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
+            gallery.resetShopSlider =
+                function () {
+
+                    currentSlide = 0;
+
+                    startX = 0;
+
+                    currentX = 0;
+
+                    dragging = false;
+
+
+                    showSlide(
+                        0,
+                        false
+                    );
+
+
+                    requestAnimationFrame(
+                        function () {
+
+                            slides.forEach(
+                                function (slide) {
+
+                                    slide.style.transition =
+                                        "transform 0.4s ease";
+
+                                }
+                            );
+
+                        }
+                    );
+                };
+
+
+            /* LEFT ARROW */
+
             if (prevButton) {
 
                 prevButton.addEventListener(
@@ -621,15 +677,20 @@ document.addEventListener("DOMContentLoaded", function () {
                     function (event) {
 
                         event.preventDefault();
+
                         event.stopPropagation();
+
 
                         showSlide(
                             currentSlide - 1
                         );
+
                     }
                 );
             }
 
+
+            /* RIGHT ARROW */
 
             if (nextButton) {
 
@@ -638,17 +699,242 @@ document.addEventListener("DOMContentLoaded", function () {
                     function (event) {
 
                         event.preventDefault();
+
                         event.stopPropagation();
+
 
                         showSlide(
                             currentSlide + 1
                         );
+
                     }
                 );
             }
 
 
-            showSlide(0);
+            /* =================================================
+               SWIPE / DRAG START
+            ================================================= */
+
+            slider.addEventListener(
+                "pointerdown",
+                function (event) {
+
+                    if (
+                        event.target.closest(
+                            ".shop-arrow"
+                        )
+                    ) {
+                        return;
+                    }
+
+
+                    dragging =
+                        true;
+
+
+                    startX =
+                        event.clientX;
+
+
+                    currentX =
+                        startX;
+
+
+                    slider.style.cursor =
+                        "grabbing";
+
+
+                    slides.forEach(
+                        function (slide) {
+
+                            slide.style.transition =
+                                "none";
+
+                        }
+                    );
+
+
+                    try {
+
+                        slider.setPointerCapture(
+                            event.pointerId
+                        );
+
+                    } catch (error) {}
+
+                }
+            );
+
+
+            /* =================================================
+               SWIPE / DRAG MOVE
+            ================================================= */
+
+            slider.addEventListener(
+                "pointermove",
+                function (event) {
+
+                    if (!dragging) {
+                        return;
+                    }
+
+
+                    currentX =
+                        event.clientX;
+
+
+                    const width =
+                        slider.clientWidth;
+
+
+                    if (!width) {
+                        return;
+                    }
+
+
+                    const movementPercent =
+                        (
+                            (
+                                currentX -
+                                startX
+                            ) /
+                            width
+                        ) * 100;
+
+
+                    slides.forEach(
+                        function (
+                            slide,
+                            slideIndex
+                        ) {
+
+                            const base =
+                                (
+                                    slideIndex -
+                                    currentSlide
+                                ) * 100;
+
+
+                            slide.style.transform =
+                                "translateX(" +
+                                (
+                                    base +
+                                    movementPercent
+                                ) +
+                                "%)";
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =================================================
+               END SWIPE
+            ================================================= */
+
+            function endDrag(event) {
+
+                if (!dragging) {
+                    return;
+                }
+
+
+                dragging =
+                    false;
+
+
+                slider.style.cursor =
+                    "grab";
+
+
+                const movement =
+                    currentX -
+                    startX;
+
+
+                const threshold =
+                    Math.min(
+                        80,
+                        slider.clientWidth * 0.15
+                    );
+
+
+                if (
+                    movement <
+                    -threshold
+                ) {
+
+                    showSlide(
+                        currentSlide + 1
+                    );
+
+                } else if (
+                    movement >
+                    threshold
+                ) {
+
+                    showSlide(
+                        currentSlide - 1
+                    );
+
+                } else {
+
+                    showSlide(
+                        currentSlide
+                    );
+
+                }
+
+
+                try {
+
+                    if (
+                        event &&
+                        slider.hasPointerCapture(
+                            event.pointerId
+                        )
+                    ) {
+
+                        slider.releasePointerCapture(
+                            event.pointerId
+                        );
+
+                    }
+
+                } catch (error) {}
+
+            }
+
+
+            slider.addEventListener(
+                "pointerup",
+                endDrag
+            );
+
+
+            slider.addEventListener(
+                "pointercancel",
+                endDrag
+            );
+
+
+            /* PREVENT NATIVE IMAGE DRAG */
+
+            slider.addEventListener(
+                "dragstart",
+                function (event) {
+
+                    event.preventDefault();
+
+                }
+            );
+
+
+            /* ALWAYS START ON FRONT */
+
+            gallery.resetShopSlider();
 
         });
 
@@ -709,21 +995,21 @@ document.addEventListener("DOMContentLoaded", function () {
         );
 
 
-        const slides =
-            shopItem.querySelectorAll(
-                ".shop-image-slide"
+        const gallery =
+            shopItem.querySelector(
+                ".shop-item-gallery"
             );
 
 
-        slides.forEach(
-            function (slide, index) {
+        if (
+            gallery &&
+            typeof gallery.resetShopSlider ===
+                "function"
+        ) {
 
-                slide.style.transform =
-                    "translateX(" +
-                    (index * 100) +
-                    "%)";
-            }
-        );
+            gallery.resetShopSlider();
+
+        }
     }
 
 
