@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Checkout — SET APART Faith-Inspired Streetwear.">
+
+    <title>Checkout — SET APART</title>
+
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ANNOUNCEMENT BAR
+===================================================== -->
+
+<div class="announcement-bar">
+
+    <p>
+        NEW DROP — CALLED TO LIVE DIFFERENTLY.
+    </p>
+
+</div>
+
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+    <div class="navbar">
+
+
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="site-logo">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
+
+        </a>
+
+
+
+        <!-- DESKTOP NAV -->
+
+        <nav
+            class="main-nav"
+            id="mainNav">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+
+
+        <!-- NAV ACTIONS -->
+
+        <div class="nav-actions">
+
+
+            <!-- SEARCH -->
+
+            <button
+                type="button"
+                class="nav-icon-button"
+                id="searchButton"
+                aria-label="Search">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <circle
+                        cx="11"
+                        cy="11"
+                        r="6.5">
+                    </circle>
+
+                    <path
+                        d="M16 16L21 21">
+                    </path>
+
+                </svg>
+
+            </button>
+
+
+
+            <!-- CART -->
+
+            <a
+                href="cart.html"
+                class="nav-icon-button cart-link"
+                aria-label="Shopping cart">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <path
+                        d="M3 4H5L7.2 15H18.5L21 7H6">
+                    </path>
+
+                    <circle
+                        cx="9"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                    <circle
+                        cx="18"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                </svg>
+
+                <span
+                    class="cart-count"
+                    id="cartCount">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- MOBILE MENU -->
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu">
+
+        <nav>
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+
+<!-- =====================================================
+     SEARCH PANEL
+===================================================== -->
+
+<div
+    class="search-panel"
+    id="searchPanel">
+
+    <div class="search-panel-inner">
+
+        <form
+            class="search-form"
+            id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="submit"
+                class="search-submit">
+
+                SEARCH
+
+            </button>
+
+            <button
+                type="button"
+                class="search-close"
+                id="closeSearch"
+                aria-label="Close search">
+
+                ×
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+
+<!-- =====================================================
+     MAIN
+===================================================== -->
+
+<main>
+
+
+<section class="checkout-page">
+
+    <div class="container">
+
+
+        <!-- PAGE HEADER -->
+
+        <div class="checkout-page-header">
+
+            <p class="eyebrow">
+                SET APART
+            </p>
+
+            <h1>
+                CHECKOUT
+            </h1>
+
+        </div>
+
+
+
+        <!-- =================================================
+             CHECKOUT LAYOUT
+        ================================================== -->
+
+        <div class="checkout-layout">
+
+
+            <!-- =================================================
+                 CUSTOMER FORM
+            ================================================== -->
+
+            <div class="checkout-form-side">
+
+
+                <form
+                    id="checkoutForm"
+                    class="checkout-form">
+
+
+                    <!-- CONTACT -->
+
+                    <div class="checkout-section">
+
+                        <div class="checkout-section-heading">
+
+                            <span>
+                                01
+                            </span>
+
+                            <h2>
+                                CONTACT
+                            </h2>
+
+                        </div>
+
+
+                        <div class="checkout-fields">
+
+                            <div class="checkout-field full">
+
+                                <label for="checkoutEmail">
+                                    EMAIL
+                                </label>
+
+                                <input
+                                    type="email"
+                                    id="checkoutEmail"
+                                    name="email"
+                                    placeholder="your@email.com"
+                                    autocomplete="email"
+                                    required>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SHIPPING -->
+
+                    <div class="checkout-section">
+
+                        <div class="checkout-section-heading">
+
+                            <span>
+                                02
+                            </span>
+
+                            <h2>
+                                SHIPPING ADDRESS
+                            </h2>
+
+                        </div>
+
+
+                        <div class="checkout-fields">
+
+
+                            <!-- FIRST NAME -->
+
+                            <div class="checkout-field">
+
+                                <label for="firstName">
+                                    FIRST NAME
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="firstName"
+                                    name="firstName"
+                                    autocomplete="given-name"
+                                    required>
+
+                            </div>
+
+
+                            <!-- LAST NAME -->
+
+                            <div class="checkout-field">
+
+                                <label for="lastName">
+                                    LAST NAME
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="lastName"
+                                    name="lastName"
+                                    autocomplete="family-name"
+                                    required>
+
+                            </div>
+
+
+                            <!-- ADDRESS -->
+
+                            <div class="checkout-field full">
+
+                                <label for="address">
+                                    ADDRESS
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="address"
+                                    name="address"
+                                    placeholder="Street address"
+                                    autocomplete="street-address"
+                                    required>
+
+                            </div>
+
+
+                            <!-- APARTMENT -->
+
+                            <div class="checkout-field full">
+
+                                <label for="apartment">
+                                    APARTMENT, SUITE, ETC.
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="apartment"
+                                    name="apartment"
+                                    placeholder="Optional">
+
+                            </div>
+
+
+                            <!-- COUNTRY -->
+
+                            <div class="checkout-field">
+
+                                <label for="country">
+                                    COUNTRY / REGION
+                                </label>
+
+                                <select
+                                    id="country"
+                                    name="country"
+                                    required>
+
+                                    <option value="">
+                                        Select country
+                                    </option>
+
+                                    <option value="DO">
+                                        Dominican Republic
+                                    </option>
+
+                                    <option value="HT">
+                                        Haiti
+                                    </option>
+
+                                    <option value="US">
+                                        United States
+                                    </option>
+
+                                    <option value="CA">
+                                        Canada
+                                    </option>
+
+                                    <option value="FR">
+                                        France
+                                    </option>
+
+                                </select>
+
+                            </div>
+
+
+                            <!-- CITY -->
+
+                            <div class="checkout-field">
+
+                                <label for="city">
+                                    CITY
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="city"
+                                    name="city"
+                                    autocomplete="address-level2"
+                                    required>
+
+                            </div>
+
+
+                            <!-- STATE -->
+
+                            <div class="checkout-field">
+
+                                <label for="state">
+                                    STATE / PROVINCE
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="state"
+                                    name="state"
+                                    autocomplete="address-level1">
+
+                            </div>
+
+
+                            <!-- POSTAL CODE -->
+
+                            <div class="checkout-field">
+
+                                <label for="postalCode">
+                                    POSTAL CODE
+                                </label>
+
+                                <input
+                                    type="text"
+                                    id="postalCode"
+                                    name="postalCode"
+                                    autocomplete="postal-code">
+
+                            </div>
+
+
+                            <!-- PHONE -->
+
+                            <div class="checkout-field full">
+
+                                <label for="phone">
+                                    PHONE
+                                </label>
+
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    autocomplete="tel"
+                                    required>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- SHIPPING METHOD -->
+
+                    <div class="checkout-section">
+
+                        <div class="checkout-section-heading">
+
+                            <span>
+                                03
+                            </span>
+
+                            <h2>
+                                SHIPPING METHOD
+                            </h2>
+
+                        </div>
+
+
+                        <label class="shipping-option">
+
+                            <div>
+
+                                <input
+                                    type="radio"
+                                    name="shipping"
+                                    value="standard"
+                                    checked>
+
+                                <span>
+                                    STANDARD SHIPPING
+                                </span>
+
+                            </div>
+
+                            <strong>
+                                CALCULATED LATER
+                            </strong>
+
+                        </label>
+
+                    </div>
+
+
+
+                    <!-- PAYMENT -->
+
+                    <div class="checkout-section">
+
+                        <div class="checkout-section-heading">
+
+                            <span>
+                                04
+                            </span>
+
+                            <h2>
+                                PAYMENT
+                            </h2>
+
+                        </div>
+
+
+                        <div class="payment-placeholder">
+
+                            <p>
+                                SECURE PAYMENT
+                            </p>
+
+                            <span>
+                                Payment provider will be connected here.
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- COMPLETE ORDER -->
+
+                    <button
+                        type="submit"
+                        class="button button-black checkout-submit">
+
+                        COMPLETE ORDER
+
+                    </button>
+
+
+                    <p class="checkout-note">
+
+                        Payment is not active yet.
+                        This checkout is currently for testing the website flow.
+
+                    </p>
+
+
+                </form>
+
+            </div>
+
+
+
+            <!-- =================================================
+                 ORDER SUMMARY
+            ================================================== -->
+
+            <aside class="checkout-summary">
+
+                <h2>
+                    ORDER SUMMARY
+                </h2>
+
+
+                <!-- PRODUCTS -->
+
+                <div
+                    class="checkout-summary-items"
+                    id="checkoutItems">
+                </div>
+
+
+
+                <!-- TOTALS -->
+
+                <div class="checkout-summary-row">
+
+                    <span>
+                        SUBTOTAL
+                    </span>
+
+                    <span id="checkoutSubtotal">
+                        $0.00
+                    </span>
+
+                </div>
+
+
+                <div class="checkout-summary-row">
+
+                    <span>
+                        SHIPPING
+                    </span>
+
+                    <span>
+                        CALCULATED LATER
+                    </span>
+
+                </div>
+
+
+                <div class="checkout-summary-total">
+
+                    <span>
+                        TOTAL
+                    </span>
+
+                    <span id="checkoutTotal">
+                        $0.00
+                    </span>
+
+                </div>
+
+
+                <a
+                    href="cart.html"
+                    class="checkout-back">
+
+                    ← BACK TO CART
+
+                </a>
+
+            </aside>
+
+
+        </div>
+
+    </div>
+
+</section>
+
+
+</main>
+
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-inner">
+
+
+        <div class="footer-brand">
+
+            <a href="index.html">
+
+                <img
+                    src="LOGO (2).png"
+                    alt="SET APART Logo">
+
+            </a>
+
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
+
+        </div>
+
+
+
+        <div class="footer-columns">
+
+
+            <div class="footer-column">
+
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
+            </div>
+
+
+
+            <div class="footer-column">
+
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+
+
+            <div class="footer-column">
+
+                <h3>
+                    FOLLOW
+                </h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 SET APART. ALL RIGHTS RESERVED.
+        </p>
+
+    </div>
+
+</footer>
+
+
+
+<!-- =====================================================
+     PAGE OVERLAY
+===================================================== -->
+
+<div
+    class="page-overlay"
+    id="pageOverlay">
+</div>
+
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
