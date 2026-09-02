@@ -2207,3 +2207,551 @@ button {
     }
 
 }
+
+/* =========================================================
+   SET APART — CART PAGE
+========================================================= */
+
+
+/* =========================================================
+   CART PAGE
+========================================================= */
+
+.cart-page {
+    padding: 90px 0 120px;
+
+    background: #fff;
+}
+
+.cart-page-header {
+    margin-bottom: 60px;
+}
+
+.cart-page-header h1 {
+    font-size: clamp(50px, 8vw, 100px);
+    font-weight: 900;
+
+    line-height: .9;
+
+    letter-spacing: -4px;
+}
+
+
+/* =========================================================
+   EMPTY CART
+========================================================= */
+
+.empty-cart {
+    display: none;
+
+    padding: 100px 20px;
+
+    text-align: center;
+
+    border-top: 1px solid #e5e5e5;
+}
+
+.empty-cart.active {
+    display: block;
+}
+
+.empty-cart h2 {
+    margin-bottom: 15px;
+
+    font-size: clamp(28px, 4vw, 45px);
+    font-weight: 900;
+
+    letter-spacing: -1px;
+}
+
+.empty-cart p {
+    margin-bottom: 30px;
+
+    color: #777;
+
+    font-size: 13px;
+}
+
+
+/* =========================================================
+   CART LAYOUT
+========================================================= */
+
+.cart-layout {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1.5fr)
+        minmax(320px, .5fr);
+
+    gap: 70px;
+
+    align-items: start;
+}
+
+
+/* =========================================================
+   CART TABLE HEADER
+========================================================= */
+
+.cart-table-header {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        130px
+        110px;
+
+    gap: 20px;
+
+    padding: 0 0 15px;
+
+    border-bottom: 1px solid #000;
+}
+
+.cart-table-header span {
+    font-size: 9px;
+    font-weight: 800;
+
+    letter-spacing: 1.8px;
+}
+
+.cart-table-header span:nth-child(2),
+.cart-table-header span:nth-child(3) {
+    text-align: center;
+}
+
+
+/* =========================================================
+   CART ITEM
+========================================================= */
+
+.cart-item {
+    display: grid;
+
+    grid-template-columns:
+        minmax(0, 1fr)
+        130px
+        110px;
+
+    gap: 20px;
+
+    align-items: center;
+
+    padding: 25px 0;
+
+    border-bottom: 1px solid #e5e5e5;
+}
+
+
+/* =========================================================
+   CART PRODUCT
+========================================================= */
+
+.cart-product {
+    display: grid;
+
+    grid-template-columns: 120px 1fr;
+
+    gap: 20px;
+
+    align-items: center;
+
+    min-width: 0;
+}
+
+.cart-product-image {
+    width: 120px;
+
+    aspect-ratio: 4 / 5;
+
+    overflow: hidden;
+
+    background: #f3f3f3;
+}
+
+.cart-product-image img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.cart-product-info {
+    min-width: 0;
+}
+
+.cart-product-info h3 {
+    margin-bottom: 7px;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: .8px;
+}
+
+.cart-product-info p {
+    margin-bottom: 5px;
+
+    color: #777;
+
+    font-size: 10px;
+
+    letter-spacing: 1px;
+}
+
+.cart-product-price {
+    margin-top: 10px;
+
+    color: #000 !important;
+
+    font-size: 12px !important;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   REMOVE BUTTON
+========================================================= */
+
+.cart-remove {
+    margin-top: 12px;
+
+    padding: 0;
+
+    border-bottom: 1px solid #000;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+}
+
+
+/* =========================================================
+   QUANTITY
+========================================================= */
+
+.cart-quantity {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.quantity-control {
+    height: 44px;
+
+    display: grid;
+
+    grid-template-columns:
+        40px
+        42px
+        40px;
+
+    align-items: center;
+
+    border: 1px solid #cfcfcf;
+}
+
+.quantity-button {
+    width: 40px;
+    height: 42px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 18px;
+
+    transition:
+        background-color .2s ease,
+        color .2s ease;
+}
+
+.quantity-button:hover {
+    background: #000;
+    color: #fff;
+}
+
+.quantity-number {
+    text-align: center;
+
+    font-size: 11px;
+    font-weight: 700;
+}
+
+
+/* =========================================================
+   ITEM TOTAL
+========================================================= */
+
+.cart-item-total {
+    text-align: center;
+
+    font-size: 12px;
+    font-weight: 800;
+}
+
+
+/* =========================================================
+   ORDER SUMMARY
+========================================================= */
+
+.cart-summary {
+    position: sticky;
+
+    top: 30px;
+
+    padding: 35px;
+
+    background: #f5f5f5;
+}
+
+.cart-summary h2 {
+    margin-bottom: 35px;
+
+    font-size: 18px;
+    font-weight: 900;
+
+    letter-spacing: -.5px;
+}
+
+.cart-summary-row {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 18px 0;
+
+    border-bottom: 1px solid #d6d6d6;
+}
+
+.cart-summary-row span {
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1px;
+}
+
+.cart-summary-row span:last-child {
+    text-align: right;
+}
+
+.cart-summary-total {
+    display: flex;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 25px 0 30px;
+}
+
+.cart-summary-total span {
+    font-size: 14px;
+    font-weight: 900;
+
+    letter-spacing: 1px;
+}
+
+.checkout-button {
+    width: 100%;
+}
+
+.continue-shopping {
+    display: inline-block;
+
+    margin-top: 25px;
+
+    border-bottom: 1px solid #000;
+
+    font-size: 9px;
+    font-weight: 700;
+
+    letter-spacing: 1.3px;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .cart-page {
+        padding:
+            70px 0
+            90px;
+    }
+
+    .cart-layout {
+        grid-template-columns:
+            minmax(0, 1.35fr)
+            minmax(280px, .65fr);
+
+        gap: 35px;
+    }
+
+    .cart-table-header,
+    .cart-item {
+        grid-template-columns:
+            minmax(0, 1fr)
+            110px
+            90px;
+
+        gap: 15px;
+    }
+
+    .cart-product {
+        grid-template-columns:
+            100px
+            1fr;
+    }
+
+    .cart-product-image {
+        width: 100px;
+    }
+
+    .cart-summary {
+        padding: 28px 22px;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .cart-page {
+        padding:
+            55px 0
+            75px;
+    }
+
+    .cart-page-header {
+        margin-bottom: 40px;
+    }
+
+    .cart-page-header h1 {
+        letter-spacing: -2px;
+    }
+
+
+    /* LAYOUT */
+
+    .cart-layout {
+        grid-template-columns: 1fr;
+
+        gap: 45px;
+    }
+
+
+    /* REMOVE DESKTOP COLUMN HEADER */
+
+    .cart-table-header {
+        display: none;
+    }
+
+
+    /* CART ITEM */
+
+    .cart-item {
+        grid-template-columns: 1fr;
+
+        gap: 22px;
+
+        padding: 25px 0 30px;
+    }
+
+
+    /* PRODUCT */
+
+    .cart-product {
+        grid-template-columns:
+            95px
+            minmax(0, 1fr);
+
+        gap: 16px;
+    }
+
+    .cart-product-image {
+        width: 95px;
+    }
+
+    .cart-product-info h3 {
+        font-size: 12px;
+    }
+
+
+    /* QUANTITY */
+
+    .cart-quantity {
+        justify-content: flex-start;
+    }
+
+
+    /* TOTAL */
+
+    .cart-item-total {
+        display: flex;
+        justify-content: space-between;
+
+        padding-top: 15px;
+
+        border-top: 1px solid #eee;
+
+        text-align: left;
+    }
+
+    .cart-item-total::before {
+        content: "TOTAL";
+
+        font-size: 9px;
+        font-weight: 800;
+
+        letter-spacing: 1.5px;
+    }
+
+
+    /* SUMMARY */
+
+    .cart-summary {
+        position: static;
+
+        padding: 28px 20px;
+    }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .cart-product {
+        grid-template-columns:
+            80px
+            minmax(0, 1fr);
+    }
+
+    .cart-product-image {
+        width: 80px;
+    }
+
+    .quantity-control {
+        grid-template-columns:
+            38px
+            40px
+            38px;
+    }
+
+    .quantity-button {
+        width: 38px;
+    }
+
+}
