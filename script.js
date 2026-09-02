@@ -1784,4 +1784,102 @@ document.addEventListener("DOMContentLoaded", function () {
         );
     }
 
+   /* =========================================================
+   HOODIES COLLECTION — COLOR SWITCHER
+========================================================= */
+
+const hoodieCollectionImages = {
+
+    pilgrim: {
+        black: "PILGRIM BLACK FRONT 1.png",
+        white: "PILGRIM WHITE FRONT.jpeg",
+        brown: "PILGRIM BROWN FRONT.jpeg",
+        beige: "PILGRIM BEIGE FRONT.jpeg"
+    },
+
+    godfirst: {
+        black: "GOD FIRST BLACK FRONT.jpeg",
+        white: "GOD FIRST WHITE FRONT.jpeg",
+        brown: "GOD FIRST BROWN FRONT.png",
+        beige: "GOD FIRST BEIGE FRONT.jpeg"
+    }
+
+};
+
+
+document
+    .querySelectorAll(".hoodie-card-colors")
+    .forEach(colorGroup => {
+
+        const product = colorGroup.dataset.product;
+
+
+        colorGroup
+            .querySelectorAll(".hoodie-color")
+            .forEach(button => {
+
+                button.addEventListener("click", () => {
+
+                    const color = button.dataset.color;
+
+
+                    /* REMOVE OLD ACTIVE COLOR */
+
+                    colorGroup
+                        .querySelectorAll(".hoodie-color")
+                        .forEach(item => {
+
+                            item.classList.remove("active");
+
+                        });
+
+
+                    /* ACTIVE COLOR */
+
+                    button.classList.add("active");
+
+
+                    /* CHANGE IMAGE */
+
+                    let image;
+
+
+                    if (product === "pilgrim") {
+
+                        image =
+                            document.getElementById(
+                                "pilgrimCollectionImage"
+                            );
+
+                    }
+
+
+                    if (product === "godfirst") {
+
+                        image =
+                            document.getElementById(
+                                "godfirstCollectionImage"
+                            );
+
+                    }
+
+
+                    if (
+                        image &&
+                        hoodieCollectionImages[product] &&
+                        hoodieCollectionImages[product][color]
+                    ) {
+
+                        image.src =
+                            hoodieCollectionImages
+                            [product]
+                            [color];
+
+                    }
+
+                });
+
+            });
+
+    });
 });
