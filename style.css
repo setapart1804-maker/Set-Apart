@@ -4755,3 +4755,31 @@ body {
     }
 
 }
+
+/* =========================================================
+   SHOP — CENTER PRODUCT INFO WITH IMAGE FRAME
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .shop-item {
+        align-items: stretch !important;
+    }
+
+    .shop-item-info,
+    .shop-product-info {
+        display: flex !important;
+        flex-direction: column !important;
+
+        justify-content: center !important;
+
+        align-self: stretch !important;
+
+        margin: 0 !important;
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+
+        position: static !important;
+    }
+
+}
