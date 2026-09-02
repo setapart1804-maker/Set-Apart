@@ -653,7 +653,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-
     /* =====================================================
        UPDATE PRODUCT IMAGES
     ===================================================== */
