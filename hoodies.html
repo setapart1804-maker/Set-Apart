@@ -21,237 +21,259 @@
 <body>
 
 
-    <!-- =====================================================
-         ANNOUNCEMENT BAR
-    ====================================================== -->
+  <!-- =====================================================
+     ANNOUNCEMENT BAR
+===================================================== -->
 
-    <div class="announcement-bar">
+<div class="announcement-bar">
 
+    <p>
         NEW DROP — CALLED TO LIVE DIFFERENTLY.
+    </p>
 
-    </div>
-
-
-
-    <!-- =====================================================
-         HEADER
-    ====================================================== -->
-
-    <header class="site-header">
-
-        <div class="navbar container">
+</div>
 
 
-            <!-- MOBILE MENU BUTTON -->
+
+<!-- =====================================================
+     HEADER / NAVBAR
+===================================================== -->
+
+<header class="site-header">
+
+    <div class="navbar">
+
+
+        <!-- MOBILE MENU BUTTON -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="site-logo"
+            aria-label="SET APART Home">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
+
+        </a>
+
+
+
+        <!-- DESKTOP NAVIGATION -->
+
+        <nav
+            class="main-nav"
+            id="mainNav"
+            aria-label="Main navigation">
+
+            <a href="index.html" aria-current="page">
+               
+                HOME
+           </a>
+
+
+            <a href="shop.html">
+
+                SHOP
+
+            </a>
+
+
+            <a href="about.html">
+
+                ABOUT
+
+            </a>
+
+
+            <a href="contact.html">
+
+                CONTACT
+
+            </a>
+
+        </nav>
+
+
+
+        <!-- RIGHT ICONS -->
+
+        <div class="nav-actions">
+
+
+            <!-- SEARCH -->
 
             <button
                 type="button"
-                class="menu-toggle"
-                id="menuToggle"
-                aria-label="Open menu"
-                aria-expanded="false">
+                class="nav-icon-button"
+                id="searchButton"
+                aria-label="Open search">
 
-                <span></span>
-                <span></span>
-                <span></span>
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <circle
+                        cx="11"
+                        cy="11"
+                        r="6.5">
+                    </circle>
+
+                    <path
+                        d="M16 16L21 21">
+                    </path>
+
+                </svg>
 
             </button>
 
 
 
-            <!-- LOGO -->
+            <!-- CART -->
 
             <a
-                href="index.html"
-                class="site-logo">
+                href="cart.html"
+                class="nav-icon-button cart-link"
+                aria-label="Shopping cart">
 
-                <img
-                    src="LOGO (2).png"
-                    alt="SET APART">
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <path
+                        d="M3 4H5L7.2 15H18.5L21 7H6">
+                    </path>
+
+                    <circle
+                        cx="9"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                    <circle
+                        cx="18"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                </svg>
+
+
+                <span
+                    class="cart-count"
+                    id="cartCount">
+
+                    0
+
+                </span>
 
             </a>
 
-
-
-            <!-- DESKTOP NAVIGATION -->
-
-            <nav
-                class="main-nav"
-                id="mainNav">
-
-                <a href="index.html">
-                    HOME
-                </a>
-
-                <a
-                    href="shop.html"
-                    aria-current="page">
-                    SHOP
-                </a>
-
-                <a href="about.html">
-                    ABOUT
-                </a>
-
-                <a href="contact.html">
-                    CONTACT
-                </a>
-
-            </nav>
-
-
-
-            <!-- NAV ACTIONS -->
-
-            <div class="nav-actions">
-
-
-                <!-- SEARCH BUTTON -->
-
-                <button
-                    type="button"
-                    class="nav-icon-button"
-                    id="searchButton"
-                    aria-label="Search">
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="21"
-                        height="21"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.7">
-
-                        <circle
-                            cx="11"
-                            cy="11"
-                            r="7">
-                        </circle>
-
-                        <path
-                            d="M20 20L16.5 16.5">
-                        </path>
-
-                    </svg>
-
-                </button>
-
-
-
-                <!-- CART -->
-
-                <a
-                    href="cart.html"
-                    class="nav-cart"
-                    aria-label="Cart">
-
-                    <svg
-                        viewBox="0 0 24 24"
-                        width="22"
-                        height="22"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="1.7">
-
-                        <path
-                            d="M6 7H18L17 20H7L6 7Z">
-                        </path>
-
-                        <path
-                            d="M9 7V5C9 3.3 10.3 2 12 2C13.7 2 15 3.3 15 5V7">
-                        </path>
-
-                    </svg>
-
-                    <span
-                        class="cart-count"
-                        id="cartCount">
-
-                        0
-
-                    </span>
-
-                </a>
-
-            </div>
-
-
-
-            <!-- MOBILE NAVIGATION -->
-
-            <nav
-                class="mobile-menu"
-                id="mobileMenu">
-
-                <a href="index.html">
-                    HOME
-                </a>
-
-                <a href="shop.html">
-                    SHOP
-                </a>
-
-                <a href="about.html">
-                    ABOUT
-                </a>
-
-                <a href="contact.html">
-                    CONTACT
-                </a>
-
-            </nav>
-
         </div>
 
-    </header>
+
+    </div>
 
 
 
-    <!-- =====================================================
-         SEARCH PANEL
-    ====================================================== -->
+    <!-- =================================================
+         MOBILE MENU PANEL
+    ================================================== -->
 
     <div
-        class="search-panel"
-        id="searchPanel">
+        class="mobile-menu"
+        id="mobileMenu">
 
-        <div class="container search-panel-inner">
+        <nav>
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
 
 
-            <form id="searchForm">
 
-                <input
-                    type="search"
-                    id="searchInput"
-                    placeholder="SEARCH SET APART"
-                    autocomplete="off">
+<!-- =====================================================
+     SEARCH PANEL
+===================================================== -->
 
-                <button
-                    type="submit"
-                    class="search-submit">
+<div
+    class="search-panel"
+    id="searchPanel">
 
-                    SEARCH
+    <div class="search-panel-inner">
 
-                </button>
+        <form
+            class="search-form"
+            id="searchForm">
 
-            </form>
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off"
+                aria-label="Search products">
 
+
+            <button
+                type="submit"
+                class="search-submit">
+
+                SEARCH
+
+            </button>
 
 
             <button
                 type="button"
-                id="closeSearch"
                 class="search-close"
+                id="closeSearch"
                 aria-label="Close search">
 
                 ×
 
             </button>
 
-
-        </div>
+        </form>
 
     </div>
+
+</div>
+
 
 
 
