@@ -5415,30 +5415,34 @@ body {
 
 
 /* =========================================================
-   LAPTOP
+   HOODIES — DESKTOP FORCE FIX
 ========================================================= */
 
 @media (min-width: 1025px) {
 
-    .hoodies-hero {
-        min-height: 430px !important;
-    }
-
-
     .hoodies-page-container {
+        width: 100% !important;
+        max-width: none !important;
         padding-left: 14px !important;
-
         padding-right: 14px !important;
     }
 
-
     .hoodies-grid-final {
-        grid-template-columns:
-            repeat(4, minmax(0, 1fr)) !important;
-
+        display: grid !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         column-gap: 30px !important;
-
         row-gap: 85px !important;
+        width: 100% !important;
+    }
+
+    .hoodie-product-final {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    .hoodie-slider {
+        width: 100% !important;
+        aspect-ratio: 4 / 5 !important;
     }
 
 }
