@@ -15,7 +15,7 @@
 
     <title>Shop — SET APART</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=30">
 
 </head>
 
@@ -87,10 +87,10 @@
                 HOME
             </a>
 
-            <a href="shop.html" aria-current="page">
-  
+            <a
+                href="shop.html"
+                aria-current="page">
                 SHOP
-
             </a>
 
             <a href="about.html">
@@ -167,7 +167,6 @@
 
                 </svg>
 
-
                 <span
                     class="cart-count"
                     id="cartCount">
@@ -182,7 +181,7 @@
 
 
 
-    <!-- MOBILE MENU PANEL -->
+    <!-- MOBILE MENU -->
 
     <div
         class="mobile-menu"
@@ -194,10 +193,10 @@
                 HOME
             </a>
 
-             <a href="shop.html" aria-current="page">
-  
+            <a
+                href="shop.html"
+                aria-current="page">
                 SHOP
-
             </a>
 
             <a href="about.html">
@@ -352,6 +351,7 @@
             id="shopProductGrid">
 
 
+
             <!-- =================================================
                  PILGRIM HOODIE
             ================================================== -->
@@ -366,21 +366,53 @@
 
                 <div class="shop-item-gallery">
 
-    <div class="shop-image-slider">
+                    <div class="shop-image-slider">
 
-        <!-- FRONT -->
-        <div class="shop-image-slide">
-            <img src="PILGRIM BEIGE FRONT.jpeg" alt="">
-        </div>
+                        <div class="shop-image-slide">
 
-        <!-- BACK -->
-        <div class="shop-image-slide">
-            <img src="PILGRIM BEIGE BACK.png" alt="">
-        </div>
+                            <img
+                                src="PILGRIM BEIGE FRONT.jpeg"
+                                alt="PILGRIM Beige Hoodie Front">
 
-    </div>
+                        </div>
 
-   
+                        <div class="shop-image-slide">
+
+                            <img
+                                src="PILGRIM BEIGE BACK.jpeg"
+                                alt="PILGRIM Beige Hoodie Back">
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- < > ARROWS -->
+
+                    <div class="image-arrows">
+
+                        <button
+                            type="button"
+                            class="shop-arrow prev-image"
+                            aria-label="Previous image">
+
+                            &lt;
+
+                        </button>
+
+                        <button
+                            type="button"
+                            class="shop-arrow next-image"
+                            aria-label="Next image">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                </div>
+
 
 
                 <!-- PRODUCT INFO -->
@@ -411,13 +443,19 @@
 
                         <div class="color-options">
 
+
+                            <!-- BEIGE -->
+
                             <button
                                 type="button"
-                                class="color-option selected"
+                                class="color-option beige selected"
                                 data-product="pilgrim"
                                 data-color="beige"
                                 aria-label="Beige">
                             </button>
+
+
+                            <!-- WHITE -->
 
                             <button
                                 type="button"
@@ -427,6 +465,9 @@
                                 aria-label="White">
                             </button>
 
+
+                            <!-- BROWN -->
+
                             <button
                                 type="button"
                                 class="color-option brown"
@@ -435,9 +476,12 @@
                                 aria-label="Brown">
                             </button>
 
+
+                            <!-- BLACK -->
+
                             <button
                                 type="button"
-                                class="color-option beige"
+                                class="color-option black"
                                 data-product="pilgrim"
                                 data-color="black"
                                 aria-label="Black">
@@ -514,7 +558,6 @@
 
                         </button>
 
-
                         <button
                             type="button"
                             class="button product-buy-now"
@@ -544,49 +587,55 @@
 
                 <!-- PRODUCT IMAGE -->
 
-              <div class="shop-item-gallery">
+                <div class="shop-item-gallery">
 
-    <div class="shop-image-slider">
+                    <div class="shop-image-slider">
 
-        <!-- FRONT -->
-        <div class="shop-image-slide">
-            <img src="GOD FIRST BROWN FRONT.png" alt="">
-        </div>
+                        <div class="shop-image-slide">
 
-        <!-- BACK -->
-        <div class="shop-image-slide">
-            <img src=""GOD FIRST BROWN BACK.png" alt="">
-        </div>
+                            <img
+                                src="GOD FIRST BROWN FRONT.png"
+                                alt="GOD FIRST Brown Hoodie Front">
 
-    </div>
+                        </div>
 
-    <div class="image-arrows">
-        <button type="button" class="shop-arrow prev-image">&lt;</button>
-        <button type="button" class="shop-arrow next-image">&gt;</button>
-    </div>
+                        <div class="shop-image-slide">
 
-</div>
+                            <img
+                                src="GOD FIRST BROWN BACK.png"
+                                alt="GOD FIRST Brown Hoodie Back">
+
+                        </div>
+
+                    </div>
 
 
-<!-- ARROWS -->
+                    <!-- < > ARROWS -->
 
-<div class="image-arrows">
+                    <div class="image-arrows">
 
-    <button
-        type="button"
-        class="image-arrow prev-image"
-        aria-label="Previous image">
-        &lt;
-    </button>
+                        <button
+                            type="button"
+                            class="shop-arrow prev-image"
+                            aria-label="Previous image">
 
-    <button
-        type="button"
-        class="image-arrow next-image"
-        aria-label="Next image">
-        &gt;
-    </button>
+                            &lt;
 
-</div>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="shop-arrow next-image"
+                            aria-label="Next image">
+
+                            &gt;
+
+                        </button>
+
+                    </div>
+
+                </div>
+
 
 
                 <!-- PRODUCT INFO -->
@@ -617,13 +666,19 @@
 
                         <div class="color-options">
 
+
+                            <!-- BROWN -->
+
                             <button
                                 type="button"
-                                class="color-option selected"
+                                class="color-option brown selected"
                                 data-product="godfirst"
                                 data-color="brown"
                                 aria-label="Brown">
                             </button>
+
+
+                            <!-- WHITE -->
 
                             <button
                                 type="button"
@@ -633,13 +688,19 @@
                                 aria-label="White">
                             </button>
 
+
+                            <!-- BLACK -->
+
                             <button
                                 type="button"
-                                class="color-option brown"
+                                class="color-option black"
                                 data-product="godfirst"
                                 data-color="black"
                                 aria-label="Black">
                             </button>
+
+
+                            <!-- BEIGE -->
 
                             <button
                                 type="button"
@@ -719,7 +780,6 @@
                             ADD TO CART
 
                         </button>
-
 
                         <button
                             type="button"
@@ -862,7 +922,7 @@
      JAVASCRIPT
 ===================================================== -->
 
-<script src="script.js"></script>
+<script src="script.js?v=30"></script>
 
 
 </body>
