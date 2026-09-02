@@ -1900,3 +1900,468 @@ document.addEventListener("DOMContentLoaded", function () {
     renderCart();
 
 });
+
+/* =========================================================
+   SET APART — CHECKOUT PAGE JAVASCRIPT
+   Order Summary + Form Validation
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const checkoutItems =
+        document.getElementById("checkoutItems");
+
+    const checkoutSubtotal =
+        document.getElementById("checkoutSubtotal");
+
+    const checkoutTotal =
+        document.getElementById("checkoutTotal");
+
+    const checkoutForm =
+        document.getElementById("checkoutForm");
+
+
+    /*
+       If we're not on checkout.html,
+       stop here.
+    */
+
+    if (!checkoutItems) {
+        return;
+    }
+
+
+    /* =====================================================
+       READ CART
+    ===================================================== */
+
+    function getCheckoutCart() {
+
+        try {
+
+            const savedCart =
+                localStorage.getItem("setApartCart");
+
+
+            if (!savedCart) {
+                return [];
+            }
+
+
+            const parsedCart =
+                JSON.parse(savedCart);
+
+
+            if (Array.isArray(parsedCart)) {
+                return parsedCart;
+            }
+
+
+            if (
+                parsedCart &&
+                typeof parsedCart === "object"
+            ) {
+                return [parsedCart];
+            }
+
+
+            return [];
+
+        } catch (error) {
+
+            console.error(
+                "Unable to read checkout cart:",
+                error
+            );
+
+            return [];
+
+        }
+
+    }
+
+
+    /* =====================================================
+       FORMAT MONEY
+    ===================================================== */
+
+    function checkoutMoney(value) {
+
+        const number =
+            Number(value) || 0;
+
+
+        return "$" + number.toFixed(2);
+
+    }
+
+
+    /* =====================================================
+       SAFE TEXT
+    ===================================================== */
+
+    function checkoutEscapeHTML(value) {
+
+        return String(value || "")
+            .replaceAll("&", "&amp;")
+            .replaceAll("<", "&lt;")
+            .replaceAll(">", "&gt;")
+            .replaceAll('"', "&quot;")
+            .replaceAll("'", "&#039;");
+
+    }
+
+
+    /* =====================================================
+       RENDER ORDER SUMMARY
+    ===================================================== */
+
+    function renderCheckout() {
+
+        const cart =
+            getCheckoutCart();
+
+
+        checkoutItems.innerHTML = "";
+
+
+        /* =========================================
+           EMPTY CART
+        ========================================= */
+
+        if (cart.length === 0) {
+
+            checkoutItems.innerHTML = `
+
+                <div class="checkout-empty">
+
+                    <h3>
+                        YOUR CART IS EMPTY
+                    </h3>
+
+                    <p>
+                        Add products before continuing
+                        to checkout.
+                    </p>
+
+                    <a
+                        href="shop.html"
+                        class="button button-black">
+
+                        SHOP NOW
+
+                    </a>
+
+                </div>
+
+            `;
+
+
+            if (checkoutSubtotal) {
+                checkoutSubtotal.textContent =
+                    "$0.00";
+            }
+
+
+            if (checkoutTotal) {
+                checkoutTotal.textContent =
+                    "$0.00";
+            }
+
+
+            if (checkoutForm) {
+
+                const submitButton =
+                    checkoutForm.querySelector(
+                        ".checkout-submit"
+                    );
+
+
+                if (submitButton) {
+
+                    submitButton.disabled = true;
+
+                    submitButton.style.opacity =
+                        ".45";
+
+                    submitButton.style.cursor =
+                        "not-allowed";
+
+                }
+
+            }
+
+
+            return;
+
+        }
+
+
+        /* =========================================
+           CART HAS ITEMS
+        ========================================= */
+
+        let subtotal = 0;
+
+
+        cart.forEach(function (item) {
+
+            const quantity =
+                Math.max(
+                    1,
+                    Number(item.quantity) || 1
+                );
+
+
+            const price =
+                Number(item.price) || 0;
+
+
+            const itemTotal =
+                price * quantity;
+
+
+            subtotal += itemTotal;
+
+
+            const name =
+                checkoutEscapeHTML(
+                    item.name || "SET APART PRODUCT"
+                );
+
+
+            const color =
+                checkoutEscapeHTML(
+                    item.color || ""
+                ).toUpperCase();
+
+
+            const size =
+                checkoutEscapeHTML(
+                    item.size || ""
+                ).toUpperCase();
+
+
+            const image =
+                checkoutEscapeHTML(
+                    item.image || ""
+                );
+
+
+            const summaryItem =
+                document.createElement("div");
+
+
+            summaryItem.className =
+                "checkout-summary-item";
+
+
+            summaryItem.innerHTML = `
+
+                <div class="checkout-summary-image">
+
+                    ${
+                        image
+                            ? `
+                                <img
+                                    src="${image}"
+                                    alt="${name}">
+                              `
+                            : ""
+                    }
+
+
+                    <span class="checkout-summary-quantity">
+
+                        ${quantity}
+
+                    </span>
+
+                </div>
+
+
+                <div class="checkout-summary-info">
+
+                    <h3>
+                        ${name}
+                    </h3>
+
+
+                    ${
+                        color
+                            ? `
+                                <p>
+                                    COLOR: ${color}
+                                </p>
+                              `
+                            : ""
+                    }
+
+
+                    ${
+                        size
+                            ? `
+                                <p>
+                                    SIZE: ${size}
+                                </p>
+                              `
+                            : ""
+                    }
+
+                </div>
+
+
+                <div class="checkout-summary-price">
+
+                    ${checkoutMoney(itemTotal)}
+
+                </div>
+
+            `;
+
+
+            checkoutItems.appendChild(
+                summaryItem
+            );
+
+        });
+
+
+        /* =========================================
+           TOTALS
+        ========================================= */
+
+        if (checkoutSubtotal) {
+
+            checkoutSubtotal.textContent =
+                checkoutMoney(subtotal);
+
+        }
+
+
+        if (checkoutTotal) {
+
+            checkoutTotal.textContent =
+                checkoutMoney(subtotal);
+
+        }
+
+    }
+
+
+    /* =====================================================
+       CHECKOUT FORM
+    ===================================================== */
+
+    if (checkoutForm) {
+
+        checkoutForm.addEventListener(
+            "submit",
+            function (event) {
+
+                event.preventDefault();
+
+
+                const cart =
+                    getCheckoutCart();
+
+
+                if (cart.length === 0) {
+
+                    return;
+
+                }
+
+
+                /*
+                   Browser checks:
+                   required
+                   email
+                   tel
+                   etc.
+                */
+
+                if (!checkoutForm.checkValidity()) {
+
+                    checkoutForm.reportValidity();
+
+                    return;
+
+                }
+
+
+                const formData =
+                    new FormData(checkoutForm);
+
+
+                const customerData = {
+
+                    email:
+                        formData.get("email"),
+
+                    firstName:
+                        formData.get("firstName"),
+
+                    lastName:
+                        formData.get("lastName"),
+
+                    address:
+                        formData.get("address"),
+
+                    apartment:
+                        formData.get("apartment"),
+
+                    country:
+                        formData.get("country"),
+
+                    city:
+                        formData.get("city"),
+
+                    state:
+                        formData.get("state"),
+
+                    postalCode:
+                        formData.get("postalCode"),
+
+                    phone:
+                        formData.get("phone"),
+
+                    shipping:
+                        formData.get("shipping")
+
+                };
+
+
+                /*
+                   For testing only.
+                   No payment is processed.
+                */
+
+                sessionStorage.setItem(
+                    "setApartCheckoutCustomer",
+                    JSON.stringify(customerData)
+                );
+
+
+                alert(
+                    "Checkout information saved for testing. Payment is not active yet."
+                );
+
+            }
+        );
+
+    }
+
+
+    /* =====================================================
+       INITIALIZE
+    ===================================================== */
+
+    renderCheckout();
+
+});
