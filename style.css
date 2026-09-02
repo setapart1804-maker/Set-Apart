@@ -4880,68 +4880,83 @@ body {
 }
 
 /* =========================================================
-   SHOP — FORCE ARROWS LEFT / RIGHT
+   SET APART — SHOP ARROWS FINAL
+   DESKTOP + TABLET + MOBILE
 ========================================================= */
+
+
+/* IMAGE FRAME */
 
 .shop-item-gallery {
     position: relative !important;
+    width: 100% !important;
 }
 
-.image-arrows {
-    position: absolute !important;
 
-    top: 50% !important;
-    left: 0 !important;
-    right: 0 !important;
+/* SLIDER = REFERENCE FOR ARROWS */
+
+.shop-item-gallery .shop-image-slider {
+    position: relative !important;
 
     width: 100% !important;
-    height: 0 !important;
 
-    transform: translateY(-50%) !important;
+    overflow: hidden !important;
+}
 
-    z-index: 50 !important;
+
+/* =========================================================
+   ARROWS LAYER
+========================================================= */
+
+.shop-image-slider .image-arrows {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    display: block !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    background: transparent !important;
+
+    transform: none !important;
 
     pointer-events: none !important;
+
+    z-index: 1000 !important;
 }
 
 
-/* LEFT ARROW */
+/* =========================================================
+   BOTH < > BUTTONS
+========================================================= */
 
-.image-arrows .prev-image {
+.shop-image-slider .image-arrows .shop-arrow {
     position: absolute !important;
-
-    left: 10px !important;
-    right: auto !important;
 
     top: 50% !important;
 
     transform: translateY(-50%) !important;
-}
-
-
-/* RIGHT ARROW */
-
-.image-arrows .next-image {
-    position: absolute !important;
-
-    right: 10px !important;
-    left: auto !important;
-
-    top: 50% !important;
-
-    transform: translateY(-50%) !important;
-}
-
-
-/* BOTH BUTTONS */
-
-.image-arrows .shop-arrow {
-    width: 30px !important;
-    height: 30px !important;
 
     display: flex !important;
     align-items: center !important;
     justify-content: center !important;
+
+    width: 32px !important;
+    height: 44px !important;
+
+    min-width: 0 !important;
+    min-height: 0 !important;
 
     padding: 0 !important;
     margin: 0 !important;
@@ -4950,14 +4965,21 @@ body {
     background-color: transparent !important;
 
     border: none !important;
+    border-radius: 0 !important;
+
     outline: none !important;
     box-shadow: none !important;
 
-    color: #000 !important;
+    color: #111 !important;
 
-    font-size: 30px !important;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-size: 32px !important;
     font-weight: 300 !important;
+
     line-height: 1 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
 
     cursor: pointer !important;
 
@@ -4965,162 +4987,126 @@ body {
 
     appearance: none !important;
     -webkit-appearance: none !important;
+
+    z-index: 1001 !important;
 }
 
 
-/* TABLET */
-
-@media (max-width: 1024px) {
-
-    .image-arrows .prev-image {
-        left: 8px !important;
-    }
-
-    .image-arrows .next-image {
-        right: 8px !important;
-    }
-
-}
-
-
-/* PHONE */
-
-@media (max-width: 700px) {
-
-    .image-arrows .prev-image {
-        left: 5px !important;
-    }
-
-    .image-arrows .next-image {
-        right: 5px !important;
-    }
-
-    .image-arrows .shop-arrow {
-        width: 26px !important;
-        height: 26px !important;
-
-        font-size: 25px !important;
-    }
-}
-
-   /* =========================================================
-   SHOP — FINAL ARROWS POSITION FIX
+/* =========================================================
+   LEFT <
 ========================================================= */
 
-.shop-item-gallery {
-    position: relative !important;
-}
-
-.image-arrows {
-    position: absolute !important;
-
-    top: 50% !important;
-    left: 0 !important;
-
-    width: 100% !important;
-    height: 0 !important;
-
-    transform: translateY(-50%) !important;
-
-    z-index: 100 !important;
-
-    pointer-events: none !important;
-}
-
-
-/* LEFT */
-
-.image-arrows .prev-image {
-    position: absolute !important;
-
-    left: 12px !important;
+.shop-image-slider .image-arrows .prev-image {
+    left: 14px !important;
     right: auto !important;
-
-    top: 50% !important;
-
-    transform: translateY(-50%) !important;
 }
 
 
-/* RIGHT */
+/* =========================================================
+   RIGHT >
+========================================================= */
 
-.image-arrows .next-image {
-    position: absolute !important;
-
-    right: 12px !important;
+.shop-image-slider .image-arrows .next-image {
+    right: 14px !important;
     left: auto !important;
-
-    top: 50% !important;
-
-    transform: translateY(-50%) !important;
 }
 
 
-/* BUTTON STYLE */
+/* =========================================================
+   HOVER — DESKTOP
+========================================================= */
 
-.image-arrows .shop-arrow {
-    width: 28px !important;
-    height: 36px !important;
+@media (hover: hover) {
 
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-
-    padding: 0 !important;
-    margin: 0 !important;
-
-    background: transparent !important;
-    background-color: transparent !important;
-
-    border: 0 !important;
-    outline: 0 !important;
-    box-shadow: none !important;
-
-    color: #000 !important;
-
-    font-size: 30px !important;
-    font-weight: 300 !important;
-    line-height: 1 !important;
-
-    cursor: pointer !important;
-
-    pointer-events: auto !important;
-
-    appearance: none !important;
-    -webkit-appearance: none !important;
-}
-
-
-/* TABLET */
-
-@media (max-width: 1024px) {
-
-    .image-arrows .prev-image {
-        left: 9px !important;
+    .shop-image-slider .image-arrows .shop-arrow:hover {
+        opacity: 0.55 !important;
     }
 
-    .image-arrows .next-image {
-        right: 9px !important;
-    }
 }
 
 
-/* PHONE */
+/* =========================================================
+   DESKTOP
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .shop-image-slider .image-arrows {
+        display: block !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .shop-image-slider .image-arrows .shop-arrow {
+        display: flex !important;
+
+        width: 34px !important;
+        height: 46px !important;
+
+        font-size: 34px !important;
+
+        opacity: 1 !important;
+        visibility: visible !important;
+    }
+
+    .shop-image-slider .image-arrows .prev-image {
+        left: 14px !important;
+        right: auto !important;
+    }
+
+    .shop-image-slider .image-arrows .next-image {
+        right: 14px !important;
+        left: auto !important;
+    }
+
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (min-width: 701px) and (max-width: 1024px) {
+
+    .shop-image-slider .image-arrows .shop-arrow {
+        width: 30px !important;
+        height: 40px !important;
+
+        font-size: 30px !important;
+    }
+
+    .shop-image-slider .image-arrows .prev-image {
+        left: 10px !important;
+    }
+
+    .shop-image-slider .image-arrows .next-image {
+        right: 10px !important;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
 
 @media (max-width: 700px) {
 
-    .image-arrows .prev-image {
-        left: 5px !important;
+    .shop-image-slider .image-arrows .shop-arrow {
+        width: 26px !important;
+        height: 36px !important;
+
+        font-size: 27px !important;
     }
 
-    .image-arrows .next-image {
-        right: 5px !important;
+    .shop-image-slider .image-arrows .prev-image {
+        left: 7px !important;
+        right: auto !important;
     }
 
-    .image-arrows .shop-arrow {
-        width: 24px !important;
-        height: 30px !important;
-
-        font-size: 24px !important;
+    .shop-image-slider .image-arrows .next-image {
+        right: 7px !important;
+        left: auto !important;
     }
+
 }
