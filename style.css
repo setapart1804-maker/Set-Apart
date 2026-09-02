@@ -5414,39 +5414,6 @@ body {
 
 
 
-/* =========================================================
-   HOODIES — DESKTOP FORCE FIX
-========================================================= */
-
-@media (min-width: 1025px) {
-
-    .hoodies-page-container {
-        width: 100% !important;
-        max-width: none !important;
-        padding-left: 14px !important;
-        padding-right: 14px !important;
-    }
-
-    .hoodies-grid-final {
-        display: grid !important;
-        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
-        column-gap: 30px !important;
-        row-gap: 85px !important;
-        width: 100% !important;
-    }
-
-    .hoodie-product-final {
-        width: 100% !important;
-        min-width: 0 !important;
-    }
-
-    .hoodie-slider {
-        width: 100% !important;
-        aspect-ratio: 4 / 5 !important;
-    }
-
-}
-
 
 
 /* =========================================================
@@ -5757,5 +5724,128 @@ body {
         align-items: center !important;
 
         text-align: center !important;
+    }
+}
+
+   /* =========================================================
+   HOODIES — DESKTOP SAME SIZE / FEEL AS HOME
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    /* SECTION */
+    .hoodies-page {
+        padding: 70px 0 110px !important;
+    }
+
+    /* SAME CONTROLLED WIDTH FEEL AS HOME */
+    .hoodies-page-container {
+        width: 100% !important;
+        max-width: 1440px !important;
+
+        margin: 0 auto !important;
+
+        padding-left: 28px !important;
+        padding-right: 28px !important;
+    }
+
+    /* 4 PRODUCTS ON SAME ROW */
+    .hoodies-grid-final {
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr)) !important;
+
+        gap: 70px 24px !important;
+
+        width: 100% !important;
+    }
+
+    /* PRODUCT CARD */
+    .hoodie-product-final {
+        width: 100% !important;
+        min-width: 0 !important;
+    }
+
+    /* IMAGE FRAME */
+    .hoodie-slider {
+        width: 100% !important;
+
+        aspect-ratio: 4 / 5 !important;
+
+        margin: 0 !important;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+
+        background: #f4f4f4 !important;
+    }
+
+    /* SLIDER */
+    .hoodie-slider-track {
+        display: flex !important;
+
+        width: 200% !important;
+        height: 100% !important;
+    }
+
+    .hoodie-slide {
+        flex: 0 0 50% !important;
+
+        width: 50% !important;
+        height: 100% !important;
+    }
+
+    /* IMPORTANT:
+       SHOW THE WHOLE HOODIE — DON'T ZOOM/CROP IT */
+    .hoodie-slide img {
+        display: block !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        object-fit: contain !important;
+        object-position: center !important;
+
+        transform: none !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    /* SLIDE INDICATOR */
+    .hoodie-slide-hint {
+        display: flex !important;
+
+        justify-content: center !important;
+        align-items: center !important;
+
+        margin-top: 10px !important;
+
+        font-size: 8px !important;
+
+        text-align: center !important;
+    }
+
+    /* PRODUCT TEXT */
+    .hoodie-product-info {
+        padding-top: 17px !important;
+    }
+
+    .hoodie-product-info h3 {
+        margin-bottom: 9px !important;
+
+        font-size: 15px !important;
+        line-height: 1.25 !important;
+    }
+
+    .hoodie-product-info p {
+        margin-bottom: 16px !important;
+
+        font-size: 12px !important;
+    }
+
+    .hoodie-product-info strong {
+        font-size: 15px !important;
     }
 }
