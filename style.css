@@ -4783,3 +4783,100 @@ body {
     }
 
 }
+
+/* =========================================================
+   SET APART — HOME + SHOP HERO BACKGROUND
+========================================================= */
+
+
+/* HOME HERO */
+
+.hero {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.42),
+            rgba(0, 0, 0, 0.42)
+        ),
+        url("HOODIES.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+
+    min-height: 620px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+
+/* SHOP HERO */
+
+.shop-hero {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.42),
+            rgba(0, 0, 0, 0.42)
+        ),
+        url("HOODIES.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+
+    min-height: 430px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    color: #fff !important;
+}
+
+
+/* Make hero text clearly visible */
+
+.hero-content,
+.shop-hero .container {
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .hero {
+        min-height: 540px !important;
+        background-position: center !important;
+    }
+
+    .shop-hero {
+        min-height: 360px !important;
+        background-position: center !important;
+    }
+
+}
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .hero {
+        min-height: 500px !important;
+        background-position: center center !important;
+    }
+
+    .shop-hero {
+        min-height: 320px !important;
+        background-position: center center !important;
+    }
+
+}
