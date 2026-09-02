@@ -4351,3 +4351,68 @@ button {
 .site-logo {
     display: none !important;
 }
+
+/* =========================================================
+   STICKY HEADER
+========================================================= */
+
+.site-header {
+    position: sticky !important;
+
+    top: 0;
+
+    z-index: 9999;
+
+    width: 100%;
+
+    background: #ffffff;
+}
+
+/* =========================================================
+   HEADER WITHOUT LOGO
+========================================================= */
+
+.navbar {
+    grid-template-columns: auto 1fr auto !important;
+}
+
+
+/* DESKTOP NAV */
+
+@media (min-width: 1025px) {
+
+    .navbar {
+        grid-template-columns: 1fr auto !important;
+    }
+
+    .main-nav {
+        justify-self: start;
+    }
+
+    .nav-actions {
+        justify-self: end;
+    }
+
+}
+
+
+/* TABLET + PHONE */
+
+@media (max-width: 1024px) {
+
+    .navbar {
+        grid-template-columns:
+            auto
+            1fr
+            auto !important;
+    }
+
+    .menu-toggle {
+        justify-self: start;
+    }
+
+    .nav-actions {
+        justify-self: end;
+    }
+
+}
