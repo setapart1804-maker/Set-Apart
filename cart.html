@@ -1,1 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
 
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Your SET APART shopping cart.">
+
+    <title>Cart — SET APART</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+
+<!-- =====================================================
+     ANNOUNCEMENT BAR
+===================================================== -->
+
+<div class="announcement-bar">
+    <p>NEW DROP — CALLED TO LIVE DIFFERENTLY.</p>
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+    <div class="navbar">
+
+        <!-- MOBILE MENU -->
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <!-- LOGO -->
+
+        <a
+            href="index.html"
+            class="site-logo">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
+
+        </a>
+
+
+        <!-- DESKTOP NAV -->
+
+        <nav
+            class="main-nav"
+            id="mainNav">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+
+        <!-- ACTIONS -->
+
+        <div class="nav-actions">
+
+            <!-- SEARCH -->
+
+            <button
+                type="button"
+                class="nav-icon-button"
+                id="searchButton"
+                aria-label="Search">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <circle
+                        cx="11"
+                        cy="11"
+                        r="6.5">
+                    </circle>
+
+                    <path d="M16 16L21 21"></path>
+
+                </svg>
+
+            </button>
+
+
+            <!-- CART -->
+
+            <a
+                href="cart.html"
+                class="nav-icon-button cart-link"
+                aria-label="Shopping cart">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <path d="M3 4H5L7.2 15H18.5L21 7H6"></path>
+
+                    <circle
+                        cx="9"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                    <circle
+                        cx="18"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                </svg>
+
+                <span
+                    class="cart-count"
+                    id="cartCount">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <!-- MOBILE MENU -->
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu">
+
+        <nav>
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     SEARCH PANEL
+===================================================== -->
+
+<div
+    class="search-panel"
+    id="searchPanel">
+
+    <div class="search-panel-inner">
+
+        <form
+            class="search-form"
+            id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off">
+
+            <button
+                type="submit"
+                class="search-submit">
+                SEARCH
+            </button>
+
+            <button
+                type="button"
+                class="search-close"
+                id="closeSearch"
+                aria-label="Close search">
+                ×
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     CART
+===================================================== -->
+
+<main>
+
+    <section class="cart-page">
+
+        <div class="container">
+
+            <!-- CART HEADER -->
+
+            <div class="cart-page-header">
+
+                <p class="eyebrow">
+                    SET APART
+                </p>
+
+                <h1>
+                    YOUR CART
+                </h1>
+
+            </div>
+
+
+            <!-- CART EMPTY -->
+
+            <div
+                class="empty-cart"
+                id="emptyCart">
+
+                <h2>
+                    YOUR CART IS EMPTY
+                </h2>
+
+                <p>
+                    You haven't added anything yet.
+                </p>
+
+                <a
+                    href="shop.html"
+                    class="button button-black">
+
+                    SHOP NOW
+
+                </a>
+
+            </div>
+
+
+            <!-- CART CONTENT -->
+
+            <div
+                class="cart-layout"
+                id="cartLayout">
+
+
+                <!-- LEFT SIDE -->
+
+                <div class="cart-products">
+
+
+                    <!-- COLUMN TITLES -->
+
+                    <div class="cart-table-header">
+
+                        <span>
+                            PRODUCT
+                        </span>
+
+                        <span>
+                            QUANTITY
+                        </span>
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                    </div>
+
+
+                    <!-- PRODUCTS GENERATED BY JAVASCRIPT -->
+
+                    <div id="cartItems">
+                    </div>
+
+                </div>
+
+
+                <!-- RIGHT SIDE -->
+
+                <aside class="cart-summary">
+
+                    <h2>
+                        ORDER SUMMARY
+                    </h2>
+
+
+                    <div class="cart-summary-row">
+
+                        <span>
+                            SUBTOTAL
+                        </span>
+
+                        <span id="cartSubtotal">
+                            $0.00
+                        </span>
+
+                    </div>
+
+
+                    <div class="cart-summary-row">
+
+                        <span>
+                            SHIPPING
+                        </span>
+
+                        <span>
+                            CALCULATED AT CHECKOUT
+                        </span>
+
+                    </div>
+
+
+                    <div class="cart-summary-total">
+
+                        <span>
+                            TOTAL
+                        </span>
+
+                        <span id="cartTotal">
+                            $0.00
+                        </span>
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="button button-black checkout-button"
+                        id="checkoutButton">
+
+                        CHECKOUT
+
+                    </button>
+
+
+                    <a
+                        href="shop.html"
+                        class="continue-shopping">
+
+                        ← CONTINUE SHOPPING
+
+                    </a>
+
+                </aside>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <a href="index.html">
+
+                <img
+                    src="LOGO (2).png"
+                    alt="SET APART Logo">
+
+            </a>
+
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
+
+        </div>
+
+
+        <div class="footer-columns">
+
+            <div class="footer-column">
+
+                <h3>SHOP</h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>ABOUT</h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>FOLLOW</h3>
+
+                <a href="#">
+                    Instagram
+                </a>
+
+                <a href="#">
+                    TikTok
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="footer-bottom">
+
+        <p>
+            © 2026 SET APART. ALL RIGHTS RESERVED.
+        </p>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     OVERLAY
+===================================================== -->
+
+<div
+    class="page-overlay"
+    id="pageOverlay">
+</div>
+
+
+<!-- =====================================================
+     JAVASCRIPT
+===================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
