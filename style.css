@@ -4626,3 +4626,51 @@ body {
     }
 
 }
+
+/* =========================================================
+   SHOP ALIGNMENT FIX — DESKTOP
+========================================================= */
+
+.shop-item {
+    align-items: start !important;
+}
+
+.shop-item-gallery,
+.shop-item-info,
+.shop-product-info {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+.shop-item-gallery {
+    align-self: start !important;
+}
+
+.shop-item-info,
+.shop-product-info {
+    align-self: start !important;
+}
+
+
+/* Make product info start at same vertical level as image */
+
+@media (min-width: 1025px) {
+
+    .shop-item {
+        display: grid !important;
+        grid-template-columns: 1.35fr 0.65fr !important;
+        gap: 70px !important;
+        align-items: start !important;
+    }
+
+    .shop-item-gallery {
+        margin-top: 0 !important;
+    }
+
+    .shop-item-info,
+    .shop-product-info {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+
+}
