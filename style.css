@@ -5672,3 +5672,90 @@ body {
     }
 
 }
+
+   /* =========================================================
+   HOODIES — FINAL DESKTOP FIX
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .hoodies-page {
+        width: 100% !important;
+        padding: 80px 0 120px !important;
+    }
+
+    .hoodies-page-container {
+        width: 100% !important;
+        max-width: none !important;
+        margin: 0 auto !important;
+        padding: 0 14px !important;
+    }
+
+    .hoodies-grid-final {
+        display: grid !important;
+
+        grid-template-columns:
+            repeat(4, minmax(0, 1fr)) !important;
+
+        column-gap: 28px !important;
+        row-gap: 80px !important;
+
+        width: 100% !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hoodie-product-final {
+        width: 100% !important;
+        min-width: 0 !important;
+
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    .hoodie-slider {
+        width: 100% !important;
+
+        aspect-ratio: 4 / 5 !important;
+
+        margin: 0 !important;
+
+        overflow-x: auto !important;
+        overflow-y: hidden !important;
+    }
+
+    .hoodie-slider-track {
+        display: flex !important;
+
+        width: 200% !important;
+        height: 100% !important;
+    }
+
+    .hoodie-slide {
+        flex: 0 0 50% !important;
+
+        width: 50% !important;
+        height: 100% !important;
+    }
+
+    .hoodie-slide img {
+        display: block !important;
+
+        width: 100% !important;
+        height: 100% !important;
+
+        object-fit: cover !important;
+        object-position: center !important;
+    }
+
+    .hoodie-slide-hint {
+        width: 100% !important;
+
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+
+        text-align: center !important;
+    }
+}
