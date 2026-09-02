@@ -4674,3 +4674,17 @@ body {
     }
 
 }
+
+/* Hoodie itself — smaller without shrinking gallery frame */
+.shop-image-slide img {
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: contain !important;
+    object-position: center top !important;
+
+    transform: scale(0.88) translateY(-55px) !important;
+    transform-origin: top center !important;
+
+    margin: 0 !important;
+}
