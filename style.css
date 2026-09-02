@@ -6736,3 +6736,315 @@ body {
     }
 
 }
+
+/* =========================================================
+   HOODIES — HOME SHOP STYLE
+========================================================= */
+
+.hoodies-shop-section {
+    padding: 80px 0 110px !important;
+    background: #fff !important;
+}
+
+
+/* TITLE */
+
+.hoodies-main-heading {
+    text-align: center !important;
+    margin-bottom: 55px !important;
+}
+
+
+.hoodies-main-heading .eyebrow {
+    margin-bottom: 12px !important;
+
+    font-size: 10px !important;
+    font-weight: 700 !important;
+
+    letter-spacing: 2.5px !important;
+}
+
+
+.hoodies-main-heading h1 {
+    margin: 0 !important;
+
+    font-size: 42px !important;
+    line-height: 1 !important;
+
+    letter-spacing: 2px !important;
+}
+
+
+.hoodies-heading-text {
+    margin: 18px 0 0 !important;
+
+    font-size: 10px !important;
+
+    line-height: 1.7 !important;
+
+    letter-spacing: 1.6px !important;
+
+    color: #666 !important;
+}
+
+
+
+/* =========================================================
+   LAPTOP — 4 HOODIES SAME ROW
+========================================================= */
+
+.hoodies-products-grid {
+    display: grid !important;
+
+    grid-template-columns:
+        repeat(4, minmax(0, 1fr)) !important;
+
+    column-gap: 36px !important;
+    row-gap: 85px !important;
+
+    width: 100% !important;
+}
+
+
+/* SAME WIDTH FEEL AS HOME */
+
+.hoodies-shop-section .container {
+    width: 100% !important;
+
+    max-width: none !important;
+
+    margin: 0 auto !important;
+
+    padding-left: 12px !important;
+    padding-right: 12px !important;
+}
+
+
+
+/* =========================================================
+   CARD
+========================================================= */
+
+.hoodies-product-card {
+    min-width: 0 !important;
+    width: 100% !important;
+}
+
+
+
+/* =========================================================
+   IMAGE
+========================================================= */
+
+.hoodies-product-media {
+    position: relative !important;
+
+    width: 100% !important;
+
+    aspect-ratio: 4 / 5 !important;
+
+    overflow: hidden !important;
+
+    background: #f4f4f4 !important;
+}
+
+
+.hoodies-product-media img {
+    position: absolute !important;
+
+    inset: 0 !important;
+
+    display: block !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    object-fit: cover !important;
+    object-position: center !important;
+
+    margin: 0 !important;
+
+    transition:
+        opacity 0.4s ease,
+        transform 0.5s ease !important;
+}
+
+
+/* FRONT */
+
+.hoodies-product-front {
+    opacity: 1 !important;
+    z-index: 1 !important;
+}
+
+
+/* BACK */
+
+.hoodies-product-back {
+    opacity: 0 !important;
+    z-index: 2 !important;
+}
+
+
+/* HOVER LAPTOP */
+
+@media (min-width: 1025px) and (hover: hover) {
+
+    .hoodies-product-media:hover
+    .hoodies-product-front {
+
+        opacity: 0 !important;
+    }
+
+
+    .hoodies-product-media:hover
+    .hoodies-product-back {
+
+        opacity: 1 !important;
+    }
+
+}
+
+
+
+/* =========================================================
+   PRODUCT TEXT
+========================================================= */
+
+.hoodies-product-details {
+    display: block !important;
+
+    padding-top: 28px !important;
+
+    color: #000 !important;
+
+    text-decoration: none !important;
+}
+
+
+.hoodies-product-details h3 {
+    margin: 0 0 11px !important;
+
+    font-size: 17px !important;
+
+    font-weight: 800 !important;
+
+    line-height: 1.2 !important;
+
+    letter-spacing: 1.6px !important;
+}
+
+
+.hoodies-product-details p {
+    margin: 0 0 22px !important;
+
+    font-size: 13px !important;
+
+    font-weight: 400 !important;
+
+    letter-spacing: 1.7px !important;
+
+    color: #777 !important;
+}
+
+
+.hoodies-product-details strong {
+    display: block !important;
+
+    font-size: 16px !important;
+
+    font-weight: 700 !important;
+}
+
+
+
+/* =========================================================
+   TABLET — 2 PER ROW
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .hoodies-shop-section {
+        padding:
+            65px 0
+            85px !important;
+    }
+
+
+    .hoodies-products-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+
+        gap:
+            55px
+            16px !important;
+    }
+
+}
+
+
+
+/* =========================================================
+   PHONE — 2 PER ROW
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .hoodies-shop-section {
+        padding:
+            50px 0
+            70px !important;
+    }
+
+
+    .hoodies-main-heading {
+        margin-bottom: 35px !important;
+    }
+
+
+    .hoodies-main-heading h1 {
+        font-size: 30px !important;
+    }
+
+
+    .hoodies-products-grid {
+
+        grid-template-columns:
+            repeat(2, minmax(0, 1fr)) !important;
+
+        gap:
+            38px
+            9px !important;
+    }
+
+
+    .hoodies-product-details {
+        padding-top: 13px !important;
+    }
+
+
+    .hoodies-product-details h3 {
+
+        margin-bottom: 6px !important;
+
+        font-size: 10px !important;
+
+        letter-spacing: 0.8px !important;
+    }
+
+
+    .hoodies-product-details p {
+
+        margin-bottom: 10px !important;
+
+        font-size: 8px !important;
+    }
+
+
+    .hoodies-product-details strong {
+
+        font-size: 11px !important;
+    }
+
+}
