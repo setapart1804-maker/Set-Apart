@@ -2365,3 +2365,149 @@ document.addEventListener("DOMContentLoaded", function () {
     renderCheckout();
 
 });
+
+/* =========================================================
+   SET APART — CONTACT FORM JAVASCRIPT
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+
+    /* =====================================================
+       ELEMENTS
+    ===================================================== */
+
+    const contactForm =
+        document.getElementById("contactForm");
+
+    const contactFormMessage =
+        document.getElementById("contactFormMessage");
+
+
+    /*
+       If we're not on contact.html,
+       stop here.
+    */
+
+    if (!contactForm) {
+        return;
+    }
+
+
+    /* =====================================================
+       FORM SUBMIT
+    ===================================================== */
+
+    contactForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
+
+
+            /* =========================================
+               VALIDATION
+            ========================================= */
+
+            if (!contactForm.checkValidity()) {
+
+                contactForm.reportValidity();
+
+                return;
+
+            }
+
+
+            /* =========================================
+               READ FORM DATA
+            ========================================= */
+
+            const formData =
+                new FormData(contactForm);
+
+
+            const contactData = {
+
+                firstName:
+                    formData.get("firstName"),
+
+                lastName:
+                    formData.get("lastName"),
+
+                email:
+                    formData.get("email"),
+
+                subject:
+                    formData.get("subject"),
+
+                message:
+                    formData.get("message")
+
+            };
+
+
+            /*
+               Temporary local testing only.
+
+               This does NOT send a real email.
+            */
+
+            console.log(
+                "SET APART Contact Form:",
+                contactData
+            );
+
+
+            /* =========================================
+               SUCCESS MESSAGE
+            ========================================= */
+
+            if (contactFormMessage) {
+
+                contactFormMessage.textContent =
+                    "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
+
+            }
+
+
+            /* =========================================
+               BUTTON FEEDBACK
+            ========================================= */
+
+            const submitButton =
+                contactForm.querySelector(
+                    ".contact-submit"
+                );
+
+
+            if (submitButton) {
+
+                const originalText =
+                    submitButton.textContent;
+
+
+                submitButton.textContent =
+                    "MESSAGE READY ✓";
+
+
+                submitButton.disabled = true;
+
+
+                setTimeout(
+                    function () {
+
+                        submitButton.textContent =
+                            originalText;
+
+                        submitButton.disabled = false;
+
+                    },
+                    2000
+                );
+
+            }
+
+        }
+    );
+
+});
