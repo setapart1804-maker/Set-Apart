@@ -4343,3 +4343,11 @@ button {
 .cart-count.active {
     display: flex;
 }
+
+/* =========================================================
+   HIDE HEADER LOGO
+========================================================= */
+
+.site-logo {
+    display: none !important;
+}
