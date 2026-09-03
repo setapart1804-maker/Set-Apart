@@ -4,37 +4,19 @@
 
 document.addEventListener("DOMContentLoaded", function () {
 
-
     /* =====================================================
-       HEADER ELEMENTS
+       HEADER
     ===================================================== */
 
-    const menuToggle =
-        document.getElementById("menuToggle");
-
-    const mobileMenu =
-        document.getElementById("mobileMenu");
-
-    const searchButton =
-        document.getElementById("searchButton");
-
-    const searchPanel =
-        document.getElementById("searchPanel");
-
-    const closeSearch =
-        document.getElementById("closeSearch");
-
-    const searchForm =
-        document.getElementById("searchForm");
-
-    const searchInput =
-        document.getElementById("searchInput");
-
-    const pageOverlay =
-        document.getElementById("pageOverlay");
-
-    const cartCount =
-        document.getElementById("cartCount");
+    const menuToggle = document.getElementById("menuToggle");
+    const mobileMenu = document.getElementById("mobileMenu");
+    const searchButton = document.getElementById("searchButton");
+    const searchPanel = document.getElementById("searchPanel");
+    const closeSearch = document.getElementById("closeSearch");
+    const searchForm = document.getElementById("searchForm");
+    const searchInput = document.getElementById("searchInput");
+    const pageOverlay = document.getElementById("pageOverlay");
+    const cartCount = document.getElementById("cartCount");
 
 
     /* =====================================================
@@ -231,7 +213,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       PAGE OVERLAY
+       OVERLAY
     ===================================================== */
 
     if (pageOverlay) {
@@ -249,7 +231,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       ESCAPE KEY
+       ESC KEY
     ===================================================== */
 
     document.addEventListener(
@@ -267,7 +249,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       WINDOW RESIZE
+       RESIZE
     ===================================================== */
 
     window.addEventListener(
@@ -341,8 +323,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (!cartCount) return;
 
-        const cart =
-            getCart();
+        const cart = getCart();
 
         let totalQuantity = 0;
 
@@ -356,17 +337,10 @@ document.addEventListener("DOMContentLoaded", function () {
         cartCount.textContent =
             totalQuantity;
 
-        if (totalQuantity > 0) {
-
-            cartCount.style.display =
-                "flex";
-
-        } else {
-
-            cartCount.style.display =
-                "none";
-
-        }
+        cartCount.style.display =
+            totalQuantity > 0
+                ? "flex"
+                : "none";
     }
 
 
@@ -382,7 +356,8 @@ document.addEventListener("DOMContentLoaded", function () {
         function (event) {
 
             if (
-                event.key === "setApartCart"
+                event.key ===
+                "setApartCart"
             ) {
 
                 updateCartCount();
@@ -393,15 +368,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SHOP PRODUCTS
+       PRODUCTS
     ===================================================== */
 
     const productData = {
-
-
-        /* =================================================
-           PILGRIM
-        ================================================= */
 
         pilgrim: {
 
@@ -434,13 +404,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 ]
 
             }
-
         },
 
-
-        /* =================================================
-           GOD FIRST
-        ================================================= */
 
         godfirst: {
 
@@ -473,14 +438,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 ]
 
             }
-
         }
 
     };
 
 
     /* =====================================================
-       CURRENT PRODUCT STATE
+       PRODUCT STATE
     ===================================================== */
 
     const productState = {
@@ -499,11 +463,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SHOP IMAGE SLIDER — ARROWS + SWIPE + DRAG
+       SHOP SLIDER
+       ARROWS + SWIPE
     ===================================================== */
 
     document
-        .querySelectorAll(".shop-item-gallery")
+        .querySelectorAll(
+            ".shop-item-gallery"
+        )
         .forEach(function (gallery) {
 
             const slider =
@@ -516,15 +483,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     ".shop-image-slide"
                 );
 
-            const prevButton =
+            const prev =
                 gallery.querySelector(
                     ".prev-image"
                 );
 
-            const nextButton =
+            const next =
                 gallery.querySelector(
                     ".next-image"
                 );
+
 
             if (
                 !slider ||
@@ -538,13 +506,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
             let startX = 0;
 
-            let currentX = 0;
 
-            let dragging = false;
+            /* IMPORTANT:
+               DON'T FORCE ABSOLUTE POSITION.
+               CSS KEEPS SHOP LAYOUT.
+            */
 
-
-            slider.style.position =
-                "relative";
+            slider.style.display =
+                "flex";
 
             slider.style.overflow =
                 "hidden";
@@ -552,26 +521,20 @@ document.addEventListener("DOMContentLoaded", function () {
             slider.style.touchAction =
                 "pan-y";
 
-            slider.style.cursor =
-                "grab";
-
 
             slides.forEach(
                 function (slide) {
 
                     slide.style.position =
-                        "absolute";
+                        "relative";
 
-                    slide.style.top =
-                        "0";
-
-                    slide.style.left =
-                        "0";
+                    slide.style.flex =
+                        "0 0 100%";
 
                     slide.style.width =
                         "100%";
 
-                    slide.style.height =
+                    slide.style.minWidth =
                         "100%";
 
                 }
@@ -580,7 +543,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
             function showSlide(
                 index,
-                animate = true
+                smooth = true
             ) {
 
                 if (index < 0) {
@@ -605,31 +568,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     index;
 
 
-                slides.forEach(
-                    function (
-                        slide,
-                        slideIndex
-                    ) {
+                slider.scrollTo({
 
-                        slide.style.transition =
-                            animate
-                                ? "transform 0.4s ease"
-                                : "none";
+                    left:
+                        slider.clientWidth *
+                        currentSlide,
 
+                    behavior:
+                        smooth
+                            ? "smooth"
+                            : "auto"
 
-                        const position =
-                            (
-                                slideIndex -
-                                currentSlide
-                            ) * 100;
-
-
-                        slide.style.transform =
-                            "translateX(" +
-                            position +
-                            "%)";
-                    }
-                );
+                });
             }
 
 
@@ -638,48 +588,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     currentSlide = 0;
 
-                    startX = 0;
-
-                    currentX = 0;
-
-                    dragging = false;
-
-
                     showSlide(
                         0,
                         false
                     );
 
-
-                    requestAnimationFrame(
-                        function () {
-
-                            slides.forEach(
-                                function (slide) {
-
-                                    slide.style.transition =
-                                        "transform 0.4s ease";
-
-                                }
-                            );
-
-                        }
-                    );
                 };
 
 
-            /* LEFT ARROW */
+            /* LEFT */
 
-            if (prevButton) {
+            if (prev) {
 
-                prevButton.addEventListener(
+                prev.addEventListener(
                     "click",
                     function (event) {
 
                         event.preventDefault();
 
                         event.stopPropagation();
-
 
                         showSlide(
                             currentSlide - 1
@@ -690,18 +617,17 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
 
-            /* RIGHT ARROW */
+            /* RIGHT */
 
-            if (nextButton) {
+            if (next) {
 
-                nextButton.addEventListener(
+                next.addEventListener(
                     "click",
                     function (event) {
 
                         event.preventDefault();
 
                         event.stopPropagation();
-
 
                         showSlide(
                             currentSlide + 1
@@ -713,11 +639,99 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
             /* =================================================
-               SWIPE / DRAG START
+               TOUCH START
             ================================================= */
 
             slider.addEventListener(
-                "pointerdown",
+                "touchstart",
+                function (event) {
+
+                    if (
+                        !event.touches ||
+                        !event.touches.length
+                    ) {
+                        return;
+                    }
+
+                    startX =
+                        event.touches[0]
+                            .clientX;
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            /* =================================================
+               TOUCH END
+            ================================================= */
+
+            slider.addEventListener(
+                "touchend",
+                function (event) {
+
+                    if (
+                        !event.changedTouches ||
+                        !event.changedTouches.length
+                    ) {
+                        return;
+                    }
+
+
+                    const endX =
+                        event
+                            .changedTouches[0]
+                            .clientX;
+
+
+                    const distance =
+                        endX - startX;
+
+
+                    if (
+                        Math.abs(
+                            distance
+                        ) < 45
+                    ) {
+                        return;
+                    }
+
+
+                    if (
+                        distance < 0
+                    ) {
+
+                        showSlide(
+                            currentSlide + 1
+                        );
+
+                    } else {
+
+                        showSlide(
+                            currentSlide - 1
+                        );
+
+                    }
+
+                },
+                {
+                    passive: true
+                }
+            );
+
+
+            /* =================================================
+               DESKTOP DRAG
+            ================================================= */
+
+            let mouseStartX = 0;
+            let mouseDown = false;
+
+
+            slider.addEventListener(
+                "mousedown",
                 function (event) {
 
                     if (
@@ -728,199 +742,69 @@ document.addEventListener("DOMContentLoaded", function () {
                         return;
                     }
 
+                    mouseDown = true;
 
-                    dragging =
-                        true;
-
-
-                    startX =
+                    mouseStartX =
                         event.clientX;
-
-
-                    currentX =
-                        startX;
-
-
-                    slider.style.cursor =
-                        "grabbing";
-
-
-                    slides.forEach(
-                        function (slide) {
-
-                            slide.style.transition =
-                                "none";
-
-                        }
-                    );
-
-
-                    try {
-
-                        slider.setPointerCapture(
-                            event.pointerId
-                        );
-
-                    } catch (error) {}
 
                 }
             );
 
 
-            /* =================================================
-               SWIPE / DRAG MOVE
-            ================================================= */
-
             slider.addEventListener(
-                "pointermove",
+                "mouseup",
                 function (event) {
 
-                    if (!dragging) {
+                    if (!mouseDown) {
                         return;
                     }
 
-
-                    currentX =
-                        event.clientX;
+                    mouseDown = false;
 
 
-                    const width =
-                        slider.clientWidth;
+                    const distance =
+                        event.clientX -
+                        mouseStartX;
 
-
-                    if (!width) {
-                        return;
-                    }
-
-
-                    const movementPercent =
-                        (
-                            (
-                                currentX -
-                                startX
-                            ) /
-                            width
-                        ) * 100;
-
-
-                    slides.forEach(
-                        function (
-                            slide,
-                            slideIndex
-                        ) {
-
-                            const base =
-                                (
-                                    slideIndex -
-                                    currentSlide
-                                ) * 100;
-
-
-                            slide.style.transform =
-                                "translateX(" +
-                                (
-                                    base +
-                                    movementPercent
-                                ) +
-                                "%)";
-                        }
-                    );
-
-                }
-            );
-
-
-            /* =================================================
-               END SWIPE
-            ================================================= */
-
-            function endDrag(event) {
-
-                if (!dragging) {
-                    return;
-                }
-
-
-                dragging =
-                    false;
-
-
-                slider.style.cursor =
-                    "grab";
-
-
-                const movement =
-                    currentX -
-                    startX;
-
-
-                const threshold =
-                    Math.min(
-                        80,
-                        slider.clientWidth * 0.15
-                    );
-
-
-                if (
-                    movement <
-                    -threshold
-                ) {
-
-                    showSlide(
-                        currentSlide + 1
-                    );
-
-                } else if (
-                    movement >
-                    threshold
-                ) {
-
-                    showSlide(
-                        currentSlide - 1
-                    );
-
-                } else {
-
-                    showSlide(
-                        currentSlide
-                    );
-
-                }
-
-
-                try {
 
                     if (
-                        event &&
-                        slider.hasPointerCapture(
-                            event.pointerId
-                        )
+                        Math.abs(
+                            distance
+                        ) < 50
+                    ) {
+                        return;
+                    }
+
+
+                    if (
+                        distance < 0
                     ) {
 
-                        slider.releasePointerCapture(
-                            event.pointerId
+                        showSlide(
+                            currentSlide + 1
+                        );
+
+                    } else {
+
+                        showSlide(
+                            currentSlide - 1
                         );
 
                     }
 
-                } catch (error) {}
-
-            }
-
-
-            slider.addEventListener(
-                "pointerup",
-                endDrag
+                }
             );
 
 
             slider.addEventListener(
-                "pointercancel",
-                endDrag
+                "mouseleave",
+                function () {
+
+                    mouseDown = false;
+
+                }
             );
 
-
-            /* PREVENT NATIVE IMAGE DRAG */
 
             slider.addEventListener(
                 "dragstart",
@@ -932,7 +816,7 @@ document.addEventListener("DOMContentLoaded", function () {
             );
 
 
-            /* ALWAYS START ON FRONT */
+            /* START FRONT */
 
             gallery.resetShopSlider();
 
@@ -940,7 +824,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       UPDATE PRODUCT IMAGES
+       UPDATE PRODUCT IMAGE
     ===================================================== */
 
     function updateProductImages(
@@ -965,6 +849,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 `.color-option[data-product="${productId}"]`
             );
 
+
         if (!colorButton) return;
 
 
@@ -972,6 +857,7 @@ document.addEventListener("DOMContentLoaded", function () {
             colorButton.closest(
                 ".shop-item"
             );
+
 
         if (!shopItem) return;
 
@@ -985,7 +871,9 @@ document.addEventListener("DOMContentLoaded", function () {
         imageElements.forEach(
             function (image, index) {
 
-                if (images[index]) {
+                if (
+                    images[index]
+                ) {
 
                     image.src =
                         images[index];
@@ -994,6 +882,8 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         );
 
+
+        /* RETURN TO FRONT */
 
         const gallery =
             shopItem.querySelector(
@@ -1014,11 +904,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       COLOR BUTTONS
+       COLORS
     ===================================================== */
 
     document
-        .querySelectorAll(".color-option")
+        .querySelectorAll(
+            ".color-option"
+        )
         .forEach(function (button) {
 
             button.addEventListener(
@@ -1027,8 +919,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     event.preventDefault();
 
+
                     const productId =
                         button.dataset.product;
+
 
                     const color =
                         button.dataset.color;
@@ -1037,13 +931,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (
                         !productId ||
                         !color ||
-                        !productState[productId]
+                        !productState[
+                            productId
+                        ]
                     ) {
                         return;
                     }
 
 
-                    productState[productId].color =
+                    productState[
+                        productId
+                    ].color =
                         color;
 
 
@@ -1051,16 +949,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         .querySelectorAll(
                             `.color-option[data-product="${productId}"]`
                         )
-                        .forEach(function (item) {
+                        .forEach(
+                            function (item) {
 
-                            item.classList.remove(
-                                "active"
-                            );
+                                item.classList.remove(
+                                    "active"
+                                );
 
-                            item.classList.remove(
-                                "selected"
-                            );
-                        });
+                                item.classList.remove(
+                                    "selected"
+                                );
+
+                            }
+                        );
 
 
                     button.classList.add(
@@ -1085,7 +986,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                 ".selected-color"
                             );
 
-                        if (selectedColor) {
+
+                        if (
+                            selectedColor
+                        ) {
 
                             selectedColor.textContent =
                                 color.toUpperCase();
@@ -1098,17 +1002,20 @@ document.addEventListener("DOMContentLoaded", function () {
                         productId,
                         color
                     );
+
                 }
             );
         });
 
 
     /* =====================================================
-       SIZE BUTTONS
+       SIZE
     ===================================================== */
 
     document
-        .querySelectorAll(".size-option")
+        .querySelectorAll(
+            ".size-option"
+        )
         .forEach(function (button) {
 
             button.addEventListener(
@@ -1117,8 +1024,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     event.preventDefault();
 
+
                     const productId =
                         button.dataset.product;
+
 
                     const size =
                         button.dataset.size;
@@ -1127,13 +1036,17 @@ document.addEventListener("DOMContentLoaded", function () {
                     if (
                         !productId ||
                         !size ||
-                        !productState[productId]
+                        !productState[
+                            productId
+                        ]
                     ) {
                         return;
                     }
 
 
-                    productState[productId].size =
+                    productState[
+                        productId
+                    ].size =
                         size;
 
 
@@ -1141,16 +1054,19 @@ document.addEventListener("DOMContentLoaded", function () {
                         .querySelectorAll(
                             `.size-option[data-product="${productId}"]`
                         )
-                        .forEach(function (item) {
+                        .forEach(
+                            function (item) {
 
-                            item.classList.remove(
-                                "active"
-                            );
+                                item.classList.remove(
+                                    "active"
+                                );
 
-                            item.classList.remove(
-                                "selected"
-                            );
-                        });
+                                item.classList.remove(
+                                    "selected"
+                                );
+
+                            }
+                        );
 
 
                     button.classList.add(
@@ -1160,64 +1076,82 @@ document.addEventListener("DOMContentLoaded", function () {
                     button.classList.add(
                         "selected"
                     );
+
                 }
             );
         });
 
 
     /* =====================================================
-       CREATE / ADD CART ITEM
+       ADD PRODUCT TO CART
     ===================================================== */
 
-    function addProductToCart(productId) {
+    function addProductToCart(
+        productId
+    ) {
 
         const product =
-            productData[productId];
+            productData[
+                productId
+            ];
+
 
         const state =
-            productState[productId];
-
-
-        if (!product || !state) {
-
-            console.error(
-                "Product not found:",
+            productState[
                 productId
-            );
+            ];
+
+
+        if (
+            !product ||
+            !state
+        ) {
 
             return false;
+
         }
 
 
-        if (!state.size) {
+        if (
+            !state.size
+        ) {
 
             alert(
                 "Please select a size first."
             );
 
             return false;
+
         }
 
 
         const selectedImages =
-            product.images[state.color] ||
+            product.images[
+                state.color
+            ] ||
             product.images.black ||
             [];
 
 
         const cartItem = {
 
-            id: product.id,
+            id:
+                product.id,
 
-            name: product.name,
+            name:
+                product.name,
 
-            price: product.price,
+            price:
+                product.price,
 
-            color: state.color,
+            color:
+                state.color,
 
-            size: state.size,
+            size:
+                state.size,
 
-            quantity: 1,
+            quantity:
+                1,
 
             image:
                 selectedImages[0] || ""
@@ -1229,30 +1163,39 @@ document.addEventListener("DOMContentLoaded", function () {
             getCart();
 
 
-        const existingItem =
-            cart.find(function (item) {
+        const existing =
+            cart.find(
+                function (item) {
 
-                return (
-                    item.id === cartItem.id &&
-                    item.color === cartItem.color &&
-                    item.size === cartItem.size
-                );
+                    return (
+                        item.id ===
+                            cartItem.id &&
 
-            });
+                        item.color ===
+                            cartItem.color &&
+
+                        item.size ===
+                            cartItem.size
+                    );
+
+                }
+            );
 
 
-        if (existingItem) {
+        if (existing) {
 
-            existingItem.quantity =
+            existing.quantity =
                 (
                     Number(
-                        existingItem.quantity
+                        existing.quantity
                     ) || 1
                 ) + 1;
 
         } else {
 
-            cart.push(cartItem);
+            cart.push(
+                cartItem
+            );
 
         }
 
@@ -1264,11 +1207,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       ADD TO CART
+       ADD TO CART BUTTON
     ===================================================== */
 
     document
-        .querySelectorAll(".add-to-cart")
+        .querySelectorAll(
+            ".add-to-cart"
+        )
         .forEach(function (button) {
 
             button.addEventListener(
@@ -1276,6 +1221,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 function (event) {
 
                     event.preventDefault();
+
 
                     const productId =
                         button.dataset.product;
@@ -1287,7 +1233,9 @@ document.addEventListener("DOMContentLoaded", function () {
                         );
 
 
-                    if (!success) return;
+                    if (!success) {
+                        return;
+                    }
 
 
                     const originalText =
@@ -1307,6 +1255,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         },
                         1200
                     );
+
                 }
             );
         });
@@ -1317,7 +1266,9 @@ document.addEventListener("DOMContentLoaded", function () {
     ===================================================== */
 
     document
-        .querySelectorAll(".product-buy-now")
+        .querySelectorAll(
+            ".product-buy-now"
+        )
         .forEach(function (button) {
 
             button.addEventListener(
@@ -1325,6 +1276,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 function (event) {
 
                     event.preventDefault();
+
 
                     const productId =
                         button.dataset.product;
@@ -1342,13 +1294,14 @@ document.addEventListener("DOMContentLoaded", function () {
                             "cart.html";
 
                     }
+
                 }
             );
         });
 
 
     /* =====================================================
-       SHOP FILTERS
+       FILTERS
     ===================================================== */
 
     const filterButtons =
@@ -1374,6 +1327,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             item.classList.remove(
                                 "active"
                             );
+
                         }
                     );
 
@@ -1391,8 +1345,12 @@ document.addEventListener("DOMContentLoaded", function () {
                             function (product) {
 
                                 if (
-                                    filter === "all" ||
-                                    product.dataset.category === filter
+                                    filter ===
+                                        "all" ||
+
+                                    product.dataset
+                                        .category ===
+                                        filter
                                 ) {
 
                                     product.classList.remove(
@@ -1406,8 +1364,10 @@ document.addEventListener("DOMContentLoaded", function () {
                                     );
 
                                 }
+
                             }
                         );
+
                 }
             );
         }
@@ -1415,7 +1375,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       SHOP URL SEARCH
+       SEARCH FROM URL
     ===================================================== */
 
     const urlParameters =
@@ -1426,8 +1386,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const searchQuery =
         (
-            urlParameters.get("search") ||
-            ""
+            urlParameters.get(
+                "search"
+            ) || ""
         )
             .trim()
             .toLowerCase();
@@ -1436,39 +1397,45 @@ document.addEventListener("DOMContentLoaded", function () {
     if (searchQuery) {
 
         document
-            .querySelectorAll(".shop-item")
-            .forEach(function (product) {
+            .querySelectorAll(
+                ".shop-item"
+            )
+            .forEach(
+                function (product) {
 
-                const productName =
-                    (
-                        product.dataset.name ||
-                        ""
-                    ).toLowerCase();
+                    const productName =
+                        (
+                            product.dataset
+                                .name || ""
+                        )
+                            .toLowerCase();
 
 
-                if (
-                    productName.includes(
-                        searchQuery
-                    )
-                ) {
+                    if (
+                        productName.includes(
+                            searchQuery
+                        )
+                    ) {
 
-                    product.classList.remove(
-                        "search-hidden"
-                    );
+                        product.classList.remove(
+                            "search-hidden"
+                        );
 
-                } else {
+                    } else {
 
-                    product.classList.add(
-                        "search-hidden"
-                    );
+                        product.classList.add(
+                            "search-hidden"
+                        );
+
+                    }
 
                 }
-            });
+            );
     }
 
 
     /* =====================================================
-       MONEY FORMAT
+       MONEY
     ===================================================== */
 
     function money(value) {
@@ -1477,6 +1444,7 @@ document.addEventListener("DOMContentLoaded", function () {
             (
                 Number(value) || 0
             ).toFixed(2);
+
     }
 
 
@@ -1489,25 +1457,30 @@ document.addEventListener("DOMContentLoaded", function () {
             "cartItems"
         );
 
+
     const cartLayout =
         document.getElementById(
             "cartLayout"
         );
+
 
     const emptyCart =
         document.getElementById(
             "emptyCart"
         );
 
+
     const cartSubtotal =
         document.getElementById(
             "cartSubtotal"
         );
 
+
     const cartTotal =
         document.getElementById(
             "cartTotal"
         );
+
 
     const checkoutButton =
         document.getElementById(
@@ -1517,7 +1490,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function renderCart() {
 
-        if (!cartItemsContainer) {
+        if (
+            !cartItemsContainer
+        ) {
             return;
         }
 
@@ -1530,7 +1505,9 @@ document.addEventListener("DOMContentLoaded", function () {
             "";
 
 
-        if (cart.length === 0) {
+        if (
+            cart.length === 0
+        ) {
 
             if (cartLayout) {
 
@@ -1590,21 +1567,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
         cart.forEach(
-            function (item, index) {
+            function (
+                item,
+                index
+            ) {
 
                 const quantity =
                     Math.max(
                         1,
-                        Number(item.quantity) || 1
+                        Number(
+                            item.quantity
+                        ) || 1
                     );
 
 
                 const price =
-                    Number(item.price) || 0;
+                    Number(
+                        item.price
+                    ) || 0;
 
 
                 const itemTotal =
-                    price * quantity;
+                    price *
+                    quantity;
 
 
                 subtotal +=
@@ -1632,7 +1617,6 @@ document.addEventListener("DOMContentLoaded", function () {
                                 alt="${item.name || "Product"}">
 
                         </div>
-
 
                         <div class="cart-product-info">
 
@@ -1700,9 +1684,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 `;
 
 
-                cartItemsContainer.appendChild(
-                    article
-                );
+                cartItemsContainer
+                    .appendChild(
+                        article
+                    );
+
             }
         );
 
@@ -1725,10 +1711,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CART BUTTONS
+       CART CONTROLS
     ===================================================== */
 
-    if (cartItemsContainer) {
+    if (
+        cartItemsContainer
+    ) {
 
         cartItemsContainer.addEventListener(
             "click",
@@ -1739,10 +1727,12 @@ document.addEventListener("DOMContentLoaded", function () {
                         ".quantity-plus"
                     );
 
+
                 const minus =
                     event.target.closest(
                         ".quantity-minus"
                     );
+
 
                 const remove =
                     event.target.closest(
@@ -1758,16 +1748,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const index =
                         Number(
-                            plus.dataset.index
+                            plus.dataset
+                                .index
                         );
 
 
                     if (cart[index]) {
 
-                        cart[index].quantity =
+                        cart[index]
+                            .quantity =
                             (
                                 Number(
-                                    cart[index].quantity
+                                    cart[index]
+                                        .quantity
                                 ) || 1
                             ) + 1;
 
@@ -1784,20 +1777,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const index =
                         Number(
-                            minus.dataset.index
+                            minus.dataset
+                                .index
                         );
 
 
                     if (
                         cart[index] &&
                         Number(
-                            cart[index].quantity
+                            cart[index]
+                                .quantity
                         ) > 1
                     ) {
 
-                        cart[index].quantity =
+                        cart[index]
+                            .quantity =
                             Number(
-                                cart[index].quantity
+                                cart[index]
+                                    .quantity
                             ) - 1;
 
 
@@ -1813,7 +1810,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     const index =
                         Number(
-                            remove.dataset.index
+                            remove.dataset
+                                .index
                         );
 
 
@@ -1831,6 +1829,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     }
                 }
+
             }
         );
 
@@ -1840,7 +1839,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       GO TO CHECKOUT
+       CHECKOUT BUTTON
     ===================================================== */
 
     if (checkoutButton) {
@@ -1850,13 +1849,15 @@ document.addEventListener("DOMContentLoaded", function () {
             function () {
 
                 if (
-                    getCart().length > 0
+                    getCart().length >
+                    0
                 ) {
 
                     window.location.href =
                         "checkout.html";
 
                 }
+
             }
         );
     }
@@ -1871,15 +1872,18 @@ document.addEventListener("DOMContentLoaded", function () {
             "checkoutItems"
         );
 
+
     const checkoutSubtotal =
         document.getElementById(
             "checkoutSubtotal"
         );
 
+
     const checkoutTotal =
         document.getElementById(
             "checkoutTotal"
         );
+
 
     const checkoutForm =
         document.getElementById(
@@ -1900,7 +1904,9 @@ document.addEventListener("DOMContentLoaded", function () {
         let subtotal = 0;
 
 
-        if (cart.length === 0) {
+        if (
+            cart.length === 0
+        ) {
 
             checkoutItems.innerHTML = `
 
@@ -1921,12 +1927,15 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
 
 
-            if (checkoutForm) {
+            if (
+                checkoutForm
+            ) {
 
                 const submit =
                     checkoutForm.querySelector(
                         '[type="submit"]'
                     );
+
 
                 if (submit) {
 
@@ -1944,16 +1953,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 const quantity =
                     Math.max(
                         1,
-                        Number(item.quantity) || 1
+                        Number(
+                            item.quantity
+                        ) || 1
                     );
 
 
                 const price =
-                    Number(item.price) || 0;
+                    Number(
+                        item.price
+                    ) || 0;
 
 
                 const itemTotal =
-                    price * quantity;
+                    price *
+                    quantity;
 
 
                 subtotal +=
@@ -2014,11 +2028,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 checkoutItems.appendChild(
                     element
                 );
+
             }
         );
 
 
-        if (checkoutSubtotal) {
+        if (
+            checkoutSubtotal
+        ) {
 
             checkoutSubtotal.textContent =
                 money(subtotal);
@@ -2026,7 +2043,9 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        if (checkoutTotal) {
+        if (
+            checkoutTotal
+        ) {
 
             checkoutTotal.textContent =
                 money(subtotal);
@@ -2049,12 +2068,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 if (
-                    !checkoutForm.checkValidity()
+                    !checkoutForm
+                        .checkValidity()
                 ) {
 
-                    checkoutForm.reportValidity();
+                    checkoutForm
+                        .reportValidity();
 
                     return;
+
                 }
 
 
@@ -2081,13 +2103,14 @@ document.addEventListener("DOMContentLoaded", function () {
                 alert(
                     "Checkout information saved for testing. Payment is not active yet."
                 );
+
             }
         );
     }
 
 
     /* =====================================================
-       CONTACT FORM
+       CONTACT
     ===================================================== */
 
     const contactForm =
@@ -2112,16 +2135,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
                 if (
-                    !contactForm.checkValidity()
+                    !contactForm
+                        .checkValidity()
                 ) {
 
-                    contactForm.reportValidity();
+                    contactForm
+                        .reportValidity();
 
                     return;
+
                 }
 
 
-                if (contactMessage) {
+                if (
+                    contactMessage
+                ) {
 
                     contactMessage.textContent =
                         "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
@@ -2135,10 +2163,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     );
 
 
-                if (submitButton) {
+                if (
+                    submitButton
+                ) {
 
                     const originalText =
-                        submitButton.textContent;
+                        submitButton
+                            .textContent;
 
 
                     submitButton.textContent =
@@ -2148,13 +2179,16 @@ document.addEventListener("DOMContentLoaded", function () {
                     setTimeout(
                         function () {
 
-                            submitButton.textContent =
+                            submitButton
+                                .textContent =
                                 originalText;
 
                         },
                         2000
                     );
+
                 }
+
             }
         );
     }
