@@ -5113,3 +5113,34 @@ body {
     }
 
 }
+
+/* =========================================================
+   SHOP SLIDER — FINAL FUNCTION FIX
+========================================================= */
+
+.shop-image-slider {
+    display: flex !important;
+    overflow: hidden !important;
+}
+
+.shop-image-slide {
+    flex: 0 0 100% !important;
+    min-width: 100% !important;
+}
+
+.shop-image-slide img {
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+}
+
+/* KEEP ARROWS FIXED OVER IMAGE */
+.shop-image-slider .image-arrows {
+    position: absolute !important;
+    inset: 0 !important;
+    pointer-events: none !important;
+}
+
+.shop-image-slider .image-arrows .shop-arrow {
+    pointer-events: auto !important;
+}
