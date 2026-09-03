@@ -462,181 +462,188 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-    /* =====================================================
-       SHOP SLIDER
-       ARROWS + SWIPE
-    ===================================================== */
+/* =====================================================
+   SHOP SLIDER — FINAL
+   DESKTOP + TABLET + PHONE
+===================================================== */
 
-    document
-        .querySelectorAll(
-            ".shop-item-gallery"
-        )
-        .forEach(function (gallery) {
+document
+    .querySelectorAll(".shop-item-gallery")
+    .forEach(function (gallery) {
 
-            const slider =
-                gallery.querySelector(
-                    ".shop-image-slider"
-                );
+        const slider =
+            gallery.querySelector(".shop-image-slider");
 
-            const slides =
-                gallery.querySelectorAll(
-                    ".shop-image-slide"
-                );
+        const slides =
+            gallery.querySelectorAll(".shop-image-slide");
 
-            const prev =
-                gallery.querySelector(
-                    ".prev-image"
-                );
+        const prevButton =
+            gallery.querySelector(".prev-image");
 
-            const next =
-                gallery.querySelector(
-                    ".next-image"
-                );
+        const nextButton =
+            gallery.querySelector(".next-image");
+
+        if (!slider || slides.length < 2) {
+            return;
+        }
 
 
-            if (
-                !slider ||
-                slides.length < 2
-            ) {
-                return;
+        let currentSlide = 0;
+
+
+        /* =================================================
+           GO TO IMAGE
+        ================================================= */
+
+        function showSlide(index, smooth = true) {
+
+            if (index < 0) {
+                index = slides.length - 1;
             }
 
+            if (index >= slides.length) {
+                index = 0;
+            }
 
-            let currentSlide = 0;
+            currentSlide = index;
 
-            let startX = 0;
+            const targetSlide =
+                slides[currentSlide];
 
-
-            /* IMPORTANT:
-               DON'T FORCE ABSOLUTE POSITION.
-               CSS KEEPS SHOP LAYOUT.
-            */
-
-            slider.style.display =
-                "flex";
-
-            slider.style.overflow =
-                "hidden";
-
-            slider.style.touchAction =
-                "pan-y";
+            slider.scrollTo({
+                left: targetSlide.offsetLeft,
+                behavior: smooth
+                    ? "smooth"
+                    : "auto"
+            });
+        }
 
 
-            slides.forEach(
-                function (slide) {
+        /* =================================================
+           LEFT ARROW <
+        ================================================= */
 
-                    slide.style.position =
-                        "relative";
+        if (prevButton) {
 
-                    slide.style.flex =
-                        "0 0 100%";
+            prevButton.addEventListener(
+                "click",
+                function (event) {
 
-                    slide.style.width =
-                        "100%";
+                    event.preventDefault();
+                    event.stopPropagation();
 
-                    slide.style.minWidth =
-                        "100%";
+                    showSlide(
+                        currentSlide - 1
+                    );
 
                 }
             );
+        }
 
 
-            function showSlide(
-                index,
-                smooth = true
-            ) {
+        /* =================================================
+           RIGHT ARROW >
+        ================================================= */
 
-                if (index < 0) {
+        if (nextButton) {
 
-                    index =
-                        slides.length - 1;
+            nextButton.addEventListener(
+                "click",
+                function (event) {
 
-                }
-
-
-                if (
-                    index >=
-                    slides.length
-                ) {
-
-                    index = 0;
-
-                }
-
-
-                currentSlide =
-                    index;
-
-
-                slider.scrollTo({
-
-                    left:
-                        slider.clientWidth *
-                        currentSlide,
-
-                    behavior:
-                        smooth
-                            ? "smooth"
-                            : "auto"
-
-                });
-            }
-
-
-            gallery.resetShopSlider =
-                function () {
-
-                    currentSlide = 0;
+                    event.preventDefault();
+                    event.stopPropagation();
 
                     showSlide(
-                        0,
-                        false
+                        currentSlide + 1
                     );
 
-                };
+                }
+            );
+        }
 
 
-            /* LEFT */
+        /* =================================================
+           KEEP CURRENT IMAGE SYNCHRONIZED
+           WHEN USER SWIPES
+        ================================================= */
 
-            if (prev) {
+        let scrollTimer = null;
 
-                prev.addEventListener(
-                    "click",
-                    function (event) {
+        slider.addEventListener(
+            "scroll",
+            function () {
 
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-                        showSlide(
-                            currentSlide - 1
-                        );
-
-                    }
+                clearTimeout(
+                    scrollTimer
                 );
+
+                scrollTimer =
+                    setTimeout(
+                        function () {
+
+                            let closestIndex = 0;
+                            let smallestDistance = Infinity;
+
+                            slides.forEach(
+                                function (
+                                    slide,
+                                    index
+                                ) {
+
+                                    const distance =
+                                        Math.abs(
+                                            slider.scrollLeft -
+                                            slide.offsetLeft
+                                        );
+
+                                    if (
+                                        distance <
+                                        smallestDistance
+                                    ) {
+
+                                        smallestDistance =
+                                            distance;
+
+                                        closestIndex =
+                                            index;
+                                    }
+                                }
+                            );
+
+                            currentSlide =
+                                closestIndex;
+
+                        },
+                        80
+                    );
             }
+        );
 
 
-            /* RIGHT */
+        /* =================================================
+           RESET TO FRONT
+        ================================================= */
 
-            if (next) {
+        gallery.resetShopSlider =
+            function () {
 
-                next.addEventListener(
-                    "click",
-                    function (event) {
+                currentSlide = 0;
 
-                        event.preventDefault();
-
-                        event.stopPropagation();
-
-                        showSlide(
-                            currentSlide + 1
-                        );
-
-                    }
+                showSlide(
+                    0,
+                    false
                 );
-            }
+            };
 
+
+        /* =================================================
+           ALWAYS START ON FRONT
+        ================================================= */
+
+        gallery.resetShopSlider();
+
+    });
 
             /* =================================================
                TOUCH START
