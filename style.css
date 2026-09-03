@@ -5144,3 +5144,83 @@ body {
 .shop-image-slider .image-arrows .shop-arrow {
     pointer-events: auto !important;
 }
+
+/* =========================================================
+   SHOP ARROWS — STAY VISIBLE FRONT + BACK
+========================================================= */
+
+.shop-item-gallery {
+    position: relative !important;
+}
+
+.shop-item-gallery > .image-arrows {
+    position: absolute !important;
+
+    top: 0 !important;
+    left: 0 !important;
+
+    width: 100% !important;
+    height: 100% !important;
+
+    display: block !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    pointer-events: none !important;
+
+    z-index: 9999 !important;
+}
+
+.shop-item-gallery > .image-arrows .shop-arrow {
+    position: absolute !important;
+
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background: transparent !important;
+    border: 0 !important;
+
+    color: #111 !important;
+
+    opacity: 1 !important;
+    visibility: visible !important;
+
+    pointer-events: auto !important;
+
+    z-index: 10000 !important;
+}
+
+.shop-item-gallery > .image-arrows .prev-image {
+    left: 7px !important;
+}
+
+.shop-item-gallery > .image-arrows .next-image {
+    right: 7px !important;
+}
+
+@media (min-width: 701px) {
+
+    .shop-item-gallery > .image-arrows .prev-image {
+        left: 10px !important;
+    }
+
+    .shop-item-gallery > .image-arrows .next-image {
+        right: 10px !important;
+    }
+}
+
+@media (min-width: 1025px) {
+
+    .shop-item-gallery > .image-arrows .prev-image {
+        left: 14px !important;
+    }
+
+    .shop-item-gallery > .image-arrows .next-image {
+        right: 14px !important;
+    }
+}
