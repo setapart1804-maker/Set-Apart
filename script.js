@@ -463,162 +463,214 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /* =====================================================
-   SHOP SLIDER — FINAL
-   DESKTOP + TABLET + PHONE
+   SHOP IMAGE SLIDER — FINAL FIX
+   ARROWS + SWIPE
 ===================================================== */
 
-document
-    .querySelectorAll(".shop-item-gallery")
-    .forEach(function (gallery) {
+document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
 
-        const slider =
-            gallery.querySelector(".shop-image-slider");
+    const slider = gallery.querySelector(".shop-image-slider");
 
-        const slides =
-            gallery.querySelectorAll(".shop-image-slide");
+    const slides = gallery.querySelectorAll(".shop-image-slide");
 
-        const prevButton =
-            gallery.querySelector(".prev-image");
+    const prevButton = gallery.querySelector(".prev-image");
 
-        const nextButton =
-            gallery.querySelector(".next-image");
+    const nextButton = gallery.querySelector(".next-image");
 
-        if (!slider || slides.length < 2) {
-            return;
+    if (!slider || slides.length < 2) {
+        return;
+    }
+
+    let currentSlide = 0;
+    let startX = 0;
+
+
+    /* -----------------------------------------
+       PREPARE SLIDES
+    ----------------------------------------- */
+
+    slider.style.overflow = "hidden";
+
+    slides.forEach(function (slide) {
+
+        slide.style.transition =
+            "transform 0.35s ease";
+
+    });
+
+
+    /* -----------------------------------------
+       SHOW FRONT / BACK
+    ----------------------------------------- */
+
+    function showSlide(index) {
+
+        if (index < 0) {
+            index = slides.length - 1;
         }
 
-
-        let currentSlide = 0;
-
-
-        /* =================================================
-           GO TO IMAGE
-        ================================================= */
-
-        function showSlide(index, smooth = true) {
-
-            if (index < 0) {
-                index = slides.length - 1;
-            }
-
-            if (index >= slides.length) {
-                index = 0;
-            }
-
-            currentSlide = index;
-
-            const targetSlide =
-                slides[currentSlide];
-
-            slider.scrollTo({
-                left: targetSlide.offsetLeft,
-                behavior: smooth
-                    ? "smooth"
-                    : "auto"
-            });
+        if (index >= slides.length) {
+            index = 0;
         }
 
+        currentSlide = index;
 
-        /* =================================================
-           LEFT ARROW <
-        ================================================= */
+        slides.forEach(function (slide) {
 
-        if (prevButton) {
+            slide.style.transform =
+                "translateX(-" +
+                (currentSlide * 100) +
+                "%)";
 
-            prevButton.addEventListener(
-                "click",
-                function (event) {
+        });
 
-                    event.preventDefault();
-                    event.stopPropagation();
-
-                    showSlide(
-                        currentSlide - 1
-                    );
-
-                }
-            );
-        }
+    }
 
 
-        /* =================================================
-           RIGHT ARROW >
-        ================================================= */
+    /* -----------------------------------------
+       RIGHT >
+    ----------------------------------------- */
 
-        if (nextButton) {
+    if (nextButton) {
 
-            nextButton.addEventListener(
-                "click",
-                function (event) {
+        nextButton.addEventListener(
+            "click",
+            function (event) {
 
-                    event.preventDefault();
-                    event.stopPropagation();
+                event.preventDefault();
+                event.stopPropagation();
 
-                    showSlide(
-                        currentSlide + 1
-                    );
-
-                }
-            );
-        }
-
-
-        /* =================================================
-           KEEP CURRENT IMAGE SYNCHRONIZED
-           WHEN USER SWIPES
-        ================================================= */
-
-        let scrollTimer = null;
-
-        slider.addEventListener(
-            "scroll",
-            function () {
-
-                clearTimeout(
-                    scrollTimer
+                showSlide(
+                    currentSlide + 1
                 );
 
-                scrollTimer =
-                    setTimeout(
-                        function () {
-
-                            let closestIndex = 0;
-                            let smallestDistance = Infinity;
-
-                            slides.forEach(
-                                function (
-                                    slide,
-                                    index
-                                ) {
-
-                                    const distance =
-                                        Math.abs(
-                                            slider.scrollLeft -
-                                            slide.offsetLeft
-                                        );
-
-                                    if (
-                                        distance <
-                                        smallestDistance
-                                    ) {
-
-                                        smallestDistance =
-                                            distance;
-
-                                        closestIndex =
-                                            index;
-                                    }
-                                }
-                            );
-
-                            currentSlide =
-                                closestIndex;
-
-                        },
-                        80
-                    );
             }
         );
+
+    }
+
+
+    /* -----------------------------------------
+       LEFT <
+    ----------------------------------------- */
+
+    if (prevButton) {
+
+        prevButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+                event.stopPropagation();
+
+                showSlide(
+                    currentSlide - 1
+                );
+
+            }
+        );
+
+    }
+
+
+    /* -----------------------------------------
+       SWIPE — PHONE / TABLET
+    ----------------------------------------- */
+
+    slider.addEventListener(
+        "touchstart",
+        function (event) {
+
+            startX =
+                event.touches[0].clientX;
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    slider.addEventListener(
+        "touchend",
+        function (event) {
+
+            const endX =
+                event.changedTouches[0].clientX;
+
+            const distance =
+                endX - startX;
+
+
+            if (Math.abs(distance) < 40) {
+                return;
+            }
+
+
+            if (distance < 0) {
+
+                showSlide(
+                    currentSlide + 1
+                );
+
+            } else {
+
+                showSlide(
+                    currentSlide - 1
+                );
+
+            }
+
+        },
+        {
+            passive: true
+        }
+    );
+
+
+    /* -----------------------------------------
+       RESET TO FRONT AFTER COLOR CHANGE
+    ----------------------------------------- */
+
+    gallery.resetShopSlider =
+        function () {
+
+            currentSlide = 0;
+
+            slides.forEach(function (slide) {
+
+                slide.style.transition =
+                    "none";
+
+                slide.style.transform =
+                    "translateX(0)";
+
+            });
+
+
+            requestAnimationFrame(function () {
+
+                requestAnimationFrame(function () {
+
+                    slides.forEach(function (slide) {
+
+                        slide.style.transition =
+                            "transform 0.35s ease";
+
+                    });
+
+                });
+
+            });
+
+        };
+
+
+    /* START ON FRONT */
+
+    gallery.resetShopSlider();
+
+});
 
 
         /* =================================================
