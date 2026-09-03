@@ -1,23 +1,22 @@
 <head>
 
-    <meta charset="UTF-8">
+<meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0">
 
-    <meta
-        name="description"
-        content="Shop SET APART — Faith-Inspired Streetwear.">
+<meta
+    name="description"
+    content="Shop SET APART — Faith-Inspired Streetwear.">
 
-    <title>Shop — SET APART</title>
+<title>Shop — SET APART</title>
 
-    <link rel="stylesheet" href="./style.css?v=43">
+<link rel="stylesheet" href="./style.css?v=42">
 
 </head>
 
 <body>
-
 
 <!-- =====================================================
      ANNOUNCEMENT BAR
@@ -25,9 +24,9 @@
 
 <div class="announcement-bar">
 
-    <p>
-        NEW DROP — CALLED TO LIVE DIFFERENTLY.
-    </p>
+<p>
+    NEW DROP — CALLED TO LIVE DIFFERENTLY.
+</p>
 
 </div>
 
@@ -39,173 +38,173 @@
 
 <header class="site-header">
 
-    <div class="navbar">
+<div class="navbar">
 
 
-        <!-- MOBILE MENU -->
+    <!-- MOBILE MENU -->
+
+    <button
+        type="button"
+        class="menu-toggle"
+        id="menuToggle"
+        aria-label="Open menu"
+        aria-expanded="false">
+
+        <span></span>
+        <span></span>
+        <span></span>
+
+    </button>
+
+
+
+    <!-- LOGO -->
+
+    <a
+        href="index.html"
+        class="site-logo">
+
+        <img
+            src="LOGO (2).png"
+            alt="SET APART Logo">
+
+    </a>
+
+
+
+    <!-- DESKTOP NAV -->
+
+    <nav
+        class="main-nav"
+        id="mainNav">
+
+        <a href="index.html">
+            HOME
+        </a>
+
+        <a
+            href="shop.html"
+            aria-current="page">
+            SHOP
+        </a>
+
+        <a href="about.html">
+            ABOUT
+        </a>
+
+        <a href="contact.html">
+            CONTACT
+        </a>
+
+    </nav>
+
+
+
+    <!-- NAV ACTIONS -->
+
+    <div class="nav-actions">
+
+
+        <!-- SEARCH -->
 
         <button
             type="button"
-            class="menu-toggle"
-            id="menuToggle"
-            aria-label="Open menu"
-            aria-expanded="false">
+            class="nav-icon-button"
+            id="searchButton"
+            aria-label="Search">
 
-            <span></span>
-            <span></span>
-            <span></span>
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true">
+
+                <circle
+                    cx="11"
+                    cy="11"
+                    r="6.5">
+                </circle>
+
+                <path
+                    d="M16 16L21 21">
+                </path>
+
+            </svg>
 
         </button>
 
 
 
-        <!-- LOGO -->
+        <!-- CART -->
 
         <a
-            href="index.html"
-            class="site-logo">
+            href="cart.html"
+            class="nav-icon-button cart-link"
+            aria-label="Shopping cart">
 
-            <img
-                src="LOGO (2).png"
-                alt="SET APART Logo">
+            <svg
+                viewBox="0 0 24 24"
+                aria-hidden="true">
+
+                <path
+                    d="M3 4H5L7.2 15H18.5L21 7H6">
+                </path>
+
+                <circle
+                    cx="9"
+                    cy="20"
+                    r="1">
+                </circle>
+
+                <circle
+                    cx="18"
+                    cy="20"
+                    r="1">
+                </circle>
+
+            </svg>
+
+            <span
+                class="cart-count"
+                id="cartCount">
+                0
+            </span>
 
         </a>
 
-
-
-        <!-- DESKTOP NAV -->
-
-        <nav
-            class="main-nav"
-            id="mainNav">
-
-            <a href="index.html">
-                HOME
-            </a>
-
-            <a
-                href="shop.html"
-                aria-current="page">
-                SHOP
-            </a>
-
-            <a href="about.html">
-                ABOUT
-            </a>
-
-            <a href="contact.html">
-                CONTACT
-            </a>
-
-        </nav>
-
-
-
-        <!-- NAV ACTIONS -->
-
-        <div class="nav-actions">
-
-
-            <!-- SEARCH -->
-
-            <button
-                type="button"
-                class="nav-icon-button"
-                id="searchButton"
-                aria-label="Search">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
-
-                    <circle
-                        cx="11"
-                        cy="11"
-                        r="6.5">
-                    </circle>
-
-                    <path
-                        d="M16 16L21 21">
-                    </path>
-
-                </svg>
-
-            </button>
-
-
-
-            <!-- CART -->
-
-            <a
-                href="cart.html"
-                class="nav-icon-button cart-link"
-                aria-label="Shopping cart">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
-
-                    <path
-                        d="M3 4H5L7.2 15H18.5L21 7H6">
-                    </path>
-
-                    <circle
-                        cx="9"
-                        cy="20"
-                        r="1">
-                    </circle>
-
-                    <circle
-                        cx="18"
-                        cy="20"
-                        r="1">
-                    </circle>
-
-                </svg>
-
-                <span
-                    class="cart-count"
-                    id="cartCount">
-                    0
-                </span>
-
-            </a>
-
-        </div>
-
     </div>
 
+</div>
 
 
-    <!-- MOBILE MENU -->
 
-    <div
-        class="mobile-menu"
-        id="mobileMenu">
+<!-- MOBILE MENU -->
 
-        <nav>
+<div
+    class="mobile-menu"
+    id="mobileMenu">
 
-            <a href="index.html">
-                HOME
-            </a>
+    <nav>
 
-            <a
-                href="shop.html"
-                aria-current="page">
-                SHOP
-            </a>
+        <a href="index.html">
+            HOME
+        </a>
 
-            <a href="about.html">
-                ABOUT
-            </a>
+        <a
+            href="shop.html"
+            aria-current="page">
+            SHOP
+        </a>
 
-            <a href="contact.html">
-                CONTACT
-            </a>
+        <a href="about.html">
+            ABOUT
+        </a>
 
-        </nav>
+        <a href="contact.html">
+            CONTACT
+        </a>
 
-    </div>
+    </nav>
+
+</div>
 
 </header>
 
@@ -219,39 +218,39 @@
     class="search-panel"
     id="searchPanel">
 
-    <div class="search-panel-inner">
+<div class="search-panel-inner">
 
-        <form
-            class="search-form"
-            id="searchForm">
+    <form
+        class="search-form"
+        id="searchForm">
 
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Search products..."
-                autocomplete="off">
+        <input
+            type="search"
+            id="searchInput"
+            placeholder="Search products..."
+            autocomplete="off">
 
-            <button
-                type="submit"
-                class="search-submit">
+        <button
+            type="submit"
+            class="search-submit">
 
-                SEARCH
+            SEARCH
 
-            </button>
+        </button>
 
-            <button
-                type="button"
-                class="search-close"
-                id="closeSearch"
-                aria-label="Close search">
+        <button
+            type="button"
+            class="search-close"
+            id="closeSearch"
+            aria-label="Close search">
 
-                ×
+            ×
 
-            </button>
+        </button>
 
-        </form>
+    </form>
 
-    </div>
+</div>
 
 </div>
 
@@ -263,28 +262,27 @@
 
 <main>
 
-
 <!-- =====================================================
      SHOP HERO
 ===================================================== -->
 
 <section class="shop-hero">
 
-    <div class="container">
+<div class="container">
 
-        <p class="eyebrow">
-            FAITH-INSPIRED STREETWEAR
-        </p>
+    <p class="eyebrow">
+        FAITH-INSPIRED STREETWEAR
+    </p>
 
-        <h1>
-            SHOP
-        </h1>
+    <h1>
+        SHOP
+    </h1>
 
-        <p class="shop-hero-subtitle">
-            CALLED TO LIVE DIFFERENTLY.
-        </p>
+    <p class="shop-hero-subtitle">
+        CALLED TO LIVE DIFFERENTLY.
+    </p>
 
-    </div>
+</div>
 
 </section>
 
@@ -296,39 +294,39 @@
 
 <section class="shop-toolbar">
 
-    <div class="container">
+<div class="container">
 
-        <div class="shop-toolbar-inner">
+    <div class="shop-toolbar-inner">
 
-            <p>
-                NEW DROP
-            </p>
+        <p>
+            NEW DROP
+        </p>
 
-            <div class="shop-filter">
+        <div class="shop-filter">
 
-                <button
-                    type="button"
-                    class="filter-button active"
-                    data-filter="all">
+            <button
+                type="button"
+                class="filter-button active"
+                data-filter="all">
 
-                    ALL
+                ALL
 
-                </button>
+            </button>
 
-                <button
-                    type="button"
-                    class="filter-button"
-                    data-filter="hoodies">
+            <button
+                type="button"
+                class="filter-button"
+                data-filter="hoodies">
 
-                    HOODIES
+                HOODIES
 
-                </button>
-
-            </div>
+            </button>
 
         </div>
 
     </div>
+
+</div>
 
 </section>
 
@@ -340,236 +338,66 @@
 
 <section class="shop-products">
 
-    <div class="container">
+<div class="container">
 
-        <div
-            class="shop-product-grid"
-            id="shopProductGrid">
-
-
-
-            <!-- =================================================
-                 PILGRIM HOODIE
-            ================================================== -->
-
-            <article
-                class="shop-item"
-                data-category="hoodies"
-                data-name="pilgrim hoodie">
-
-
-                <!-- PRODUCT IMAGE -->
-
-                <div class="shop-item-gallery">
-
-                    <div class="shop-image-slider">
-
-                        <div class="shop-image-slide">
-
-                            <img
-                                src="PILGRIM BEIGE FRONT.jpeg"
-                                alt="PILGRIM Beige Hoodie Front">
-
-                        </div>
-
-                        <div class="shop-image-slide">
-
-                            <img
-                                src="PILGRIM BEIGE BACK.jpeg"
-                                alt="PILGRIM Beige Hoodie Back">
-
-                        </div>
-
-
-                        <!-- < > ARROWS -->
-
-                       <div class="shop-item-gallery">
-
-    <div class="shop-image-slider">
-
-        <div class="shop-image-slide">
-            <img
-                src="PILGRIM BEIGE FRONT.jpeg"
-                alt="PILGRIM Beige Hoodie Front">
-        </div>
-
-        <div class="shop-image-slide">
-            <img
-                src="PILGRIM BEIGE BACK.jpeg"
-                alt="PILGRIM Beige Hoodie Back">
-        </div>
-
-    </div>
-
-    <div class="image-arrows">
-
-        <button
-            type="button"
-            class="shop-arrow prev-image"
-            aria-label="Previous image">
-            &lt;
-        </button>
-
-        <button
-            type="button"
-            class="shop-arrow next-image"
-            aria-label="Next image">
-            &gt;
-        </button>
-
-    </div>
-
-</div>
-
-                <!-- PRODUCT INFO -->
-
-                <div class="shop-item-info">
-
-                    <p class="shop-item-category">
-                        SET APART
-                    </p>
-
-                    <h2>
-                        PILGRIM HOODIE
-                    </h2>
-
-                    <p class="shop-item-price">
-                        $44.99
-                    </p>
+    <div
+        class="shop-product-grid"
+        id="shopProductGrid">
 
 
 
-                    <!-- COLOR -->
+        <!-- =================================================
+             PILGRIM HOODIE
+        ================================================== -->
 
-                    <div class="product-option">
-
-                        <p class="product-option-title">
-                            COLOR
-                        </p>
-
-                        <div class="color-options">
-
-
-                            <!-- BEIGE -->
-
-                            <button
-                                type="button"
-                                class="color-option beige selected"
-                                data-product="pilgrim"
-                                data-color="beige"
-                                aria-label="Beige">
-                            </button>
+        <article
+            class="shop-item"
+            data-category="hoodies"
+            data-name="pilgrim hoodie">
 
 
-                            <!-- WHITE -->
+            <!-- PRODUCT IMAGE -->
 
-                            <button
-                                type="button"
-                                class="color-option white"
-                                data-product="pilgrim"
-                                data-color="white"
-                                aria-label="White">
-                            </button>
+            <div class="shop-item-gallery">
 
+                <div class="shop-image-slider">
 
-                            <!-- BROWN -->
+                    <div class="shop-image-slide">
 
-                            <button
-                                type="button"
-                                class="color-option brown"
-                                data-product="pilgrim"
-                                data-color="brown"
-                                aria-label="Brown">
-                            </button>
+                        <img
+                            src="PILGRIM BEIGE FRONT.jpeg"
+                            alt="PILGRIM Beige Hoodie Front">
 
+                    </div>
 
-                            <!-- BLACK -->
+                    <div class="shop-image-slide">
 
-                            <button
-                                type="button"
-                                class="color-option black"
-                                data-product="pilgrim"
-                                data-color="black"
-                                aria-label="Black">
-                            </button>
-
-                        </div>
-
-                        <p class="selected-color">
-                            BEIGE
-                        </p>
+                        <img
+                            src="PILGRIM BEIGE BACK.jpeg"
+                            alt="PILGRIM Beige Hoodie Back">
 
                     </div>
 
 
+                    <!-- < > ARROWS -->
 
-                    <!-- SIZE -->
-
-                    <div class="product-option">
-
-                        <p class="product-option-title">
-                            SIZE
-                        </p>
-
-                        <div class="size-options">
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="pilgrim"
-                                data-size="S">
-                                S
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="pilgrim"
-                                data-size="M">
-                                M
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="pilgrim"
-                                data-size="L">
-                                L
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="pilgrim"
-                                data-size="XL">
-                                XL
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- BUTTONS -->
-
-                    <div class="shop-item-buttons">
+                    <div class="image-arrows">
 
                         <button
                             type="button"
-                            class="button button-black add-to-cart"
-                            data-product="pilgrim">
+                            class="shop-arrow prev-image"
+                            aria-label="Previous image">
 
-                            ADD TO CART
+                            &lt;
 
                         </button>
 
                         <button
                             type="button"
-                            class="button product-buy-now"
-                            data-product="pilgrim">
+                            class="shop-arrow next-image"
+                            aria-label="Next image">
 
-                            BUY NOW
+                            &gt;
 
                         </button>
 
@@ -577,233 +405,222 @@
 
                 </div>
 
-            </article>
+            </div>
 
 
 
-            <!-- =================================================
-                 GOD FIRST HOODIE
-            ================================================== -->
+            <!-- PRODUCT INFO -->
 
-            <article
-                class="shop-item"
-                data-category="hoodies"
-                data-name="god first hoodie">
+            <div class="shop-item-info">
 
+                <p class="shop-item-category">
+                    SET APART
+                </p>
 
-                <!-- PRODUCT IMAGE -->
+                <h2>
+                    PILGRIM HOODIE
+                </h2>
 
-                <div class="shop-item-gallery">
-
-                    <div class="shop-image-slider">
-
-                        <div class="shop-image-slide">
-
-                            <img
-                                src="GOD FIRST BROWN FRONT.png"
-                                alt="GOD FIRST Brown Hoodie Front">
-
-                        </div>
-
-                        <div class="shop-image-slide">
-
-                            <img
-                                src="GOD FIRST BROWN BACK.png"
-                                alt="GOD FIRST Brown Hoodie Back">
-
-                        </div>
+                <p class="shop-item-price">
+                    $44.99
+                </p>
 
 
-                        <!-- < > ARROWS -->
 
-                      <div class="shop-item-gallery">
+                <!-- COLOR -->
 
-    <div class="shop-image-slider">
+                <div class="product-option">
 
-        <div class="shop-image-slide">
-            <img
-                src="GOD FIRST BROWN FRONT.png"
-                alt="GOD FIRST Brown Hoodie Front">
-        </div>
-
-        <div class="shop-image-slide">
-            <img
-                src="GOD FIRST BROWN BACK.png"
-                alt="GOD FIRST Brown Hoodie Back">
-        </div>
-
-    </div>
-
-    <div class="image-arrows">
-
-        <button
-            type="button"
-            class="shop-arrow prev-image"
-            aria-label="Previous image">
-            &lt;
-        </button>
-
-        <button
-            type="button"
-            class="shop-arrow next-image"
-            aria-label="Next image">
-            &gt;
-        </button>
-
-    </div>
-
-</div>
-
-
-                <!-- PRODUCT INFO -->
-
-                <div class="shop-item-info">
-
-                    <p class="shop-item-category">
-                        SET APART
+                    <p class="product-option-title">
+                        COLOR
                     </p>
 
-                    <h2>
-                        GOD FIRST HOODIE
-                    </h2>
-
-                    <p class="shop-item-price">
-                        $44.99
-                    </p>
+                    <div class="color-options">
 
 
-
-                    <!-- COLOR -->
-
-                    <div class="product-option">
-
-                        <p class="product-option-title">
-                            COLOR
-                        </p>
-
-                        <div class="color-options">
-
-
-                            <!-- BROWN -->
-
-                            <button
-                                type="button"
-                                class="color-option brown selected"
-                                data-product="godfirst"
-                                data-color="brown"
-                                aria-label="Brown">
-                            </button>
-
-
-                            <!-- WHITE -->
-
-                            <button
-                                type="button"
-                                class="color-option white"
-                                data-product="godfirst"
-                                data-color="white"
-                                aria-label="White">
-                            </button>
-
-
-                            <!-- BLACK -->
-
-                            <button
-                                type="button"
-                                class="color-option black"
-                                data-product="godfirst"
-                                data-color="black"
-                                aria-label="Black">
-                            </button>
-
-
-                            <!-- BEIGE -->
-
-                            <button
-                                type="button"
-                                class="color-option beige"
-                                data-product="godfirst"
-                                data-color="beige"
-                                aria-label="Beige">
-                            </button>
-
-                        </div>
-
-                        <p class="selected-color">
-                            BROWN
-                        </p>
-
-                    </div>
-
-
-
-                    <!-- SIZE -->
-
-                    <div class="product-option">
-
-                        <p class="product-option-title">
-                            SIZE
-                        </p>
-
-                        <div class="size-options">
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="godfirst"
-                                data-size="S">
-                                S
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="godfirst"
-                                data-size="M">
-                                M
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="godfirst"
-                                data-size="L">
-                                L
-                            </button>
-
-                            <button
-                                type="button"
-                                class="size-option"
-                                data-product="godfirst"
-                                data-size="XL">
-                                XL
-                            </button>
-
-                        </div>
-
-                    </div>
-
-
-
-                    <!-- BUTTONS -->
-
-                    <div class="shop-item-buttons">
+                        <!-- BEIGE -->
 
                         <button
                             type="button"
-                            class="button button-black add-to-cart"
-                            data-product="godfirst">
+                            class="color-option beige selected"
+                            data-product="pilgrim"
+                            data-color="beige"
+                            aria-label="Beige">
+                        </button>
 
-                            ADD TO CART
+
+                        <!-- WHITE -->
+
+                        <button
+                            type="button"
+                            class="color-option white"
+                            data-product="pilgrim"
+                            data-color="white"
+                            aria-label="White">
+                        </button>
+
+
+                        <!-- BROWN -->
+
+                        <button
+                            type="button"
+                            class="color-option brown"
+                            data-product="pilgrim"
+                            data-color="brown"
+                            aria-label="Brown">
+                        </button>
+
+
+                        <!-- BLACK -->
+
+                        <button
+                            type="button"
+                            class="color-option black"
+                            data-product="pilgrim"
+                            data-color="black"
+                            aria-label="Black">
+                        </button>
+
+                    </div>
+
+                    <p class="selected-color">
+                        BEIGE
+                    </p>
+
+                </div>
+
+
+
+                <!-- SIZE -->
+
+                <div class="product-option">
+
+                    <p class="product-option-title">
+                        SIZE
+                    </p>
+
+                    <div class="size-options">
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="pilgrim"
+                            data-size="S">
+                            S
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="pilgrim"
+                            data-size="M">
+                            M
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="pilgrim"
+                            data-size="L">
+                            L
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="pilgrim"
+                            data-size="XL">
+                            XL
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="shop-item-buttons">
+
+                    <button
+                        type="button"
+                        class="button button-black add-to-cart"
+                        data-product="pilgrim">
+
+                        ADD TO CART
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button product-buy-now"
+                        data-product="pilgrim">
+
+                        BUY NOW
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
+
+
+        <!-- =================================================
+             GOD FIRST HOODIE
+        ================================================== -->
+
+        <article
+            class="shop-item"
+            data-category="hoodies"
+            data-name="god first hoodie">
+
+
+            <!-- PRODUCT IMAGE -->
+
+            <div class="shop-item-gallery">
+
+                <div class="shop-image-slider">
+
+                    <div class="shop-image-slide">
+
+                        <img
+                            src="GOD FIRST BROWN FRONT.png"
+                            alt="GOD FIRST Brown Hoodie Front">
+
+                    </div>
+
+                    <div class="shop-image-slide">
+
+                        <img
+                            src="GOD FIRST BROWN BACK.png"
+                            alt="GOD FIRST Brown Hoodie Back">
+
+                    </div>
+
+
+                    <!-- < > ARROWS -->
+
+                    <div class="image-arrows">
+
+                        <button
+                            type="button"
+                            class="shop-arrow prev-image"
+                            aria-label="Previous image">
+
+                            &lt;
 
                         </button>
 
                         <button
                             type="button"
-                            class="button product-buy-now"
-                            data-product="godfirst">
+                            class="shop-arrow next-image"
+                            aria-label="Next image">
 
-                            BUY NOW
+                            &gt;
 
                         </button>
 
@@ -811,15 +628,174 @@
 
                 </div>
 
-            </article>
+            </div>
 
 
-        </div>
+
+            <!-- PRODUCT INFO -->
+
+            <div class="shop-item-info">
+
+                <p class="shop-item-category">
+                    SET APART
+                </p>
+
+                <h2>
+                    GOD FIRST HOODIE
+                </h2>
+
+                <p class="shop-item-price">
+                    $44.99
+                </p>
+
+
+
+                <!-- COLOR -->
+
+                <div class="product-option">
+
+                    <p class="product-option-title">
+                        COLOR
+                    </p>
+
+                    <div class="color-options">
+
+
+                        <!-- BROWN -->
+
+                        <button
+                            type="button"
+                            class="color-option brown selected"
+                            data-product="godfirst"
+                            data-color="brown"
+                            aria-label="Brown">
+                        </button>
+
+
+                        <!-- WHITE -->
+
+                        <button
+                            type="button"
+                            class="color-option white"
+                            data-product="godfirst"
+                            data-color="white"
+                            aria-label="White">
+                        </button>
+
+
+                        <!-- BLACK -->
+
+                        <button
+                            type="button"
+                            class="color-option black"
+                            data-product="godfirst"
+                            data-color="black"
+                            aria-label="Black">
+                        </button>
+
+
+                        <!-- BEIGE -->
+
+                        <button
+                            type="button"
+                            class="color-option beige"
+                            data-product="godfirst"
+                            data-color="beige"
+                            aria-label="Beige">
+                        </button>
+
+                    </div>
+
+                    <p class="selected-color">
+                        BROWN
+                    </p>
+
+                </div>
+
+
+
+                <!-- SIZE -->
+
+                <div class="product-option">
+
+                    <p class="product-option-title">
+                        SIZE
+                    </p>
+
+                    <div class="size-options">
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="godfirst"
+                            data-size="S">
+                            S
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="godfirst"
+                            data-size="M">
+                            M
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="godfirst"
+                            data-size="L">
+                            L
+                        </button>
+
+                        <button
+                            type="button"
+                            class="size-option"
+                            data-product="godfirst"
+                            data-size="XL">
+                            XL
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- BUTTONS -->
+
+                <div class="shop-item-buttons">
+
+                    <button
+                        type="button"
+                        class="button button-black add-to-cart"
+                        data-product="godfirst">
+
+                        ADD TO CART
+
+                    </button>
+
+                    <button
+                        type="button"
+                        class="button product-buy-now"
+                        data-product="godfirst">
+
+                        BUY NOW
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </article>
+
 
     </div>
+
+</div>
 
 </section>
-
 
 </main>
 
@@ -831,94 +807,94 @@
 
 <footer class="footer">
 
-    <div class="footer-inner">
+<div class="footer-inner">
 
 
-        <div class="footer-brand">
+    <div class="footer-brand">
 
-            <a href="index.html">
+        <a href="index.html">
 
-                <img
-                    src="LOGO (2).png"
-                    alt="SET APART Logo">
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
 
-            </a>
-
-            <p>
-                Faith-Inspired Streetwear.
-            </p>
-
-            <p>
-                Called to Live Differently.
-            </p>
-
-        </div>
-
-
-
-        <div class="footer-columns">
-
-
-            <div class="footer-column">
-
-                <h3>SHOP</h3>
-
-                <a href="shop.html">
-                    All Products
-                </a>
-
-                <a href="shop.html">
-                    Hoodies
-                </a>
-
-            </div>
-
-
-
-            <div class="footer-column">
-
-                <h3>ABOUT</h3>
-
-                <a href="about.html">
-                    Our Story
-                </a>
-
-                <a href="contact.html">
-                    Contact
-                </a>
-
-            </div>
-
-
-
-            <div class="footer-column">
-
-                <h3>FOLLOW</h3>
-
-                <a href="#">
-                    Instagram
-                </a>
-
-                <a href="#">
-                    TikTok
-                </a>
-
-            </div>
-
-
-        </div>
-
-    </div>
-
-
-
-    <div class="footer-bottom">
+        </a>
 
         <p>
-            © 2026 SET APART. ALL RIGHTS RESERVED.
+            Faith-Inspired Streetwear.
+        </p>
+
+        <p>
+            Called to Live Differently.
         </p>
 
     </div>
+
+
+
+    <div class="footer-columns">
+
+
+        <div class="footer-column">
+
+            <h3>SHOP</h3>
+
+            <a href="shop.html">
+                All Products
+            </a>
+
+            <a href="shop.html">
+                Hoodies
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+            <h3>ABOUT</h3>
+
+            <a href="about.html">
+                Our Story
+            </a>
+
+            <a href="contact.html">
+                Contact
+            </a>
+
+        </div>
+
+
+
+        <div class="footer-column">
+
+            <h3>FOLLOW</h3>
+
+            <a href="#">
+                Instagram
+            </a>
+
+            <a href="#">
+                TikTok
+            </a>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+
+
+<div class="footer-bottom">
+
+    <p>
+        © 2026 SET APART. ALL RIGHTS RESERVED.
+    </p>
+
+</div>
 
 </footer>
 
@@ -939,8 +915,7 @@
      JAVASCRIPT
 ===================================================== -->
 
-<script src="./script.js?v=43"></script>
-
+<script src="./script.js?v=42"></script>
 
 </body>
 
