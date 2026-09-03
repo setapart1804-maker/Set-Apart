@@ -347,7 +347,6 @@ document.addEventListener("DOMContentLoaded", function () {
     window.updateSetApartCartCount =
         updateCartCount;
 
-
     updateCartCount();
 
 
@@ -462,422 +461,111 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
 
-/* =====================================================
-   SHOP IMAGE SLIDER — FINAL FIX
-   ARROWS + SWIPE
-===================================================== */
+    /* =====================================================
+       SHOP IMAGE SLIDER — CLEAN FINAL
+    ===================================================== */
 
-document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
+    document
+        .querySelectorAll(".shop-item-gallery")
+        .forEach(function (gallery) {
 
-    const slider = gallery.querySelector(".shop-image-slider");
-
-    const slides = gallery.querySelectorAll(".shop-image-slide");
-
-    const prevButton = gallery.querySelector(".prev-image");
-
-    const nextButton = gallery.querySelector(".next-image");
-
-    if (!slider || slides.length < 2) {
-        return;
-    }
-
-    let currentSlide = 0;
-    let startX = 0;
-
-
-    /* -----------------------------------------
-       PREPARE SLIDES
-    ----------------------------------------- */
-
-    slider.style.overflow = "hidden";
-
-    slides.forEach(function (slide) {
-
-        slide.style.transition =
-            "transform 0.35s ease";
-
-    });
-
-
-    /* -----------------------------------------
-       SHOW FRONT / BACK
-    ----------------------------------------- */
-
-    function showSlide(index) {
-
-        if (index < 0) {
-            index = slides.length - 1;
-        }
-
-        if (index >= slides.length) {
-            index = 0;
-        }
-
-        currentSlide = index;
-
-        slides.forEach(function (slide) {
-
-            slide.style.transform =
-                "translateX(-" +
-                (currentSlide * 100) +
-                "%)";
-
-        });
-
-    }
-
-
-    /* -----------------------------------------
-       RIGHT >
-    ----------------------------------------- */
-
-    if (nextButton) {
-
-        nextButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-                showSlide(
-                    currentSlide + 1
+            const slider =
+                gallery.querySelector(
+                    ".shop-image-slider"
                 );
 
-            }
-        );
-
-    }
-
-
-    /* -----------------------------------------
-       LEFT <
-    ----------------------------------------- */
-
-    if (prevButton) {
-
-        prevButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-                event.stopPropagation();
-
-                showSlide(
-                    currentSlide - 1
+            const slides =
+                gallery.querySelectorAll(
+                    ".shop-image-slide"
                 );
 
-            }
-        );
+            const prevButton =
+                gallery.querySelector(
+                    ".prev-image"
+                );
 
-    }
+            const nextButton =
+                gallery.querySelector(
+                    ".next-image"
+                );
 
-
-    /* -----------------------------------------
-       SWIPE — PHONE / TABLET
-    ----------------------------------------- */
-
-    slider.addEventListener(
-        "touchstart",
-        function (event) {
-
-            startX =
-                event.touches[0].clientX;
-
-        },
-        {
-            passive: true
-        }
-    );
-
-
-    slider.addEventListener(
-        "touchend",
-        function (event) {
-
-            const endX =
-                event.changedTouches[0].clientX;
-
-            const distance =
-                endX - startX;
-
-
-            if (Math.abs(distance) < 40) {
+            if (!slider || slides.length < 2) {
                 return;
             }
 
-
-            if (distance < 0) {
-
-                showSlide(
-                    currentSlide + 1
-                );
-
-            } else {
-
-                showSlide(
-                    currentSlide - 1
-                );
-
-            }
-
-        },
-        {
-            passive: true
-        }
-    );
+            let currentSlide = 0;
 
 
-    /* -----------------------------------------
-       RESET TO FRONT AFTER COLOR CHANGE
-    ----------------------------------------- */
+            function showSlide(index) {
 
-    gallery.resetShopSlider =
-        function () {
+                if (index < 0) {
+                    index = slides.length - 1;
+                }
 
-            currentSlide = 0;
+                if (index >= slides.length) {
+                    index = 0;
+                }
 
-            slides.forEach(function (slide) {
+                currentSlide = index;
 
-                slide.style.transition =
-                    "none";
+                slides.forEach(function (slide) {
 
-                slide.style.transform =
-                    "translateX(0)";
-
-            });
-
-
-            requestAnimationFrame(function () {
-
-                requestAnimationFrame(function () {
-
-                    slides.forEach(function (slide) {
-
-                        slide.style.transition =
-                            "transform 0.35s ease";
-
-                    });
+                    slide.style.transform =
+                        `translateX(-${currentSlide * 100}%)`;
 
                 });
-
-            });
-
-        };
+            }
 
 
-    /* START ON FRONT */
+            /* RIGHT ARROW */
 
-    gallery.resetShopSlider();
+            if (nextButton) {
 
-});
+                nextButton.addEventListener(
+                    "click",
+                    function (event) {
 
+                        event.preventDefault();
+                        event.stopPropagation();
 
-        /* =================================================
-           RESET TO FRONT
-        ================================================= */
-
-        gallery.resetShopSlider =
-            function () {
-
-                currentSlide = 0;
-
-                showSlide(
-                    0,
-                    false
+                        showSlide(
+                            currentSlide + 1
+                        );
+                    }
                 );
-            };
+            }
 
 
-        /* =================================================
-           ALWAYS START ON FRONT
-        ================================================= */
+            /* LEFT ARROW */
 
-        gallery.resetShopSlider();
+            if (prevButton) {
 
-    });
+                prevButton.addEventListener(
+                    "click",
+                    function (event) {
 
-            /* =================================================
-               TOUCH START
-            ================================================= */
-
-            slider.addEventListener(
-                "touchstart",
-                function (event) {
-
-                    if (
-                        !event.touches ||
-                        !event.touches.length
-                    ) {
-                        return;
-                    }
-
-                    startX =
-                        event.touches[0]
-                            .clientX;
-
-                },
-                {
-                    passive: true
-                }
-            );
-
-
-            /* =================================================
-               TOUCH END
-            ================================================= */
-
-            slider.addEventListener(
-                "touchend",
-                function (event) {
-
-                    if (
-                        !event.changedTouches ||
-                        !event.changedTouches.length
-                    ) {
-                        return;
-                    }
-
-
-                    const endX =
-                        event
-                            .changedTouches[0]
-                            .clientX;
-
-
-                    const distance =
-                        endX - startX;
-
-
-                    if (
-                        Math.abs(
-                            distance
-                        ) < 45
-                    ) {
-                        return;
-                    }
-
-
-                    if (
-                        distance < 0
-                    ) {
-
-                        showSlide(
-                            currentSlide + 1
-                        );
-
-                    } else {
+                        event.preventDefault();
+                        event.stopPropagation();
 
                         showSlide(
                             currentSlide - 1
                         );
-
                     }
-
-                },
-                {
-                    passive: true
-                }
-            );
+                );
+            }
 
 
-            /* =================================================
-               DESKTOP DRAG
-            ================================================= */
+            /* RESET */
 
-            let mouseStartX = 0;
-            let mouseDown = false;
-
-
-            slider.addEventListener(
-                "mousedown",
-                function (event) {
-
-                    if (
-                        event.target.closest(
-                            ".shop-arrow"
-                        )
-                    ) {
-                        return;
-                    }
-
-                    mouseDown = true;
-
-                    mouseStartX =
-                        event.clientX;
-
-                }
-            );
-
-
-            slider.addEventListener(
-                "mouseup",
-                function (event) {
-
-                    if (!mouseDown) {
-                        return;
-                    }
-
-                    mouseDown = false;
-
-
-                    const distance =
-                        event.clientX -
-                        mouseStartX;
-
-
-                    if (
-                        Math.abs(
-                            distance
-                        ) < 50
-                    ) {
-                        return;
-                    }
-
-
-                    if (
-                        distance < 0
-                    ) {
-
-                        showSlide(
-                            currentSlide + 1
-                        );
-
-                    } else {
-
-                        showSlide(
-                            currentSlide - 1
-                        );
-
-                    }
-
-                }
-            );
-
-
-            slider.addEventListener(
-                "mouseleave",
+            gallery.resetShopSlider =
                 function () {
 
-                    mouseDown = false;
+                    showSlide(0);
 
-                }
-            );
-
-
-            slider.addEventListener(
-                "dragstart",
-                function (event) {
-
-                    event.preventDefault();
-
-                }
-            );
+                };
 
 
-            /* START FRONT */
-
-            gallery.resetShopSlider();
+            showSlide(0);
 
         });
 
@@ -908,7 +596,6 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
                 `.color-option[data-product="${productId}"]`
             );
 
-
         if (!colorButton) return;
 
 
@@ -916,7 +603,6 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
             colorButton.closest(
                 ".shop-item"
             );
-
 
         if (!shopItem) return;
 
@@ -930,9 +616,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
         imageElements.forEach(
             function (image, index) {
 
-                if (
-                    images[index]
-                ) {
+                if (images[index]) {
 
                     image.src =
                         images[index];
@@ -1046,9 +730,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
                             );
 
 
-                        if (
-                            selectedColor
-                        ) {
+                        if (selectedColor) {
 
                             selectedColor.textContent =
                                 color.toUpperCase();
@@ -1171,9 +853,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
         }
 
 
-        if (
-            !state.size
-        ) {
+        if (!state.size) {
 
             alert(
                 "Please select a size first."
@@ -1549,9 +1229,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
 
     function renderCart() {
 
-        if (
-            !cartItemsContainer
-        ) {
+        if (!cartItemsContainer) {
             return;
         }
 
@@ -1564,9 +1242,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
             "";
 
 
-        if (
-            cart.length === 0
-        ) {
+        if (cart.length === 0) {
 
             if (cartLayout) {
 
@@ -1773,9 +1449,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
        CART CONTROLS
     ===================================================== */
 
-    if (
-        cartItemsContainer
-    ) {
+    if (cartItemsContainer) {
 
         cartItemsContainer.addEventListener(
             "click",
@@ -1963,9 +1637,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
         let subtotal = 0;
 
 
-        if (
-            cart.length === 0
-        ) {
+        if (cart.length === 0) {
 
             checkoutItems.innerHTML = `
 
@@ -1986,9 +1658,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
             `;
 
 
-            if (
-                checkoutForm
-            ) {
+            if (checkoutForm) {
 
                 const submit =
                     checkoutForm.querySelector(
@@ -2092,9 +1762,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
         );
 
 
-        if (
-            checkoutSubtotal
-        ) {
+        if (checkoutSubtotal) {
 
             checkoutSubtotal.textContent =
                 money(subtotal);
@@ -2102,9 +1770,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
         }
 
 
-        if (
-            checkoutTotal
-        ) {
+        if (checkoutTotal) {
 
             checkoutTotal.textContent =
                 money(subtotal);
@@ -2206,9 +1872,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
                 }
 
 
-                if (
-                    contactMessage
-                ) {
+                if (contactMessage) {
 
                     contactMessage.textContent =
                         "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
@@ -2222,9 +1886,7 @@ document.querySelectorAll(".shop-item-gallery").forEach(function (gallery) {
                     );
 
 
-                if (
-                    submitButton
-                ) {
+                if (submitButton) {
 
                     const originalText =
                         submitButton
