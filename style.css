@@ -4801,3 +4801,135 @@ button {
 .page-overlay {
     z-index: 10000 !important;
 }
+
+/* =========================================================
+   SEARCH — COMPACT PREMIUM BAR
+========================================================= */
+
+.search-panel {
+    position: fixed !important;
+
+    top: calc(
+        var(--announcement-height) +
+        var(--header-height) +
+        14px
+    ) !important;
+
+    left: 50% !important;
+    right: auto !important;
+
+    width: min(92%, 810px) !important;
+
+    transform: translateX(-50%) !important;
+
+    background: transparent !important;
+
+    padding: 0 !important;
+
+    z-index: 10050 !important;
+}
+
+
+/* SEARCH INNER */
+
+.search-panel-inner {
+    width: 100% !important;
+
+    min-height: 0 !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: transparent !important;
+}
+
+
+/* SEARCH BAR */
+
+.search-form {
+    width: 100% !important;
+    height: 72px !important;
+
+    display: flex !important;
+    align-items: center !important;
+
+    gap: 14px !important;
+
+    padding: 0 18px 0 24px !important;
+
+    background: #ffffff !important;
+
+    border: none !important;
+
+    border-radius: 19px !important;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12) !important;
+}
+
+
+/* INPUT */
+
+.search-form input {
+    flex: 1 !important;
+
+    height: 100% !important;
+
+    border: none !important;
+    outline: none !important;
+
+    background: transparent !important;
+
+    font-size: 18px !important;
+
+    color: #222 !important;
+}
+
+
+/* PLACEHOLDER */
+
+.search-form input::placeholder {
+    color: #8a8a8a !important;
+}
+
+
+/* SEARCH BUTTON / ICON */
+
+.search-form button {
+    width: 42px !important;
+    height: 42px !important;
+
+    flex: 0 0 42px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    padding: 0 !important;
+
+    border: none !important;
+
+    background: transparent !important;
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .search-panel {
+        width: calc(100% - 20px) !important;
+    }
+
+    .search-form {
+        height: 62px !important;
+
+        padding: 0 14px 0 18px !important;
+
+        border-radius: 17px !important;
+    }
+
+    .search-form input {
+        font-size: 15px !important;
+    }
+
+}
