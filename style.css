@@ -4933,3 +4933,55 @@ button {
     }
 
 }
+
+/* =========================================================
+   SEARCH — SMALLER + MORE SPACE FROM NAVBAR
+========================================================= */
+
+.search-panel {
+    top: calc(
+        var(--announcement-height) +
+        var(--header-height) +
+        24px
+    ) !important;
+
+    width: min(86vw, 680px) !important;
+    max-width: 680px !important;
+
+    left: 50% !important;
+    right: auto !important;
+
+    transform: translateX(-50%) !important;
+}
+
+.search-form {
+    height: 64px !important;
+
+    border-radius: 18px !important;
+
+    padding: 0 20px !important;
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .search-panel {
+        top: calc(
+            var(--announcement-height) +
+            var(--header-height) +
+            16px
+        ) !important;
+
+        width: calc(100vw - 32px) !important;
+        max-width: none !important;
+    }
+
+    .search-form {
+        height: 58px !important;
+
+        border-radius: 16px !important;
+    }
+
+}
