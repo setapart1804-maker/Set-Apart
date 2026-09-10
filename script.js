@@ -1888,61 +1888,80 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    /* =====================================================
-       CHECKOUT FORM
-    ===================================================== */
+/* =====================================================
+   CHECKOUT FORM
+===================================================== */
 
-    if (checkoutForm) {
+if (checkoutForm) {
 
-        checkoutForm.addEventListener(
-            "submit",
-            function (event) {
+    checkoutForm.addEventListener(
+        "submit",
+        function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
+            if (
+                !checkoutForm
+                    .checkValidity()
+            ) {
 
-                if (
-                    !checkoutForm
-                        .checkValidity()
-                ) {
+                checkoutForm
+                    .reportValidity();
 
+                return;
+            }
+
+            const formData =
+                new FormData(
                     checkoutForm
-                        .reportValidity();
+                );
 
-                    return;
+            const customerData =
+                Object.fromEntries(
+                    formData.entries()
+                );
 
+            sessionStorage.setItem(
+                "setApartCheckoutCustomer",
+                JSON.stringify(
+                    customerData
+                )
+            );
+
+            const selectedPayment =
+                checkoutForm.querySelector(
+                    'input[name="paymentMethod"]:checked'
+                );
+
+            if (
+                selectedPayment &&
+                selectedPayment.value === "paypal"
+            ) {
+
+                const paypalContainer =
+                    document.getElementById(
+                        "paypal-button-container"
+                    );
+
+                if (paypalContainer) {
+                    paypalContainer.style.display = "block";
+                    paypalContainer.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
                 }
 
-
-                const formData =
-                    new FormData(
-                        checkoutForm
-                    );
-
-
-                const customerData =
-                    Object.fromEntries(
-                        formData.entries()
-                    );
-
-
-                sessionStorage.setItem(
-                    "setApartCheckoutCustomer",
-                    JSON.stringify(
-                        customerData
-                    )
-                );
-
-
-                alert(
-                    "Checkout information saved for testing. Payment is not active yet."
-                );
-
+                return;
             }
-        );
 
-    }
+            alert(
+                "Please select PayPal to complete payment."
+            );
 
+        }
+    );
+
+}
 
     /* =====================================================
        CONTACT FORM
