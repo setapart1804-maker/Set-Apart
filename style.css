@@ -4989,7 +4989,7 @@ body .search-panel .search-panel-inner::after {
 
 .hero,
 .shop-hero {
-    min-height: 620px !important;
+    min-height: 420px !important;
 }
 
 
@@ -4999,7 +4999,7 @@ body .search-panel .search-panel-inner::after {
 
     .hero,
     .shop-hero {
-        min-height: 560px !important;
+        min-height: 360px !important;
     }
 
 }
@@ -5011,7 +5011,7 @@ body .search-panel .search-panel-inner::after {
 
     .hero,
     .shop-hero {
-        min-height: 560px !important;
+        min-height: 360px !important;
     }
 
 }
