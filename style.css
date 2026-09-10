@@ -5072,3 +5072,51 @@ body .search-panel .search-panel-inner::after {
     }
 
 }
+
+/* =========================================================
+   PRODUCT IMAGE BUTTONS — TABLET + PHONE
+========================================================= */
+
+
+/* TABLET */
+
+@media (min-width: 701px) and (max-width: 1024px) {
+
+    .product-image-btn {
+        width: 40px !important;
+        height: 40px !important;
+
+        font-size: 27px !important;
+    }
+
+    .product-image-btn-left {
+        left: 8px !important;
+    }
+
+    .product-image-btn-right {
+        right: 8px !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .product-image-btn {
+        width: 36px !important;
+        height: 36px !important;
+
+        font-size: 24px !important;
+    }
+
+    .product-image-btn-left {
+        left: 6px !important;
+    }
+
+    .product-image-btn-right {
+        right: 6px !important;
+    }
+
+}
