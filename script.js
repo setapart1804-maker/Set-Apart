@@ -2441,7 +2441,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
 });
 
-                          document.addEventListener("DOMContentLoaded", function () {
+/* =========================================================
+   SET APART — PAYMENT METHOD DISPLAY
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
 
     const paymentRadios =
         document.querySelectorAll(
@@ -2458,18 +2462,22 @@ document.addEventListener("DOMContentLoaded", function () {
             "paypal-button-container"
         );
 
-    function updateCheckoutButtons() {
 
-        const selected =
+    function updatePaymentDisplay() {
+
+        const selectedPayment =
             document.querySelector(
                 'input[name="paymentMethod"]:checked'
             );
 
-        if (!selected) {
+        if (!selectedPayment) {
             return;
         }
 
-        if (selected.value === "paypal") {
+
+        /* PAYPAL */
+
+        if (selectedPayment.value === "paypal") {
 
             if (completeOrderButton) {
                 completeOrderButton.style.display = "none";
@@ -2479,7 +2487,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 paypalContainer.style.display = "block";
             }
 
-        } else {
+        }
+
+
+        /* CARD */
+
+        else {
 
             if (completeOrderButton) {
                 completeOrderButton.style.display = "";
@@ -2493,13 +2506,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+
     paymentRadios.forEach(function (radio) {
+
         radio.addEventListener(
             "change",
-            updateCheckoutButtons
+            updatePaymentDisplay
         );
+
     });
 
-    updateCheckoutButtons();
+
+    updatePaymentDisplay();
 
 });
