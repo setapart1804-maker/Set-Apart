@@ -4634,3 +4634,36 @@ button {
     }
 
 }
+
+/* HOME — SET APART BACKGROUND */
+
+.hero {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.42),
+            rgba(0, 0, 0, 0.42)
+        ),
+        url("HOODIES.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center 35% !important;
+    background-repeat: no-repeat !important;
+}
+
+
+/* SHOP — BACKGROUND */
+
+.shop-hero {
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.42),
+            rgba(0, 0, 0, 0.42)
+        ),
+        url("HOODIES.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center 35% !important;
+    background-repeat: no-repeat !important;
+
+    color: white !important;
+}
