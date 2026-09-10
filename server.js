@@ -36,7 +36,7 @@ const ORDER_NOTIFICATION_EMAIL =
 ========================================================= */
 
 const PAYPAL_BASE_URL =
-    "https://api-m.sandbox.paypal.com";
+    "https://api-m.paypal.com";
 
 
 /* =========================================================
