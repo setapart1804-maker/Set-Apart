@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "PILGRIM HOODIE",
 
             price:
-                44.99,
+                1.00,
 
             images: {
 
