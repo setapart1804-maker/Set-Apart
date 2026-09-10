@@ -4583,3 +4583,43 @@ button {
     }
 
 }
+
+/* =========================================================
+   SHOP — ALIGN INFO WITH ACTUAL HOODIE
+========================================================= */
+
+@media (min-width: 1025px) {
+
+    .shop-item-info,
+    .shop-product-info {
+        margin-top: 95px !important;
+        padding-top: 0 !important;
+        align-self: start !important;
+    }
+
+}
+
+
+/* TABLET */
+
+@media (min-width: 701px) and (max-width: 1024px) {
+
+    .shop-item-info,
+    .shop-product-info {
+        margin-top: 65px !important;
+        padding-top: 0 !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .shop-item-info,
+    .shop-product-info {
+        margin-top: 0 !important;
+    }
+
+}
