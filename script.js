@@ -2034,3 +2034,150 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 });
+
+/* =========================================================
+   SET APART — PRODUCT FRONT / BACK BUTTONS
+========================================================= */
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const productImages = {
+
+        pilgrim: {
+            black: {
+                front: "PILGRIM BLACK FRONT 1.png",
+                back: "PILGRIM BLACK BACK.png"
+            },
+
+            white: {
+                front: "PILGRIM WHITE FRONT.jpeg",
+                back: "PILGRIM WHITE BACK.jpeg"
+            },
+
+            brown: {
+                front: "PILGRIM BROWN FRONT.jpeg",
+                back: "PILGRIM BROWN BLACK.jpeg"
+            },
+
+            beige: {
+                front: "PILGRIM BEIGE FRONT.jpeg",
+                back: "PILGRIM BEIGE BACK.jpeg"
+            }
+        },
+
+
+        godfirst: {
+            black: {
+                front: "GOD FIRST BLACK FRONT.jpeg",
+                back: "GOD FIRST BLACK BACK.jpeg"
+            },
+
+            white: {
+                front: "GOD FIRST WHITE FRONT.jpeg",
+                back: "GOD FIRST WHITE BACK.jpeg"
+            },
+
+            brown: {
+                front: "GOD FIRST BROWN FRONT.png",
+                back: "GOD FIRST BROWN BACK.png"
+            },
+
+            beige: {
+                front: "GOD FIRST BEIGE FRONT.jpeg",
+                back: "GOD FIRST BEIGE BACK.jpeg"
+            }
+        }
+
+    };
+
+
+    document.querySelectorAll(".shop-item").forEach(function (productCard) {
+
+        const gallery =
+            productCard.querySelector(".shop-item-gallery");
+
+        const image =
+            productCard.querySelector(".shop-product-image");
+
+        const leftButton =
+            productCard.querySelector(".product-image-btn-left");
+
+        const rightButton =
+            productCard.querySelector(".product-image-btn-right");
+
+        if (!gallery || !image || !leftButton || !rightButton) {
+            return;
+        }
+
+
+        /* DETECT PRODUCT */
+
+        let productName = "";
+
+        const title =
+            productCard.querySelector("h2")?.textContent.toLowerCase() || "";
+
+        if (title.includes("pilgrim")) {
+            productName = "pilgrim";
+        }
+
+        if (title.includes("god first")) {
+            productName = "godfirst";
+        }
+
+        if (!productImages[productName]) {
+            return;
+        }
+
+
+        /* GET CURRENT COLOR */
+
+        function getCurrentColor() {
+
+            const selected =
+                productCard.querySelector(".color-option.selected");
+
+            if (selected && selected.dataset.color) {
+                return selected.dataset.color.toLowerCase();
+            }
+
+            return productName === "pilgrim"
+                ? "beige"
+                : "brown";
+        }
+
+
+        /* LEFT BUTTON = FRONT */
+
+        leftButton.addEventListener("click", function () {
+
+            const color = getCurrentColor();
+
+            const frontImage =
+                productImages[productName]?.[color]?.front;
+
+            if (frontImage) {
+                image.src = frontImage;
+            }
+
+        });
+
+
+        /* RIGHT BUTTON = BACK */
+
+        rightButton.addEventListener("click", function () {
+
+            const color = getCurrentColor();
+
+            const backImage =
+                productImages[productName]?.[color]?.back;
+
+            if (backImage) {
+                image.src = backImage;
+            }
+
+        });
+
+    });
+
+});
