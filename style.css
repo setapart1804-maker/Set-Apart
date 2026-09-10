@@ -4982,3 +4982,36 @@ body .search-panel .search-panel-inner::after {
     content: none !important;
     display: none !important;
 }
+
+/* =========================================================
+   SHOP HERO — FORCE SAME HEIGHT AS HOME
+========================================================= */
+
+.hero,
+.shop-hero {
+    min-height: 620px !important;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+
+    .hero,
+    .shop-hero {
+        min-height: 560px !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .hero,
+    .shop-hero {
+        min-height: 560px !important;
+    }
+
+}
