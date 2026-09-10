@@ -4712,3 +4712,24 @@ button {
     }
 
 }
+
+/* SHOP TITLE — SAME SIZE AS SET APART HOME */
+
+.shop-hero h1 {
+    font-size: clamp(70px, 10vw, 150px) !important;
+    font-weight: 900 !important;
+    line-height: 0.88 !important;
+    letter-spacing: -6px !important;
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .shop-hero h1 {
+        font-size: clamp(60px, 18vw, 100px) !important;
+        letter-spacing: -3px !important;
+    }
+
+}
