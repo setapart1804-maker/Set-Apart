@@ -598,7 +598,9 @@
 
 
 
-                    <!-- PAYMENT -->
+                    <!-- =====================================================
+                         PAYMENT
+                    ===================================================== -->
 
                     <div class="checkout-section">
 
@@ -617,84 +619,103 @@
 
                         <div class="payment-methods">
 
-    <!-- CREDIT / DEBIT CARD -->
 
-    <label class="payment-option payment-option-active">
+                            <!-- CREDIT / DEBIT CARD -->
 
-        <div class="payment-option-left">
+                            <label class="payment-option payment-option-active">
 
-            <input
-                type="radio"
-                name="paymentMethod"
-                value="card"
-                checked
-            >
+                                <div class="payment-option-left">
 
-            <div>
-                <strong>
-                    CREDIT / DEBIT CARD
-                </strong>
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="card"
+                                        checked>
 
-                <span>
-                    Visa · Mastercard · American Express
-                </span>
-            </div>
+                                    <div>
 
-        </div>
+                                        <strong>
+                                            CREDIT / DEBIT CARD
+                                        </strong>
 
-        <div class="payment-card-brands">
-            VISA · MC · AMEX
-        </div>
+                                        <span>
+                                            Visa · Mastercard · American Express
+                                        </span>
 
-    </label>
+                                    </div>
+
+                                </div>
 
 
-    <!-- PAYPAL -->
+                                <div class="payment-card-brands">
+                                    VISA · MC · AMEX
+                                </div>
 
-    <label class="payment-option">
-
-        <div class="payment-option-left">
-
-            <input
-                type="radio"
-                name="paymentMethod"
-                value="paypal"
-            >
-
-            <div>
-                <strong>
-                    PAYPAL
-                </strong>
-
-                <span>
-                    Pay securely with PayPal
-                </span>
-            </div>
-
-        </div>
-
-    </label>
-
-</div>
+                            </label>
 
 
-                    <!-- COMPLETE ORDER -->
 
-                    <button
-                        type="submit"
-                        class="button button-black checkout-submit">
+                            <!-- PAYPAL -->
 
-                        COMPLETE ORDER
+                            <label class="payment-option">
 
-                    </button>
+                                <div class="payment-option-left">
+
+                                    <input
+                                        type="radio"
+                                        name="paymentMethod"
+                                        value="paypal">
+
+                                    <div>
+
+                                        <strong>
+                                            PAYPAL
+                                        </strong>
+
+                                        <span>
+                                            Pay securely with PayPal
+                                        </span>
+
+                                    </div>
+
+                                </div>
+
+                            </label>
 
 
-                    <p class="checkout-note">
+                            <!-- PAYPAL BUTTONS -->
 
-                        Payment is not active yet.
-                        This checkout is currently for testing the website flow.
+                            <div
+                                id="paypal-button-container"
+                                style="display: none; margin-top: 18px;">
+                            </div>
 
-                    </p>
+
+                        </div>
+
+
+
+                        <!-- COMPLETE ORDER -->
+
+                        <button
+                            type="submit"
+                            class="button button-black checkout-submit">
+
+                            COMPLETE ORDER
+
+                        </button>
+
+
+
+                        <!-- PAYMENT NOTE -->
+
+                        <p class="checkout-note">
+                            PayPal Sandbox testing is active.
+                            No real money will be charged.
+                        </p>
+
+
+                    </div>
 
 
                 </form>
@@ -899,11 +920,14 @@
     id="pageOverlay">
 </div>
 
+
+
 <!-- =====================================================
      PAYPAL
 ===================================================== -->
 
 <script src="https://www.paypal.com/sdk/js?client-id=BAAwPqzS011VcIkeM6kvj6OUwqgq0b0_UgPZiK90ahCcmct2C2SUwCUfF88eF2iwCAlQ8CGflNZizTgF9Y&currency=USD"></script>
+
 
 
 <!-- =====================================================
