@@ -5172,3 +5172,129 @@ body .search-panel .search-panel-inner::after {
         right: 8px !important;
     }
 }
+
+/* =========================================================
+   CHECKOUT — PAYMENT METHODS
+========================================================= */
+
+.payment-methods {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.payment-option {
+    width: 100%;
+    min-height: 82px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 18px 20px;
+
+    border: 1px solid #dddddd;
+    background: #ffffff;
+
+    cursor: pointer;
+
+    transition:
+        border-color .2s ease,
+        background-color .2s ease;
+}
+
+.payment-option:hover {
+    border-color: #111111;
+}
+
+.payment-option:has(input:checked) {
+    border-color: #111111;
+    background: #fafafa;
+}
+
+.payment-option-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.payment-option input[type="radio"] {
+    width: 18px;
+    height: 18px;
+
+    margin: 0;
+
+    accent-color: #000000;
+
+    cursor: pointer;
+}
+
+.payment-option-left > div {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.payment-option strong {
+    display: block;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    letter-spacing: 1px;
+
+    color: #111111;
+}
+
+.payment-option span {
+    display: block;
+
+    font-size: 12px;
+    line-height: 1.5;
+
+    color: #777777;
+}
+
+.payment-card-brands {
+    flex-shrink: 0;
+
+    font-size: 10px;
+    font-weight: 800;
+
+    letter-spacing: .8px;
+
+    color: #555555;
+}
+
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+
+    .payment-option {
+        min-height: 76px;
+
+        padding: 16px;
+
+        gap: 12px;
+    }
+
+    .payment-option-left {
+        gap: 12px;
+    }
+
+    .payment-option strong {
+        font-size: 12px;
+    }
+
+    .payment-option span {
+        font-size: 11px;
+    }
+
+    .payment-card-brands {
+        font-size: 9px;
+    }
+}
