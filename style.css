@@ -5120,3 +5120,55 @@ body .search-panel .search-panel-inner::after {
     }
 
 }
+/* =========================================================
+   PRODUCT ARROWS — CENTERED INSIDE IMAGE EDGES
+========================================================= */
+
+/* TABLET */
+@media (min-width: 701px) and (max-width: 1024px) {
+
+    .product-image-btn {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+
+        width: 38px !important;
+        height: 38px !important;
+
+        font-size: 25px !important;
+
+        z-index: 20 !important;
+    }
+
+    .product-image-btn-left {
+        left: 10px !important;
+    }
+
+    .product-image-btn-right {
+        right: 10px !important;
+    }
+}
+
+
+/* PHONE */
+@media (max-width: 700px) {
+
+    .product-image-btn {
+        top: 50% !important;
+        transform: translateY(-50%) !important;
+
+        width: 34px !important;
+        height: 34px !important;
+
+        font-size: 23px !important;
+
+        z-index: 20 !important;
+    }
+
+    .product-image-btn-left {
+        left: 8px !important;
+    }
+
+    .product-image-btn-right {
+        right: 8px !important;
+    }
+}
