@@ -4623,3 +4623,14 @@ button {
     }
 
 }
+
+/* SHOP — DESCEND INFO TO ACTUAL HOODIE LEVEL */
+
+@media (min-width: 1025px) {
+
+    .shop-item-info,
+    .shop-product-info {
+        margin-top: 180px !important;
+    }
+
+}
