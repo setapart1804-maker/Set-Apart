@@ -4509,3 +4509,77 @@ button {
     margin: 0 !important;
     padding: 0 !important;
 }
+
+/* =========================================================
+   SHOP FINAL LAYOUT FIX
+========================================================= */
+
+.shop-item {
+    display: grid !important;
+    grid-template-columns:
+        minmax(0, 1.35fr)
+        minmax(360px, 0.65fr) !important;
+
+    gap: 70px !important;
+
+    align-items: start !important;
+}
+
+.shop-item-info,
+.shop-product-info {
+    display: block !important;
+
+    position: static !important;
+
+    margin: 0 !important;
+    padding-top: 10px !important;
+
+    align-self: start !important;
+
+    height: auto !important;
+    min-height: 0 !important;
+}
+
+.shop-item-gallery {
+    align-self: start !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.shop-item-buttons {
+    margin-top: 42px !important;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+
+    .shop-item {
+        grid-template-columns:
+            minmax(0, 1.15fr)
+            minmax(300px, 0.85fr) !important;
+
+        gap: 40px !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .shop-item {
+        grid-template-columns: 1fr !important;
+
+        gap: 28px !important;
+    }
+
+    .shop-item-info,
+    .shop-product-info {
+        padding-top: 0 !important;
+    }
+
+}
