@@ -615,20 +615,67 @@
                         </div>
 
 
-                        <div class="payment-placeholder">
+                        <div class="payment-methods">
 
-                            <p>
-                                SECURE PAYMENT
-                            </p>
+    <!-- CREDIT / DEBIT CARD -->
 
-                            <span>
-                                Payment provider will be connected here.
-                            </span>
+    <label class="payment-option payment-option-active">
 
-                        </div>
+        <div class="payment-option-left">
 
-                    </div>
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="card"
+                checked
+            >
 
+            <div>
+                <strong>
+                    CREDIT / DEBIT CARD
+                </strong>
+
+                <span>
+                    Visa · Mastercard · American Express
+                </span>
+            </div>
+
+        </div>
+
+        <div class="payment-card-brands">
+            VISA · MC · AMEX
+        </div>
+
+    </label>
+
+
+    <!-- PAYPAL -->
+
+    <label class="payment-option">
+
+        <div class="payment-option-left">
+
+            <input
+                type="radio"
+                name="paymentMethod"
+                value="paypal"
+            >
+
+            <div>
+                <strong>
+                    PAYPAL
+                </strong>
+
+                <span>
+                    Pay securely with PayPal
+                </span>
+            </div>
+
+        </div>
+
+    </label>
+
+</div>
 
 
                     <!-- COMPLETE ORDER -->
