@@ -4667,3 +4667,48 @@ button {
 
     color: white !important;
 }
+
+/* =========================================================
+   SHOP HERO — SAME HEIGHT AS HOME HERO
+========================================================= */
+
+.shop-hero {
+    min-height: 620px !important;
+
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.32),
+            rgba(0, 0, 0, 0.32)
+        ),
+        url("HOODIES.jpeg") !important;
+
+    background-size: cover !important;
+    background-position: center 35% !important;
+    background-repeat: no-repeat !important;
+}
+
+
+/* TABLET */
+
+@media (max-width: 1024px) {
+
+    .shop-hero {
+        min-height: 560px !important;
+    }
+
+}
+
+
+/* PHONE */
+
+@media (max-width: 700px) {
+
+    .shop-hero {
+        min-height: 560px !important;
+    }
+
+}
