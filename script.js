@@ -1939,19 +1939,26 @@ if (checkoutForm) {
             ) {
 
                 const paypalContainer =
-                    document.getElementById(
-                        "paypal-button-container"
-                    );
+    document.getElementById(
+        "paypal-button-container"
+    );
 
-                if (paypalContainer) {
-                    paypalContainer.style.display = "block";
-                    paypalContainer.scrollIntoView({
-                        behavior: "smooth",
-                        block: "center"
-                    });
-                }
+if (paypalContainer) {
 
-                return;
+    paypalContainer.style.display = "block";
+
+    setTimeout(function () {
+
+        paypalContainer.scrollIntoView({
+            behavior: "smooth",
+            block: "center"
+        });
+
+    }, 100);
+
+}
+
+return;
             }
 
             alert(
@@ -2431,5 +2438,68 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
     }).render("#paypal-button-container");
+
+});
+
+                          document.addEventListener("DOMContentLoaded", function () {
+
+    const paymentRadios =
+        document.querySelectorAll(
+            'input[name="paymentMethod"]'
+        );
+
+    const completeOrderButton =
+        document.querySelector(
+            '#checkoutForm button[type="submit"]'
+        );
+
+    const paypalContainer =
+        document.getElementById(
+            "paypal-button-container"
+        );
+
+    function updateCheckoutButtons() {
+
+        const selected =
+            document.querySelector(
+                'input[name="paymentMethod"]:checked'
+            );
+
+        if (!selected) {
+            return;
+        }
+
+        if (selected.value === "paypal") {
+
+            if (completeOrderButton) {
+                completeOrderButton.style.display = "none";
+            }
+
+            if (paypalContainer) {
+                paypalContainer.style.display = "block";
+            }
+
+        } else {
+
+            if (completeOrderButton) {
+                completeOrderButton.style.display = "";
+            }
+
+            if (paypalContainer) {
+                paypalContainer.style.display = "none";
+            }
+
+        }
+
+    }
+
+    paymentRadios.forEach(function (radio) {
+        radio.addEventListener(
+            "change",
+            updateCheckoutButtons
+        );
+    });
+
+    updateCheckoutButtons();
 
 });
