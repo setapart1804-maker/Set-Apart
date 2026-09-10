@@ -4942,3 +4942,43 @@ body .search-panel .search-form button {
         font-size: 14px !important;
     }
 }
+
+/* =========================================================
+   SEARCH — FINAL SPACING + REMOVE BOTTOM LINE
+========================================================= */
+
+body .search-panel {
+    top: calc(
+        var(--announcement-height) +
+        var(--header-height) +
+        18px
+    ) !important;
+
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+
+/* REMOVE THE LINE UNDER SEARCH */
+
+body .search-panel .search-panel-inner {
+    border: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+}
+
+body .search-panel .search-form {
+    border-bottom: none !important;
+}
+
+
+/* REMOVE POSSIBLE PSEUDO-ELEMENT LINE */
+
+body .search-panel::before,
+body .search-panel::after,
+body .search-panel .search-panel-inner::before,
+body .search-panel .search-panel-inner::after {
+    content: none !important;
+    display: none !important;
+}
