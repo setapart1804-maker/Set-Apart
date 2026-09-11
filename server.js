@@ -146,6 +146,9 @@ const PRODUCTS = {
 const processedPayPalCaptures =
     new Set();
 
+const failedEmailCaptures =
+    new Set();
+
 /* =========================================================
    ESCAPE HTML
 ========================================================= */
@@ -1858,6 +1861,15 @@ console.log(
                     "Payment completed but email failed:",
                     emailError
                 );
+
+               failedEmailCaptures.add(
+    captureID
+);
+
+console.error(
+    "Email failure recorded for PayPal capture:",
+    captureID
+);
 
             }
 
