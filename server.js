@@ -64,22 +64,22 @@ app.use(
 
 app.use(
     cors({
-
         origin: [
             "https://setapart1804-maker.github.io",
-            "http://localhost:5500",
-            "http://127.0.0.1:5500"
+            "http://localhost:3000",
+            "http://127.0.0.1:3000"
         ],
 
         methods: [
             "GET",
-            "POST"
+            "POST",
+            "OPTIONS"
         ],
 
         allowedHeaders: [
-            "Content-Type"
+            "Content-Type",
+            "x-admin-key"
         ]
-
     })
 );
 
