@@ -3013,3 +3013,109 @@ document.addEventListener("DOMContentLoaded", function () {
     updatePaymentDisplay();
 
 });
+
+/* =========================================================
+   SET APART — ORDER ON WHATSAPP
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const whatsappButton =
+            document.getElementById(
+                "whatsappOrderButton"
+            );
+
+        if (!whatsappButton) {
+            return;
+        }
+
+        whatsappButton.addEventListener(
+            "click",
+            function (event) {
+
+                event.preventDefault();
+
+                const cart =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "setApartCart"
+                        ) || "[]"
+                    );
+
+                if (
+                    !Array.isArray(cart) ||
+                    cart.length === 0
+                ) {
+
+                    alert("Your cart is empty.");
+                    return;
+
+                }
+
+                let total = 0;
+
+                const orderDetails =
+                    cart.map(
+                        function (item) {
+
+                            const quantity =
+                                Number(
+                                    item.quantity || 1
+                                );
+
+                            const price =
+                                Number(
+                                    item.price || 0
+                                );
+
+                            total +=
+                                price * quantity;
+
+                            return [
+                                `Product: ${item.name || item.id || "-"}`,
+                                `Color: ${item.color || "-"}`,
+                                `Size: ${item.size || "-"}`,
+                                `Quantity: ${quantity}`,
+                                `Price: $${price.toFixed(2)}`
+                            ].join("\n");
+
+                        }
+                    );
+
+
+                const message = [
+
+                    "Hello SET APART,",
+                    "",
+                    "I would like to place this order:",
+                    "",
+                    orderDetails.join("\n\n"),
+                    "",
+                    `TOTAL: $${total.toFixed(2)} USD`,
+                    "",
+                    "Please let me know how I can complete my order."
+
+                ].join("\n");
+
+
+                const whatsappNumber =
+                    "18494861203";
+
+
+                const whatsappUrl =
+                    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+
+                window.open(
+                    whatsappUrl,
+                    "_blank",
+                    "noopener,noreferrer"
+                );
+
+            }
+        );
+
+    }
+);
