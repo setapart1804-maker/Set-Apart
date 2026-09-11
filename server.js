@@ -457,7 +457,32 @@ function calculateOrder(items) {
 
                 }
 
+                 /* =================================================
+   VALIDATE PRODUCT OPTIONS
+================================================= */
 
+const color =
+    String(
+        item.color || ""
+    ).trim();
+
+const size =
+    String(
+        item.size || ""
+    ).trim();
+
+if (!color) {
+    throw new Error(
+        "Product color is required."
+    );
+}
+
+if (!size) {
+    throw new Error(
+        "Product size is required."
+    );
+}
+               
                 const quantity =
                     Number(
                         item.quantity
@@ -1637,6 +1662,67 @@ app.post(
             } =
                 req.body || {};
 
+                 /* =================================================
+   VALIDATE CUSTOMER INFORMATION
+================================================= */
+
+const requiredCustomerFields = [
+    "email",
+    "firstName",
+    "lastName",
+    "address",
+    "country",
+    "city",
+    "postalCode",
+    "phone"
+];
+
+const missingCustomerField =
+    requiredCustomerFields.find(
+        function (field) {
+            return !String(
+                customer?.[field] || ""
+            ).trim();
+        }
+    );
+
+if (missingCustomerField) {
+
+    return res
+        .status(400)
+        .json({
+            success: false,
+            error:
+                `Missing customer field: ${missingCustomerField}`
+        });
+}
+
+           /* =================================================
+   VALIDATE CUSTOMER EMAIL
+================================================= */
+
+const customerEmail =
+    String(
+        customer.email || ""
+    ).trim();
+
+const emailPattern =
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+if (
+    !emailPattern.test(
+        customerEmail
+    )
+) {
+
+    return res
+        .status(400)
+        .json({
+            success: false,
+            error:
+                "Invalid customer email address."
+        });
+}
 
             if (!orderID) {
 
