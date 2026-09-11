@@ -149,6 +149,9 @@ const processedPayPalCaptures =
 const failedEmailCaptures =
     new Set();
 
+const processedPayPalWebhookEvents =
+    new Set();
+
 /* =========================================================
    ESCAPE HTML
 ========================================================= */
@@ -319,7 +322,32 @@ async function verifyPayPalWebhook(req) {
             "PAYPAL_WEBHOOK_ID is missing."
         );
     }
+   
+const requiredHeaders = [
+    "paypal-auth-algo",
+    "paypal-cert-url",
+    "paypal-transmission-id",
+    "paypal-transmission-sig",
+    "paypal-transmission-time"
+];
 
+const missingHeader =
+    requiredHeaders.find(
+        function (header) {
+            return !req.headers[header];
+        }
+    );
+
+if (missingHeader) {
+
+    console.error(
+        "Missing PayPal webhook header:",
+        missingHeader
+    );
+
+    return false;
+}
+    
     const accessToken =
         await generateAccessToken();
 
@@ -2082,6 +2110,45 @@ app.post(
 
             const event =
                 req.body;
+
+           const eventID =
+    event?.id;
+
+if (!eventID) {
+
+    return res
+        .status(400)
+        .json({
+            success: false,
+            error:
+                "PayPal webhook event ID is missing."
+        });
+}
+
+
+if (
+    processedPayPalWebhookEvents.has(
+        eventID
+    )
+) {
+
+    console.log(
+        "Duplicate PayPal webhook event ignored:",
+        eventID
+    );
+
+    return res
+        .status(200)
+        .json({
+            success: true,
+            duplicate: true
+        });
+}
+
+
+processedPayPalWebhookEvents.add(
+    eventID
+);
 
 
             console.log(
