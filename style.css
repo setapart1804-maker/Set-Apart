@@ -5439,3 +5439,47 @@ textarea:focus-visible {
 .contact-field textarea::placeholder {
     color: #767676 !important;
 }
+
+/* =========================================================
+   ORDER ON WHATSAPP BUTTON
+========================================================= */
+
+.whatsapp-order-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 100%;
+    margin-top: 14px;
+
+    padding: 16px 20px;
+
+    background: #25D366;
+    color: #ffffff;
+
+    border: none;
+    text-decoration: none;
+
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.whatsapp-order-button:hover {
+    opacity: 0.88;
+    transform: translateY(-1px);
+}
+
+
+.whatsapp-order-button:focus-visible {
+    outline: 3px solid #000000;
+    outline-offset: 4px;
+}
