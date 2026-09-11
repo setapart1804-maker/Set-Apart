@@ -33,6 +33,9 @@ const ORDER_NOTIFICATION_EMAIL =
 const ADMIN_SHIPPING_KEY =
     process.env.ADMIN_SHIPPING_KEY;
 
+const PAYPAL_WEBHOOK_ID =
+    process.env.PAYPAL_WEBHOOK_ID;
+
 /* =========================================================
    PAYPAL
 ========================================================= */
