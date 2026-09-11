@@ -880,7 +880,395 @@ async function sendOrderNotification({
 
 }
 
+async function sendCustomerConfirmation({
+    orderID,
+    total,
+    customer,
+    items
+}) {
 
+    if (!customer?.email) {
+        console.log(
+            "Customer email missing. Confirmation email skipped."
+        );
+
+        return;
+    }
+
+
+    const safeCustomer =
+        customer || {};
+
+
+    const customerName =
+        `${safeCustomer.firstName || ""} ${safeCustomer.lastName || ""}`
+            .trim();
+
+
+    const productsHtml =
+        items.map(
+            function (item) {
+
+                const product =
+                    PRODUCTS[item.id];
+
+
+                if (!product) {
+                    return "";
+                }
+
+
+                return `
+                    <tr>
+                        <td style="padding:10px;border-bottom:1px solid #ddd;">
+                            ${escapeHtml(product.name)}
+                        </td>
+
+                        <td style="padding:10px;border-bottom:1px solid #ddd;">
+                            ${escapeHtml(item.color || "-")}
+                        </td>
+
+                        <td style="padding:10px;border-bottom:1px solid #ddd;">
+                            ${escapeHtml(item.size || "-")}
+                        </td>
+
+                        <td style="padding:10px;border-bottom:1px solid #ddd;">
+                            ${escapeHtml(item.quantity)}
+                        </td>
+
+                        <td style="padding:10px;border-bottom:1px solid #ddd;">
+                            $${product.price.toFixed(2)}
+                        </td>
+                    </tr>
+                `;
+
+            }
+        )
+        .join("");
+
+
+    const addressParts = [
+
+        safeCustomer.address,
+
+        safeCustomer.apartment,
+
+        safeCustomer.city,
+
+        safeCustomer.state,
+
+        safeCustomer.postalCode,
+
+        safeCustomer.country
+
+    ]
+        .filter(Boolean)
+        .map(escapeHtml)
+        .join(", ");
+
+
+    const html = `
+
+        <div
+            style="
+                font-family: Arial, sans-serif;
+                max-width: 700px;
+                margin: auto;
+                color: #111111;
+            "
+        >
+
+            <div
+                style="
+                    background:#111111;
+                    color:#ffffff;
+                    padding:30px;
+                    text-align:center;
+                "
+            >
+
+                <h1
+                    style="
+                        margin:0;
+                        font-size:30px;
+                        letter-spacing:4px;
+                    "
+                >
+                    SET APART
+                </h1>
+
+                <p
+                    style="
+                        margin:10px 0 0;
+                        font-size:12px;
+                        letter-spacing:2px;
+                    "
+                >
+                    CALLED TO LIVE DIFFERENTLY.
+                </p>
+
+            </div>
+
+
+            <div style="padding:35px 10px;">
+
+                <h2
+                    style="
+                        font-size:26px;
+                        margin-bottom:10px;
+                    "
+                >
+                    ORDER CONFIRMED
+                </h2>
+
+
+                <p
+                    style="
+                        color:#555555;
+                        line-height:1.7;
+                    "
+                >
+                    Hi ${escapeHtml(
+                        safeCustomer.firstName || "there"
+                    )},
+                    thank you for your order.
+                    Your PayPal payment was completed successfully,
+                    and we are now preparing your SET APART order.
+                </p>
+
+
+                <hr
+                    style="
+                        border:0;
+                        border-top:1px solid #dddddd;
+                        margin:30px 0;
+                    "
+                >
+
+
+                <h3>
+                    ORDER DETAILS
+                </h3>
+
+
+                <p>
+                    <strong>Order ID:</strong>
+                    ${escapeHtml(orderID)}
+                </p>
+
+
+                <p>
+                    <strong>Total Paid:</strong>
+                    $${escapeHtml(total)} USD
+                </p>
+
+
+                <hr
+                    style="
+                        border:0;
+                        border-top:1px solid #dddddd;
+                        margin:30px 0;
+                    "
+                >
+
+
+                <h3>
+                    YOUR ITEMS
+                </h3>
+
+
+                <table
+                    style="
+                        width:100%;
+                        border-collapse:collapse;
+                    "
+                >
+
+                    <thead>
+
+                        <tr>
+
+                            <th
+                                style="
+                                    text-align:left;
+                                    padding:10px;
+                                    border-bottom:2px solid #111111;
+                                "
+                            >
+                                PRODUCT
+                            </th>
+
+                            <th
+                                style="
+                                    text-align:left;
+                                    padding:10px;
+                                    border-bottom:2px solid #111111;
+                                "
+                            >
+                                COLOR
+                            </th>
+
+                            <th
+                                style="
+                                    text-align:left;
+                                    padding:10px;
+                                    border-bottom:2px solid #111111;
+                                "
+                            >
+                                SIZE
+                            </th>
+
+                            <th
+                                style="
+                                    text-align:left;
+                                    padding:10px;
+                                    border-bottom:2px solid #111111;
+                                "
+                            >
+                                QTY
+                            </th>
+
+                            <th
+                                style="
+                                    text-align:left;
+                                    padding:10px;
+                                    border-bottom:2px solid #111111;
+                                "
+                            >
+                                PRICE
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        ${productsHtml}
+
+                    </tbody>
+
+                </table>
+
+
+                <hr
+                    style="
+                        border:0;
+                        border-top:1px solid #dddddd;
+                        margin:30px 0;
+                    "
+                >
+
+
+                <h3>
+                    SHIPPING TO
+                </h3>
+
+
+                <p>
+                    <strong>
+                        ${escapeHtml(customerName || "-")}
+                    </strong>
+                </p>
+
+
+                <p
+                    style="
+                        color:#555555;
+                        line-height:1.7;
+                    "
+                >
+                    ${addressParts || "-"}
+                </p>
+
+
+                <div
+                    style="
+                        margin-top:30px;
+                        padding:20px;
+                        background:#111111;
+                        color:#ffffff;
+                    "
+                >
+
+                    <strong
+                        style="
+                            font-size:20px;
+                        "
+                    >
+                        TOTAL: $${escapeHtml(total)} USD
+                    </strong>
+
+                </div>
+
+
+                <p
+                    style="
+                        margin-top:30px;
+                        color:#555555;
+                        line-height:1.7;
+                    "
+                >
+                    We'll contact you again when your order is ready to ship.
+                </p>
+
+
+                <p
+                    style="
+                        margin-top:35px;
+                        color:#777777;
+                        font-size:12px;
+                    "
+                >
+                    SET APART — Faith-Inspired Streetwear
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const result =
+        await resend.emails.send({
+
+            from:
+                "SET APART Orders <onboarding@resend.dev>",
+
+            to:
+                [safeCustomer.email],
+
+            subject:
+                "ORDER CONFIRMED — SET APART",
+
+            html:
+                html
+
+        });
+
+
+    if (result.error) {
+
+        console.error(
+            "Customer confirmation email error:",
+            result.error
+        );
+
+        throw new Error(
+            "Customer confirmation email could not be sent."
+        );
+
+    }
+
+
+    console.log(
+        "Customer confirmation email sent:",
+        result.data
+    );
+
+}
 /* =========================================================
    CAPTURE PAYPAL ORDER
 ========================================================= */
@@ -1116,6 +1504,13 @@ app.post(
 
                 });
 
+               await sendCustomerConfirmation({
+                   orderID,
+                   total,
+                   customer,
+                   items
+               });
+
             }
 
 
@@ -1187,6 +1582,59 @@ app.post(
 
 );
 
+app.get("/api/test-customer-email", async function (req, res) {
+
+    try {
+
+        await sendCustomerConfirmation({
+
+            orderID: "TEST-ORDER-001",
+
+            total: "1.00",
+
+            customer: {
+                firstName: "Test",
+                lastName: "Customer",
+                email: ORDER_NOTIFICATION_EMAIL,
+                address: "123 Test Street",
+                apartment: "",
+                city: "Santo Domingo",
+                state: "",
+                postalCode: "10101",
+                country: "Dominican Republic"
+            },
+
+            items: [
+                {
+                    id: "pilgrim",
+                    color: "Black",
+                    size: "M",
+                    quantity: 1
+                }
+            ]
+
+        });
+
+
+        res.json({
+            success: true,
+            message: "Customer confirmation test email sent."
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+        res.status(500).json({
+            success: false,
+            error: "Test email failed."
+        });
+
+    }
+
+});
 
 /* =========================================================
    START SERVER
