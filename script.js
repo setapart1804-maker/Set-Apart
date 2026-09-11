@@ -2009,6 +2009,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 } else {
 
+                   const paymentLoadingMessage =
+    document.getElementById(
+        "paymentLoadingMessage"
+    );
+
+if (paymentLoadingMessage) {
+    paymentLoadingMessage.style.display =
+        "block";
+}
+
                                const pageOverlay =
                 document.getElementById(
                     "pageOverlay"
