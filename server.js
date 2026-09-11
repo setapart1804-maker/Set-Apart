@@ -1904,12 +1904,12 @@ console.log(
 
                 });
 
-               await sendCustomerConfirmation({
-                   orderID,
-                   total,
-                   customer,
-                   items
-               });
+            await sendCustomerConfirmation({
+    orderID: data.id,
+    total: capturedAmount,
+    customer: customer || {},
+    items: items
+});
 
             }
 
