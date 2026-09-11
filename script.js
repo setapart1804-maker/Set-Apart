@@ -1928,168 +1928,106 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     /* =====================================================
-       CHECKOUT FORM
-       COMPLETE ORDER → SHOW PAYPAL PAYMENT OPTIONS
-    ===================================================== */
+   CHECKOUT FORM
+   PLACE ORDER → SHOW PAYPAL PAYMENT OPTIONS
+===================================================== */
 
-    if (checkoutForm) {
+if (checkoutForm) {
 
-        checkoutForm.addEventListener(
-            "submit",
-            function (event) {
+    checkoutForm.addEventListener(
+        "submit",
+        async function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
+            if (!checkoutForm.checkValidity()) {
+                checkoutForm.reportValidity();
+                return;
+            }
 
-                /* =========================================
-                   VALIDATE CHECKOUT INFORMATION
-                ========================================= */
+            const formData =
+                new FormData(checkoutForm);
 
-                if (
-                    !checkoutForm.checkValidity()
-                ) {
-
-                    checkoutForm.reportValidity();
-                    return;
-
-                }
-
-
-                /* =========================================
-                   SAVE CUSTOMER INFORMATION
-                ========================================= */
-
-                const formData =
-                    new FormData(
-                        checkoutForm
-                    );
-
-
-                const customerData =
-                    Object.fromEntries(
-                        formData.entries()
-                    );
-
-
-                sessionStorage.setItem(
-                    "setApartCheckoutCustomer",
-                    JSON.stringify(
-                        customerData
-                    )
+            const customerData =
+                Object.fromEntries(
+                    formData.entries()
                 );
 
+            sessionStorage.setItem(
+                "setApartCheckoutCustomer",
+                JSON.stringify(customerData)
+            );
 
-                /* =========================================
-                   SHOW PAYPAL PAYMENT OPTIONS
-                ========================================= */
+            const completeOrderButton =
+                checkoutForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+            if (completeOrderButton) {
+                completeOrderButton.disabled = true;
+                completeOrderButton.textContent =
+                    "LOADING SECURE PAYMENT...";
+            }
+
+            try {
+
+                if (
+                    typeof window.showSetApartPayPalButtons !==
+                    "function"
+                ) {
+                    throw new Error(
+                        "PayPal payment system is not ready."
+                    );
+                }
+
+                await window.showSetApartPayPalButtons();
+
+                if (completeOrderButton) {
+                    completeOrderButton.style.display =
+                        "none";
+                }
 
                 const paypalContainer =
                     document.getElementById(
                         "paypal-button-container"
                     );
 
+                if (paypalContainer) {
 
-                if (!paypalContainer) {
-
-                    alert(
-                        "Payment options could not be loaded. Please try again."
-                    );
-
-                    return;
-
-                }
-
-
-                if (
-                    typeof window.showSetApartPayPalButtons ===
-                    "function"
-                ) {
-
-                    window.showSetApartPayPalButtons();
-
-                } else {
-
-                   const paymentLoadingMessage =
-    document.getElementById(
-        "paymentLoadingMessage"
-    );
-
-if (paymentLoadingMessage) {
-    paymentLoadingMessage.style.display =
-        "block";
-}
-
-                               const pageOverlay =
-                document.getElementById(
-                    "pageOverlay"
-                );
-
-            if (pageOverlay) {
-
-                pageOverlay.classList.remove(
-                    "active"
-                );
-
-                pageOverlay.style.pointerEvents =
-                    "none";
-
-                pageOverlay.style.opacity =
-                    "0";
-
-                pageOverlay.style.visibility =
-                    "hidden";
-
-            }
-
-            document.body.classList.remove(
-                "menu-open",
-                "search-open"
-            );
-
-                    paypalContainer.style.display =
-                        "block";
-
-                }
-
-
-                /* =========================================
-                   HIDE COMPLETE ORDER BUTTON
-                ========================================= */
-
-                const completeOrderButton =
-                    checkoutForm.querySelector(
-                        'button[type="submit"]'
-                    );
-
-
-                if (completeOrderButton) {
-
-                    completeOrderButton.style.display =
-                        "none";
-
-                }
-
-
-                /* =========================================
-                   SCROLL TO PAYMENT OPTIONS
-                ========================================= */
-
-                setTimeout(
-                    function () {
+                    setTimeout(function () {
 
                         paypalContainer.scrollIntoView({
                             behavior: "smooth",
                             block: "center"
                         });
 
-                    },
-                    100
+                    }, 100);
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to load PayPal:",
+                    error
                 );
 
-            }
-        );
+                if (completeOrderButton) {
 
-    }
+                    completeOrderButton.disabled =
+                        false;
+
+                    completeOrderButton.textContent =
+                        "PLACE ORDER";
+                }
+
+                alert(
+                    "Secure payment could not be loaded. Please try again."
+                );
+            }
+        }
+    );
+}
 
 
     /* =====================================================
@@ -2498,486 +2436,528 @@ document.addEventListener("DOMContentLoaded", function () {
    SET APART — PAYPAL CHECKOUT
 ========================================================= */
 
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
-    const PAYPAL_BACKEND =
-        "https://set-apart.onrender.com";
+        const PAYPAL_BACKEND =
+            "https://set-apart.onrender.com";
 
+        const paypalContainer =
+            document.getElementById(
+                "paypal-button-container"
+            );
 
-    const paypalContainer =
-        document.getElementById(
-            "paypal-button-container"
-        );
+        const checkoutForm =
+            document.getElementById(
+                "checkoutForm"
+            );
 
-
-    const checkoutForm =
-        document.getElementById(
-            "checkoutForm"
-        );
-
-
-    if (!paypalContainer) {
-        return;
-    }
-
-
-    /* =====================================================
-       GET FULL CART
-    ===================================================== */
-
-    function getPayPalCart() {
-
-        let cart =
-            [];
+        if (!paypalContainer) {
+            return;
+        }
 
 
-        try {
+        /* =====================================================
+           GET CART
+        ===================================================== */
 
-            cart =
-                JSON.parse(
-                    localStorage.getItem(
-                        "setApartCart"
-                    ) || "[]"
+        function getPayPalCart() {
+
+            let cart = [];
+
+            try {
+
+                cart =
+                    JSON.parse(
+                        localStorage.getItem(
+                            "setApartCart"
+                        ) || "[]"
+                    );
+
+            } catch (error) {
+
+                console.error(
+                    "Unable to read cart:",
+                    error
                 );
 
-        } catch (error) {
-
-            console.error(
-                "Unable to read cart:",
-                error
-            );
-
-            return [];
-
-        }
-
-
-        return cart.map(
-            function (item) {
-
-                return {
-
-                    id:
-                        item.id,
-
-                    quantity:
-                        Number(
-                            item.quantity
-                        ) || 1,
-
-                    color:
-                        item.color || "",
-
-                    size:
-                        item.size || ""
-
-                };
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       GET CUSTOMER INFORMATION
-    ===================================================== */
-
-    function getCheckoutCustomer() {
-
-        if (!checkoutForm) {
-
-            return {};
-
-        }
-
-
-        const formData =
-            new FormData(
-                checkoutForm
-            );
-
-
-        return {
-
-            email:
-                formData.get(
-                    "email"
-                ) || "",
-
-            firstName:
-                formData.get(
-                    "firstName"
-                ) || "",
-
-            lastName:
-                formData.get(
-                    "lastName"
-                ) || "",
-
-            address:
-                formData.get(
-                    "address"
-                ) || "",
-
-            apartment:
-                formData.get(
-                    "apartment"
-                ) || "",
-
-            country:
-                formData.get(
-                    "country"
-                ) || "",
-
-            city:
-                formData.get(
-                    "city"
-                ) || "",
-
-            state:
-                formData.get(
-                    "state"
-                ) || "",
-
-            postalCode:
-                formData.get(
-                    "postalCode"
-                ) || "",
-
-            phone:
-                formData.get(
-                    "phone"
-                ) || ""
-
-        };
-
-    }
-
-
-    /* =====================================================
-       PAYPAL SDK CHECK
-    ===================================================== */
-
-    if (
-        typeof paypal ===
-        "undefined"
-    ) {
-
-        console.error(
-            "PayPal SDK did not load."
-        );
-
-        return;
-
-    }
-
-
-    /* =====================================================
-       PAYPAL BUTTONS
-       RENDER ONLY AFTER COMPLETE ORDER
-    ===================================================== */
-
-    let paypalButtonsRendered =
-        false;
-
-
-    window.showSetApartPayPalButtons =
-        function () {
-
-
-            /* =========================================
-               SHOW CONTAINER FIRST
-               IMPORTANT FOR MOBILE / TABLET
-            ========================================= */
-
-            paypalContainer.style.display =
-                "block";
-
-
-            /* =========================================
-               DO NOT RENDER TWICE
-            ========================================= */
-
-            if (
-                paypalButtonsRendered
-            ) {
-
-                return;
-
+                return [];
             }
 
 
-            paypalButtonsRendered =
-                true;
+            return cart.map(
+                function (item) {
+
+                    return {
+
+                        id:
+                            item.id,
+
+                        quantity:
+                            Number(
+                                item.quantity
+                            ) || 1,
+
+                        color:
+                            item.color || "",
+
+                        size:
+                            item.size || ""
+
+                    };
+
+                }
+            );
+        }
 
 
-            paypal.Buttons({
+        /* =====================================================
+           CUSTOMER
+        ===================================================== */
+
+        function getCheckoutCustomer() {
+
+            if (!checkoutForm) {
+                return {};
+            }
+
+            const formData =
+                new FormData(
+                    checkoutForm
+                );
+
+            return {
+
+                email:
+                    formData.get(
+                        "email"
+                    ) || "",
+
+                firstName:
+                    formData.get(
+                        "firstName"
+                    ) || "",
+
+                lastName:
+                    formData.get(
+                        "lastName"
+                    ) || "",
+
+                address:
+                    formData.get(
+                        "address"
+                    ) || "",
+
+                apartment:
+                    formData.get(
+                        "apartment"
+                    ) || "",
+
+                country:
+                    formData.get(
+                        "country"
+                    ) || "",
+
+                city:
+                    formData.get(
+                        "city"
+                    ) || "",
+
+                state:
+                    formData.get(
+                        "state"
+                    ) || "",
+
+                postalCode:
+                    formData.get(
+                        "postalCode"
+                    ) || "",
+
+                phone:
+                    formData.get(
+                        "phone"
+                    ) || ""
+
+            };
+        }
 
 
-                /* =========================================
-                   CREATE ORDER
-                ========================================= */
+        let paypalButtonsRendered =
+            false;
 
-                createOrder:
-                    async function () {
+        let paypalRenderPromise =
+            null;
 
 
-                        if (
-                            checkoutForm &&
-                            !checkoutForm.reportValidity()
-                        ) {
+        /* =====================================================
+           SHOW PAYPAL
+        ===================================================== */
 
-                            throw new Error(
-                                "Complete checkout information first."
+        window.showSetApartPayPalButtons =
+            function () {
+
+                return new Promise(
+                    function (
+                        resolve,
+                        reject
+                    ) {
+
+                        const pageOverlay =
+                            document.getElementById(
+                                "pageOverlay"
+                            );
+
+                        const mobileMenu =
+                            document.getElementById(
+                                "mobileMenu"
+                            );
+
+                        const searchPanel =
+                            document.getElementById(
+                                "searchPanel"
+                            );
+
+
+                        if (pageOverlay) {
+
+                            pageOverlay.classList.remove(
+                                "active"
                             );
 
                         }
 
 
-                        const items =
-                            getPayPalCart();
+                        if (mobileMenu) {
 
-
-                        if (
-                            items.length ===
-                            0
-                        ) {
-
-                            alert(
-                                "Your cart is empty."
-                            );
-
-
-                            throw new Error(
-                                "Cart is empty."
+                            mobileMenu.classList.remove(
+                                "active"
                             );
 
                         }
 
 
-                        const customer =
-                            getCheckoutCustomer();
+                        if (searchPanel) {
+
+                            searchPanel.classList.remove(
+                                "active"
+                            );
+
+                        }
 
 
-                        sessionStorage.setItem(
-                            "setApartCheckoutCustomer",
-                            JSON.stringify(
-                                customer
-                            )
+                        document.body.classList.remove(
+                            "menu-open",
+                            "search-open"
                         );
 
 
-                        const response =
-                            await fetch(
-
-                                `${PAYPAL_BACKEND}/api/paypal/orders`,
-
-                                {
-
-                                    method:
-                                        "POST",
-
-                                    headers: {
-
-                                        "Content-Type":
-                                            "application/json"
-
-                                    },
-
-                                    body:
-                                        JSON.stringify({
-
-                                            items:
-                                                items
-
-                                        })
-
-                                }
-
-                            );
+                        paypalContainer.style.display =
+                            "block";
 
 
-                        const data =
-                            await response.json();
+                        if (paypalButtonsRendered) {
 
-
-                        if (
-                            !response.ok ||
-                            !data.id
-                        ) {
-
-                            console.error(
-                                "Create order error:",
-                                data
-                            );
-
-
-                            throw new Error(
-                                data.error ||
-                                "Unable to create PayPal order."
-                            );
+                            resolve();
+                            return;
 
                         }
 
 
-                        return data.id;
+                        if (paypalRenderPromise) {
 
-                    },
-
-
-                /* =========================================
-                   PAYMENT APPROVED
-                ========================================= */
-
-                onApprove:
-                    async function (data) {
-
-
-                        const items =
-                            getPayPalCart();
-
-
-                        const customer =
-                            getCheckoutCustomer();
-
-
-                        const response =
-                            await fetch(
-
-                                `${PAYPAL_BACKEND}/api/paypal/orders/${data.orderID}/capture`,
-
-                                {
-
-                                    method:
-                                        "POST",
-
-                                    headers: {
-
-                                        "Content-Type":
-                                            "application/json"
-
-                                    },
-
-                                    body:
-                                        JSON.stringify({
-
-                                            customer:
-                                                customer,
-
-                                            items:
-                                                items
-
-                                        })
-
-                                }
-
-                            );
-
-
-                        const result =
-                            await response.json();
-
-
-                        if (
-                            !response.ok ||
-                            result.status !==
-                                "COMPLETED"
-                        ) {
-
-                            console.error(
-                                "Capture error:",
-                                result
-                            );
-
-
-                            alert(
-                                "Payment could not be completed."
-                            );
-
+                            paypalRenderPromise
+                                .then(resolve)
+                                .catch(reject);
 
                             return;
 
                         }
 
 
-                        /* =================================
-                           PAYMENT SUCCESS
-                        ================================= */
+                        if (
+                            typeof window.paypal ===
+                            "undefined"
+                        ) {
 
-                        localStorage.removeItem(
-                            "setApartCart"
-                        );
+                            reject(
+                                new Error(
+                                    "PayPal SDK did not load."
+                                )
+                            );
 
-
-                        sessionStorage.removeItem(
-                            "setApartCheckoutCustomer"
-                        );
-
-
-                        alert(
-                            "Payment successful! Thank you for your SET APART order."
-                        );
+                            return;
+                        }
 
 
-                        window.location.href =
-                            "index.html";
+                        const buttons =
+                            window.paypal.Buttons({
 
-                    },
+                                createOrder:
+                                    async function () {
 
+                                        if (
+                                            checkoutForm &&
+                                            !checkoutForm
+                                                .checkValidity()
+                                        ) {
 
-                /* =========================================
-                   CANCEL
-                ========================================= */
+                                            checkoutForm
+                                                .reportValidity();
 
-                onCancel:
-                    function () {
-
-                        console.log(
-                            "Customer cancelled PayPal checkout."
-                        );
-
-                    },
-
-
-                /* =========================================
-                   ERROR
-                ========================================= */
-
-                onError:
-                    function (error) {
-
-                        console.error(
-                            "PayPal checkout error:",
-                            error
-                        );
+                                            throw new Error(
+                                                "Complete checkout information first."
+                                            );
+                                        }
 
 
-                        alert(
-                            "Something went wrong with PayPal. Please try again."
-                        );
+                                        const items =
+                                            getPayPalCart();
+
+
+                                        if (
+                                            items.length ===
+                                            0
+                                        ) {
+
+                                            alert(
+                                                "Your cart is empty."
+                                            );
+
+                                            throw new Error(
+                                                "Cart is empty."
+                                            );
+                                        }
+
+
+                                        const customer =
+                                            getCheckoutCustomer();
+
+
+                                        sessionStorage.setItem(
+                                            "setApartCheckoutCustomer",
+                                            JSON.stringify(
+                                                customer
+                                            )
+                                        );
+
+
+                                        const response =
+                                            await fetch(
+
+                                                `${PAYPAL_BACKEND}/api/paypal/orders`,
+
+                                                {
+
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+
+                                                        "Content-Type":
+                                                            "application/json"
+
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            items:
+                                                                items
+
+                                                        })
+
+                                                }
+                                            );
+
+
+                                        const data =
+                                            await response.json();
+
+
+                                        if (
+                                            !response.ok ||
+                                            !data.id
+                                        ) {
+
+                                            console.error(
+                                                "Create order error:",
+                                                data
+                                            );
+
+                                            throw new Error(
+                                                data.error ||
+                                                "Unable to create PayPal order."
+                                            );
+                                        }
+
+
+                                        return data.id;
+                                    },
+
+
+                                onApprove:
+                                    async function (
+                                        data
+                                    ) {
+
+                                        const items =
+                                            getPayPalCart();
+
+                                        const customer =
+                                            getCheckoutCustomer();
+
+
+                                        const response =
+                                            await fetch(
+
+                                                `${PAYPAL_BACKEND}/api/paypal/orders/${data.orderID}/capture`,
+
+                                                {
+
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+
+                                                        "Content-Type":
+                                                            "application/json"
+
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            customer:
+                                                                customer,
+
+                                                            items:
+                                                                items
+
+                                                        })
+
+                                                }
+                                            );
+
+
+                                        const result =
+                                            await response.json();
+
+
+                                        if (
+                                            !response.ok ||
+                                            result.status !==
+                                                "COMPLETED"
+                                        ) {
+
+                                            console.error(
+                                                "Capture error:",
+                                                result
+                                            );
+
+                                            alert(
+                                                "Payment could not be completed."
+                                            );
+
+                                            return;
+                                        }
+
+
+                                        localStorage.removeItem(
+                                            "setApartCart"
+                                        );
+
+                                        sessionStorage.removeItem(
+                                            "setApartCheckoutCustomer"
+                                        );
+
+
+                                        alert(
+                                            "Payment successful! Thank you for your SET APART order."
+                                        );
+
+
+                                        window.location.href =
+                                            "index.html";
+                                    },
+
+
+                                onCancel:
+                                    function () {
+
+                                        console.log(
+                                            "Customer cancelled PayPal checkout."
+                                        );
+
+                                    },
+
+
+                                onError:
+                                    function (
+                                        error
+                                    ) {
+
+                                        console.error(
+                                            "PayPal checkout error:",
+                                            error
+                                        );
+
+                                        alert(
+                                            "Something went wrong with PayPal. Please try again."
+                                        );
+
+                                    }
+
+                            });
+
+
+                        paypalRenderPromise =
+                            buttons.render(
+                                "#paypal-button-container"
+                            );
+
+
+                        paypalRenderPromise
+                            .then(
+                                function () {
+
+                                    paypalButtonsRendered =
+                                        true;
+
+                                    paypalRenderPromise =
+                                        null;
+
+                                    resolve();
+
+                                }
+                            )
+                            .catch(
+                                function (
+                                    error
+                                ) {
+
+                                    paypalButtonsRendered =
+                                        false;
+
+                                    paypalRenderPromise =
+                                        null;
+
+                                    paypalContainer.innerHTML =
+                                        "";
+
+                                    reject(
+                                        error
+                                    );
+
+                                }
+                            );
 
                     }
+                );
+            };
 
-}).render(
-    "#paypal-button-container"
-).then(function () {
-
-    const paymentLoadingMessage =
-        document.getElementById(
-            "paymentLoadingMessage"
-        );
-
-    if (paymentLoadingMessage) {
-        paymentLoadingMessage.style.display =
-            "none";
     }
-
-});
-
-        };
-
-});
+);
 /* =========================================================
    SET APART — ORDER ON WHATSAPP
 ========================================================= */
