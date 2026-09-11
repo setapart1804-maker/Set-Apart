@@ -2649,7 +2649,7 @@ document.addEventListener(
 
 
                 const whatsappNumber =
-                    "YOUR_WHATSAPP_NUMBER";
+                    "+18494861203";
 
 
                 const whatsappUrl =
