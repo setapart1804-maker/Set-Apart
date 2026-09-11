@@ -138,6 +138,13 @@ const PRODUCTS = {
 
 };
 
+/* =========================================================
+   PROCESSED PAYPAL CAPTURES
+   Temporary duplicate protection
+========================================================= */
+
+const processedPayPalCaptures =
+    new Set();
 
 /* =========================================================
    ESCAPE HTML
@@ -1755,7 +1762,58 @@ app.post(
 
             }
 
+           /* =================================================
+   PREVENT DUPLICATE PAYMENT PROCESSING
+================================================= */
 
+const captureID =
+    capture?.id;
+
+if (!captureID) {
+
+    return res
+        .status(400)
+        .json({
+            success: false,
+            error:
+                "PayPal capture ID is missing."
+        });
+}
+
+
+if (
+    processedPayPalCaptures.has(
+        captureID
+    )
+) {
+
+    console.log(
+        "Duplicate PayPal capture ignored:",
+        captureID
+    );
+
+    return res.json({
+        success: true,
+        duplicate: true,
+        orderID:
+            data.id,
+        status:
+            data.status,
+        total:
+            capturedAmount,
+        currency:
+            capturedCurrency
+    });
+}
+
+           processedPayPalCaptures.add(
+    captureID
+);
+
+console.log(
+    "PayPal capture marked as processed:",
+    captureID
+);
             /* =================================================
                SEND EMAIL NOTIFICATION
             ================================================= */
