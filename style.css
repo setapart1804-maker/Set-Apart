@@ -5510,3 +5510,44 @@ textarea:focus-visible {
     font-weight: 800;
     letter-spacing: 1.2px;
 }
+
+/* =========================================================
+   PAYPAL — MOBILE / TABLET CLICK FIX
+========================================================= */
+
+#paypal-button-container {
+    position: relative !important;
+    z-index: 50 !important;
+    width: 100% !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+}
+
+#paypal-button-container iframe {
+    position: relative !important;
+    z-index: 51 !important;
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+}
+
+.payment-methods {
+    position: relative !important;
+    z-index: 40 !important;
+    overflow: visible !important;
+    pointer-events: auto !important;
+}
+
+.checkout-section {
+    position: relative !important;
+    overflow: visible !important;
+}
+
+@media (max-width: 1024px) {
+
+    #paypal-button-container,
+    #paypal-button-container iframe {
+        pointer-events: auto !important;
+        touch-action: manipulation !important;
+    }
+
+}
