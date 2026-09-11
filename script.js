@@ -1921,92 +1921,121 @@ document.addEventListener(
     }
 
 
-    /* =====================================================
-       CHECKOUT FORM
-    ===================================================== */
+   /* =====================================================
+   CHECKOUT FORM
+   COMPLETE ORDER → SHOW PAYPAL PAYMENT OPTIONS
+===================================================== */
 
-    if (checkoutForm) {
+if (checkoutForm) {
 
-        checkoutForm.addEventListener(
-            "submit",
-            function (event) {
+    checkoutForm.addEventListener(
+        "submit",
+        function (event) {
 
-                event.preventDefault();
+            event.preventDefault();
 
-                if (
-                    !checkoutForm
-                        .checkValidity()
-                ) {
 
-                    checkoutForm
-                        .reportValidity();
+            /* =========================================
+               VALIDATE CHECKOUT INFORMATION
+            ========================================= */
 
-                    return;
-                }
+            if (
+                !checkoutForm.checkValidity()
+            ) {
 
-                const formData =
-                    new FormData(
-                        checkoutForm
-                    );
-
-                const customerData =
-                    Object.fromEntries(
-                        formData.entries()
-                    );
-
-                sessionStorage.setItem(
-                    "setApartCheckoutCustomer",
-                    JSON.stringify(
-                        customerData
-                    )
-                );
-
-                const selectedPayment =
-                    checkoutForm.querySelector(
-                        'input[name="paymentMethod"]:checked'
-                    );
-
-                if (
-                    selectedPayment &&
-                    selectedPayment.value === "paypal"
-                ) {
-
-                    const paypalContainer =
-                        document.getElementById(
-                            "paypal-button-container"
-                        );
-
-                    if (paypalContainer) {
-
-                        paypalContainer.style.display =
-                            "block";
-
-                        setTimeout(
-                            function () {
-
-                                paypalContainer.scrollIntoView({
-                                    behavior: "smooth",
-                                    block: "center"
-                                });
-
-                            },
-                            100
-                        );
-
-                    }
-
-                    return;
-                }
-
-                alert(
-                    "Please select PayPal to complete payment."
-                );
+                checkoutForm.reportValidity();
+                return;
 
             }
-        );
 
-    }
 
+            /* =========================================
+               SAVE CUSTOMER INFORMATION
+            ========================================= */
+
+            const formData =
+                new FormData(
+                    checkoutForm
+                );
+
+
+            const customerData =
+                Object.fromEntries(
+                    formData.entries()
+                );
+
+
+            sessionStorage.setItem(
+                "setApartCheckoutCustomer",
+                JSON.stringify(
+                    customerData
+                )
+            );
+
+
+            /* =========================================
+               SHOW PAYPAL PAYMENT OPTIONS
+            ========================================= */
+
+            const paypalContainer =
+                document.getElementById(
+                    "paypal-button-container"
+                );
+
+
+            if (!paypalContainer) {
+
+                alert(
+                    "Payment options could not be loaded. Please try again."
+                );
+
+                return;
+
+            }
+
+
+            paypalContainer.style.display =
+                "block";
+
+
+            /* =========================================
+               HIDE COMPLETE ORDER BUTTON
+            ========================================= */
+
+            const completeOrderButton =
+                checkoutForm.querySelector(
+                    'button[type="submit"]'
+                );
+
+
+            if (completeOrderButton) {
+
+                completeOrderButton.style.display =
+                    "none";
+
+            }
+
+
+            /* =========================================
+               SCROLL TO PAYMENT OPTIONS
+            ========================================= */
+
+            setTimeout(
+                function () {
+
+                    paypalContainer.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                },
+                100
+            );
+
+        }
+    );
+
+}
 
     /* =====================================================
        CONTACT FORM
