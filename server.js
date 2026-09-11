@@ -36,6 +36,7 @@ const ADMIN_SHIPPING_KEY =
 const PAYPAL_WEBHOOK_ID =
     process.env.PAYPAL_WEBHOOK_ID;
 
+
 /* =========================================================
    PAYPAL
 ========================================================= */
@@ -121,7 +122,21 @@ const PRODUCTS = {
             "PILGRIM HOODIE",
 
         price:
-           34.99
+            34.99,
+
+        colors: [
+            "beige",
+            "white",
+            "brown",
+            "black"
+        ],
+
+        sizes: [
+            "S",
+            "M",
+            "L",
+            "XL"
+        ]
 
     },
 
@@ -132,11 +147,26 @@ const PRODUCTS = {
             "GOD FIRST HOODIE",
 
         price:
-            34.99
+            34.99,
+
+        colors: [
+            "brown",
+            "white",
+            "black",
+            "beige"
+        ],
+
+        sizes: [
+            "S",
+            "M",
+            "L",
+            "XL"
+        ]
 
     }
 
 };
+
 
 /* =========================================================
    PROCESSED PAYPAL CAPTURES
@@ -151,6 +181,7 @@ const failedEmailCaptures =
 
 const processedPayPalWebhookEvents =
     new Set();
+
 
 /* =========================================================
    ESCAPE HTML
@@ -274,6 +305,7 @@ async function generateAccessToken() {
 
 }
 
+
 /* =========================================================
    FAILED ORDER EMAILS — ADMIN ONLY
 ========================================================= */
@@ -296,20 +328,27 @@ app.get(
                     success: false,
                     error: "Unauthorized."
                 });
+
         }
 
 
         return res.json({
+
             success: true,
+
             count:
                 failedEmailCaptures.size,
+
             captureIDs:
                 Array.from(
                     failedEmailCaptures
                 )
+
         });
+
     }
 );
+
 
 /* =========================================================
    VERIFY PAYPAL WEBHOOK SIGNATURE
@@ -318,91 +357,117 @@ app.get(
 async function verifyPayPalWebhook(req) {
 
     if (!PAYPAL_WEBHOOK_ID) {
+
         throw new Error(
             "PAYPAL_WEBHOOK_ID is missing."
         );
+
     }
-   
-const requiredHeaders = [
-    "paypal-auth-algo",
-    "paypal-cert-url",
-    "paypal-transmission-id",
-    "paypal-transmission-sig",
-    "paypal-transmission-time"
-];
 
-const missingHeader =
-    requiredHeaders.find(
-        function (header) {
-            return !req.headers[header];
-        }
-    );
 
-if (missingHeader) {
+    const requiredHeaders = [
 
-    console.error(
-        "Missing PayPal webhook header:",
-        missingHeader
-    );
+        "paypal-auth-algo",
+        "paypal-cert-url",
+        "paypal-transmission-id",
+        "paypal-transmission-sig",
+        "paypal-transmission-time"
 
-    return false;
-}
-    
+    ];
+
+
+    const missingHeader =
+        requiredHeaders.find(
+
+            function (header) {
+
+                return !req.headers[header];
+
+            }
+
+        );
+
+
+    if (missingHeader) {
+
+        console.error(
+            "Missing PayPal webhook header:",
+            missingHeader
+        );
+
+        return false;
+
+    }
+
+
     const accessToken =
         await generateAccessToken();
 
+
     const response =
         await fetch(
+
             `${PAYPAL_BASE_URL}/v1/notifications/verify-webhook-signature`,
+
             {
-                method: "POST",
+
+                method:
+                    "POST",
 
                 headers: {
+
                     "Content-Type":
                         "application/json",
 
                     "Authorization":
                         `Bearer ${accessToken}`
+
                 },
 
-                body: JSON.stringify({
+                body:
+                    JSON.stringify({
 
-                    auth_algo:
-                        req.headers[
-                            "paypal-auth-algo"
-                        ],
+                        auth_algo:
+                            req.headers[
+                                "paypal-auth-algo"
+                            ],
 
-                    cert_url:
-                        req.headers[
-                            "paypal-cert-url"
-                        ],
+                        cert_url:
+                            req.headers[
+                                "paypal-cert-url"
+                            ],
 
-                    transmission_id:
-                        req.headers[
-                            "paypal-transmission-id"
-                        ],
+                        transmission_id:
+                            req.headers[
+                                "paypal-transmission-id"
+                            ],
 
-                    transmission_sig:
-                        req.headers[
-                            "paypal-transmission-sig"
-                        ],
+                        transmission_sig:
+                            req.headers[
+                                "paypal-transmission-sig"
+                            ],
 
-                    transmission_time:
-                        req.headers[
-                            "paypal-transmission-time"
-                        ],
+                        transmission_time:
+                            req.headers[
+                                "paypal-transmission-time"
+                            ],
 
-                    webhook_id:
-                        PAYPAL_WEBHOOK_ID,
+                        webhook_id:
+                            PAYPAL_WEBHOOK_ID,
 
-                    webhook_event:
-                        req.body
-                })
+                        webhook_event:
+                            req.body
+
+                    })
+
             }
+
         );
+
 
     const data =
         await response.json();
+
 
     if (!response.ok) {
 
@@ -412,13 +477,17 @@ if (missingHeader) {
         );
 
         return false;
+
     }
+
 
     return (
         data.verification_status ===
         "SUCCESS"
     );
+
 }
+
 
 /* =========================================================
    CALCULATE ORDER
@@ -443,6 +512,7 @@ function calculateOrder(items) {
 
     const paypalItems =
         items.map(
+
             function (item) {
 
                 const product =
@@ -457,32 +527,67 @@ function calculateOrder(items) {
 
                 }
 
-                 /* =================================================
-   VALIDATE PRODUCT OPTIONS
-================================================= */
 
-const color =
-    String(
-        item.color || ""
-    ).trim();
+                /* =============================================
+                   VALIDATE PRODUCT OPTIONS
+                ============================================= */
 
-const size =
-    String(
-        item.size || ""
-    ).trim();
+                const color =
+                    String(
+                        item.color || ""
+                    ).trim();
 
-if (!color) {
-    throw new Error(
-        "Product color is required."
-    );
-}
 
-if (!size) {
-    throw new Error(
-        "Product size is required."
-    );
-}
-               
+                const size =
+                    String(
+                        item.size || ""
+                    ).trim();
+
+
+                if (!color) {
+
+                    throw new Error(
+                        "Product color is required."
+                    );
+
+                }
+
+
+                if (!size) {
+
+                    throw new Error(
+                        "Product size is required."
+                    );
+
+                }
+
+
+                if (
+                    !product.colors.includes(
+                        color.toLowerCase()
+                    )
+                ) {
+
+                    throw new Error(
+                        "Invalid product color."
+                    );
+
+                }
+
+
+                if (
+                    !product.sizes.includes(
+                        size.toUpperCase()
+                    )
+                ) {
+
+                    throw new Error(
+                        "Invalid product size."
+                    );
+
+                }
+
+
                 const quantity =
                     Number(
                         item.quantity
@@ -530,6 +635,7 @@ if (!size) {
                 };
 
             }
+
         );
 
 
@@ -545,8 +651,6 @@ if (!size) {
     };
 
 }
-
-
 /* =========================================================
    CREATE PAYPAL ORDER
 ========================================================= */
@@ -750,6 +854,7 @@ async function sendOrderNotification({
 
     const productsHtml =
         items.map(
+
             function (item) {
 
                 const product =
@@ -786,6 +891,7 @@ async function sendOrderNotification({
                 `;
 
             }
+
         )
         .join("");
 
@@ -793,15 +899,10 @@ async function sendOrderNotification({
     const addressParts = [
 
         safeCustomer.address,
-
         safeCustomer.apartment,
-
         safeCustomer.city,
-
         safeCustomer.state,
-
         safeCustomer.postalCode,
-
         safeCustomer.country
 
     ]
@@ -1068,19 +1169,28 @@ async function sendOrderNotification({
 
 }
 
+
+/* =========================================================
+   SEND CUSTOMER CONFIRMATION EMAIL
+========================================================= */
+
 async function sendCustomerConfirmation({
+
     orderID,
     total,
     customer,
     items
+
 }) {
 
     if (!customer?.email) {
+
         console.log(
             "Customer email missing. Confirmation email skipped."
         );
 
         return;
+
     }
 
 
@@ -1095,6 +1205,7 @@ async function sendCustomerConfirmation({
 
     const productsHtml =
         items.map(
+
             function (item) {
 
                 const product =
@@ -1131,6 +1242,7 @@ async function sendCustomerConfirmation({
                 `;
 
             }
+
         )
         .join("");
 
@@ -1138,15 +1250,10 @@ async function sendCustomerConfirmation({
     const addressParts = [
 
         safeCustomer.address,
-
         safeCustomer.apartment,
-
         safeCustomer.city,
-
         safeCustomer.state,
-
         safeCustomer.postalCode,
-
         safeCustomer.country
 
     ]
@@ -1457,21 +1564,35 @@ async function sendCustomerConfirmation({
     );
 
 }
+/* =========================================================
+   SEND SHIPPING CONFIRMATION EMAIL
+========================================================= */
 
 async function sendShippingConfirmation({
+
     orderID,
     customerEmail,
     customerName,
     carrier,
     trackingNumber
+
 }) {
 
     if (!customerEmail) {
-        throw new Error("Customer email is required.");
+
+        throw new Error(
+            "Customer email is required."
+        );
+
     }
 
+
     if (!trackingNumber) {
-        throw new Error("Tracking number is required.");
+
+        throw new Error(
+            "Tracking number is required."
+        );
+
     }
 
 
@@ -1540,7 +1661,9 @@ async function sendShippingConfirmation({
                         line-height:1.7;
                     "
                 >
-                    Hi ${escapeHtml(customerName || "there")},
+                    Hi ${escapeHtml(
+                        customerName || "there"
+                    )},
                     your SET APART order is on the way.
                 </p>
 
@@ -1640,6 +1763,8 @@ async function sendShippingConfirmation({
     );
 
 }
+
+
 /* =========================================================
    CAPTURE PAYPAL ORDER
 ========================================================= */
@@ -1662,67 +1787,90 @@ app.post(
             } =
                 req.body || {};
 
-                 /* =================================================
+
+/* =========================================================
    VALIDATE CUSTOMER INFORMATION
-================================================= */
+========================================================= */
 
-const requiredCustomerFields = [
-    "email",
-    "firstName",
-    "lastName",
-    "address",
-    "country",
-    "city",
-    "postalCode",
-    "phone"
-];
+            const requiredCustomerFields = [
 
-const missingCustomerField =
-    requiredCustomerFields.find(
-        function (field) {
-            return !String(
-                customer?.[field] || ""
-            ).trim();
-        }
-    );
+                "email",
+                "firstName",
+                "lastName",
+                "address",
+                "country",
+                "city",
+                "postalCode",
+                "phone"
 
-if (missingCustomerField) {
+            ];
 
-    return res
-        .status(400)
-        .json({
-            success: false,
-            error:
-                `Missing customer field: ${missingCustomerField}`
-        });
-}
 
-           /* =================================================
+            const missingCustomerField =
+                requiredCustomerFields.find(
+
+                    function (field) {
+
+                        return !String(
+                            customer?.[field] || ""
+                        ).trim();
+
+                    }
+
+                );
+
+
+            if (missingCustomerField) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success:
+                            false,
+
+                        error:
+                            `Missing customer field: ${missingCustomerField}`
+
+                    });
+
+            }
+
+
+/* =========================================================
    VALIDATE CUSTOMER EMAIL
-================================================= */
+========================================================= */
 
-const customerEmail =
-    String(
-        customer.email || ""
-    ).trim();
+            const customerEmail =
+                String(
+                    customer.email || ""
+                ).trim();
 
-const emailPattern =
-    /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-if (
-    !emailPattern.test(
-        customerEmail
-    )
-) {
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    return res
-        .status(400)
-        .json({
-            success: false,
-            error:
-                "Invalid customer email address."
-        });
-}
+
+            if (
+                !emailPattern.test(
+                    customerEmail
+                )
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+
+                        success:
+                            false,
+
+                        error:
+                            "Invalid customer email address."
+
+                    });
+
+            }
+
 
             if (!orderID) {
 
@@ -1786,18 +1934,18 @@ if (
                         method:
                             "POST",
 
-                       headers: {
+                        headers: {
 
-    "Content-Type":
-        "application/json",
+                            "Content-Type":
+                                "application/json",
 
-    "Authorization":
-        `Bearer ${accessToken}`,
+                            "Authorization":
+                                `Bearer ${accessToken}`,
 
-    "PayPal-Request-Id":
-        `setapart-capture-${orderID}`
+                            "PayPal-Request-Id":
+                                `setapart-capture-${orderID}`
 
-}
+                        }
 
                     }
 
@@ -1859,9 +2007,9 @@ if (
             }
 
 
-            /* =================================================
-               VERIFY CAPTURED AMOUNT
-            ================================================= */
+/* =========================================================
+   VERIFY CAPTURED AMOUNT
+========================================================= */
 
             const capture =
                 data
@@ -1892,12 +2040,16 @@ if (
                 console.error(
                     "Captured amount mismatch.",
                     {
+
                         expected:
                             validatedOrder.total,
+
                         captured:
                             capturedAmount,
+
                         currency:
                             capturedCurrency
+
                     }
                 );
 
@@ -1916,61 +2068,83 @@ if (
 
             }
 
-           /* =================================================
+
+/* =========================================================
    PREVENT DUPLICATE PAYMENT PROCESSING
-================================================= */
+========================================================= */
 
-const captureID =
-    capture?.id;
-
-if (!captureID) {
-
-    return res
-        .status(400)
-        .json({
-            success: false,
-            error:
-                "PayPal capture ID is missing."
-        });
-}
+            const captureID =
+                capture?.id;
 
 
-if (
-    processedPayPalCaptures.has(
-        captureID
-    )
-) {
+            if (!captureID) {
 
-    console.log(
-        "Duplicate PayPal capture ignored:",
-        captureID
-    );
+                return res
+                    .status(400)
+                    .json({
 
-    return res.json({
-        success: true,
-        duplicate: true,
-        orderID:
-            data.id,
-        status:
-            data.status,
-        total:
-            capturedAmount,
-        currency:
-            capturedCurrency
-    });
-}
+                        success:
+                            false,
 
-           processedPayPalCaptures.add(
-    captureID
-);
+                        error:
+                            "PayPal capture ID is missing."
 
-console.log(
-    "PayPal capture marked as processed:",
-    captureID
-);
-            /* =================================================
-               SEND EMAIL NOTIFICATION
-            ================================================= */
+                    });
+
+            }
+
+
+            if (
+                processedPayPalCaptures.has(
+                    captureID
+                )
+            ) {
+
+                console.log(
+                    "Duplicate PayPal capture ignored:",
+                    captureID
+                );
+
+
+                return res.json({
+
+                    success:
+                        true,
+
+                    duplicate:
+                        true,
+
+                    orderID:
+                        data.id,
+
+                    status:
+                        data.status,
+
+                    total:
+                        capturedAmount,
+
+                    currency:
+                        capturedCurrency
+
+                });
+
+            }
+
+
+            processedPayPalCaptures.add(
+                captureID
+            );
+
+
+            console.log(
+                "PayPal capture marked as processed:",
+                captureID
+            );
+
+
+/* =========================================================
+   SEND EMAIL NOTIFICATION
+========================================================= */
 
             try {
 
@@ -1990,12 +2164,22 @@ console.log(
 
                 });
 
-            await sendCustomerConfirmation({
-    orderID: data.id,
-    total: capturedAmount,
-    customer: customer || {},
-    items: items
-});
+
+                await sendCustomerConfirmation({
+
+                    orderID:
+                        data.id,
+
+                    total:
+                        capturedAmount,
+
+                    customer:
+                        customer || {},
+
+                    items:
+                        items
+
+                });
 
             }
 
@@ -2013,21 +2197,23 @@ console.log(
                     emailError
                 );
 
-               failedEmailCaptures.add(
-    captureID
-);
 
-console.error(
-    "Email failure recorded for PayPal capture:",
-    captureID
-);
+                failedEmailCaptures.add(
+                    captureID
+                );
+
+
+                console.error(
+                    "Email failure recorded for PayPal capture:",
+                    captureID
+                );
 
             }
 
 
-            /* =================================================
-               SUCCESS RESPONSE
-            ================================================= */
+/* =========================================================
+   SUCCESS RESPONSE
+========================================================= */
 
             res.json({
 
@@ -2077,37 +2263,51 @@ console.error(
 
 );
 
+/* =========================================================
+   SHIPPING CONFIRMATION ROUTE
+========================================================= */
+
 app.post(
     "/api/orders/shipped",
+
     async function (req, res) {
 
         try {
 
-           const adminKey =
-    req.headers["x-admin-key"];
+            const adminKey =
+                req.headers["x-admin-key"];
 
 
-if (
-    !ADMIN_SHIPPING_KEY ||
-    adminKey !== ADMIN_SHIPPING_KEY
-) {
+            if (
+                !ADMIN_SHIPPING_KEY ||
+                adminKey !== ADMIN_SHIPPING_KEY
+            ) {
 
-    return res
-        .status(401)
-        .json({
-            success: false,
-            error: "Unauthorized."
-        });
+                return res
+                    .status(401)
+                    .json({
 
-}
+                        success:
+                            false,
+
+                        error:
+                            "Unauthorized."
+
+                    });
+
+            }
+
 
             const {
+
                 orderID,
                 customerEmail,
                 customerName,
                 carrier,
                 trackingNumber
-            } = req.body || {};
+
+            } =
+                req.body || {};
 
 
             if (
@@ -2119,30 +2319,41 @@ if (
                 return res
                     .status(400)
                     .json({
-                        success: false,
+
+                        success:
+                            false,
+
                         error:
                             "Order ID, customer email and tracking number are required."
+
                     });
 
             }
 
 
             await sendShippingConfirmation({
+
                 orderID,
                 customerEmail,
                 customerName,
                 carrier,
                 trackingNumber
+
             });
 
 
             return res.json({
-                success: true,
+
+                success:
+                    true,
+
                 message:
                     "Shipping confirmation email sent successfully."
+
             });
 
         }
+
 
         catch (error) {
 
@@ -2155,9 +2366,13 @@ if (
             return res
                 .status(500)
                 .json({
-                    success: false,
+
+                    success:
+                        false,
+
                     error:
                         "Shipping confirmation email could not be sent."
+
                 });
 
         }
@@ -2165,18 +2380,23 @@ if (
     }
 );
 
+
 /* =========================================================
    PAYPAL WEBHOOK
 ========================================================= */
 
 app.post(
     "/api/paypal/webhook",
+
     async function (req, res) {
 
         try {
 
             const isVerified =
-                await verifyPayPalWebhook(req);
+                await verifyPayPalWebhook(
+                    req
+                );
+
 
             if (!isVerified) {
 
@@ -2184,57 +2404,77 @@ app.post(
                     "Rejected invalid PayPal webhook."
                 );
 
+
                 return res
                     .status(400)
                     .json({
-                        success: false,
+
+                        success:
+                            false,
+
                         error:
                             "Invalid PayPal webhook signature."
+
                     });
+
             }
 
 
             const event =
                 req.body;
 
-           const eventID =
-    event?.id;
 
-if (!eventID) {
-
-    return res
-        .status(400)
-        .json({
-            success: false,
-            error:
-                "PayPal webhook event ID is missing."
-        });
-}
+            const eventID =
+                event?.id;
 
 
-if (
-    processedPayPalWebhookEvents.has(
-        eventID
-    )
-) {
+            if (!eventID) {
 
-    console.log(
-        "Duplicate PayPal webhook event ignored:",
-        eventID
-    );
+                return res
+                    .status(400)
+                    .json({
 
-    return res
-        .status(200)
-        .json({
-            success: true,
-            duplicate: true
-        });
-}
+                        success:
+                            false,
+
+                        error:
+                            "PayPal webhook event ID is missing."
+
+                    });
+
+            }
 
 
-processedPayPalWebhookEvents.add(
-    eventID
-);
+            if (
+                processedPayPalWebhookEvents.has(
+                    eventID
+                )
+            ) {
+
+                console.log(
+                    "Duplicate PayPal webhook event ignored:",
+                    eventID
+                );
+
+
+                return res
+                    .status(200)
+                    .json({
+
+                        success:
+                            true,
+
+                        duplicate:
+                            true
+
+                    });
+
+            }
+
+
+            processedPayPalWebhookEvents.add(
+                eventID
+            );
 
 
             console.log(
@@ -2252,29 +2492,36 @@ processedPayPalWebhookEvents.add(
                 const capture =
                     event.resource;
 
+
                 console.log(
                     "Verified PayPal payment capture:",
                     capture?.id
                 );
 
-                /*
-                    IMPORTANT:
-                    Do not send another order email here yet.
 
-                    The current capture endpoint already handles
-                    the order emails. This prevents duplicate
-                    fulfillment while we finish the webhook system.
+                /*
+                   IMPORTANT:
+                   Do not send another order email here yet.
+
+                   The current capture endpoint already handles
+                   the order emails. This prevents duplicate
+                   fulfillment while we finish the webhook system.
                 */
+
             }
 
 
             return res
                 .status(200)
                 .json({
-                    success: true
+
+                    success:
+                        true
+
                 });
 
         }
+
 
         catch (error) {
 
@@ -2283,16 +2530,22 @@ processedPayPalWebhookEvents.add(
                 error
             );
 
+
             return res
                 .status(500)
                 .json({
-                    success: false
+
+                    success:
+                        false
+
                 });
 
         }
 
     }
 );
+
+
 /* =========================================================
    START SERVER
 ========================================================= */
