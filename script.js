@@ -157,6 +157,41 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+   /* =====================================================
+   ACCESSIBILITY — ESCAPE KEY
+===================================================== */
+
+document.addEventListener(
+    "keydown",
+    function (event) {
+
+        if (event.key !== "Escape") {
+            return;
+        }
+
+        if (
+            mobileMenu &&
+            mobileMenu.classList.contains("active")
+        ) {
+            closeMenu();
+
+            if (menuToggle) {
+                menuToggle.focus();
+            }
+        }
+
+        if (
+            searchPanel &&
+            searchPanel.classList.contains("active")
+        ) {
+            closeSearchPanel();
+
+            if (searchButton) {
+                searchButton.focus();
+            }
+        }
+    }
+);
 
     /* =====================================================
        SEARCH
