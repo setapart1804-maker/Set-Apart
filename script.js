@@ -502,7 +502,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "PILGRIM HOODIE",
 
             price:
-               $34.99,
+               34.99,
 
             images: {
 
@@ -531,7 +531,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 "GOD FIRST HOODIE",
 
             price:
-                $34.99,
+                34.99,
 
             images: {
 
