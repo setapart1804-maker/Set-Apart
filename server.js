@@ -118,7 +118,7 @@ const PRODUCTS = {
             "PILGRIM HOODIE",
 
         price:
-           $34.99
+           34.99
 
     },
 
