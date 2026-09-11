@@ -5362,3 +5362,26 @@ textarea:focus-visible {
 .checkout-legal-agreement a:hover {
     opacity: 0.65;
 }
+
+/* =========================================================
+   CONTACT — PRIVACY NOTE
+========================================================= */
+
+.contact-privacy-note {
+    margin-top: 18px;
+    margin-bottom: 18px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #555555;
+}
+
+.contact-privacy-note a {
+    color: #000000;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.contact-privacy-note a:hover {
+    opacity: 0.65;
+}
