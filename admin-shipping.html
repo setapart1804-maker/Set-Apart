@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>SET APART — Shipping Admin</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+            background: #f5f5f5;
+            color: #111111;
+        }
+
+        .admin-wrap {
+            width: 100%;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 30px 20px;
+        }
+
+        .admin-card {
+            width: 100%;
+            max-width: 620px;
+            background: #ffffff;
+            padding: 40px;
+            border: 1px solid #e5e5e5;
+        }
+
+        .admin-brand {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .admin-brand h1 {
+            margin: 0;
+            font-size: 34px;
+            letter-spacing: 5px;
+        }
+
+        .admin-brand p {
+            margin: 10px 0 0;
+            font-size: 12px;
+            letter-spacing: 2px;
+            color: #666666;
+        }
+
+        .form-group {
+            margin-bottom: 22px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+
+        input,
+        select {
+            width: 100%;
+            height: 50px;
+            padding: 0 15px;
+            border: 1px solid #cccccc;
+            background: #ffffff;
+            font-size: 15px;
+        }
+
+        input:focus,
+        select:focus {
+            outline: none;
+            border-color: #111111;
+        }
+
+        button {
+            width: 100%;
+            height: 52px;
+            border: none;
+            background: #111111;
+            color: #ffffff;
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #333333;
+        }
+
+        .message {
+            display: none;
+            margin-top: 22px;
+            padding: 15px;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        .message.success {
+            display: block;
+            background: #eeeeee;
+            color: #111111;
+        }
+
+        .message.error {
+            display: block;
+            background: #111111;
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+
+            .admin-card {
+                padding: 28px 20px;
+            }
+
+            .admin-brand h1 {
+                font-size: 28px;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+<body>
+
+    <div class="admin-wrap">
+
+        <div class="admin-card">
+
+            <div class="admin-brand">
+
+                <h1>
+                    SET APART
+                </h1>
+
+                <p>
+                    SHIPPING ADMIN
+                </p>
+
+            </div>
+
+
+            <form id="shippingForm">
+
+                <div class="form-group">
+
+                    <label for="orderID">
+                        ORDER ID
+                    </label>
+
+                    <input
+                        type="text"
+                        id="orderID"
+                        required
+                        placeholder="PayPal Order ID"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customerName">
+                        CUSTOMER NAME
+                    </label>
+
+                    <input
+                        type="text"
+                        id="customerName"
+                        placeholder="Customer name"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="customerEmail">
+                        CUSTOMER EMAIL
+                    </label>
+
+                    <input
+                        type="email"
+                        id="customerEmail"
+                        required
+                        placeholder="customer@email.com"
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="carrier">
+                        CARRIER
+                    </label>
+
+                    <select id="carrier">
+
+                        <option value="DHL">
+                            DHL
+                        </option>
+
+                        <option value="UPS">
+                            UPS
+                        </option>
+
+                        <option value="FedEx">
+                            FedEx
+                        </option>
+
+                        <option value="USPS">
+                            USPS
+                        </option>
+
+                        <option value="Other">
+                            Other
+                        </option>
+
+                    </select>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="trackingNumber">
+                        TRACKING NUMBER
+                    </label>
+
+                    <input
+                        type="text"
+                        id="trackingNumber"
+                        required
+                        placeholder="Enter tracking number"
+                    >
+
+                </div>
+
+
+                <button type="submit">
+                    SEND SHIPPING EMAIL
+                </button>
+
+            </form>
+
+
+            <div
+                id="message"
+                class="message"
+            ></div>
+
+        </div>
+
+    </div>
+
+
+    <script>
+
+        const form =
+            document.getElementById(
+                "shippingForm"
+            );
+
+
+        const message =
+            document.getElementById(
+                "message"
+            );
+
+
+        form.addEventListener(
+            "submit",
+            async function (event) {
+
+                event.preventDefault();
+
+
+                message.className =
+                    "message";
+
+                message.textContent =
+                    "";
+
+
+                const payload = {
+
+                    orderID:
+                        document
+                            .getElementById(
+                                "orderID"
+                            )
+                            .value
+                            .trim(),
+
+                    customerName:
+                        document
+                            .getElementById(
+                                "customerName"
+                            )
+                            .value
+                            .trim(),
+
+                    customerEmail:
+                        document
+                            .getElementById(
+                                "customerEmail"
+                            )
+                            .value
+                            .trim(),
+
+                    carrier:
+                        document
+                            .getElementById(
+                                "carrier"
+                            )
+                            .value,
+
+                    trackingNumber:
+                        document
+                            .getElementById(
+                                "trackingNumber"
+                            )
+                            .value
+                            .trim()
+
+                };
+
+
+                try {
+
+                    const response =
+                        await fetch(
+                            "https://set-apart.onrender.com/api/orders/shipped",
+                            {
+                                method:
+                                    "POST",
+
+                                headers: {
+                                    "Content-Type":
+                                        "application/json"
+                                },
+
+                                body:
+                                    JSON.stringify(
+                                        payload
+                                    )
+                            }
+                        );
+
+
+                    const data =
+                        await response.json();
+
+
+                    if (
+                        !response.ok ||
+                        !data.success
+                    ) {
+
+                        throw new Error(
+                            data.error ||
+                            "Shipping email failed."
+                        );
+
+                    }
+
+
+                    message.className =
+                        "message success";
+
+                    message.textContent =
+                        "Shipping confirmation email sent successfully.";
+
+
+                    form.reset();
+
+                }
+
+                catch (error) {
+
+                    message.className =
+                        "message error";
+
+                    message.textContent =
+                        error.message ||
+                        "Something went wrong.";
+
+                }
+
+            }
+        );
+
+    </script>
+
+</body>
+
+</html>
