@@ -5412,3 +5412,13 @@ textarea:focus-visible {
 .skip-link:focus {
     transform: translateY(0);
 }
+
+/* =========================================================
+   ACCESSIBILITY — TEXT CONTRAST
+========================================================= */
+
+.shop-item-category,
+.product-card-info p,
+.cart-product-info p {
+    color: #666666 !important;
+}
