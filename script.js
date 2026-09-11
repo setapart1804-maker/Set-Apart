@@ -2959,10 +2959,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
                     }
 
+}).render(
+    "#paypal-button-container"
+).then(function () {
 
-            }).render(
-                "#paypal-button-container"
-            );
+    const paymentLoadingMessage =
+        document.getElementById(
+            "paymentLoadingMessage"
+        );
+
+    if (paymentLoadingMessage) {
+        paymentLoadingMessage.style.display =
+            "none";
+    }
+
+});
 
         };
 
