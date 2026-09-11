@@ -5296,3 +5296,17 @@ body .search-panel .search-panel-inner::after {
         font-size: 9px;
     }
 }
+
+/* =========================================================
+   MOBILE + TABLET — PREVENT SEARCH AUTO ZOOM
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    .search-input,
+    .search-form input,
+    #searchInput {
+        font-size: 16px !important;
+    }
+
+}
