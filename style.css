@@ -5385,3 +5385,30 @@ textarea:focus-visible {
 .contact-privacy-note a:hover {
     opacity: 0.65;
 }
+
+/* =========================================================
+   ACCESSIBILITY — SKIP LINK
+========================================================= */
+
+.skip-link {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    z-index: 99999;
+
+    padding: 12px 18px;
+
+    background: #000000;
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+
+    transform: translateY(-150%);
+    transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+    transform: translateY(0);
+}
