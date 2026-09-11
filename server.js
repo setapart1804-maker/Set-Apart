@@ -1856,6 +1856,42 @@ if (
 );
 
 /* =========================================================
+   PAYPAL WEBHOOK
+========================================================= */
+
+app.post(
+    "/api/paypal/webhook",
+    async function (req, res) {
+
+        try {
+
+            console.log(
+                "PayPal webhook received:",
+                req.body?.event_type || "UNKNOWN EVENT"
+            );
+
+            return res.status(200).json({
+                success: true
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "PayPal webhook error:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false
+            });
+
+        }
+
+    }
+);
+/* =========================================================
    START SERVER
 ========================================================= */
 
