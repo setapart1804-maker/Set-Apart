@@ -30,6 +30,8 @@ const RESEND_API_KEY =
 const ORDER_NOTIFICATION_EMAIL =
     process.env.ORDER_NOTIFICATION_EMAIL;
 
+const ADMIN_SHIPPING_KEY =
+    process.env.ADMIN_SHIPPING_KEY;
 
 /* =========================================================
    PAYPAL
@@ -1770,6 +1772,24 @@ app.post(
     async function (req, res) {
 
         try {
+
+           const adminKey =
+    req.headers["x-admin-key"];
+
+
+if (
+    !ADMIN_SHIPPING_KEY ||
+    adminKey !== ADMIN_SHIPPING_KEY
+) {
+
+    return res
+        .status(401)
+        .json({
+            success: false,
+            error: "Unauthorized."
+        });
+
+}
 
             const {
                 orderID,
