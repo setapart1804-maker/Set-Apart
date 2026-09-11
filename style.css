@@ -5511,3 +5511,16 @@ textarea:focus-visible {
     letter-spacing: 1.2px;
 }
 
+/* =========================================================
+   MOBILE / TABLET — PREVENT INPUT AUTO ZOOM
+========================================================= */
+
+@media (max-width: 1024px) {
+
+    input,
+    textarea,
+    select {
+        font-size: 16px !important;
+    }
+
+}
