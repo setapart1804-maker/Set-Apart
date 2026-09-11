@@ -5310,3 +5310,22 @@ body .search-panel .search-panel-inner::after {
     }
 
 }
+/* =========================================================
+   ACCESSIBILITY — KEYBOARD FOCUS
+========================================================= */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #000000;
+    outline-offset: 4px;
+}
+
+.product-image-btn:focus-visible,
+.button-black:focus-visible,
+.checkout-submit:focus-visible {
+    outline: 3px solid #ffffff;
+    outline-offset: 3px;
+}
