@@ -261,6 +261,89 @@ async function generateAccessToken() {
 
 }
 
+/* =========================================================
+   VERIFY PAYPAL WEBHOOK SIGNATURE
+========================================================= */
+
+async function verifyPayPalWebhook(req) {
+
+    if (!PAYPAL_WEBHOOK_ID) {
+        throw new Error(
+            "PAYPAL_WEBHOOK_ID is missing."
+        );
+    }
+
+    const accessToken =
+        await generateAccessToken();
+
+    const response =
+        await fetch(
+            `${PAYPAL_BASE_URL}/v1/notifications/verify-webhook-signature`,
+            {
+                method: "POST",
+
+                headers: {
+                    "Content-Type":
+                        "application/json",
+
+                    "Authorization":
+                        `Bearer ${accessToken}`
+                },
+
+                body: JSON.stringify({
+
+                    auth_algo:
+                        req.headers[
+                            "paypal-auth-algo"
+                        ],
+
+                    cert_url:
+                        req.headers[
+                            "paypal-cert-url"
+                        ],
+
+                    transmission_id:
+                        req.headers[
+                            "paypal-transmission-id"
+                        ],
+
+                    transmission_sig:
+                        req.headers[
+                            "paypal-transmission-sig"
+                        ],
+
+                    transmission_time:
+                        req.headers[
+                            "paypal-transmission-time"
+                        ],
+
+                    webhook_id:
+                        PAYPAL_WEBHOOK_ID,
+
+                    webhook_event:
+                        req.body
+                })
+            }
+        );
+
+    const data =
+        await response.json();
+
+    if (!response.ok) {
+
+        console.error(
+            "PayPal webhook verification error:",
+            data
+        );
+
+        return false;
+    }
+
+    return (
+        data.verification_status ===
+        "SUCCESS"
+    );
+}
 
 /* =========================================================
    CALCULATE ORDER
@@ -1868,14 +1951,65 @@ app.post(
 
         try {
 
+            const isVerified =
+                await verifyPayPalWebhook(req);
+
+            if (!isVerified) {
+
+                console.error(
+                    "Rejected invalid PayPal webhook."
+                );
+
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        error:
+                            "Invalid PayPal webhook signature."
+                    });
+            }
+
+
+            const event =
+                req.body;
+
+
             console.log(
-                "PayPal webhook received:",
-                req.body?.event_type || "UNKNOWN EVENT"
+                "Verified PayPal webhook:",
+                event?.event_type ||
+                    "UNKNOWN EVENT"
             );
 
-            return res.status(200).json({
-                success: true
-            });
+
+            if (
+                event?.event_type ===
+                "PAYMENT.CAPTURE.COMPLETED"
+            ) {
+
+                const capture =
+                    event.resource;
+
+                console.log(
+                    "Verified PayPal payment capture:",
+                    capture?.id
+                );
+
+                /*
+                    IMPORTANT:
+                    Do not send another order email here yet.
+
+                    The current capture endpoint already handles
+                    the order emails. This prevents duplicate
+                    fulfillment while we finish the webhook system.
+                */
+            }
+
+
+            return res
+                .status(200)
+                .json({
+                    success: true
+                });
 
         }
 
@@ -1886,9 +2020,11 @@ app.post(
                 error
             );
 
-            return res.status(500).json({
-                success: false
-            });
+            return res
+                .status(500)
+                .json({
+                    success: false
+                });
 
         }
 
