@@ -1582,59 +1582,6 @@ app.post(
 
 );
 
-app.get("/api/test-customer-email", async function (req, res) {
-
-    try {
-
-        await sendCustomerConfirmation({
-
-            orderID: "TEST-ORDER-001",
-
-            total: "1.00",
-
-            customer: {
-                firstName: "Test",
-                lastName: "Customer",
-                email: ORDER_NOTIFICATION_EMAIL,
-                address: "123 Test Street",
-                apartment: "",
-                city: "Santo Domingo",
-                state: "",
-                postalCode: "10101",
-                country: "Dominican Republic"
-            },
-
-            items: [
-                {
-                    id: "pilgrim",
-                    color: "Black",
-                    size: "M",
-                    quantity: 1
-                }
-            ]
-
-        });
-
-
-        res.json({
-            success: true,
-            message: "Customer confirmation test email sent."
-        });
-
-    }
-
-    catch (error) {
-
-        console.error(error);
-
-        res.status(500).json({
-            success: false,
-            error: "Test email failed."
-        });
-
-    }
-
-});
 
 /* =========================================================
    START SERVER
