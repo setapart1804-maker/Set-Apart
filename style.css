@@ -5422,3 +5422,20 @@ textarea:focus-visible {
 .cart-product-info p {
     color: #666666 !important;
 }
+
+/* =========================================================
+   ACCESSIBILITY — SECONDARY TEXT CONTRAST
+========================================================= */
+
+.contact-support-grid span,
+.contact-detail > span,
+.checkout-summary-info p,
+.checkout-note,
+.payment-placeholder span {
+    color: #666666 !important;
+}
+
+.checkout-field input::placeholder,
+.contact-field textarea::placeholder {
+    color: #767676 !important;
+}
