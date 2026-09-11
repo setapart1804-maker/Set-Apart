@@ -272,6 +272,43 @@ async function generateAccessToken() {
 }
 
 /* =========================================================
+   FAILED ORDER EMAILS — ADMIN ONLY
+========================================================= */
+
+app.get(
+    "/api/admin/failed-emails",
+    function (req, res) {
+
+        const adminKey =
+            req.headers["x-admin-key"];
+
+        if (
+            !ADMIN_SHIPPING_KEY ||
+            adminKey !== ADMIN_SHIPPING_KEY
+        ) {
+
+            return res
+                .status(401)
+                .json({
+                    success: false,
+                    error: "Unauthorized."
+                });
+        }
+
+
+        return res.json({
+            success: true,
+            count:
+                failedEmailCaptures.size,
+            captureIDs:
+                Array.from(
+                    failedEmailCaptures
+                )
+        });
+    }
+);
+
+/* =========================================================
    VERIFY PAYPAL WEBHOOK SIGNATURE
 ========================================================= */
 
