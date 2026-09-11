@@ -2009,6 +2009,33 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 } else {
 
+                               const pageOverlay =
+                document.getElementById(
+                    "pageOverlay"
+                );
+
+            if (pageOverlay) {
+
+                pageOverlay.classList.remove(
+                    "active"
+                );
+
+                pageOverlay.style.pointerEvents =
+                    "none";
+
+                pageOverlay.style.opacity =
+                    "0";
+
+                pageOverlay.style.visibility =
+                    "hidden";
+
+            }
+
+            document.body.classList.remove(
+                "menu-open",
+                "search-open"
+            );
+
                     paypalContainer.style.display =
                         "block";
 
