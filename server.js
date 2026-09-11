@@ -1269,6 +1269,189 @@ async function sendCustomerConfirmation({
     );
 
 }
+
+async function sendShippingConfirmation({
+    orderID,
+    customerEmail,
+    customerName,
+    carrier,
+    trackingNumber
+}) {
+
+    if (!customerEmail) {
+        throw new Error("Customer email is required.");
+    }
+
+    if (!trackingNumber) {
+        throw new Error("Tracking number is required.");
+    }
+
+
+    const safeCarrier =
+        carrier || "Shipping Carrier";
+
+
+    const html = `
+
+        <div
+            style="
+                font-family: Arial, sans-serif;
+                max-width: 700px;
+                margin: auto;
+                color: #111111;
+            "
+        >
+
+            <div
+                style="
+                    background:#111111;
+                    color:#ffffff;
+                    padding:30px;
+                    text-align:center;
+                "
+            >
+
+                <h1
+                    style="
+                        margin:0;
+                        font-size:30px;
+                        letter-spacing:4px;
+                    "
+                >
+                    SET APART
+                </h1>
+
+                <p
+                    style="
+                        margin:10px 0 0;
+                        font-size:12px;
+                        letter-spacing:2px;
+                    "
+                >
+                    CALLED TO LIVE DIFFERENTLY.
+                </p>
+
+            </div>
+
+
+            <div style="padding:35px 10px;">
+
+                <h2
+                    style="
+                        font-size:26px;
+                        margin-bottom:10px;
+                    "
+                >
+                    YOUR ORDER HAS SHIPPED
+                </h2>
+
+
+                <p
+                    style="
+                        color:#555555;
+                        line-height:1.7;
+                    "
+                >
+                    Hi ${escapeHtml(customerName || "there")},
+                    your SET APART order is on the way.
+                </p>
+
+
+                <hr
+                    style="
+                        border:0;
+                        border-top:1px solid #dddddd;
+                        margin:30px 0;
+                    "
+                >
+
+
+                <p>
+                    <strong>Order ID:</strong>
+                    ${escapeHtml(orderID || "-")}
+                </p>
+
+
+                <p>
+                    <strong>Carrier:</strong>
+                    ${escapeHtml(safeCarrier)}
+                </p>
+
+
+                <p>
+                    <strong>Tracking Number:</strong>
+                    ${escapeHtml(trackingNumber)}
+                </p>
+
+
+                <div
+                    style="
+                        margin-top:30px;
+                        padding:20px;
+                        background:#f5f5f5;
+                    "
+                >
+                    <strong>
+                        Keep this tracking number so you can follow your delivery.
+                    </strong>
+                </div>
+
+
+                <p
+                    style="
+                        margin-top:35px;
+                        color:#777777;
+                        font-size:12px;
+                    "
+                >
+                    SET APART — Faith-Inspired Streetwear
+                </p>
+
+            </div>
+
+        </div>
+
+    `;
+
+
+    const result =
+        await resend.emails.send({
+
+            from:
+                "SET APART Orders <onboarding@resend.dev>",
+
+            to:
+                [customerEmail],
+
+            subject:
+                "YOUR ORDER HAS SHIPPED — SET APART",
+
+            html:
+                html
+
+        });
+
+
+    if (result.error) {
+
+        console.error(
+            "Shipping confirmation email error:",
+            result.error
+        );
+
+        throw new Error(
+            "Shipping confirmation email could not be sent."
+        );
+
+    }
+
+
+    console.log(
+        "Shipping confirmation email sent:",
+        result.data
+    );
+
+}
 /* =========================================================
    CAPTURE PAYPAL ORDER
 ========================================================= */
@@ -1582,6 +1765,75 @@ app.post(
 
 );
 
+app.post(
+    "/api/orders/shipped",
+    async function (req, res) {
+
+        try {
+
+            const {
+                orderID,
+                customerEmail,
+                customerName,
+                carrier,
+                trackingNumber
+            } = req.body || {};
+
+
+            if (
+                !orderID ||
+                !customerEmail ||
+                !trackingNumber
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        error:
+                            "Order ID, customer email and tracking number are required."
+                    });
+
+            }
+
+
+            await sendShippingConfirmation({
+                orderID,
+                customerEmail,
+                customerName,
+                carrier,
+                trackingNumber
+            });
+
+
+            return res.json({
+                success: true,
+                message:
+                    "Shipping confirmation email sent successfully."
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Shipping email route error:",
+                error
+            );
+
+
+            return res
+                .status(500)
+                .json({
+                    success: false,
+                    error:
+                        "Shipping confirmation email could not be sent."
+                });
+
+        }
+
+    }
+);
 
 /* =========================================================
    START SERVER
