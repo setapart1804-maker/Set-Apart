@@ -118,7 +118,7 @@ const PRODUCTS = {
             "PILGRIM HOODIE",
 
         price:
-            1.00
+           $34.99
 
     },
 
@@ -129,7 +129,7 @@ const PRODUCTS = {
             "GOD FIRST HOODIE",
 
         price:
-            44.99
+            $34.99
 
     }
 
