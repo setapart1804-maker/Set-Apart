@@ -129,7 +129,7 @@ const PRODUCTS = {
             "GOD FIRST HOODIE",
 
         price:
-            $34.99
+            34.99
 
     }
 
