@@ -5329,3 +5329,36 @@ textarea:focus-visible {
     outline: 3px solid #ffffff;
     outline-offset: 3px;
 }
+
+/* =========================================================
+   CHECKOUT — LEGAL AGREEMENT
+========================================================= */
+
+.checkout-legal-agreement {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin: 24px 0;
+    font-size: 13px;
+    line-height: 1.6;
+    color: #555555;
+}
+
+.checkout-legal-agreement input {
+    width: 18px;
+    height: 18px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    cursor: pointer;
+}
+
+.checkout-legal-agreement a {
+    color: #000000;
+    font-weight: 700;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.checkout-legal-agreement a:hover {
+    opacity: 0.65;
+}
