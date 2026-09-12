@@ -3124,13 +3124,28 @@ document.addEventListener(
         notice.className =
             "payment-browser-notice";
 
-        notice.innerHTML = `
-            <strong>SECURE PAYMENT</strong>
-            <p>
-                For PayPal or Debit/Credit Card payment,
-                please open this page in Chrome or Safari.
-            </p>
-        `;
+       notice.innerHTML = `
+    <strong>SECURE PAYMENT</strong>
+
+    <p>
+        PayPal and Debit/Credit Card payments work best
+        in a supported browser.
+    </p>
+
+    <div class="payment-browser-buttons">
+        <span class="browser-button">
+            OPEN IN CHROME
+        </span>
+
+        <span class="browser-button">
+            OPEN IN SAFARI
+        </span>
+    </div>
+
+    <small>
+        Open this page in Chrome or Safari to continue payment.
+    </small>
+`;
 
         checkoutForm.prepend(
             notice
