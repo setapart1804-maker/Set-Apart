@@ -3088,3 +3088,53 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   GOOGLE APP / IN-APP BROWSER PAYMENT NOTICE
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const userAgent =
+            navigator.userAgent || "";
+
+        const isGoogleApp =
+            /GSA\//i.test(userAgent);
+
+        if (!isGoogleApp) {
+            return;
+        }
+
+        const checkoutForm =
+            document.getElementById(
+                "checkoutForm"
+            );
+
+        if (!checkoutForm) {
+            return;
+        }
+
+        const notice =
+            document.createElement(
+                "div"
+            );
+
+        notice.className =
+            "payment-browser-notice";
+
+        notice.innerHTML = `
+            <strong>SECURE PAYMENT</strong>
+            <p>
+                For PayPal or Debit/Credit Card payment,
+                please open this page in Chrome or Safari.
+            </p>
+        `;
+
+        checkoutForm.prepend(
+            notice
+        );
+
+    }
+);
