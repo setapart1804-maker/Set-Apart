@@ -5524,3 +5524,29 @@ textarea:focus-visible {
     }
 
 }
+
+/* =========================================================
+   PAYMENT BROWSER NOTICE
+========================================================= */
+
+.payment-browser-notice {
+    margin-bottom: 30px;
+    padding: 18px 20px;
+    border: 1px solid #000000;
+    background: #ffffff;
+    color: #000000;
+    font-size: 13px;
+    line-height: 1.6;
+}
+
+.payment-browser-notice strong {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 12px;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+}
+
+.payment-browser-notice p {
+    margin: 0;
+}
