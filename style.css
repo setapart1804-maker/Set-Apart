@@ -5550,3 +5550,48 @@ textarea:focus-visible {
 .payment-browser-notice p {
     margin: 0;
 }
+
+/* =========================================================
+   SECURE PAYMENT — BROWSER BUTTONS
+========================================================= */
+
+.payment-browser-buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 16px;
+    margin-bottom: 12px;
+}
+
+.browser-button {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    min-height: 46px;
+    padding: 12px 16px;
+
+    background: #1473e6;
+    color: #ffffff;
+
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.7px;
+
+    text-align: center;
+}
+
+.payment-browser-notice small {
+    display: block;
+    color: #666666;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+@media (max-width: 500px) {
+
+    .payment-browser-buttons {
+        flex-direction: column;
+    }
+
+}
