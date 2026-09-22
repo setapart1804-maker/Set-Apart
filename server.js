@@ -1,6 +1,6 @@
 /* =========================================================
    SET APART — PAYPAL + EMAIL BACKEND
-   Sandbox Payment Server
+   Live Payment Server
 ========================================================= */
 
 const express = require("express");
@@ -35,6 +35,11 @@ const ADMIN_SHIPPING_KEY =
 
 const PAYPAL_WEBHOOK_ID =
     process.env.PAYPAL_WEBHOOK_ID;
+
+const DOP_PER_USD =
+    Number(
+        process.env.DOP_PER_USD
+    );
 
 
 /* =========================================================
@@ -490,10 +495,261 @@ async function verifyPayPalWebhook(req) {
 
 
 /* =========================================================
+   SHIPPING
+========================================================= */
+
+function normalizePlace(value) {
+
+    return String(
+        value || ""
+    )
+        .normalize("NFD")
+        .replace(
+            /[\u0300-\u036f]/g,
+            ""
+        )
+        .trim()
+        .toLowerCase();
+
+}
+
+
+function getDopPerUsd() {
+
+    if (
+        !Number.isFinite(
+            DOP_PER_USD
+        ) ||
+        DOP_PER_USD <= 0
+    ) {
+
+        throw new Error(
+            "DOP_PER_USD environment variable is missing or invalid."
+        );
+
+    }
+
+    return DOP_PER_USD;
+
+}
+
+
+function calculateShipping(customer) {
+
+    const safeCustomer =
+        customer || {};
+
+    const country =
+        String(
+            safeCustomer.country || ""
+        )
+            .trim()
+            .toUpperCase();
+
+
+    if (!country) {
+
+        throw new Error(
+            "Shipping country is required."
+        );
+
+    }
+
+
+    /* =====================================================
+       HAITI — PÉTION-VILLE PICKUP
+    ===================================================== */
+
+    if (country === "HT") {
+
+        return {
+
+            method:
+                "PÉTION-VILLE PICKUP",
+
+            localCurrency:
+                "USD",
+
+            localAmount:
+                10,
+
+            usd:
+                "10.00",
+
+            displayPrice:
+                "$10.00 USD",
+
+            note:
+                "Orders for Haiti are collected at our pickup point in Pétion-Ville."
+
+        };
+
+    }
+
+
+    /* =====================================================
+       DOMINICAN REPUBLIC
+    ===================================================== */
+
+    if (country === "DO") {
+
+        const city =
+            normalizePlace(
+                safeCustomer.city
+            );
+
+        const state =
+            normalizePlace(
+                safeCustomer.state
+            );
+
+        const destination =
+            `${city} ${state}`;
+
+
+        if (!destination.trim()) {
+
+            throw new Error(
+                "City or province is required for Dominican Republic shipping."
+            );
+
+        }
+
+
+        const isCapitalArea =
+            destination.includes(
+                "santo domingo"
+            ) ||
+            destination.includes(
+                "distrito nacional"
+            );
+
+
+        const shippingDOP =
+            isCapitalArea
+                ? 300
+                : 500;
+
+
+        const rate =
+            getDopPerUsd();
+
+
+        const shippingUSD =
+            Math.round(
+                (
+                    shippingDOP /
+                    rate
+                ) * 100
+            ) / 100;
+
+
+        return {
+
+            method:
+                "STANDARD SHIPPING",
+
+            localCurrency:
+                "DOP",
+
+            localAmount:
+                shippingDOP,
+
+            usd:
+                shippingUSD.toFixed(
+                    2
+                ),
+
+            displayPrice:
+                `RD$${shippingDOP} / $${shippingUSD.toFixed(2)} USD`,
+
+            note:
+                isCapitalArea
+                    ? "Santo Domingo / capital area shipping."
+                    : "Shipping to other cities in the Dominican Republic."
+
+        };
+
+    }
+
+
+    throw new Error(
+        "SET APART currently ships only to Dominican Republic and Haiti."
+    );
+
+}
+
+
+/* =========================================================
+   SHIPPING QUOTE
+========================================================= */
+
+app.post(
+    "/api/shipping/quote",
+
+    function (req, res) {
+
+        try {
+
+            const shipping =
+                calculateShipping(
+                    req.body || {}
+                );
+
+
+            return res.json({
+
+                success:
+                    true,
+
+                method:
+                    shipping.method,
+
+                shippingUSD:
+                    shipping.usd,
+
+                localCurrency:
+                    shipping.localCurrency,
+
+                localAmount:
+                    shipping.localAmount,
+
+                displayPrice:
+                    shipping.displayPrice,
+
+                note:
+                    shipping.note
+
+            });
+
+        } catch (error) {
+
+            return res
+                .status(400)
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        error.message
+
+                });
+
+        }
+
+    }
+);
+
+
+/* =========================================================
    CALCULATE ORDER
 ========================================================= */
 
-function calculateOrder(items) {
+function calculateOrder(
+    items,
+    customer
+) {
 
     if (
         !Array.isArray(items) ||
@@ -507,7 +763,7 @@ function calculateOrder(items) {
     }
 
 
-    let total = 0;
+    let itemTotal = 0;
 
 
     const paypalItems =
@@ -527,10 +783,6 @@ function calculateOrder(items) {
 
                 }
 
-
-                /* =============================================
-                   VALIDATE PRODUCT OPTIONS
-                ============================================= */
 
                 const color =
                     String(
@@ -607,7 +859,7 @@ function calculateOrder(items) {
                 }
 
 
-                total +=
+                itemTotal +=
                     product.price *
                     quantity;
 
@@ -639,7 +891,31 @@ function calculateOrder(items) {
         );
 
 
+    const shipping =
+        calculateShipping(
+            customer
+        );
+
+
+    const shippingUSD =
+        Number(
+            shipping.usd
+        );
+
+
+    const total =
+        itemTotal +
+        shippingUSD;
+
+
     return {
+
+        itemTotal:
+            itemTotal.toFixed(
+                2
+            ),
+
+        shipping,
 
         total:
             total.toFixed(
@@ -651,6 +927,8 @@ function calculateOrder(items) {
     };
 
 }
+
+
 /* =========================================================
    CREATE PAYPAL ORDER
 ========================================================= */
@@ -662,13 +940,17 @@ app.post(
 
         try {
 
-            const { items } =
-                req.body;
+            const {
+                items,
+                customer
+            } =
+                req.body || {};
 
 
             const order =
                 calculateOrder(
-                    items
+                    items,
+                    customer
                 );
 
 
@@ -725,7 +1007,18 @@ app.post(
                                                         "USD",
 
                                                     value:
-                                                        order.total
+                                                        order.itemTotal
+
+                                                },
+
+
+                                                shipping: {
+
+                                                    currency_code:
+                                                        "USD",
+
+                                                    value:
+                                                        order.shipping.usd
 
                                                 }
 
@@ -783,7 +1076,13 @@ app.post(
                     true,
 
                 id:
-                    data.id
+                    data.id,
+
+                total:
+                    order.total,
+
+                shipping:
+                    order.shipping
 
             });
 
@@ -825,7 +1124,8 @@ async function sendOrderNotification({
     orderID,
     total,
     customer,
-    items
+    items,
+    shipping
 
 }) {
 
@@ -965,6 +1265,18 @@ async function sendOrderNotification({
             <p>
                 <strong>Total Paid:</strong>
                 $${escapeHtml(total)} USD
+            </p>
+
+
+            <p>
+                <strong>Shipping Method:</strong>
+                ${escapeHtml(shipping?.method || "-")}
+            </p>
+
+
+            <p>
+                <strong>Shipping Fee:</strong>
+                ${escapeHtml(shipping?.displayPrice || "-")}
             </p>
 
 
@@ -1179,7 +1491,8 @@ async function sendCustomerConfirmation({
     orderID,
     total,
     customer,
-    items
+    items,
+    shipping
 
 }) {
 
@@ -1358,6 +1671,18 @@ async function sendCustomerConfirmation({
                 </p>
 
 
+                <p>
+                    <strong>Shipping Method:</strong>
+                    ${escapeHtml(shipping?.method || "-")}
+                </p>
+
+
+                <p>
+                    <strong>Shipping Fee:</strong>
+                    ${escapeHtml(shipping?.displayPrice || "-")}
+                </p>
+
+
                 <hr
                     style="
                         border:0;
@@ -1457,7 +1782,9 @@ async function sendCustomerConfirmation({
 
 
                 <h3>
-                    SHIPPING TO
+                    ${shipping?.method === "PÉTION-VILLE PICKUP"
+                        ? "PICKUP INFORMATION"
+                        : "SHIPPING TO"}
                 </h3>
 
 
@@ -1476,6 +1803,21 @@ async function sendCustomerConfirmation({
                 >
                     ${addressParts || "-"}
                 </p>
+
+
+                ${shipping?.method === "PÉTION-VILLE PICKUP"
+                    ? `
+                        <p
+                            style="
+                                color:#111111;
+                                line-height:1.7;
+                                font-weight:600;
+                            "
+                        >
+                            Your order will be collected at the SET APART pickup point in Pétion-Ville. We will contact you when it is ready for pickup.
+                        </p>
+                    `
+                    : ""}
 
 
                 <div
@@ -1505,7 +1847,9 @@ async function sendCustomerConfirmation({
                         line-height:1.7;
                     "
                 >
-                    We'll contact you again when your order is ready to ship.
+                    ${shipping?.method === "PÉTION-VILLE PICKUP"
+                        ? "We'll contact you again when your order is ready for pickup in Pétion-Ville."
+                        : "We'll contact you again when your order is ready to ship."}
                 </p>
 
 
@@ -1564,6 +1908,8 @@ async function sendCustomerConfirmation({
     );
 
 }
+
+
 /* =========================================================
    SEND SHIPPING CONFIRMATION EMAIL
 ========================================================= */
@@ -1800,7 +2146,6 @@ app.post(
                 "address",
                 "country",
                 "city",
-                "postalCode",
                 "phone"
 
             ];
@@ -1916,7 +2261,8 @@ app.post(
 
             const validatedOrder =
                 calculateOrder(
-                    items
+                    items,
+                    customer
                 );
 
 
@@ -2160,7 +2506,10 @@ app.post(
                         customer || {},
 
                     items:
-                        items
+                        items,
+
+                    shipping:
+                        validatedOrder.shipping
 
                 });
 
@@ -2177,7 +2526,10 @@ app.post(
                         customer || {},
 
                     items:
-                        items
+                        items,
+
+                    shipping:
+                        validatedOrder.shipping
 
                 });
 
@@ -2262,6 +2614,7 @@ app.post(
     }
 
 );
+
 
 /* =========================================================
    SHIPPING CONFIRMATION ROUTE
@@ -2561,4 +2914,3 @@ app.listen(
 
     }
 );
-
