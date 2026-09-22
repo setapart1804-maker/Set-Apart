@@ -6346,7 +6346,44 @@ if (
         `Order ${orderID} is now SHIPPED.`;
 
 }
+           
+            return res.redirect(
 
+                303,
+
+                `/admin?notice=${encodeURIComponent(
+                    notice
+                )}`
+
+            );
+
+        }
+
+        catch (
+            error
+        ) {
+
+            console.error(
+
+                "Admin order action error:",
+
+                error
+
+            );
+
+
+            return res
+                .status(500)
+                .send(
+                    "Unable to update order."
+                );
+
+        }
+
+    }
+
+);
+           
 /* =========================================================
    DATABASE STARTUP CHECK
 ========================================================= */
