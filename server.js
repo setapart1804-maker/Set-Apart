@@ -4499,36 +4499,28 @@ function renderAdminDashboard(
                         );
 
 
-                    const canProcess =
+                   const canProcess =
 
-                        isPaid &&
+    isPaid &&
 
-                        [
-                            "PAID",
-                            "PROCESSING"
-                        ].includes(
-                            order.order_status
-                        );
+    order.order_status ===
+        "PAID";
 
 
-                    const canShip =
+const canShip =
 
-                        isPaid &&
+    isPaid &&
 
-                        [
-                            "PAID",
-                            "PROCESSING"
-                        ].includes(
-                            order.order_status
-                        );
+    order.order_status ===
+        "PROCESSING";
 
 
-                    const canComplete =
+const canComplete =
 
-                        isPaid &&
+    isPaid &&
 
-                        order.order_status !==
-                        "COMPLETED";
+    order.order_status ===
+        "SHIPPED";
 
 
                     const shippingPrice =
@@ -6150,228 +6142,210 @@ app.post(
 
 
             /* =================================================
-               PROCESSING
+                               PROCESSING
             ================================================= */
 
-            if (
-                action ===
-                "process"
-            ) {
+if (
+    action ===
+    "process"
+) {
 
-              
+    const result =
+        await db(
 
-                await db(
+            `
+            UPDATE orders
 
-                    `
+            SET
+                order_status = 'PROCESSING',
+                updated_at = NOW()
 
-                    UPDATE orders
+            WHERE paypal_order_id = $1
+              AND payment_status = 'COMPLETED'
+              AND order_status = 'PAID'
 
-                    SET
+            RETURNING *
+            `,
 
-                        order_status =
-                            'PROCESSING',
+            [
+                orderID
+            ]
 
-                        updated_at =
-                            NOW()
+        );
 
-                    WHERE paypal_order_id =
-                        $1
 
-                    `,
+    if (
+        result.rows.length ===
+        0
+    ) {
 
-                    [
-                        orderID
-                    ]
-
-                );
-
-
-                notice =
-                    `Order ${orderID} is now PROCESSING.`;
-
-            }
-
-
-            /* =================================================
-               COMPLETE
-            ================================================= */
-
-            if (
-                action ===
-                "complete"
-            ) {
-
-                await db(
-
-                    `
-
-                    UPDATE orders
-
-                    SET
-
-                        order_status =
-                            'COMPLETED',
-
-                        updated_at =
-                            NOW()
-
-                    WHERE paypal_order_id =
-                        $1
-
-                    `,
-
-                    [
-                        orderID
-                    ]
-
-                );
-
-
-                notice =
-                    `Order ${orderID} is now COMPLETED.`;
-
-            }
-
-
-            /* =================================================
-               SHIP
-            ================================================= */
-
-            if (
-                action ===
-                "ship"
-            ) {
-
-                if (
-                    ![
-                        "PAID",
-                        "PROCESSING"
-                    ].includes(
-                        stored.order
-                            .order_status
-                    )
-                ) {
-
-                    return res
-                        .status(400)
-                        .send(
-
-                            "Only PAID or PROCESSING orders can be marked as shipped."
-
-                        );
-
-                }
-
-
-                const carrier =
-                    String(
-                        req.body.carrier ||
-                        ""
-                    ).trim();
-
-
-                const trackingNumber =
-                    String(
-                        req.body.trackingNumber ||
-                        ""
-                    ).trim();
-
-
-                if (
-                    !trackingNumber
-                ) {
-
-                    return res
-                        .status(400)
-                        .send(
-                            "Tracking number is required."
-                        );
-
-                }
-
-
-                const customerName =
-
-                    `${stored.order.first_name} ${stored.order.last_name}`
-
-                        .trim();
-
-
-                await sendShippingConfirmation({
-
-                    orderID:
-                        orderID,
-
-                    customerEmail:
-                        stored.order
-                            .customer_email,
-
-                    customerName:
-                        customerName,
-
-                    carrier:
-                        carrier,
-
-                    trackingNumber:
-                        trackingNumber
-
-                });
-
-
-                await markOrderShipped({
-
-                    paypalOrderID:
-                        orderID,
-
-                    carrier:
-                        carrier,
-
-                    trackingNumber:
-                        trackingNumber
-
-                });
-
-
-                notice =
-                    `Order ${orderID} is now SHIPPED.`;
-
-            }
-
-
-            return res.redirect(
-
-                303,
-
-                `/admin?notice=${encodeURIComponent(
-                    notice
-                )}`
-
+        return res
+            .status(400)
+            .send(
+                "Only PAID orders can be marked as PROCESSING."
             );
-
-        }
-
-
-        catch (
-            error
-        ) {
-
-            console.error(
-                "Admin order action error:",
-                error
-            );
-
-
-            return res
-                .status(500)
-                .send(
-                    "Admin action failed."
-                );
-
-        }
 
     }
 
-);
+
+    notice =
+        `Order ${orderID} is now PROCESSING.`;
+
+}
+
+          /* =================================================
+   COMPLETE
+================================================= */
+
+if (
+    action ===
+    "complete"
+) {
+
+    const result =
+        await db(
+
+            `
+            UPDATE orders
+
+            SET
+                order_status = 'COMPLETED',
+                updated_at = NOW()
+
+            WHERE paypal_order_id = $1
+              AND payment_status = 'COMPLETED'
+              AND order_status = 'SHIPPED'
+
+            RETURNING *
+            `,
+
+            [
+                orderID
+            ]
+
+        );
+
+
+    if (
+        result.rows.length ===
+        0
+    ) {
+
+        return res
+            .status(400)
+            .send(
+                "Only SHIPPED orders can be marked as COMPLETED."
+            );
+
+    }
+
+
+    notice =
+        `Order ${orderID} is now COMPLETED.`;
+
+}
+           
+/* =================================================
+   SHIP
+================================================= */
+
+if (
+    action ===
+    "ship"
+) {
+
+    const currentOrderStatus =
+        String(
+            stored.order.order_status || ""
+        )
+            .trim()
+            .toUpperCase();
+
+
+    if (
+        currentOrderStatus !==
+        "PROCESSING"
+    ) {
+
+        return res
+            .status(400)
+            .send(
+                "Only PROCESSING orders can be marked as SHIPPED."
+            );
+
+    }
+
+
+    const carrier =
+        String(
+            req.body.carrier || ""
+        ).trim();
+
+
+    const trackingNumber =
+        String(
+            req.body.trackingNumber || ""
+        ).trim();
+
+
+    if (
+        !trackingNumber
+    ) {
+
+        return res
+            .status(400)
+            .send(
+                "Tracking number is required."
+            );
+
+    }
+
+
+    const customerName =
+
+        `${stored.order.first_name} ${stored.order.last_name}`
+
+            .trim();
+
+
+    await sendShippingConfirmation({
+
+        orderID:
+            orderID,
+
+        customerEmail:
+            stored.order.customer_email,
+
+        customerName:
+            customerName,
+
+        carrier:
+            carrier,
+
+        trackingNumber:
+            trackingNumber
+
+    });
+
+
+    await markOrderShipped({
+
+        paypalOrderID:
+            orderID,
+
+        carrier:
+            carrier,
+
+        trackingNumber:
+            trackingNumber
+
+    });
+
+
+    notice =
+        `Order ${orderID} is now SHIPPED.`;
+
+}
 
 /* =========================================================
    DATABASE STARTUP CHECK
