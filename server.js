@@ -6158,26 +6158,7 @@ app.post(
                 "process"
             ) {
 
-                if (
-                    ![
-                        "PAID",
-                        "PROCESSING"
-                    ].includes(
-                        stored.order
-                            .order_status
-                    )
-                ) {
-
-                    return res
-                        .status(400)
-                        .send(
-
-                            "Only PAID or PROCESSING orders can be marked as processing."
-
-                        );
-
-                }
-
+              
 
                 await db(
 
