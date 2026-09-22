@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://setapart1804-maker.github.io/Set-Apart/sitemap.xml
