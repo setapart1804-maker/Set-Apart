@@ -6,6 +6,7 @@ const express = require("express");
 const cors = require("cors");
 const { Resend } = require("resend");
 const { Pool } = require("pg");
+const crypto = require("crypto");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -38,6 +39,12 @@ const DOP_PER_USD =
 
 const DATABASE_URL =
     process.env.DATABASE_URL;
+
+const ADMIN_USERNAME =
+    process.env.ADMIN_USERNAME;
+
+const ADMIN_PASSWORD =
+    process.env.ADMIN_PASSWORD;
 
 
 const PAYPAL_BASE_URL =
@@ -94,6 +101,11 @@ app.use(
     })
 );
 
+app.use(
+    express.urlencoded({
+        extended: false
+    })
+);
 
 app.use(
     cors({
@@ -115,9 +127,10 @@ app.use(
         ],
 
         allowedHeaders: [
-            "Content-Type",
-            "x-admin-key"
-        ]
+    "Content-Type",
+    "x-admin-key",
+    "Authorization"
+]
 
     })
 );
@@ -3872,6 +3885,2512 @@ app.post(
 
 );
 
+/* =========================================================
+   SET APART — ADMIN DASHBOARD
+========================================================= */
+
+function secureTextEqual(a, b) {
+
+    const left =
+        Buffer.from(
+            String(a ?? ""),
+            "utf8"
+        );
+
+    const right =
+        Buffer.from(
+            String(b ?? ""),
+            "utf8"
+        );
+
+
+    if (
+        left.length !==
+        right.length
+    ) {
+
+        return false;
+
+    }
+
+
+    return crypto.timingSafeEqual(
+        left,
+        right
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN LOGIN
+========================================================= */
+
+function adminBasicAuth(
+    req,
+    res,
+    next
+) {
+
+    if (
+        !ADMIN_USERNAME ||
+        !ADMIN_PASSWORD
+    ) {
+
+        return res
+            .status(503)
+            .send(
+                "Admin login is not configured."
+            );
+
+    }
+
+
+    const authorization =
+        String(
+            req.headers.authorization ||
+            ""
+        );
+
+
+    if (
+        !authorization.startsWith(
+            "Basic "
+        )
+    ) {
+
+        res.set(
+            "WWW-Authenticate",
+            'Basic realm="SET APART Admin", charset="UTF-8"'
+        );
+
+
+        return res
+            .status(401)
+            .send(
+                "Authentication required."
+            );
+
+    }
+
+
+    let decoded =
+        "";
+
+
+    try {
+
+        decoded =
+            Buffer.from(
+
+                authorization.slice(
+                    6
+                ),
+
+                "base64"
+
+            ).toString(
+                "utf8"
+            );
+
+    }
+
+
+    catch {
+
+        res.set(
+            "WWW-Authenticate",
+            'Basic realm="SET APART Admin", charset="UTF-8"'
+        );
+
+
+        return res
+            .status(401)
+            .send(
+                "Authentication required."
+            );
+
+    }
+
+
+    const separator =
+        decoded.indexOf(
+            ":"
+        );
+
+
+    if (
+        separator <
+        0
+    ) {
+
+        res.set(
+            "WWW-Authenticate",
+            'Basic realm="SET APART Admin", charset="UTF-8"'
+        );
+
+
+        return res
+            .status(401)
+            .send(
+                "Authentication required."
+            );
+
+    }
+
+
+    const username =
+        decoded.slice(
+            0,
+            separator
+        );
+
+
+    const password =
+        decoded.slice(
+            separator + 1
+        );
+
+
+    const validUsername =
+        secureTextEqual(
+            username,
+            ADMIN_USERNAME
+        );
+
+
+    const validPassword =
+        secureTextEqual(
+            password,
+            ADMIN_PASSWORD
+        );
+
+
+    if (
+        !validUsername ||
+        !validPassword
+    ) {
+
+        res.set(
+            "WWW-Authenticate",
+            'Basic realm="SET APART Admin", charset="UTF-8"'
+        );
+
+
+        return res
+            .status(401)
+            .send(
+                "Invalid admin credentials."
+            );
+
+    }
+
+
+    next();
+
+}
+
+
+/* =========================================================
+   ADMIN CSRF SECURITY
+========================================================= */
+
+function createAdminCsrfToken(
+    orderID,
+    action
+) {
+
+    return crypto
+
+        .createHmac(
+            "sha256",
+            ADMIN_PASSWORD ||
+            ""
+        )
+
+        .update(
+            `${orderID}:${action}:set-apart-admin`
+        )
+
+        .digest(
+            "hex"
+        );
+
+}
+
+
+function verifyAdminCsrfToken(
+    orderID,
+    action,
+    token
+) {
+
+    const expected =
+        createAdminCsrfToken(
+            orderID,
+            action
+        );
+
+
+    return secureTextEqual(
+        token,
+        expected
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN SECURITY HEADERS
+========================================================= */
+
+function setAdminSecurityHeaders(
+    res
+) {
+
+    res.set(
+        "Cache-Control",
+        "no-store, max-age=0"
+    );
+
+    res.set(
+        "Pragma",
+        "no-cache"
+    );
+
+    res.set(
+        "X-Robots-Tag",
+        "noindex, nofollow, noarchive"
+    );
+
+    res.set(
+        "X-Content-Type-Options",
+        "nosniff"
+    );
+
+    res.set(
+        "X-Frame-Options",
+        "DENY"
+    );
+
+    res.set(
+        "Referrer-Policy",
+        "no-referrer"
+    );
+
+    res.set(
+
+        "Content-Security-Policy",
+
+        "default-src 'self'; style-src 'unsafe-inline'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'"
+
+    );
+
+}
+
+
+/* =========================================================
+   ADMIN MONEY
+========================================================= */
+
+function adminMoney(
+    value
+) {
+
+    return (
+        "$" +
+        Number(
+            value ||
+            0
+        ).toFixed(
+            2
+        )
+    );
+
+}
+
+
+/* =========================================================
+   GET ADMIN ORDERS
+========================================================= */
+
+async function getAdminDashboardData() {
+
+    const summaryResult =
+        await db(`
+
+            SELECT
+
+                COUNT(*)::int
+                    AS total_orders,
+
+                COALESCE(
+
+                    SUM(total_usd)
+                    FILTER (
+                        WHERE payment_status =
+                        'COMPLETED'
+                    ),
+
+                    0
+
+                )
+                    AS total_sales,
+
+                COUNT(*)
+                FILTER (
+                    WHERE payment_status =
+                    'PENDING_PAYMENT'
+                )::int
+                    AS pending_payment,
+
+                COUNT(*)
+                FILTER (
+                    WHERE order_status =
+                    'PAID'
+                )::int
+                    AS paid,
+
+                COUNT(*)
+                FILTER (
+                    WHERE order_status =
+                    'PROCESSING'
+                )::int
+                    AS processing,
+
+                COUNT(*)
+                FILTER (
+                    WHERE order_status =
+                    'SHIPPED'
+                )::int
+                    AS shipped,
+
+                COUNT(*)
+                FILTER (
+                    WHERE order_status =
+                    'COMPLETED'
+                )::int
+                    AS completed
+
+            FROM orders
+
+        `);
+
+
+    const ordersResult =
+        await db(`
+
+            SELECT
+
+                o.*,
+
+                COALESCE(
+
+                    json_agg(
+
+                        json_build_object(
+
+                            'id',
+                            oi.id,
+
+                            'product_id',
+                            oi.product_id,
+
+                            'product_name',
+                            oi.product_name,
+
+                            'color',
+                            oi.color,
+
+                            'size',
+                            oi.size,
+
+                            'quantity',
+                            oi.quantity,
+
+                            'unit_price_usd',
+                            oi.unit_price_usd,
+
+                            'line_total_usd',
+                            oi.line_total_usd
+
+                        )
+
+                        ORDER BY
+                            oi.id ASC
+
+                    )
+
+                    FILTER (
+                        WHERE oi.id
+                        IS NOT NULL
+                    ),
+
+                    '[]'::json
+
+                )
+                    AS items
+
+            FROM orders o
+
+            LEFT JOIN order_items oi
+                ON oi.order_id =
+                o.id
+
+            GROUP BY
+                o.id
+
+            ORDER BY
+                o.created_at DESC
+
+            LIMIT 250
+
+        `);
+
+
+    return {
+
+        summary:
+            summaryResult.rows[0] ||
+            {},
+
+        orders:
+            ordersResult.rows
+
+    };
+
+}
+
+
+/* =========================================================
+   RENDER ADMIN DASHBOARD
+========================================================= */
+
+function renderAdminDashboard(
+    data,
+    notice = ""
+) {
+
+    const summary =
+        data.summary ||
+        {};
+
+
+    const orders =
+        Array.isArray(
+            data.orders
+        )
+            ? data.orders
+            : [];
+
+
+    const orderCards =
+        orders.length
+
+            ? orders.map(
+
+                function (
+                    order
+                ) {
+
+                    const items =
+                        Array.isArray(
+                            order.items
+                        )
+                            ? order.items
+                            : [];
+
+
+                    const isPaid =
+
+                        order.payment_status ===
+                        "COMPLETED";
+
+
+                    const productsHtml =
+                        items.map(
+
+                            function (
+                                item
+                            ) {
+
+                                return `
+
+                                    <tr>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                item.product_name
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                String(
+                                                    item.color ||
+                                                    ""
+                                                )
+                                                .toUpperCase()
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                item.size
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${escapeHtml(
+                                                item.quantity
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${adminMoney(
+                                                item.unit_price_usd
+                                            )}
+                                        </td>
+
+                                        <td>
+                                            ${adminMoney(
+                                                item.line_total_usd
+                                            )}
+                                        </td>
+
+                                    </tr>
+
+                                `;
+
+                            }
+
+                        ).join(
+                            ""
+                        );
+
+
+                    const processToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "process"
+
+                        );
+
+
+                    const shipToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "ship"
+
+                        );
+
+
+                    const completeToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "complete"
+
+                        );
+
+
+                    const canProcess =
+
+                        isPaid &&
+
+                        [
+                            "PAID",
+                            "PROCESSING"
+                        ].includes(
+                            order.order_status
+                        );
+
+
+                    const canShip =
+
+                        isPaid &&
+
+                        [
+                            "PAID",
+                            "PROCESSING"
+                        ].includes(
+                            order.order_status
+                        );
+
+
+                    const canComplete =
+
+                        isPaid &&
+
+                        order.order_status !==
+                        "COMPLETED";
+
+
+                    const shippingPrice =
+
+                        order.shipping_local_currency ===
+                        "DOP"
+
+                            ? `RD$${Number(
+                                order.shipping_local_amount ||
+                                0
+                            ).toFixed(0)} / ${adminMoney(
+                                order.shipping_usd
+                            )} USD`
+
+                            : `${adminMoney(
+                                order.shipping_usd
+                            )} USD`;
+
+
+                    return `
+
+                        <article class="order-card">
+
+
+                            <div class="order-top">
+
+                                <div>
+
+                                    <div class="order-id">
+
+                                        ${escapeHtml(
+                                            order.paypal_order_id
+                                        )}
+
+                                    </div>
+
+
+                                    <div class="order-date">
+
+                                        ${escapeHtml(
+                                            new Date(
+                                                order.created_at
+                                            )
+                                            .toLocaleString(
+                                                "en-US"
+                                            )
+                                        )}
+
+                                    </div>
+
+                                </div>
+
+
+                                <div class="badges">
+
+                                    <span
+                                        class="badge ${
+                                            isPaid
+                                                ? "paid"
+                                                : ""
+                                        }"
+                                    >
+
+                                        ${escapeHtml(
+                                            order.payment_status
+                                        )}
+
+                                    </span>
+
+
+                                    <span class="badge">
+
+                                        ${escapeHtml(
+                                            order.order_status
+                                        )}
+
+                                    </span>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="order-grid">
+
+
+                                <section>
+
+                                    <h3>
+                                        CUSTOMER
+                                    </h3>
+
+
+                                    <p>
+
+                                        <strong>
+
+                                            ${escapeHtml(
+                                                order.first_name
+                                            )}
+
+                                            ${escapeHtml(
+                                                order.last_name
+                                            )}
+
+                                        </strong>
+
+                                    </p>
+
+
+                                    <p>
+                                        ${escapeHtml(
+                                            order.customer_email
+                                        )}
+                                    </p>
+
+
+                                    <p>
+                                        ${escapeHtml(
+                                            order.phone
+                                        )}
+                                    </p>
+
+
+                                    <p>
+
+                                        ${escapeHtml(
+                                            order.address
+                                        )}
+
+                                        ${
+                                            order.apartment
+
+                                                ? ", " +
+                                                escapeHtml(
+                                                    order.apartment
+                                                )
+
+                                                : ""
+                                        }
+
+                                    </p>
+
+
+                                    <p>
+
+                                        ${escapeHtml(
+                                            order.city
+                                        )}
+
+                                        ${
+                                            order.state
+
+                                                ? ", " +
+                                                escapeHtml(
+                                                    order.state
+                                                )
+
+                                                : ""
+                                        }
+
+                                        —
+
+                                        ${escapeHtml(
+                                            order.country
+                                        )}
+
+                                    </p>
+
+                                </section>
+
+
+                                <section>
+
+                                    <h3>
+                                        PAYMENT
+                                    </h3>
+
+
+                                    <p>
+
+                                        Subtotal:
+
+                                        <strong>
+
+                                            ${adminMoney(
+                                                order.subtotal_usd
+                                            )}
+
+                                        </strong>
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Shipping:
+
+                                        <strong>
+
+                                            ${escapeHtml(
+                                                shippingPrice
+                                            )}
+
+                                        </strong>
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Total:
+
+                                        <strong>
+
+                                            ${adminMoney(
+                                                order.total_usd
+                                            )}
+
+                                        </strong>
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Capture:
+
+                                        ${escapeHtml(
+                                            order.paypal_capture_id ||
+                                            "Not captured"
+                                        )}
+
+                                    </p>
+
+                                </section>
+
+
+                                <section>
+
+                                    <h3>
+                                        SHIPPING
+                                    </h3>
+
+
+                                    <p>
+
+                                        <strong>
+
+                                            ${escapeHtml(
+                                                order.shipping_method
+                                            )}
+
+                                        </strong>
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Carrier:
+
+                                        ${escapeHtml(
+                                            order.carrier ||
+                                            "—"
+                                        )}
+
+                                    </p>
+
+
+                                    <p>
+
+                                        Tracking:
+
+                                        ${escapeHtml(
+                                            order.tracking_number ||
+                                            "—"
+                                        )}
+
+                                    </p>
+
+                                </section>
+
+
+                            </div>
+
+
+                            <details>
+
+                                <summary>
+
+                                    VIEW PRODUCTS
+                                    (${items.length})
+
+                                </summary>
+
+
+                                <div class="table-wrap">
+
+                                    <table>
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>
+                                                    PRODUCT
+                                                </th>
+
+                                                <th>
+                                                    COLOR
+                                                </th>
+
+                                                <th>
+                                                    SIZE
+                                                </th>
+
+                                                <th>
+                                                    QTY
+                                                </th>
+
+                                                <th>
+                                                    UNIT
+                                                </th>
+
+                                                <th>
+                                                    TOTAL
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+                                            ${productsHtml}
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </details>
+
+
+                            <div class="actions">
+
+
+                                ${
+                                    canProcess
+
+                                        ? `
+
+                                            <form
+                                                method="post"
+                                                action="/admin/orders/${encodeURIComponent(
+                                                    order.paypal_order_id
+                                                )}/action"
+                                            >
+
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="process">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf"
+                                                    value="${processToken}">
+
+                                                <button
+                                                    type="submit"
+                                                >
+
+                                                    MARK PROCESSING
+
+                                                </button>
+
+                                            </form>
+
+                                        `
+
+                                        : ""
+                                }
+
+
+                                ${
+                                    canShip
+
+                                        ? `
+
+                                            <form
+                                                class="ship-form"
+                                                method="post"
+                                                action="/admin/orders/${encodeURIComponent(
+                                                    order.paypal_order_id
+                                                )}/action"
+                                            >
+
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="ship">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf"
+                                                    value="${shipToken}">
+
+
+                                                <input
+                                                    type="text"
+                                                    name="carrier"
+                                                    maxlength="100"
+                                                    placeholder="Carrier">
+
+
+                                                <input
+                                                    type="text"
+                                                    name="trackingNumber"
+                                                    maxlength="255"
+                                                    placeholder="Tracking number"
+                                                    required>
+
+
+                                                <button
+                                                    type="submit"
+                                                >
+
+                                                    MARK SHIPPED
+
+                                                </button>
+
+                                            </form>
+
+                                        `
+
+                                        : ""
+                                }
+
+
+                                ${
+                                    canComplete
+
+                                        ? `
+
+                                            <form
+                                                method="post"
+                                                action="/admin/orders/${encodeURIComponent(
+                                                    order.paypal_order_id
+                                                )}/action"
+                                            >
+
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="complete">
+
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf"
+                                                    value="${completeToken}">
+
+
+                                                <button
+                                                    type="submit"
+                                                    class="secondary"
+                                                >
+
+                                                    MARK COMPLETED
+
+                                                </button>
+
+                                            </form>
+
+                                        `
+
+                                        : ""
+                                }
+
+
+                            </div>
+
+                        </article>
+
+                    `;
+
+                }
+
+            ).join(
+                ""
+            )
+
+            : `
+
+                <div class="empty">
+
+                    NO ORDERS YET.
+
+                </div>
+
+            `;
+
+
+    return `
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="robots"
+        content="noindex, nofollow, noarchive">
+
+    <title>
+        SET APART — ADMIN
+    </title>
+
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+        }
+
+
+        body {
+
+            margin: 0;
+
+            font-family:
+                Arial,
+                Helvetica,
+                sans-serif;
+
+            background:
+                #f5f5f5;
+
+            color:
+                #111111;
+
+        }
+
+
+        .admin-header {
+
+            background:
+                #000000;
+
+            color:
+                #ffffff;
+
+            padding:
+                25px
+                4%;
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            gap:
+                20px;
+
+        }
+
+
+        .admin-logo {
+
+            font-size:
+                22px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                4px;
+
+        }
+
+
+        .admin-header small {
+
+            color:
+                #aaaaaa;
+
+        }
+
+
+        .admin-container {
+
+            width:
+                min(
+                    1450px,
+                    calc(
+                        100% - 32px
+                    )
+                );
+
+            margin:
+                30px
+                auto
+                70px;
+
+        }
+
+
+        .stats {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    6,
+                    minmax(
+                        140px,
+                        1fr
+                    )
+                );
+
+            gap:
+                12px;
+
+            margin-bottom:
+                30px;
+
+        }
+
+
+        .stat {
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid
+                #dddddd;
+
+            padding:
+                20px;
+
+        }
+
+
+        .stat span {
+
+            display:
+                block;
+
+            color:
+                #777777;
+
+            font-size:
+                10px;
+
+            font-weight:
+                800;
+
+            letter-spacing:
+                1.3px;
+
+            margin-bottom:
+                10px;
+
+        }
+
+
+        .stat strong {
+
+            font-size:
+                24px;
+
+        }
+
+
+        .notice {
+
+            background:
+                #111111;
+
+            color:
+                #ffffff;
+
+            padding:
+                14px
+                18px;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .section-title {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                center;
+
+            margin-bottom:
+                15px;
+
+        }
+
+
+        .section-title h1 {
+
+            margin:
+                0;
+
+        }
+
+
+        .section-title a {
+
+            color:
+                #111111;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .order-card {
+
+            background:
+                #ffffff;
+
+            border:
+                1px solid
+                #dddddd;
+
+            padding:
+                22px;
+
+            margin-bottom:
+                18px;
+
+        }
+
+
+        .order-top {
+
+            display:
+                flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            gap:
+                20px;
+
+            padding-bottom:
+                18px;
+
+            margin-bottom:
+                20px;
+
+            border-bottom:
+                1px solid
+                #eeeeee;
+
+        }
+
+
+        .order-id {
+
+            font-size:
+                14px;
+
+            font-weight:
+                900;
+
+            word-break:
+                break-all;
+
+        }
+
+
+        .order-date {
+
+            color:
+                #777777;
+
+            font-size:
+                12px;
+
+            margin-top:
+                6px;
+
+        }
+
+
+        .badges {
+
+            display:
+                flex;
+
+            gap:
+                7px;
+
+            flex-wrap:
+                wrap;
+
+        }
+
+
+        .badge {
+
+            border:
+                1px solid
+                #111111;
+
+            padding:
+                7px
+                10px;
+
+            font-size:
+                10px;
+
+            font-weight:
+                900;
+
+        }
+
+
+        .badge.paid {
+
+            background:
+                #111111;
+
+            color:
+                #ffffff;
+
+        }
+
+
+        .order-grid {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                repeat(
+                    3,
+                    1fr
+                );
+
+            gap:
+                25px;
+
+            margin-bottom:
+                20px;
+
+        }
+
+
+        .order-grid h3 {
+
+            font-size:
+                11px;
+
+            letter-spacing:
+                1.3px;
+
+        }
+
+
+        .order-grid p {
+
+            font-size:
+                13px;
+
+            line-height:
+                1.5;
+
+            margin:
+                6px
+                0;
+
+        }
+
+
+        details {
+
+            padding-top:
+                15px;
+
+            border-top:
+                1px solid
+                #eeeeee;
+
+        }
+
+
+        summary {
+
+            cursor:
+                pointer;
+
+            font-size:
+                11px;
+
+            font-weight:
+                900;
+
+            letter-spacing:
+                1px;
+
+        }
+
+
+        .table-wrap {
+
+            overflow-x:
+                auto;
+
+            margin-top:
+                15px;
+
+        }
+
+
+        table {
+
+            width:
+                100%;
+
+            border-collapse:
+                collapse;
+
+            min-width:
+                650px;
+
+        }
+
+
+        th,
+        td {
+
+            text-align:
+                left;
+
+            padding:
+                11px;
+
+            border-bottom:
+                1px solid
+                #eeeeee;
+
+            font-size:
+                12px;
+
+        }
+
+
+        th {
+
+            background:
+                #f7f7f7;
+
+            font-size:
+                10px;
+
+        }
+
+
+        .actions {
+
+            display:
+                flex;
+
+            flex-wrap:
+                wrap;
+
+            gap:
+                10px;
+
+            align-items:
+                end;
+
+            border-top:
+                1px solid
+                #eeeeee;
+
+            margin-top:
+                18px;
+
+            padding-top:
+                18px;
+
+        }
+
+
+        form {
+            margin: 0;
+        }
+
+
+        .ship-form {
+
+            display:
+                grid;
+
+            grid-template-columns:
+                160px
+                220px
+                auto;
+
+            gap:
+                8px;
+
+        }
+
+
+        input {
+
+            min-height:
+                42px;
+
+            border:
+                1px solid
+                #bbbbbb;
+
+            padding:
+                0
+                11px;
+
+        }
+
+
+        button {
+
+            min-height:
+                42px;
+
+            border:
+                1px solid
+                #111111;
+
+            background:
+                #111111;
+
+            color:
+                #ffffff;
+
+            padding:
+                0
+                15px;
+
+            font-size:
+                10px;
+
+            font-weight:
+                900;
+
+            cursor:
+                pointer;
+
+        }
+
+
+        button.secondary {
+
+            background:
+                #ffffff;
+
+            color:
+                #111111;
+
+        }
+
+
+        .empty {
+
+            background:
+                #ffffff;
+
+            padding:
+                50px;
+
+            text-align:
+                center;
+
+            border:
+                1px solid
+                #dddddd;
+
+        }
+
+
+        @media (
+            max-width:
+            1050px
+        ) {
+
+            .stats {
+
+                grid-template-columns:
+                    repeat(
+                        3,
+                        1fr
+                    );
+
+            }
+
+
+            .order-grid {
+
+                grid-template-columns:
+                    1fr
+                    1fr;
+
+            }
+
+        }
+
+
+        @media (
+            max-width:
+            700px
+        ) {
+
+            .admin-header {
+
+                flex-direction:
+                    column;
+
+                align-items:
+                    flex-start;
+
+            }
+
+
+            .stats {
+
+                grid-template-columns:
+                    1fr
+                    1fr;
+
+            }
+
+
+            .order-grid {
+
+                grid-template-columns:
+                    1fr;
+
+            }
+
+
+            .order-top {
+
+                flex-direction:
+                    column;
+
+            }
+
+
+            .ship-form {
+
+                grid-template-columns:
+                    1fr;
+
+                width:
+                    100%;
+
+            }
+
+
+            .actions form {
+
+                width:
+                    100%;
+
+            }
+
+
+            .actions button {
+
+                width:
+                    100%;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+    <header class="admin-header">
+
+        <div>
+
+            <div class="admin-logo">
+
+                SET APART
+
+            </div>
+
+            <small>
+
+                PRIVATE ADMIN DASHBOARD
+
+            </small>
+
+        </div>
+
+
+        <small>
+
+            ORDERS • PAYMENTS • SHIPPING
+
+        </small>
+
+    </header>
+
+
+    <main class="admin-container">
+
+
+        ${
+            notice
+
+                ? `
+
+                    <div class="notice">
+
+                        ${escapeHtml(
+                            notice
+                        )}
+
+                    </div>
+
+                `
+
+                : ""
+        }
+
+
+        <section class="stats">
+
+
+            <div class="stat">
+
+                <span>
+                    TOTAL ORDERS
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.total_orders ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    PAID SALES
+                </span>
+
+                <strong>
+
+                    ${adminMoney(
+                        summary.total_sales
+                    )}
+
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    PENDING PAYMENT
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.pending_payment ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    PAID
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.paid ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    PROCESSING
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.processing ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
+            <div class="stat">
+
+                <span>
+                    SHIPPED / COMPLETED
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.shipped ||
+                        0
+                    )}
+
+                    /
+
+                    ${Number(
+                        summary.completed ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
+        </section>
+
+
+        <div class="section-title">
+
+            <h1>
+                ORDERS
+            </h1>
+
+            <a href="/admin">
+
+                REFRESH
+
+            </a>
+
+        </div>
+
+
+        ${orderCards}
+
+
+    </main>
+
+
+</body>
+
+</html>
+
+    `;
+
+}
+
+
+/* =========================================================
+   ADMIN PAGE
+========================================================= */
+
+app.get(
+
+    "/admin",
+
+    adminBasicAuth,
+
+    async function (
+        req,
+        res
+    ) {
+
+        try {
+
+            setAdminSecurityHeaders(
+                res
+            );
+
+
+            const data =
+                await getAdminDashboardData();
+
+
+            const notice =
+                String(
+                    req.query.notice ||
+                    ""
+                ).slice(
+                    0,
+                    250
+                );
+
+
+            return res
+                .type(
+                    "html"
+                )
+                .send(
+
+                    renderAdminDashboard(
+                        data,
+                        notice
+                    )
+
+                );
+
+        }
+
+
+        catch (
+            error
+        ) {
+
+            console.error(
+                "Admin dashboard error:",
+                error
+            );
+
+
+            return res
+                .status(500)
+                .send(
+                    "Admin dashboard could not be loaded."
+                );
+
+        }
+
+    }
+
+);
+
+
+/* =========================================================
+   ADMIN ORDER ACTIONS
+========================================================= */
+
+app.post(
+
+    "/admin/orders/:orderID/action",
+
+    adminBasicAuth,
+
+    async function (
+        req,
+        res
+    ) {
+
+        try {
+
+            setAdminSecurityHeaders(
+                res
+            );
+
+
+            const orderID =
+                String(
+                    req.params.orderID ||
+                    ""
+                ).trim();
+
+
+            const action =
+                String(
+                    req.body.action ||
+                    ""
+                )
+                    .trim()
+                    .toLowerCase();
+
+
+            const csrf =
+                String(
+                    req.body.csrf ||
+                    ""
+                );
+
+
+            if (
+
+                !orderID ||
+
+                ![
+                    "process",
+                    "ship",
+                    "complete"
+                ].includes(
+                    action
+                )
+
+            ) {
+
+                return res
+                    .status(400)
+                    .send(
+                        "Invalid admin action."
+                    );
+
+            }
+
+
+            if (
+                !verifyAdminCsrfToken(
+                    orderID,
+                    action,
+                    csrf
+                )
+            ) {
+
+                return res
+                    .status(403)
+                    .send(
+                        "Invalid admin security token."
+                    );
+
+            }
+
+
+            const stored =
+                await getStoredOrder(
+                    orderID
+                );
+
+
+            if (!stored) {
+
+                return res
+                    .status(404)
+                    .send(
+                        "Order not found."
+                    );
+
+            }
+
+
+            if (
+                stored.order
+                    .payment_status !==
+                "COMPLETED"
+            ) {
+
+                return res
+                    .status(400)
+                    .send(
+
+                        "This order has not completed payment and cannot be fulfilled."
+
+                    );
+
+            }
+
+
+            let notice =
+                "";
+
+
+            /* =================================================
+               PROCESSING
+            ================================================= */
+
+            if (
+                action ===
+                "process"
+            ) {
+
+                if (
+                    ![
+                        "PAID",
+                        "PROCESSING"
+                    ].includes(
+                        stored.order
+                            .order_status
+                    )
+                ) {
+
+                    return res
+                        .status(400)
+                        .send(
+
+                            "Only PAID or PROCESSING orders can be marked as processing."
+
+                        );
+
+                }
+
+
+                await db(
+
+                    `
+
+                    UPDATE orders
+
+                    SET
+
+                        order_status =
+                            'PROCESSING',
+
+                        updated_at =
+                            NOW()
+
+                    WHERE paypal_order_id =
+                        $1
+
+                    `,
+
+                    [
+                        orderID
+                    ]
+
+                );
+
+
+                notice =
+                    `Order ${orderID} is now PROCESSING.`;
+
+            }
+
+
+            /* =================================================
+               COMPLETE
+            ================================================= */
+
+            if (
+                action ===
+                "complete"
+            ) {
+
+                await db(
+
+                    `
+
+                    UPDATE orders
+
+                    SET
+
+                        order_status =
+                            'COMPLETED',
+
+                        updated_at =
+                            NOW()
+
+                    WHERE paypal_order_id =
+                        $1
+
+                    `,
+
+                    [
+                        orderID
+                    ]
+
+                );
+
+
+                notice =
+                    `Order ${orderID} is now COMPLETED.`;
+
+            }
+
+
+            /* =================================================
+               SHIP
+            ================================================= */
+
+            if (
+                action ===
+                "ship"
+            ) {
+
+                if (
+                    ![
+                        "PAID",
+                        "PROCESSING"
+                    ].includes(
+                        stored.order
+                            .order_status
+                    )
+                ) {
+
+                    return res
+                        .status(400)
+                        .send(
+
+                            "Only PAID or PROCESSING orders can be marked as shipped."
+
+                        );
+
+                }
+
+
+                const carrier =
+                    String(
+                        req.body.carrier ||
+                        ""
+                    ).trim();
+
+
+                const trackingNumber =
+                    String(
+                        req.body.trackingNumber ||
+                        ""
+                    ).trim();
+
+
+                if (
+                    !trackingNumber
+                ) {
+
+                    return res
+                        .status(400)
+                        .send(
+                            "Tracking number is required."
+                        );
+
+                }
+
+
+                const customerName =
+
+                    `${stored.order.first_name} ${stored.order.last_name}`
+
+                        .trim();
+
+
+                await sendShippingConfirmation({
+
+                    orderID:
+                        orderID,
+
+                    customerEmail:
+                        stored.order
+                            .customer_email,
+
+                    customerName:
+                        customerName,
+
+                    carrier:
+                        carrier,
+
+                    trackingNumber:
+                        trackingNumber
+
+                });
+
+
+                await markOrderShipped({
+
+                    paypalOrderID:
+                        orderID,
+
+                    carrier:
+                        carrier,
+
+                    trackingNumber:
+                        trackingNumber
+
+                });
+
+
+                notice =
+                    `Order ${orderID} is now SHIPPED.`;
+
+            }
+
+
+            return res.redirect(
+
+                303,
+
+                `/admin?notice=${encodeURIComponent(
+                    notice
+                )}`
+
+            );
+
+        }
+
+
+        catch (
+            error
+        ) {
+
+            console.error(
+                "Admin order action error:",
+                error
+            );
+
+
+            return res
+                .status(500)
+                .send(
+                    "Admin action failed."
+                );
+
+        }
+
+    }
+
+);
 
 /* =========================================================
    DATABASE STARTUP CHECK
