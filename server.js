@@ -4545,6 +4545,28 @@ const canComplete =
     order.order_status ===
         "SHIPPED";
 
+                   const canDelete =
+
+    [
+        "PENDING_PAYMENT",
+        "EXPIRED"
+    ].includes(
+        String(
+            order.payment_status || ""
+        )
+            .trim()
+            .toUpperCase()
+    )
+
+    ||
+
+    String(
+        order.order_status || ""
+    )
+        .trim()
+        .toUpperCase() ===
+        "CANCELLED";
+
 
                     const shippingPrice =
 
@@ -5025,6 +5047,60 @@ const canComplete =
 
                                         : ""
                                 }
+
+                                ${
+    canDelete
+        ? `
+            <form
+
+                method="POST"
+
+                action="/admin/orders/${encodeURIComponent(
+                    order.paypal_order_id
+                )}/action"
+
+                onsubmit="
+                    return confirm(
+                        'Are you sure you want to permanently delete this order?'
+                    );
+                "
+
+            >
+
+                <input
+                    type="hidden"
+                    name="action"
+                    value="delete"
+                >
+
+                <input
+                    type="hidden"
+                    name="csrf"
+                    value="${createAdminCsrfToken(
+                        order.paypal_order_id,
+                        "delete"
+                    )}"
+                >
+
+                <button
+                    type="submit"
+                    style="
+                        background:#b91c1c;
+                        color:#ffffff;
+                        border:0;
+                        padding:12px 18px;
+                        font-weight:700;
+                        cursor:pointer;
+                        border-radius:6px;
+                    "
+                >
+                    DELETE ORDER
+                </button>
+
+            </form>
+        `
+        : ""
+}
 
 
                             </div>
@@ -6096,13 +6172,13 @@ app.post(
                 !orderID ||
 
                 ![
-                    "process",
-                    "ship",
-                    "complete"
-                ].includes(
-                    action
-                )
-
+    "process",
+    "ship",
+    "complete",
+    "delete"
+].includes(
+    action
+)
             ) {
 
                 return res
@@ -6148,26 +6224,74 @@ app.post(
             }
 
 
-            if (
-                stored.order
-                    .payment_status !==
-                "COMPLETED"
-            ) {
+          if (
+    action !== "delete" &&
+    stored.order.payment_status !== "COMPLETED"
+) {
 
-                return res
-                    .status(400)
-                    .send(
+    return res
+        .status(400)
+        .send(
+            "This order has not completed payment and cannot be fulfilled."
+        );
 
-                        "This order has not completed payment and cannot be fulfilled."
-
-                    );
-
-            }
-
+}
 
             let notice =
                 "";
 
+/* =================================================
+   DELETE ORDER
+================================================= */
+
+if (
+    action ===
+    "delete"
+) {
+
+    const result =
+        await db(
+
+            `
+            DELETE FROM orders
+
+            WHERE paypal_order_id = $1
+
+              AND (
+                    payment_status = 'PENDING_PAYMENT'
+                    OR payment_status = 'EXPIRED'
+                    OR order_status = 'CANCELLED'
+                  )
+
+            RETURNING paypal_order_id
+            `,
+
+            [
+                orderID
+            ]
+
+        );
+
+
+    if (
+        result.rows.length ===
+        0
+    ) {
+
+        return res
+            .status(400)
+            .send(
+                "Only PENDING, EXPIRED, or CANCELLED orders can be deleted."
+            );
+
+    }
+
+
+    notice =
+        `Order ${orderID} was deleted.`;
+
+}
+           
 
             /* =================================================
                                PROCESSING
