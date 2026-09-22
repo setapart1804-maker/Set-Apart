@@ -6017,6 +6017,103 @@ app.get(
 
 );
 
+/* =========================================================
+   TEST ADMIN ORDER EMAIL
+========================================================= */
+
+app.get(
+
+    "/admin/test-order-email",
+
+    adminBasicAuth,
+
+    async function (
+        req,
+        res
+    ) {
+
+        try {
+
+            if (
+                !ORDER_NOTIFICATION_EMAIL
+            ) {
+
+                return res
+                    .status(500)
+                    .send(
+                        "ORDER_NOTIFICATION_EMAIL is missing."
+                    );
+
+            }
+
+
+            const result =
+                await resend.emails.send({
+
+                    from:
+                        "SET APART Orders <onboarding@resend.dev>",
+
+                    to: [
+                        ORDER_NOTIFICATION_EMAIL
+                    ],
+
+                    subject:
+                        "TEST — New SET APART Order",
+
+                    html:
+                        `
+                        <h2>New SET APART Order 🔥</h2>
+
+                        <p>
+                            This is a test notification.
+                        </p>
+
+                        <p>
+                            If you received this email,
+                            your admin order notifications are working.
+                        </p>
+
+                        <p>
+                            <strong>No real payment was made.</strong>
+                        </p>
+                        `
+
+                });
+
+
+            console.log(
+                "Test order notification:",
+                result
+            );
+
+
+            return res.send(
+                "SET APART test order email sent. Check your inbox."
+            );
+
+        }
+
+        catch (
+            error
+        ) {
+
+            console.error(
+                "Test order email error:",
+                error
+            );
+
+
+            return res
+                .status(500)
+                .send(
+                    "Test email failed. Check Render Logs."
+                );
+
+        }
+
+    }
+
+);
 
 /* =========================================================
    ADMIN ORDER ACTIONS
