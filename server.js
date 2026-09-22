@@ -1,127 +1,87 @@
 /* =========================================================
-   SET APART — PAYPAL + EMAIL BACKEND
-   Live Payment Server
+   SET APART — COMPLETE JAVASCRIPT
+   SHOP + CART + CHECKOUT + SHIPPING + PAYPAL
 ========================================================= */
 
-const express = require("express");
-const cors = require("cors");
-const { Resend } = require("resend");
-
-
-const app = express();
-
-const PORT =
-    process.env.PORT || 3000;
+"use strict";
 
 
 /* =========================================================
-   ENVIRONMENT VARIABLES
+   GLOBAL HELPERS
 ========================================================= */
 
-const PAYPAL_CLIENT_ID =
-    process.env.PAYPAL_CLIENT_ID;
+function money(value) {
+    return "$" + (Number(value) || 0).toFixed(2);
+}
 
-const PAYPAL_CLIENT_SECRET =
-    process.env.PAYPAL_CLIENT_SECRET;
 
-const RESEND_API_KEY =
-    process.env.RESEND_API_KEY;
+function getCart() {
 
-const ORDER_NOTIFICATION_EMAIL =
-    process.env.ORDER_NOTIFICATION_EMAIL;
+    try {
 
-const ADMIN_SHIPPING_KEY =
-    process.env.ADMIN_SHIPPING_KEY;
+        const saved =
+            localStorage.getItem("setApartCart");
 
-const PAYPAL_WEBHOOK_ID =
-    process.env.PAYPAL_WEBHOOK_ID;
+        if (!saved) {
+            return [];
+        }
 
-const DOP_PER_USD =
-    Number(
-        process.env.DOP_PER_USD
+        const parsed =
+            JSON.parse(saved);
+
+        if (Array.isArray(parsed)) {
+            return parsed;
+        }
+
+        if (
+            parsed &&
+            typeof parsed === "object"
+        ) {
+            return [parsed];
+        }
+
+        return [];
+
+    } catch (error) {
+
+        console.error(
+            "Cart data error:",
+            error
+        );
+
+        return [];
+    }
+}
+
+
+function saveCart(cart) {
+
+    localStorage.setItem(
+        "setApartCart",
+        JSON.stringify(cart)
     );
 
+    if (
+        typeof window.updateSetApartCartCount ===
+        "function"
+    ) {
 
-/* =========================================================
-   PAYPAL
-========================================================= */
-
-const PAYPAL_BASE_URL =
-    "https://api-m.paypal.com";
-
-
-/* =========================================================
-   RESEND
-========================================================= */
-
-const resend =
-    new Resend(
-        RESEND_API_KEY
-    );
-
-
-/* =========================================================
-   MIDDLEWARE
-========================================================= */
-
-app.use(
-    express.json({
-        limit: "1mb"
-    })
-);
-
-
-app.use(
-    cors({
-        origin: [
-            "https://setapart1804-maker.github.io",
-            "http://localhost:3000",
-            "http://127.0.0.1:3000"
-        ],
-
-        methods: [
-            "GET",
-            "POST",
-            "OPTIONS"
-        ],
-
-        allowedHeaders: [
-            "Content-Type",
-            "x-admin-key"
-        ]
-    })
-);
-
-
-/* =========================================================
-   HOME / HEALTH CHECK
-========================================================= */
-
-app.get(
-    "/",
-    function (req, res) {
-
-        res.json({
-
-            success: true,
-
-            message:
-                "SET APART PayPal + Email server is running."
-
-        });
+        window.updateSetApartCartCount();
 
     }
-);
+}
 
 
 /* =========================================================
-   PRODUCT CATALOG
-   SERVER CONTROLS REAL PRICES
+   PRODUCTS
 ========================================================= */
 
-const PRODUCTS = {
+const SET_APART_PRODUCTS = {
 
     pilgrim: {
+
+        id:
+            "pilgrim",
 
         name:
             "PILGRIM HOODIE",
@@ -129,24 +89,48 @@ const PRODUCTS = {
         price:
             34.99,
 
-        colors: [
+        defaultColor:
             "beige",
-            "white",
-            "brown",
-            "black"
-        ],
 
-        sizes: [
-            "S",
-            "M",
-            "L",
-            "XL"
-        ]
+        images: {
+
+            black: {
+                front:
+                    "PILGRIM BLACK FRONT 1.png",
+                back:
+                    "PILGRIM BLACK BACK.png"
+            },
+
+            white: {
+                front:
+                    "PILGRIM WHITE FRONT.jpeg",
+                back:
+                    "PILGRIM WHITE BACK.jpeg"
+            },
+
+            brown: {
+                front:
+                    "PILGRIM BROWN FRONT.jpeg",
+                back:
+                    "PILGRIM BROWN BLACK.jpeg"
+            },
+
+            beige: {
+                front:
+                    "PILGRIM BEIGE FRONT.jpeg",
+                back:
+                    "PILGRIM BEIGE BACK.jpeg"
+            }
+
+        }
 
     },
 
 
     godfirst: {
+
+        id:
+            "godfirst",
 
         name:
             "GOD FIRST HOODIE",
@@ -154,814 +138,1959 @@ const PRODUCTS = {
         price:
             34.99,
 
-        colors: [
+        defaultColor:
             "brown",
-            "white",
-            "black",
-            "beige"
-        ],
 
-        sizes: [
-            "S",
-            "M",
-            "L",
-            "XL"
-        ]
+        images: {
+
+            black: {
+                front:
+                    "GOD FIRST BLACK FRONT.jpeg",
+                back:
+                    "GOD FIRST BLACK BACK.jpeg"
+            },
+
+            white: {
+                front:
+                    "GOD FIRST WHITE FRONT.jpeg",
+                back:
+                    "GOD FIRST WHITE BACK.jpeg"
+            },
+
+            brown: {
+                front:
+                    "GOD FIRST BROWN FRONT.png",
+                back:
+                    "GOD FIRST BROWN BACK.png"
+            },
+
+            beige: {
+                front:
+                    "GOD FIRST BEIGE FRONT.jpeg",
+                back:
+                    "GOD FIRST BEIGE BACK.jpeg"
+            }
+
+        }
 
     }
 
 };
 
 
-/* =========================================================
-   PROCESSED PAYPAL CAPTURES
-   Temporary duplicate protection
-========================================================= */
+const productState = {
 
-const processedPayPalCaptures =
-    new Set();
+    pilgrim: {
+        color: "beige",
+        size: null,
+        side: "front"
+    },
 
-const failedEmailCaptures =
-    new Set();
-
-const processedPayPalWebhookEvents =
-    new Set();
-
-
-/* =========================================================
-   ESCAPE HTML
-========================================================= */
-
-function escapeHtml(value) {
-
-    if (
-        value === undefined ||
-        value === null
-    ) {
-
-        return "";
-
+    godfirst: {
+        color: "brown",
+        size: null,
+        side: "front"
     }
 
-
-    return String(value)
-
-        .replace(
-            /&/g,
-            "&amp;"
-        )
-
-        .replace(
-            /</g,
-            "&lt;"
-        )
-
-        .replace(
-            />/g,
-            "&gt;"
-        )
-
-        .replace(
-            /"/g,
-            "&quot;"
-        )
-
-        .replace(
-            /'/g,
-            "&#039;"
-        );
-
-}
+};
 
 
 /* =========================================================
-   GET PAYPAL ACCESS TOKEN
+   DOM READY
 ========================================================= */
 
-async function generateAccessToken() {
-
-    if (
-        !PAYPAL_CLIENT_ID ||
-        !PAYPAL_CLIENT_SECRET
-    ) {
-
-        throw new Error(
-            "PayPal credentials are missing."
-        );
-
-    }
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
 
 
-    const auth =
-        Buffer.from(
-            `${PAYPAL_CLIENT_ID}:${PAYPAL_CLIENT_SECRET}`
-        ).toString(
-            "base64"
-        );
+        /* =====================================================
+           HEADER
+        ===================================================== */
+
+        const menuToggle =
+            document.getElementById(
+                "menuToggle"
+            );
+
+        const mobileMenu =
+            document.getElementById(
+                "mobileMenu"
+            );
+
+        const searchButton =
+            document.getElementById(
+                "searchButton"
+            );
+
+        const searchPanel =
+            document.getElementById(
+                "searchPanel"
+            );
+
+        const closeSearch =
+            document.getElementById(
+                "closeSearch"
+            );
+
+        const searchForm =
+            document.getElementById(
+                "searchForm"
+            );
+
+        const searchInput =
+            document.getElementById(
+                "searchInput"
+            );
+
+        const pageOverlay =
+            document.getElementById(
+                "pageOverlay"
+            );
+
+        const cartCount =
+            document.getElementById(
+                "cartCount"
+            );
 
 
-    const response =
-        await fetch(
+        /* =====================================================
+           OVERLAY
+        ===================================================== */
 
-            `${PAYPAL_BASE_URL}/v1/oauth2/token`,
+        function syncOverlay() {
 
-            {
-
-                method:
-                    "POST",
-
-                headers: {
-
-                    "Authorization":
-                        `Basic ${auth}`,
-
-                    "Content-Type":
-                        "application/x-www-form-urlencoded"
-
-                },
-
-                body:
-                    "grant_type=client_credentials"
-
+            if (!pageOverlay) {
+                return;
             }
 
-        );
-
-
-    const data =
-        await response.json();
-
-
-    if (!response.ok) {
-
-        console.error(
-            "PayPal access token error:",
-            data
-        );
-
-        throw new Error(
-            "Unable to authenticate with PayPal."
-        );
-
-    }
-
-
-    return data.access_token;
-
-}
-
-
-/* =========================================================
-   FAILED ORDER EMAILS — ADMIN ONLY
-========================================================= */
-
-app.get(
-    "/api/admin/failed-emails",
-    function (req, res) {
-
-        const adminKey =
-            req.headers["x-admin-key"];
-
-        if (
-            !ADMIN_SHIPPING_KEY ||
-            adminKey !== ADMIN_SHIPPING_KEY
-        ) {
-
-            return res
-                .status(401)
-                .json({
-                    success: false,
-                    error: "Unauthorized."
-                });
-
-        }
-
-
-        return res.json({
-
-            success: true,
-
-            count:
-                failedEmailCaptures.size,
-
-            captureIDs:
-                Array.from(
-                    failedEmailCaptures
-                )
-
-        });
-
-    }
-);
-
-
-/* =========================================================
-   VERIFY PAYPAL WEBHOOK SIGNATURE
-========================================================= */
-
-async function verifyPayPalWebhook(req) {
-
-    if (!PAYPAL_WEBHOOK_ID) {
-
-        throw new Error(
-            "PAYPAL_WEBHOOK_ID is missing."
-        );
-
-    }
-
-
-    const requiredHeaders = [
-
-        "paypal-auth-algo",
-        "paypal-cert-url",
-        "paypal-transmission-id",
-        "paypal-transmission-sig",
-        "paypal-transmission-time"
-
-    ];
-
-
-    const missingHeader =
-        requiredHeaders.find(
-
-            function (header) {
-
-                return !req.headers[header];
-
-            }
-
-        );
-
-
-    if (missingHeader) {
-
-        console.error(
-            "Missing PayPal webhook header:",
-            missingHeader
-        );
-
-        return false;
-
-    }
-
-
-    const accessToken =
-        await generateAccessToken();
-
-
-    const response =
-        await fetch(
-
-            `${PAYPAL_BASE_URL}/v1/notifications/verify-webhook-signature`,
-
-            {
-
-                method:
-                    "POST",
-
-                headers: {
-
-                    "Content-Type":
-                        "application/json",
-
-                    "Authorization":
-                        `Bearer ${accessToken}`
-
-                },
-
-                body:
-                    JSON.stringify({
-
-                        auth_algo:
-                            req.headers[
-                                "paypal-auth-algo"
-                            ],
-
-                        cert_url:
-                            req.headers[
-                                "paypal-cert-url"
-                            ],
-
-                        transmission_id:
-                            req.headers[
-                                "paypal-transmission-id"
-                            ],
-
-                        transmission_sig:
-                            req.headers[
-                                "paypal-transmission-sig"
-                            ],
-
-                        transmission_time:
-                            req.headers[
-                                "paypal-transmission-time"
-                            ],
-
-                        webhook_id:
-                            PAYPAL_WEBHOOK_ID,
-
-                        webhook_event:
-                            req.body
-
-                    })
-
-            }
-
-        );
-
-
-    const data =
-        await response.json();
-
-
-    if (!response.ok) {
-
-        console.error(
-            "PayPal webhook verification error:",
-            data
-        );
-
-        return false;
-
-    }
-
-
-    return (
-        data.verification_status ===
-        "SUCCESS"
-    );
-
-}
-
-
-/* =========================================================
-   SHIPPING
-========================================================= */
-
-function normalizePlace(value) {
-
-    return String(
-        value || ""
-    )
-        .normalize("NFD")
-        .replace(
-            /[\u0300-\u036f]/g,
-            ""
-        )
-        .trim()
-        .toLowerCase();
-
-}
-
-
-function getDopPerUsd() {
-
-    if (
-        !Number.isFinite(
-            DOP_PER_USD
-        ) ||
-        DOP_PER_USD <= 0
-    ) {
-
-        throw new Error(
-            "DOP_PER_USD environment variable is missing or invalid."
-        );
-
-    }
-
-    return DOP_PER_USD;
-
-}
-
-
-function calculateShipping(customer) {
-
-    const safeCustomer =
-        customer || {};
-
-    const country =
-        String(
-            safeCustomer.country || ""
-        )
-            .trim()
-            .toUpperCase();
-
-
-    if (!country) {
-
-        throw new Error(
-            "Shipping country is required."
-        );
-
-    }
-
-
-    /* =====================================================
-       HAITI — PÉTION-VILLE PICKUP
-    ===================================================== */
-
-    if (country === "HT") {
-
-        return {
-
-            method:
-                "PÉTION-VILLE PICKUP",
-
-            localCurrency:
-                "USD",
-
-            localAmount:
-                10,
-
-            usd:
-                "10.00",
-
-            displayPrice:
-                "$10.00 USD",
-
-            note:
-                "Orders for Haiti are collected at our pickup point in Pétion-Ville."
-
-        };
-
-    }
-
-
-    /* =====================================================
-       DOMINICAN REPUBLIC
-    ===================================================== */
-
-    if (country === "DO") {
-
-        const city =
-            normalizePlace(
-                safeCustomer.city
-            );
-
-        const state =
-            normalizePlace(
-                safeCustomer.state
-            );
-
-        const destination =
-            `${city} ${state}`;
-
-
-        if (!destination.trim()) {
-
-            throw new Error(
-                "City or province is required for Dominican Republic shipping."
-            );
-
-        }
-
-
-        const isCapitalArea =
-            destination.includes(
-                "santo domingo"
-            ) ||
-            destination.includes(
-                "distrito nacional"
-            );
-
-
-        const shippingDOP =
-            isCapitalArea
-                ? 300
-                : 500;
-
-
-        const rate =
-            getDopPerUsd();
-
-
-        const shippingUSD =
-            Math.round(
-                (
-                    shippingDOP /
-                    rate
-                ) * 100
-            ) / 100;
-
-
-        return {
-
-            method:
-                "STANDARD SHIPPING",
-
-            localCurrency:
-                "DOP",
-
-            localAmount:
-                shippingDOP,
-
-            usd:
-                shippingUSD.toFixed(
-                    2
-                ),
-
-            displayPrice:
-                `RD$${shippingDOP} / $${shippingUSD.toFixed(2)} USD`,
-
-            note:
-                isCapitalArea
-                    ? "Santo Domingo / capital area shipping."
-                    : "Shipping to other cities in the Dominican Republic."
-
-        };
-
-    }
-
-
-    throw new Error(
-        "SET APART currently ships only to Dominican Republic and Haiti."
-    );
-
-}
-
-
-/* =========================================================
-   SHIPPING QUOTE
-========================================================= */
-
-app.post(
-    "/api/shipping/quote",
-
-    function (req, res) {
-
-        try {
-
-            const shipping =
-                calculateShipping(
-                    req.body || {}
+            const menuOpen =
+                mobileMenu
+                    ?.classList
+                    .contains("active");
+
+            const searchOpen =
+                searchPanel
+                    ?.classList
+                    .contains("active");
+
+            pageOverlay
+                .classList
+                .toggle(
+                    "active",
+                    Boolean(
+                        menuOpen ||
+                        searchOpen
+                    )
                 );
 
+        }
 
-            return res.json({
 
-                success:
-                    true,
+        /* =====================================================
+           MOBILE MENU
+        ===================================================== */
 
-                method:
-                    shipping.method,
+        function openMenu() {
 
-                shippingUSD:
-                    shipping.usd,
+            if (
+                !mobileMenu ||
+                !menuToggle
+            ) {
+                return;
+            }
 
-                localCurrency:
-                    shipping.localCurrency,
+            closeSearchPanel();
 
-                localAmount:
-                    shipping.localAmount,
+            mobileMenu
+                .classList
+                .add("active");
 
-                displayPrice:
-                    shipping.displayPrice,
+            menuToggle
+                .classList
+                .add("active");
 
-                note:
-                    shipping.note
+            menuToggle
+                .setAttribute(
+                    "aria-expanded",
+                    "true"
+                );
 
-            });
+            document.body
+                .classList
+                .add("menu-open");
 
-        } catch (error) {
-
-            return res
-                .status(400)
-                .json({
-
-                    success:
-                        false,
-
-                    error:
-                        error.message
-
-                });
+            syncOverlay();
 
         }
 
-    }
-);
+
+        function closeMenu() {
+
+            if (
+                !mobileMenu ||
+                !menuToggle
+            ) {
+                return;
+            }
+
+            mobileMenu
+                .classList
+                .remove("active");
+
+            menuToggle
+                .classList
+                .remove("active");
+
+            menuToggle
+                .setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+
+            document.body
+                .classList
+                .remove("menu-open");
+
+            syncOverlay();
+
+        }
 
 
-/* =========================================================
-   CALCULATE ORDER
-========================================================= */
+        menuToggle
+            ?.addEventListener(
+                "click",
+                function (event) {
 
-function calculateOrder(
-    items,
-    customer
-) {
+                    event.preventDefault();
 
-    if (
-        !Array.isArray(items) ||
-        items.length === 0
-    ) {
-
-        throw new Error(
-            "Cart is empty."
-        );
-
-    }
-
-
-    let itemTotal = 0;
-
-
-    const paypalItems =
-        items.map(
-
-            function (item) {
-
-                const product =
-                    PRODUCTS[item.id];
-
-
-                if (!product) {
-
-                    throw new Error(
-                        "Invalid product."
-                    );
-
-                }
-
-
-                const color =
-                    String(
-                        item.color || ""
-                    ).trim();
-
-
-                const size =
-                    String(
-                        item.size || ""
-                    ).trim();
-
-
-                if (!color) {
-
-                    throw new Error(
-                        "Product color is required."
-                    );
-
-                }
-
-
-                if (!size) {
-
-                    throw new Error(
-                        "Product size is required."
-                    );
-
-                }
-
-
-                if (
-                    !product.colors.includes(
-                        color.toLowerCase()
-                    )
-                ) {
-
-                    throw new Error(
-                        "Invalid product color."
-                    );
-
-                }
-
-
-                if (
-                    !product.sizes.includes(
-                        size.toUpperCase()
-                    )
-                ) {
-
-                    throw new Error(
-                        "Invalid product size."
-                    );
-
-                }
-
-
-                const quantity =
-                    Number(
-                        item.quantity
-                    );
-
-
-                if (
-                    !Number.isInteger(quantity) ||
-                    quantity < 1 ||
-                    quantity > 20
-                ) {
-
-                    throw new Error(
-                        "Invalid quantity."
-                    );
-
-                }
-
-
-                itemTotal +=
-                    product.price *
-                    quantity;
-
-
-                return {
-
-                    name:
-                        product.name,
-
-                    quantity:
-                        String(quantity),
-
-                    unit_amount: {
-
-                        currency_code:
-                            "USD",
-
-                        value:
-                            product.price.toFixed(
-                                2
+                    if (
+                        mobileMenu
+                            ?.classList
+                            .contains(
+                                "active"
                             )
+                    ) {
+
+                        closeMenu();
+
+                    } else {
+
+                        openMenu();
 
                     }
 
-                };
+                }
+            );
 
+
+        mobileMenu
+            ?.querySelectorAll("a")
+            .forEach(
+                function (link) {
+
+                    link.addEventListener(
+                        "click",
+                        closeMenu
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           SEARCH
+        ===================================================== */
+
+        function openSearchPanel() {
+
+            if (!searchPanel) {
+                return;
             }
 
+            closeMenu();
+
+            searchPanel
+                .classList
+                .add("active");
+
+            document.body
+                .classList
+                .add("search-open");
+
+            syncOverlay();
+
+            setTimeout(
+                function () {
+
+                    searchInput
+                        ?.focus();
+
+                },
+                100
+            );
+
+        }
+
+
+        function closeSearchPanel() {
+
+            if (!searchPanel) {
+                return;
+            }
+
+            searchPanel
+                .classList
+                .remove("active");
+
+            document.body
+                .classList
+                .remove("search-open");
+
+            syncOverlay();
+
+        }
+
+
+        searchButton
+            ?.addEventListener(
+                "click",
+                function (event) {
+
+                    event.preventDefault();
+
+                    if (
+                        searchPanel
+                            ?.classList
+                            .contains(
+                                "active"
+                            )
+                    ) {
+
+                        closeSearchPanel();
+
+                    } else {
+
+                        openSearchPanel();
+
+                    }
+
+                }
+            );
+
+
+        closeSearch
+            ?.addEventListener(
+                "click",
+                closeSearchPanel
+            );
+
+
+        searchForm
+            ?.addEventListener(
+                "submit",
+                function (event) {
+
+                    event.preventDefault();
+
+                    const query =
+                        searchInput
+                            ?.value
+                            .trim() ||
+                        "";
+
+                    if (!query) {
+                        return;
+                    }
+
+                    window.location.href =
+                        "shop.html?search=" +
+                        encodeURIComponent(
+                            query
+                        );
+
+                }
+            );
+
+
+        pageOverlay
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    closeMenu();
+                    closeSearchPanel();
+
+                }
+            );
+
+
+        document.addEventListener(
+            "keydown",
+            function (event) {
+
+                if (
+                    event.key !==
+                    "Escape"
+                ) {
+                    return;
+                }
+
+                closeMenu();
+                closeSearchPanel();
+
+            }
         );
 
 
-    const shipping =
-        calculateShipping(
-            customer
+        window.addEventListener(
+            "resize",
+            function () {
+
+                if (
+                    window.innerWidth >
+                    1024
+                ) {
+
+                    closeMenu();
+
+                }
+
+            }
         );
 
 
-    const shippingUSD =
-        Number(
-            shipping.usd
-        );
+        /* =====================================================
+           CART COUNT
+        ===================================================== */
+
+        function updateCartCount() {
+
+            if (!cartCount) {
+                return;
+            }
+
+            const totalQuantity =
+                getCart()
+                    .reduce(
+                        function (
+                            total,
+                            item
+                        ) {
+
+                            return (
+                                total +
+                                Math.max(
+                                    1,
+                                    Number(
+                                        item.quantity
+                                    ) || 1
+                                )
+                            );
+
+                        },
+                        0
+                    );
 
 
-    const total =
-        itemTotal +
-        shippingUSD;
-
-
-    return {
-
-        itemTotal:
-            itemTotal.toFixed(
-                2
-            ),
-
-        shipping,
-
-        total:
-            total.toFixed(
-                2
-            ),
-
-        paypalItems
-
-    };
-
-}
-
-
-/* =========================================================
-   CREATE PAYPAL ORDER
-========================================================= */
-
-app.post(
-    "/api/paypal/orders",
-
-    async function (req, res) {
-
-        try {
-
-            const {
-                items,
-                customer
-            } =
-                req.body || {};
-
-
-            const order =
-                calculateOrder(
-                    items,
-                    customer
+            cartCount.textContent =
+                String(
+                    totalQuantity
                 );
 
 
-            const accessToken =
-                await generateAccessToken();
+            cartCount.style.display =
+                totalQuantity > 0
+                    ? "flex"
+                    : "none";
+
+        }
+
+
+        window.updateSetApartCartCount =
+            updateCartCount;
+
+
+        updateCartCount();
+
+
+        window.addEventListener(
+            "storage",
+            function (event) {
+
+                if (
+                    event.key ===
+                    "setApartCart"
+                ) {
+
+                    updateCartCount();
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           SHOP
+        ===================================================== */
+
+        function getProductCard(
+            productId
+        ) {
+
+            const trigger =
+                document.querySelector(
+
+                    `.color-option[data-product="${productId}"], ` +
+
+                    `.size-option[data-product="${productId}"], ` +
+
+                    `.add-to-cart[data-product="${productId}"], ` +
+
+                    `.product-buy-now[data-product="${productId}"]`
+
+                );
+
+
+            return (
+                trigger
+                    ?.closest(
+                        ".shop-item"
+                    ) ||
+                null
+            );
+
+        }
+
+
+        function updateProductImage(
+            productId,
+            side = "front"
+        ) {
+
+            const product =
+                SET_APART_PRODUCTS[
+                    productId
+                ];
+
+            const state =
+                productState[
+                    productId
+                ];
+
+
+            if (
+                !product ||
+                !state
+            ) {
+                return;
+            }
+
+
+            const card =
+                getProductCard(
+                    productId
+                );
+
+            if (!card) {
+                return;
+            }
+
+
+            const image =
+                card.querySelector(
+                    ".shop-product-image"
+                );
+
+            if (!image) {
+                return;
+            }
+
+
+            const color =
+                state.color ||
+                product.defaultColor;
+
+
+            const imageSource =
+                product.images
+                    ?.[color]
+                    ?.[side];
+
+
+            if (!imageSource) {
+                return;
+            }
+
+
+            image.src =
+                imageSource;
+
+
+            image.alt =
+                `${product.name} ${color.toUpperCase()} ${side.toUpperCase()}`;
+
+
+            state.side =
+                side;
+
+        }
+
+
+        function selectColor(
+            button
+        ) {
+
+            const productId =
+                button.dataset.product;
+
+            const color =
+                button.dataset.color;
+
+
+            if (
+                !productId ||
+                !color ||
+                !productState[
+                    productId
+                ]
+            ) {
+                return;
+            }
+
+
+            productState[
+                productId
+            ].color =
+                color.toLowerCase();
+
+
+            productState[
+                productId
+            ].side =
+                "front";
+
+
+            const card =
+                button.closest(
+                    ".shop-item"
+                );
+
+
+            if (!card) {
+                return;
+            }
+
+
+            card
+                .querySelectorAll(
+                    ".color-option"
+                )
+                .forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "active",
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+            button.classList.add(
+                "active",
+                "selected"
+            );
+
+
+            const selectedColor =
+                card.querySelector(
+                    ".selected-color"
+                );
+
+
+            if (selectedColor) {
+
+                selectedColor.textContent =
+                    color.toUpperCase();
+
+            }
+
+
+            updateProductImage(
+                productId,
+                "front"
+            );
+
+        }
+
+
+        function selectSize(
+            button
+        ) {
+
+            const productId =
+                button.dataset.product;
+
+            const size =
+                button.dataset.size;
+
+
+            if (
+                !productId ||
+                !size ||
+                !productState[
+                    productId
+                ]
+            ) {
+                return;
+            }
+
+
+            productState[
+                productId
+            ].size =
+                size.toUpperCase();
+
+
+            const card =
+                button.closest(
+                    ".shop-item"
+                );
+
+
+            if (!card) {
+                return;
+            }
+
+
+            card
+                .querySelectorAll(
+                    ".size-option"
+                )
+                .forEach(
+                    function (item) {
+
+                        item.classList.remove(
+                            "active",
+                            "selected"
+                        );
+
+                    }
+                );
+
+
+            button.classList.add(
+                "active",
+                "selected"
+            );
+
+        }
+
+
+        function addProductToCart(
+            productId
+        ) {
+
+            const product =
+                SET_APART_PRODUCTS[
+                    productId
+                ];
+
+            const state =
+                productState[
+                    productId
+                ];
+
+
+            if (
+                !product ||
+                !state
+            ) {
+
+                console.error(
+                    "Unknown product:",
+                    productId
+                );
+
+                return false;
+
+            }
+
+
+            if (!state.size) {
+
+                alert(
+                    "Please select a size first."
+                );
+
+                return false;
+
+            }
+
+
+            const color =
+                state.color ||
+                product.defaultColor;
+
+
+            const selectedImage =
+                product.images
+                    ?.[color]
+                    ?.front ||
+                "";
+
+
+            const cartItem = {
+
+                id:
+                    product.id,
+
+                name:
+                    product.name,
+
+                price:
+                    product.price,
+
+                color:
+                    color,
+
+                size:
+                    state.size,
+
+                quantity:
+                    1,
+
+                image:
+                    selectedImage
+
+            };
+
+
+            const cart =
+                getCart();
+
+
+            const existing =
+                cart.find(
+                    function (item) {
+
+                        return (
+
+                            item.id ===
+                                cartItem.id &&
+
+                            String(
+                                item.color
+                            ).toLowerCase() ===
+                                cartItem.color &&
+
+                            String(
+                                item.size
+                            ).toUpperCase() ===
+                                cartItem.size
+
+                        );
+
+                    }
+                );
+
+
+            if (existing) {
+
+                existing.quantity =
+                    (
+                        Number(
+                            existing.quantity
+                        ) || 1
+                    ) + 1;
+
+            } else {
+
+                cart.push(
+                    cartItem
+                );
+
+            }
+
+
+            saveCart(
+                cart
+            );
+
+
+            updateCartCount();
+
+
+            return true;
+
+        }
+
+
+        /* =====================================================
+           SHOP BUTTONS
+        ===================================================== */
+
+        document.addEventListener(
+            "click",
+            function (event) {
+
+
+                const colorButton =
+                    event.target.closest(
+                        ".color-option"
+                    );
+
+
+                if (colorButton) {
+
+                    event.preventDefault();
+
+                    selectColor(
+                        colorButton
+                    );
+
+                    return;
+
+                }
+
+
+                const sizeButton =
+                    event.target.closest(
+                        ".size-option"
+                    );
+
+
+                if (sizeButton) {
+
+                    event.preventDefault();
+
+                    selectSize(
+                        sizeButton
+                    );
+
+                    return;
+
+                }
+
+
+                const addButton =
+                    event.target.closest(
+                        ".add-to-cart"
+                    );
+
+
+                if (addButton) {
+
+                    event.preventDefault();
+
+
+                    const productId =
+                        addButton.dataset.product;
+
+
+                    if (!productId) {
+                        return;
+                    }
+
+
+                    if (
+                        addProductToCart(
+                            productId
+                        )
+                    ) {
+
+                        const originalText =
+                            addButton.textContent;
+
+
+                        addButton.textContent =
+                            "ADDED ✓";
+
+
+                        setTimeout(
+                            function () {
+
+                                addButton.textContent =
+                                    originalText;
+
+                            },
+                            1200
+                        );
+
+                    }
+
+
+                    return;
+
+                }
+
+
+                const buyNowButton =
+                    event.target.closest(
+                        ".product-buy-now"
+                    );
+
+
+                if (buyNowButton) {
+
+                    event.preventDefault();
+
+
+                    const productId =
+                        buyNowButton
+                            .dataset
+                            .product;
+
+
+                    if (!productId) {
+                        return;
+                    }
+
+
+                    if (
+                        addProductToCart(
+                            productId
+                        )
+                    ) {
+
+                        window.location.href =
+                            "cart.html";
+
+                    }
+
+
+                    return;
+
+                }
+
+
+                const frontButton =
+                    event.target.closest(
+                        ".product-image-btn-left, .show-front, .front-image"
+                    );
+
+
+                if (frontButton) {
+
+                    event.preventDefault();
+
+
+                    const card =
+                        frontButton.closest(
+                            ".shop-item"
+                        );
+
+
+                    const productId =
+                        card
+                            ?.querySelector(
+                                "[data-product]"
+                            )
+                            ?.dataset
+                            .product;
+
+
+                    if (productId) {
+
+                        updateProductImage(
+                            productId,
+                            "front"
+                        );
+
+                    }
+
+
+                    return;
+
+                }
+
+
+                const backButton =
+                    event.target.closest(
+                        ".product-image-btn-right, .show-back, .back-image"
+                    );
+
+
+                if (backButton) {
+
+                    event.preventDefault();
+
+
+                    const card =
+                        backButton.closest(
+                            ".shop-item"
+                        );
+
+
+                    const productId =
+                        card
+                            ?.querySelector(
+                                "[data-product]"
+                            )
+                            ?.dataset
+                            .product;
+
+
+                    if (productId) {
+
+                        updateProductImage(
+                            productId,
+                            "back"
+                        );
+
+                    }
+
+                }
+
+            }
+        );
+
+
+        /* =====================================================
+           SHOP FILTERS
+        ===================================================== */
+
+        const filterButtons =
+            document.querySelectorAll(
+                ".filter-button"
+            );
+
+
+        filterButtons.forEach(
+            function (button) {
+
+                button.addEventListener(
+                    "click",
+                    function () {
+
+                        const filter =
+                            button
+                                .dataset
+                                .filter;
+
+
+                        filterButtons
+                            .forEach(
+                                function (item) {
+
+                                    item.classList.remove(
+                                        "active"
+                                    );
+
+                                }
+                            );
+
+
+                        button
+                            .classList
+                            .add(
+                                "active"
+                            );
+
+
+                        document
+                            .querySelectorAll(
+                                ".shop-item"
+                            )
+                            .forEach(
+                                function (
+                                    product
+                                ) {
+
+                                    const matches =
+
+                                        filter ===
+                                            "all" ||
+
+                                        product
+                                            .dataset
+                                            .category ===
+                                            filter;
+
+
+                                    product
+                                        .classList
+                                        .toggle(
+                                            "filter-hidden",
+                                            !matches
+                                        );
+
+                                }
+                            );
+
+                    }
+                );
+
+            }
+        );
+
+
+        /* =====================================================
+           SEARCH FROM URL
+        ===================================================== */
+
+        const urlParameters =
+            new URLSearchParams(
+                window.location.search
+            );
+
+
+        const searchQuery =
+            (
+                urlParameters.get(
+                    "search"
+                ) ||
+                ""
+            )
+                .trim()
+                .toLowerCase();
+
+
+        if (searchQuery) {
+
+            document
+                .querySelectorAll(
+                    ".shop-item"
+                )
+                .forEach(
+                    function (
+                        product
+                    ) {
+
+                        const productName =
+                            (
+                                product
+                                    .dataset
+                                    .name ||
+                                ""
+                            )
+                                .toLowerCase();
+
+
+                        product
+                            .classList
+                            .toggle(
+
+                                "search-hidden",
+
+                                !productName
+                                    .includes(
+                                        searchQuery
+                                    )
+
+                            );
+
+                    }
+                );
+
+        }
+
+
+        /* =====================================================
+           CART PAGE
+        ===================================================== */
+
+        const cartItemsContainer =
+            document.getElementById(
+                "cartItems"
+            );
+
+
+        const cartLayout =
+            document.getElementById(
+                "cartLayout"
+            );
+
+
+        const emptyCart =
+            document.getElementById(
+                "emptyCart"
+            );
+
+
+        const cartSubtotal =
+            document.getElementById(
+                "cartSubtotal"
+            );
+
+
+        const cartTotal =
+            document.getElementById(
+                "cartTotal"
+            );
+
+
+        const checkoutButton =
+            document.getElementById(
+                "checkoutButton"
+            );
+
+
+        function renderCart() {
+
+            if (!cartItemsContainer) {
+                return;
+            }
+
+
+            const cart =
+                getCart();
+
+
+            cartItemsContainer.innerHTML =
+                "";
+
+
+            if (
+                cart.length ===
+                0
+            ) {
+
+                if (cartLayout) {
+
+                    cartLayout.style.display =
+                        "none";
+
+                }
+
+
+                emptyCart
+                    ?.classList
+                    .add(
+                        "active"
+                    );
+
+
+                if (cartSubtotal) {
+
+                    cartSubtotal.textContent =
+                        "$0.00";
+
+                }
+
+
+                if (cartTotal) {
+
+                    cartTotal.textContent =
+                        "$0.00";
+
+                }
+
+
+                updateCartCount();
+
+                return;
+
+            }
+
+
+            if (cartLayout) {
+
+                cartLayout.style.display =
+                    "";
+
+            }
+
+
+            emptyCart
+                ?.classList
+                .remove(
+                    "active"
+                );
+
+
+            let subtotal =
+                0;
+
+
+            cart.forEach(
+                function (
+                    item,
+                    index
+                ) {
+
+                    const quantity =
+                        Math.max(
+                            1,
+                            Number(
+                                item.quantity
+                            ) || 1
+                        );
+
+
+                    const price =
+                        Number(
+                            item.price
+                        ) || 0;
+
+
+                    const itemTotal =
+                        price *
+                        quantity;
+
+
+                    subtotal +=
+                        itemTotal;
+
+
+                    const cartItem =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    cartItem.className =
+                        "cart-item";
+
+
+                    cartItem.innerHTML = `
+
+                        <div class="cart-item-image">
+
+                            <img
+                                src="${item.image || ""}"
+                                alt="${item.name || "Product"}">
+
+                        </div>
+
+
+                        <div class="cart-item-info">
+
+                            <h3>
+                                ${item.name || ""}
+                            </h3>
+
+                            <p>
+                                COLOR:
+                                ${(item.color || "").toUpperCase()}
+                            </p>
+
+                            <p>
+                                SIZE:
+                                ${(item.size || "").toUpperCase()}
+                            </p>
+
+                            <p class="cart-item-price">
+                                ${money(price)}
+                            </p>
+
+                        </div>
+
+
+                        <div class="cart-item-controls">
+
+                            <div class="cart-quantity">
+
+                                <button
+                                    type="button"
+                                    class="quantity-minus"
+                                    data-index="${index}"
+                                    aria-label="Decrease quantity">
+                                    −
+                                </button>
+
+                                <span>
+                                    ${quantity}
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="quantity-plus"
+                                    data-index="${index}"
+                                    aria-label="Increase quantity">
+                                    +
+                                </button>
+
+                            </div>
+
+
+                            <button
+                                type="button"
+                                class="cart-remove"
+                                data-index="${index}">
+
+                                REMOVE
+
+                            </button>
+
+                        </div>
+
+
+                        <div class="cart-item-total">
+
+                            ${money(itemTotal)}
+
+                        </div>
+
+                    `;
+
+
+                    cartItemsContainer
+                        .appendChild(
+                            cartItem
+                        );
+
+                }
+            );
+
+
+            if (cartSubtotal) {
+
+                cartSubtotal.textContent =
+                    money(
+                        subtotal
+                    );
+
+            }
+
+
+            if (cartTotal) {
+
+                cartTotal.textContent =
+                    money(
+                        subtotal
+                    );
+
+            }
+
+
+            updateCartCount();
+
+        }
+
+
+        cartItemsContainer
+            ?.addEventListener(
+                "click",
+                function (event) {
+
+
+                    const plus =
+                        event.target.closest(
+                            ".quantity-plus"
+                        );
+
+
+                    const minus =
+                        event.target.closest(
+                            ".quantity-minus"
+                        );
+
+
+                    const remove =
+                        event.target.closest(
+                            ".cart-remove"
+                        );
+
+
+                    const control =
+                        plus ||
+                        minus ||
+                        remove;
+
+
+                    if (!control) {
+                        return;
+                    }
+
+
+                    const index =
+                        Number(
+                            control
+                                .dataset
+                                .index
+                        );
+
+
+                    const cart =
+                        getCart();
+
+
+                    if (
+                        !Number.isInteger(
+                            index
+                        ) ||
+                        !cart[index]
+                    ) {
+                        return;
+                    }
+
+
+                    if (plus) {
+
+                        cart[index]
+                            .quantity =
+
+                            (
+                                Number(
+                                    cart[index]
+                                        .quantity
+                                ) ||
+                                1
+                            ) + 1;
+
+                    }
+
+
+                    if (minus) {
+
+                        const current =
+                            Math.max(
+                                1,
+                                Number(
+                                    cart[index]
+                                        .quantity
+                                ) ||
+                                1
+                            );
+
+
+                        if (
+                            current >
+                            1
+                        ) {
+
+                            cart[index]
+                                .quantity =
+                                current - 1;
+
+                        }
+
+                    }
+
+
+                    if (remove) {
+
+                        cart.splice(
+                            index,
+                            1
+                        );
+
+                    }
+
+
+                    saveCart(
+                        cart
+                    );
+
+
+                    renderCart();
+
+                }
+            );
+
+
+        if (cartItemsContainer) {
+
+            renderCart();
+
+        }
+
+
+        checkoutButton
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        getCart()
+                            .length >
+                        0
+                    ) {
+
+                        window.location.href =
+                            "checkout.html";
+
+                    }
+
+                }
+            );
+
+
+        /* =====================================================
+           CHECKOUT + SHIPPING
+        ===================================================== */
+
+        const checkoutItems =
+            document.getElementById(
+                "checkoutItems"
+            );
+
+
+        const checkoutSubtotal =
+            document.getElementById(
+                "checkoutSubtotal"
+            );
+
+
+        const checkoutShipping =
+            document.getElementById(
+                "checkoutShipping"
+            );
+
+
+        const checkoutTotal =
+            document.getElementById(
+                "checkoutTotal"
+            );
+
+
+        const checkoutForm =
+            document.getElementById(
+                "checkoutForm"
+            );
+
+
+        const checkoutCountry =
+            document.getElementById(
+                "country"
+            );
+
+
+        const checkoutCity =
+            document.getElementById(
+                "city"
+            );
+
+
+        const checkoutState =
+            document.getElementById(
+                "state"
+            );
+
+
+        const shippingMethodLabel =
+            document.getElementById(
+                "shippingMethodLabel"
+            );
+
+
+        const shippingMethodPrice =
+            document.getElementById(
+                "shippingMethodPrice"
+            );
+
+
+        const shippingMethodNote =
+            document.getElementById(
+                "shippingMethodNote"
+            );
+
+
+        const PAYPAL_BACKEND =
+            "https://set-apart.onrender.com";
+
+
+        let checkoutSubtotalValue =
+            0;
+
+
+        let currentShippingQuote =
+            null;
+
+
+        let shippingRequestTimer =
+            null;
+
+
+        function setShippingPending() {
+
+            currentShippingQuote =
+                null;
+
+
+            if (checkoutShipping) {
+
+                checkoutShipping.textContent =
+                    "—";
+
+            }
+
+
+            if (shippingMethodPrice) {
+
+                shippingMethodPrice.textContent =
+                    "—";
+
+            }
+
+
+            if (checkoutTotal) {
+
+                checkoutTotal.textContent =
+                    money(
+                        checkoutSubtotalValue
+                    );
+
+            }
+
+        }
+
+
+        function updateShippingCopy(
+            quote
+        ) {
+
+            if (!quote) {
+                return;
+            }
+
+
+            const shippingUSD =
+                Number(
+                    quote.shippingUSD
+                ) || 0;
+
+
+            if (shippingMethodLabel) {
+
+                shippingMethodLabel.textContent =
+                    quote.method ||
+                    "SHIPPING";
+
+            }
+
+
+            if (shippingMethodPrice) {
+
+                shippingMethodPrice.textContent =
+                    quote.displayPrice ||
+                    money(
+                        shippingUSD
+                    );
+
+            }
+
+
+            if (checkoutShipping) {
+
+                checkoutShipping.textContent =
+                    quote.displayPrice ||
+                    money(
+                        shippingUSD
+                    );
+
+            }
+
+
+            if (shippingMethodNote) {
+
+                shippingMethodNote.textContent =
+                    quote.note ||
+                    "Shipping calculated for your destination.";
+
+            }
+
+
+            if (checkoutTotal) {
+
+                checkoutTotal.textContent =
+                    money(
+
+                        checkoutSubtotalValue +
+                        shippingUSD
+
+                    );
+
+            }
+
+        }
+
+
+        async function refreshShippingQuote() {
+
+            if (
+                !checkoutForm ||
+                !checkoutCountry
+            ) {
+
+                return null;
+
+            }
+
+
+            const country =
+                checkoutCountry.value;
+
+
+            const city =
+                checkoutCity
+                    ?.value
+                    .trim() ||
+                "";
+
+
+            const state =
+                checkoutState
+                    ?.value
+                    .trim() ||
+                "";
+
+
+            if (!country) {
+
+                setShippingPending();
+
+
+                if (shippingMethodLabel) {
+
+                    shippingMethodLabel.textContent =
+                        "SELECT YOUR COUNTRY";
+
+                }
+
+
+                if (shippingMethodNote) {
+
+                    shippingMethodNote.textContent =
+                        "Shipping will be calculated from your destination.";
+
+                }
+
+
+                return null;
+
+            }
+
+
+            if (
+                country ===
+                    "DO" &&
+                !city &&
+                !state
+            ) {
+
+                setShippingPending();
+
+
+                if (shippingMethodLabel) {
+
+                    shippingMethodLabel.textContent =
+                        "STANDARD SHIPPING";
+
+                }
+
+
+                if (shippingMethodNote) {
+
+                    shippingMethodNote.textContent =
+                        "Enter your city or province to calculate shipping.";
+
+                }
+
+
+                return null;
+
+            }
 
 
             const response =
                 await fetch(
 
-                    `${PAYPAL_BASE_URL}/v2/checkout/orders`,
+                    `${PAYPAL_BACKEND}/api/shipping/quote`,
 
                     {
 
@@ -971,68 +2100,16 @@ app.post(
                         headers: {
 
                             "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                `Bearer ${accessToken}`
+                                "application/json"
 
                         },
-
 
                         body:
                             JSON.stringify({
 
-                                intent:
-                                    "CAPTURE",
-
-
-                                purchase_units: [
-
-                                    {
-
-                                        amount: {
-
-                                            currency_code:
-                                                "USD",
-
-                                            value:
-                                                order.total,
-
-
-                                            breakdown: {
-
-                                                item_total: {
-
-                                                    currency_code:
-                                                        "USD",
-
-                                                    value:
-                                                        order.itemTotal
-
-                                                },
-
-
-                                                shipping: {
-
-                                                    currency_code:
-                                                        "USD",
-
-                                                    value:
-                                                        order.shipping.usd
-
-                                                }
-
-                                            }
-
-                                        },
-
-
-                                        items:
-                                            order.paypalItems
-
-                                    }
-
-                                ]
+                                country,
+                                city,
+                                state
 
                             })
 
@@ -1045,1872 +2122,1241 @@ app.post(
                 await response.json();
 
 
-            if (!response.ok) {
+            if (
+                !response.ok ||
+                !data.success
+            ) {
 
-                console.error(
-                    "PayPal create order error:",
-                    data
+                throw new Error(
+
+                    data.error ||
+                    "Unable to calculate shipping."
+
                 );
-
-
-                return res
-                    .status(
-                        response.status
-                    )
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Unable to create PayPal order."
-
-                    });
 
             }
 
 
-            res.json({
-
-                success:
-                    true,
-
-                id:
-                    data.id,
-
-                total:
-                    order.total,
-
-                shipping:
-                    order.shipping
-
-            });
-
-        }
+            currentShippingQuote =
+                data;
 
 
-        catch (error) {
-
-            console.error(
-                "Create order error:",
-                error
+            updateShippingCopy(
+                data
             );
 
 
-            res
-                .status(400)
-                .json({
-
-                    success:
-                        false,
-
-                    error:
-                        error.message
-
-                });
+            return data;
 
         }
 
-    }
-);
+
+        function scheduleShippingQuote() {
+
+            clearTimeout(
+                shippingRequestTimer
+            );
 
 
-/* =========================================================
-   SEND ORDER NOTIFICATION EMAIL
-========================================================= */
+            shippingRequestTimer =
+                setTimeout(
 
-async function sendOrderNotification({
+                    function () {
 
-    orderID,
-    total,
-    customer,
-    items,
-    shipping
+                        refreshShippingQuote()
 
-}) {
+                            .catch(
+                                function (
+                                    error
+                                ) {
 
-    if (
-        !RESEND_API_KEY ||
-        !ORDER_NOTIFICATION_EMAIL
-    ) {
-
-        console.error(
-            "Resend environment variables are missing."
-        );
-
-        return;
-
-    }
+                                    console.error(
+                                        "Shipping quote error:",
+                                        error
+                                    );
 
 
-    const safeCustomer =
-        customer || {};
+                                    setShippingPending();
 
 
-    const customerName =
-        `${safeCustomer.firstName || ""} ${safeCustomer.lastName || ""}`
-            .trim();
+                                    if (
+                                        shippingMethodLabel
+                                    ) {
+
+                                        shippingMethodLabel.textContent =
+                                            "SHIPPING UNAVAILABLE";
+
+                                    }
 
 
-    const productsHtml =
-        items.map(
+                                    if (
+                                        shippingMethodNote
+                                    ) {
 
-            function (item) {
+                                        shippingMethodNote.textContent =
+                                            "Shipping could not be calculated. Please try again.";
 
-                const product =
-                    PRODUCTS[item.id];
+                                    }
+
+                                }
+                            );
+
+                    },
+
+                    350
+
+                );
+
+        }
 
 
-                if (!product) {
-                    return "";
-                }
+        if (checkoutItems) {
+
+            const cart =
+                getCart();
 
 
-                return `
-                    <tr>
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(product.name)}
-                        </td>
+            checkoutItems.innerHTML =
+                "";
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.color || "-")}
-                        </td>
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.size || "-")}
-                        </td>
+            if (
+                cart.length ===
+                0
+            ) {
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.quantity)}
-                        </td>
+                checkoutItems.innerHTML = `
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            $${product.price.toFixed(2)}
-                        </td>
-                    </tr>
+                    <div class="checkout-empty">
+
+                        <h3>
+                            YOUR CART IS EMPTY
+                        </h3>
+
+                        <a
+                            href="shop.html"
+                            class="button button-black">
+
+                            SHOP NOW
+
+                        </a>
+
+                    </div>
+
                 `;
+
+
+                const submit =
+                    checkoutForm
+                        ?.querySelector(
+                            '[type="submit"]'
+                        );
+
+
+                if (submit) {
+
+                    submit.disabled =
+                        true;
+
+                }
 
             }
 
-        )
-        .join("");
 
+            let subtotal =
+                0;
 
-    const addressParts = [
 
-        safeCustomer.address,
-        safeCustomer.apartment,
-        safeCustomer.city,
-        safeCustomer.state,
-        safeCustomer.postalCode,
-        safeCustomer.country
+            cart.forEach(
+                function (item) {
 
-    ]
-        .filter(Boolean)
-        .map(escapeHtml)
-        .join(", ");
+                    const quantity =
+                        Math.max(
 
+                            1,
 
-    const html = `
+                            Number(
+                                item.quantity
+                            ) || 1
 
-        <div
-            style="
-                font-family: Arial, sans-serif;
-                max-width: 700px;
-                margin: auto;
-                color: #111111;
-            "
-        >
+                        );
 
-            <h1
-                style="
-                    font-size: 28px;
-                    margin-bottom: 5px;
-                "
-            >
-                NEW SET APART ORDER
-            </h1>
 
+                    const price =
+                        Number(
+                            item.price
+                        ) || 0;
 
-            <p
-                style="
-                    margin-top: 0;
-                    color: #666666;
-                "
-            >
-                A PayPal payment was completed successfully.
-            </p>
 
+                    const itemTotal =
+                        price *
+                        quantity;
 
-            <hr
-                style="
-                    border: 0;
-                    border-top: 1px solid #dddddd;
-                    margin: 25px 0;
-                "
-            >
 
+                    subtotal +=
+                        itemTotal;
 
-            <h2>
-                ORDER
-            </h2>
 
+                    const element =
+                        document.createElement(
+                            "div"
+                        );
 
-            <p>
-                <strong>PayPal Order ID:</strong>
-                ${escapeHtml(orderID)}
-            </p>
 
+                    element.className =
+                        "checkout-summary-item";
 
-            <p>
-                <strong>Total Paid:</strong>
-                $${escapeHtml(total)} USD
-            </p>
 
+                    element.innerHTML = `
 
-            <p>
-                <strong>Shipping Method:</strong>
-                ${escapeHtml(shipping?.method || "-")}
-            </p>
+                        <div class="checkout-summary-image">
 
+                            <img
+                                src="${item.image || ""}"
+                                alt="${item.name || "Product"}">
 
-            <p>
-                <strong>Shipping Fee:</strong>
-                ${escapeHtml(shipping?.displayPrice || "-")}
-            </p>
-
-
-            <hr
-                style="
-                    border: 0;
-                    border-top: 1px solid #dddddd;
-                    margin: 25px 0;
-                "
-            >
-
-
-            <h2>
-                CUSTOMER
-            </h2>
-
+                            <span class="checkout-summary-quantity">
 
-            <p>
-                <strong>Name:</strong>
-                ${escapeHtml(customerName || "-")}
-            </p>
-
-
-            <p>
-                <strong>Email:</strong>
-                ${escapeHtml(safeCustomer.email || "-")}
-            </p>
+                                ${quantity}
 
-
-            <p>
-                <strong>Phone:</strong>
-                ${escapeHtml(safeCustomer.phone || "-")}
-            </p>
+                            </span>
 
+                        </div>
 
-            <p>
-                <strong>Shipping Address:</strong>
-                ${addressParts || "-"}
-            </p>
 
-
-            <hr
-                style="
-                    border: 0;
-                    border-top: 1px solid #dddddd;
-                    margin: 25px 0;
-                "
-            >
-
-
-            <h2>
-                PRODUCTS
-            </h2>
-
-
-            <table
-                style="
-                    width: 100%;
-                    border-collapse: collapse;
-                "
-            >
-
-                <thead>
-
-                    <tr>
+                        <div class="checkout-summary-info">
 
-                        <th
-                            style="
-                                text-align:left;
-                                padding:10px;
-                                border-bottom:2px solid #111;
-                            "
-                        >
-                            PRODUCT
-                        </th>
+                            <h3>
+                                ${item.name || ""}
+                            </h3>
 
-                        <th
-                            style="
-                                text-align:left;
-                                padding:10px;
-                                border-bottom:2px solid #111;
-                            "
-                        >
-                            COLOR
-                        </th>
+                            <p>
+                                COLOR:
+                                ${(item.color || "").toUpperCase()}
+                            </p>
 
-                        <th
-                            style="
-                                text-align:left;
-                                padding:10px;
-                                border-bottom:2px solid #111;
-                            "
-                        >
-                            SIZE
-                        </th>
+                            <p>
+                                SIZE:
+                                ${(item.size || "").toUpperCase()}
+                            </p>
 
-                        <th
-                            style="
-                                text-align:left;
-                                padding:10px;
-                                border-bottom:2px solid #111;
-                            "
-                        >
-                            QTY
-                        </th>
+                        </div>
 
-                        <th
-                            style="
-                                text-align:left;
-                                padding:10px;
-                                border-bottom:2px solid #111;
-                            "
-                        >
-                            PRICE
-                        </th>
 
-                    </tr>
+                        <div class="checkout-summary-price">
 
-                </thead>
+                            ${money(itemTotal)}
 
+                        </div>
 
-                <tbody>
+                    `;
 
-                    ${productsHtml}
 
-                </tbody>
+                    checkoutItems
+                        .appendChild(
+                            element
+                        );
 
-            </table>
-
-
-            <div
-                style="
-                    margin-top: 30px;
-                    padding: 20px;
-                    background: #111111;
-                    color: #ffffff;
-                "
-            >
-
-                <strong
-                    style="
-                        font-size: 20px;
-                    "
-                >
-                    TOTAL: $${escapeHtml(total)} USD
-                </strong>
-
-            </div>
-
-
-            <p
-                style="
-                    margin-top: 30px;
-                    color: #777777;
-                    font-size: 12px;
-                "
-            >
-                SET APART — Faith-Inspired Streetwear
-            </p>
-
-        </div>
-
-    `;
-
-
-    const result =
-        await resend.emails.send({
-
-            from:
-                "SET APART Orders <onboarding@resend.dev>",
-
-            to:
-                [ORDER_NOTIFICATION_EMAIL],
-
-            subject:
-                `NEW SET APART ORDER — $${total}`,
-
-            html:
-                html
-
-        });
-
-
-    if (result.error) {
-
-        console.error(
-            "Resend email error:",
-            result.error
-        );
-
-        throw new Error(
-            "Order email could not be sent."
-        );
-
-    }
-
-
-    console.log(
-        "Order notification email sent:",
-        result.data
-    );
-
-}
-
-
-/* =========================================================
-   SEND CUSTOMER CONFIRMATION EMAIL
-========================================================= */
-
-async function sendCustomerConfirmation({
-
-    orderID,
-    total,
-    customer,
-    items,
-    shipping
-
-}) {
-
-    if (!customer?.email) {
-
-        console.log(
-            "Customer email missing. Confirmation email skipped."
-        );
-
-        return;
-
-    }
-
-
-    const safeCustomer =
-        customer || {};
-
-
-    const customerName =
-        `${safeCustomer.firstName || ""} ${safeCustomer.lastName || ""}`
-            .trim();
-
-
-    const productsHtml =
-        items.map(
-
-            function (item) {
-
-                const product =
-                    PRODUCTS[item.id];
-
-
-                if (!product) {
-                    return "";
                 }
+            );
 
 
-                return `
-                    <tr>
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(product.name)}
-                        </td>
+            checkoutSubtotalValue =
+                subtotal;
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.color || "-")}
-                        </td>
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.size || "-")}
-                        </td>
+            if (checkoutSubtotal) {
 
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            ${escapeHtml(item.quantity)}
-                        </td>
-
-                        <td style="padding:10px;border-bottom:1px solid #ddd;">
-                            $${product.price.toFixed(2)}
-                        </td>
-                    </tr>
-                `;
+                checkoutSubtotal.textContent =
+                    money(
+                        subtotal
+                    );
 
             }
 
-        )
-        .join("");
 
+            if (checkoutTotal) {
 
-    const addressParts = [
+                checkoutTotal.textContent =
+                    money(
+                        subtotal
+                    );
 
-        safeCustomer.address,
-        safeCustomer.apartment,
-        safeCustomer.city,
-        safeCustomer.state,
-        safeCustomer.postalCode,
-        safeCustomer.country
+            }
 
-    ]
-        .filter(Boolean)
-        .map(escapeHtml)
-        .join(", ");
+        }
 
 
-    const html = `
+        checkoutCountry
+            ?.addEventListener(
+                "change",
+                scheduleShippingQuote
+            );
 
-        <div
-            style="
-                font-family: Arial, sans-serif;
-                max-width: 700px;
-                margin: auto;
-                color: #111111;
-            "
-        >
 
-            <div
-                style="
-                    background:#111111;
-                    color:#ffffff;
-                    padding:30px;
-                    text-align:center;
-                "
-            >
+        checkoutCity
+            ?.addEventListener(
+                "input",
+                scheduleShippingQuote
+            );
 
-                <h1
-                    style="
-                        margin:0;
-                        font-size:30px;
-                        letter-spacing:4px;
-                    "
-                >
-                    SET APART
-                </h1>
 
-                <p
-                    style="
-                        margin:10px 0 0;
-                        font-size:12px;
-                        letter-spacing:2px;
-                    "
-                >
-                    CALLED TO LIVE DIFFERENTLY.
-                </p>
+        checkoutState
+            ?.addEventListener(
+                "input",
+                scheduleShippingQuote
+            );
 
-            </div>
 
+        /* =====================================================
+           CONTACT FORM
+        ===================================================== */
 
-            <div style="padding:35px 10px;">
+        const contactForm =
+            document.getElementById(
+                "contactForm"
+            );
 
-                <h2
-                    style="
-                        font-size:26px;
-                        margin-bottom:10px;
-                    "
-                >
-                    ORDER CONFIRMED
-                </h2>
 
+        const contactMessage =
+            document.getElementById(
+                "contactFormMessage"
+            );
 
-                <p
-                    style="
-                        color:#555555;
-                        line-height:1.7;
-                    "
-                >
-                    Hi ${escapeHtml(
-                        safeCustomer.firstName || "there"
-                    )},
-                    thank you for your order.
-                    Your PayPal payment was completed successfully,
-                    and we are now preparing your SET APART order.
-                </p>
 
+        contactForm
+            ?.addEventListener(
+                "submit",
+                function (event) {
 
-                <hr
-                    style="
-                        border:0;
-                        border-top:1px solid #dddddd;
-                        margin:30px 0;
-                    "
-                >
+                    event.preventDefault();
 
 
-                <h3>
-                    ORDER DETAILS
-                </h3>
+                    if (
+                        !contactForm
+                            .checkValidity()
+                    ) {
 
+                        contactForm
+                            .reportValidity();
 
-                <p>
-                    <strong>Order ID:</strong>
-                    ${escapeHtml(orderID)}
-                </p>
-
-
-                <p>
-                    <strong>Total Paid:</strong>
-                    $${escapeHtml(total)} USD
-                </p>
-
-
-                <p>
-                    <strong>Shipping Method:</strong>
-                    ${escapeHtml(shipping?.method || "-")}
-                </p>
-
-
-                <p>
-                    <strong>Shipping Fee:</strong>
-                    ${escapeHtml(shipping?.displayPrice || "-")}
-                </p>
-
-
-                <hr
-                    style="
-                        border:0;
-                        border-top:1px solid #dddddd;
-                        margin:30px 0;
-                    "
-                >
-
-
-                <h3>
-                    YOUR ITEMS
-                </h3>
-
-
-                <table
-                    style="
-                        width:100%;
-                        border-collapse:collapse;
-                    "
-                >
-
-                    <thead>
-
-                        <tr>
-
-                            <th
-                                style="
-                                    text-align:left;
-                                    padding:10px;
-                                    border-bottom:2px solid #111111;
-                                "
-                            >
-                                PRODUCT
-                            </th>
-
-                            <th
-                                style="
-                                    text-align:left;
-                                    padding:10px;
-                                    border-bottom:2px solid #111111;
-                                "
-                            >
-                                COLOR
-                            </th>
-
-                            <th
-                                style="
-                                    text-align:left;
-                                    padding:10px;
-                                    border-bottom:2px solid #111111;
-                                "
-                            >
-                                SIZE
-                            </th>
-
-                            <th
-                                style="
-                                    text-align:left;
-                                    padding:10px;
-                                    border-bottom:2px solid #111111;
-                                "
-                            >
-                                QTY
-                            </th>
-
-                            <th
-                                style="
-                                    text-align:left;
-                                    padding:10px;
-                                    border-bottom:2px solid #111111;
-                                "
-                            >
-                                PRICE
-                            </th>
-
-                        </tr>
-
-                    </thead>
-
-
-                    <tbody>
-
-                        ${productsHtml}
-
-                    </tbody>
-
-                </table>
-
-
-                <hr
-                    style="
-                        border:0;
-                        border-top:1px solid #dddddd;
-                        margin:30px 0;
-                    "
-                >
-
-
-                <h3>
-                    ${shipping?.method === "PÉTION-VILLE PICKUP"
-                        ? "PICKUP INFORMATION"
-                        : "SHIPPING TO"}
-                </h3>
-
-
-                <p>
-                    <strong>
-                        ${escapeHtml(customerName || "-")}
-                    </strong>
-                </p>
-
-
-                <p
-                    style="
-                        color:#555555;
-                        line-height:1.7;
-                    "
-                >
-                    ${addressParts || "-"}
-                </p>
-
-
-                ${shipping?.method === "PÉTION-VILLE PICKUP"
-                    ? `
-                        <p
-                            style="
-                                color:#111111;
-                                line-height:1.7;
-                                font-weight:600;
-                            "
-                        >
-                            Your order will be collected at the SET APART pickup point in Pétion-Ville. We will contact you when it is ready for pickup.
-                        </p>
-                    `
-                    : ""}
-
-
-                <div
-                    style="
-                        margin-top:30px;
-                        padding:20px;
-                        background:#111111;
-                        color:#ffffff;
-                    "
-                >
-
-                    <strong
-                        style="
-                            font-size:20px;
-                        "
-                    >
-                        TOTAL: $${escapeHtml(total)} USD
-                    </strong>
-
-                </div>
-
-
-                <p
-                    style="
-                        margin-top:30px;
-                        color:#555555;
-                        line-height:1.7;
-                    "
-                >
-                    ${shipping?.method === "PÉTION-VILLE PICKUP"
-                        ? "We'll contact you again when your order is ready for pickup in Pétion-Ville."
-                        : "We'll contact you again when your order is ready to ship."}
-                </p>
-
-
-                <p
-                    style="
-                        margin-top:35px;
-                        color:#777777;
-                        font-size:12px;
-                    "
-                >
-                    SET APART — Faith-Inspired Streetwear
-                </p>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    const result =
-        await resend.emails.send({
-
-            from:
-                "SET APART Orders <onboarding@resend.dev>",
-
-            to:
-                [safeCustomer.email],
-
-            subject:
-                "ORDER CONFIRMED — SET APART",
-
-            html:
-                html
-
-        });
-
-
-    if (result.error) {
-
-        console.error(
-            "Customer confirmation email error:",
-            result.error
-        );
-
-        throw new Error(
-            "Customer confirmation email could not be sent."
-        );
-
-    }
-
-
-    console.log(
-        "Customer confirmation email sent:",
-        result.data
-    );
-
-}
-
-
-/* =========================================================
-   SEND SHIPPING CONFIRMATION EMAIL
-========================================================= */
-
-async function sendShippingConfirmation({
-
-    orderID,
-    customerEmail,
-    customerName,
-    carrier,
-    trackingNumber
-
-}) {
-
-    if (!customerEmail) {
-
-        throw new Error(
-            "Customer email is required."
-        );
-
-    }
-
-
-    if (!trackingNumber) {
-
-        throw new Error(
-            "Tracking number is required."
-        );
-
-    }
-
-
-    const safeCarrier =
-        carrier || "Shipping Carrier";
-
-
-    const html = `
-
-        <div
-            style="
-                font-family: Arial, sans-serif;
-                max-width: 700px;
-                margin: auto;
-                color: #111111;
-            "
-        >
-
-            <div
-                style="
-                    background:#111111;
-                    color:#ffffff;
-                    padding:30px;
-                    text-align:center;
-                "
-            >
-
-                <h1
-                    style="
-                        margin:0;
-                        font-size:30px;
-                        letter-spacing:4px;
-                    "
-                >
-                    SET APART
-                </h1>
-
-                <p
-                    style="
-                        margin:10px 0 0;
-                        font-size:12px;
-                        letter-spacing:2px;
-                    "
-                >
-                    CALLED TO LIVE DIFFERENTLY.
-                </p>
-
-            </div>
-
-
-            <div style="padding:35px 10px;">
-
-                <h2
-                    style="
-                        font-size:26px;
-                        margin-bottom:10px;
-                    "
-                >
-                    YOUR ORDER HAS SHIPPED
-                </h2>
-
-
-                <p
-                    style="
-                        color:#555555;
-                        line-height:1.7;
-                    "
-                >
-                    Hi ${escapeHtml(
-                        customerName || "there"
-                    )},
-                    your SET APART order is on the way.
-                </p>
-
-
-                <hr
-                    style="
-                        border:0;
-                        border-top:1px solid #dddddd;
-                        margin:30px 0;
-                    "
-                >
-
-
-                <p>
-                    <strong>Order ID:</strong>
-                    ${escapeHtml(orderID || "-")}
-                </p>
-
-
-                <p>
-                    <strong>Carrier:</strong>
-                    ${escapeHtml(safeCarrier)}
-                </p>
-
-
-                <p>
-                    <strong>Tracking Number:</strong>
-                    ${escapeHtml(trackingNumber)}
-                </p>
-
-
-                <div
-                    style="
-                        margin-top:30px;
-                        padding:20px;
-                        background:#f5f5f5;
-                    "
-                >
-                    <strong>
-                        Keep this tracking number so you can follow your delivery.
-                    </strong>
-                </div>
-
-
-                <p
-                    style="
-                        margin-top:35px;
-                        color:#777777;
-                        font-size:12px;
-                    "
-                >
-                    SET APART — Faith-Inspired Streetwear
-                </p>
-
-            </div>
-
-        </div>
-
-    `;
-
-
-    const result =
-        await resend.emails.send({
-
-            from:
-                "SET APART Orders <onboarding@resend.dev>",
-
-            to:
-                [customerEmail],
-
-            subject:
-                "YOUR ORDER HAS SHIPPED — SET APART",
-
-            html:
-                html
-
-        });
-
-
-    if (result.error) {
-
-        console.error(
-            "Shipping confirmation email error:",
-            result.error
-        );
-
-        throw new Error(
-            "Shipping confirmation email could not be sent."
-        );
-
-    }
-
-
-    console.log(
-        "Shipping confirmation email sent:",
-        result.data
-    );
-
-}
-
-
-/* =========================================================
-   CAPTURE PAYPAL ORDER
-========================================================= */
-
-app.post(
-
-    "/api/paypal/orders/:orderID/capture",
-
-    async function (req, res) {
-
-        try {
-
-            const orderID =
-                req.params.orderID;
-
-
-            const {
-                customer,
-                items
-            } =
-                req.body || {};
-
-
-/* =========================================================
-   VALIDATE CUSTOMER INFORMATION
-========================================================= */
-
-            const requiredCustomerFields = [
-
-                "email",
-                "firstName",
-                "lastName",
-                "address",
-                "country",
-                "city",
-                "phone"
-
-            ];
-
-
-            const missingCustomerField =
-                requiredCustomerFields.find(
-
-                    function (field) {
-
-                        return !String(
-                            customer?.[field] || ""
-                        ).trim();
+                        return;
 
                     }
 
+
+                    if (
+                        contactMessage
+                    ) {
+
+                        contactMessage.textContent =
+                            "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
+
+                    }
+
+
+                    const submitButton =
+                        contactForm
+                            .querySelector(
+                                '[type="submit"]'
+                            );
+
+
+                    if (!submitButton) {
+                        return;
+                    }
+
+
+                    const originalText =
+                        submitButton.textContent;
+
+
+                    submitButton.textContent =
+                        "MESSAGE READY ✓";
+
+
+                    setTimeout(
+                        function () {
+
+                            submitButton.textContent =
+                                originalText;
+
+                        },
+                        2000
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           PAYPAL
+        ===================================================== */
+
+        const paypalContainer =
+            document.getElementById(
+                "paypal-button-container"
+            );
+
+
+        function getPayPalCart() {
+
+            return getCart()
+                .map(
+                    function (item) {
+
+                        return {
+
+                            id:
+                                item.id,
+
+                            quantity:
+                                Number(
+                                    item.quantity
+                                ) || 1,
+
+                            color:
+                                item.color ||
+                                "",
+
+                            size:
+                                item.size ||
+                                ""
+
+                        };
+
+                    }
+                );
+
+        }
+
+
+        function getCheckoutCustomer() {
+
+            if (!checkoutForm) {
+
+                return {};
+
+            }
+
+
+            const formData =
+                new FormData(
+                    checkoutForm
                 );
 
 
-            if (missingCustomerField) {
+            return {
 
-                return res
-                    .status(400)
-                    .json({
+                email:
+                    formData.get(
+                        "email"
+                    ) || "",
 
-                        success:
-                            false,
+                firstName:
+                    formData.get(
+                        "firstName"
+                    ) || "",
 
-                        error:
-                            `Missing customer field: ${missingCustomerField}`
+                lastName:
+                    formData.get(
+                        "lastName"
+                    ) || "",
 
-                    });
+                address:
+                    formData.get(
+                        "address"
+                    ) || "",
 
-            }
+                apartment:
+                    formData.get(
+                        "apartment"
+                    ) || "",
 
+                country:
+                    formData.get(
+                        "country"
+                    ) || "",
 
-/* =========================================================
-   VALIDATE CUSTOMER EMAIL
-========================================================= */
+                city:
+                    formData.get(
+                        "city"
+                    ) || "",
 
-            const customerEmail =
-                String(
-                    customer.email || ""
-                ).trim();
+                state:
+                    formData.get(
+                        "state"
+                    ) || "",
 
+                postalCode:
+                    formData.get(
+                        "postalCode"
+                    ) || "",
 
-            const emailPattern =
-                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                phone:
+                    formData.get(
+                        "phone"
+                    ) || ""
 
+            };
 
-            if (
-                !emailPattern.test(
-                    customerEmail
-                )
-            ) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Invalid customer email address."
-
-                    });
-
-            }
-
-
-            if (!orderID) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Order ID is required."
-
-                    });
-
-            }
+        }
 
 
-            if (
-                !Array.isArray(items) ||
-                items.length === 0
-            ) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Order items are required."
-
-                    });
-
-            }
+        let paypalButtonsRendered =
+            false;
 
 
-            /*
-               Recalculate price again on server.
-               Never trust a price sent by browser.
-            */
-
-            const validatedOrder =
-                calculateOrder(
-                    items,
-                    customer
-                );
+        let paypalRenderPromise =
+            null;
 
 
-            const accessToken =
-                await generateAccessToken();
+        window.showSetApartPayPalButtons =
+            function () {
+
+                return new Promise(
+
+                    function (
+                        resolve,
+                        reject
+                    ) {
 
 
-            const response =
-                await fetch(
+                        if (
+                            !paypalContainer
+                        ) {
 
-                    `${PAYPAL_BASE_URL}/v2/checkout/orders/${encodeURIComponent(orderID)}/capture`,
+                            reject(
+                                new Error(
+                                    "PayPal container is missing."
+                                )
+                            );
 
-                    {
-
-                        method:
-                            "POST",
-
-                        headers: {
-
-                            "Content-Type":
-                                "application/json",
-
-                            "Authorization":
-                                `Bearer ${accessToken}`,
-
-                            "PayPal-Request-Id":
-                                `setapart-capture-${orderID}`
+                            return;
 
                         }
 
+
+                        closeMenu();
+                        closeSearchPanel();
+
+
+                        paypalContainer.style.display =
+                            "block";
+
+
+                        if (
+                            paypalButtonsRendered
+                        ) {
+
+                            resolve();
+
+                            return;
+
+                        }
+
+
+                        if (
+                            paypalRenderPromise
+                        ) {
+
+                            paypalRenderPromise
+
+                                .then(
+                                    resolve
+                                )
+
+                                .catch(
+                                    reject
+                                );
+
+
+                            return;
+
+                        }
+
+
+                        if (
+                            typeof window.paypal ===
+                            "undefined"
+                        ) {
+
+                            reject(
+                                new Error(
+                                    "PayPal SDK did not load."
+                                )
+                            );
+
+                            return;
+
+                        }
+
+
+                        const buttons =
+                            window.paypal.Buttons({
+
+
+                                createOrder:
+                                    async function () {
+
+
+                                        if (
+                                            checkoutForm &&
+                                            !checkoutForm
+                                                .checkValidity()
+                                        ) {
+
+                                            checkoutForm
+                                                .reportValidity();
+
+
+                                            throw new Error(
+                                                "Complete checkout information first."
+                                            );
+
+                                        }
+
+
+                                        const items =
+                                            getPayPalCart();
+
+
+                                        if (
+                                            items.length ===
+                                            0
+                                        ) {
+
+                                            alert(
+                                                "Your cart is empty."
+                                            );
+
+
+                                            throw new Error(
+                                                "Cart is empty."
+                                            );
+
+                                        }
+
+
+                                        const customer =
+                                            getCheckoutCustomer();
+
+
+                                        const response =
+                                            await fetch(
+
+                                                `${PAYPAL_BACKEND}/api/paypal/orders`,
+
+                                                {
+
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+
+                                                        "Content-Type":
+                                                            "application/json"
+
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            customer:
+                                                                customer,
+
+                                                            items:
+                                                                items
+
+                                                        })
+
+                                                }
+
+                                            );
+
+
+                                        const data =
+                                            await response.json();
+
+
+                                        if (
+                                            !response.ok ||
+                                            !data.id
+                                        ) {
+
+                                            console.error(
+                                                "Create order error:",
+                                                data
+                                            );
+
+
+                                            throw new Error(
+
+                                                data.error ||
+
+                                                "Unable to create PayPal order."
+
+                                            );
+
+                                        }
+
+
+                                        return data.id;
+
+                                    },
+
+
+                                onApprove:
+                                    async function (
+                                        data
+                                    ) {
+
+
+                                        const items =
+                                            getPayPalCart();
+
+
+                                        const customer =
+                                            getCheckoutCustomer();
+
+
+                                        const response =
+                                            await fetch(
+
+                                                `${PAYPAL_BACKEND}/api/paypal/orders/${encodeURIComponent(data.orderID)}/capture`,
+
+                                                {
+
+                                                    method:
+                                                        "POST",
+
+                                                    headers: {
+
+                                                        "Content-Type":
+                                                            "application/json"
+
+                                                    },
+
+                                                    body:
+                                                        JSON.stringify({
+
+                                                            customer:
+                                                                customer,
+
+                                                            items:
+                                                                items
+
+                                                        })
+
+                                                }
+
+                                            );
+
+
+                                        const result =
+                                            await response.json();
+
+
+                                        if (
+                                            !response.ok ||
+                                            result.status !==
+                                                "COMPLETED"
+                                        ) {
+
+                                            console.error(
+                                                "Capture error:",
+                                                result
+                                            );
+
+
+                                            alert(
+                                                "Payment could not be completed."
+                                            );
+
+
+                                            return;
+
+                                        }
+
+
+                                        localStorage.removeItem(
+                                            "setApartCart"
+                                        );
+
+
+                                        sessionStorage.removeItem(
+                                            "setApartCheckoutCustomer"
+                                        );
+
+
+                                        alert(
+                                            "Payment successful! Thank you for your SET APART order."
+                                        );
+
+
+                                        window.location.href =
+                                            "index.html";
+
+                                    },
+
+
+                                onCancel:
+                                    function () {
+
+                                        console.log(
+                                            "Customer cancelled PayPal checkout."
+                                        );
+
+                                    },
+
+
+                                onError:
+                                    function (
+                                        error
+                                    ) {
+
+                                        console.error(
+                                            "PayPal checkout error:",
+                                            error
+                                        );
+
+
+                                        alert(
+                                            "Something went wrong with PayPal. Please try again."
+                                        );
+
+                                    }
+
+                            });
+
+
+                        paypalRenderPromise =
+                            buttons.render(
+                                "#paypal-button-container"
+                            );
+
+
+                        paypalRenderPromise
+
+                            .then(
+                                function () {
+
+                                    paypalButtonsRendered =
+                                        true;
+
+
+                                    paypalRenderPromise =
+                                        null;
+
+
+                                    resolve();
+
+                                }
+                            )
+
+                            .catch(
+                                function (
+                                    error
+                                ) {
+
+                                    paypalButtonsRendered =
+                                        false;
+
+
+                                    paypalRenderPromise =
+                                        null;
+
+
+                                    paypalContainer.innerHTML =
+                                        "";
+
+
+                                    reject(
+                                        error
+                                    );
+
+                                }
+                            );
+
                     }
 
                 );
 
-
-            const data =
-                await response.json();
+            };
 
 
-            if (!response.ok) {
+        /* =====================================================
+           CHECKOUT FORM
+        ===================================================== */
 
-                console.error(
-                    "PayPal capture error:",
-                    data
-                );
-
-
-                return res
-                    .status(
-                        response.status
-                    )
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Unable to capture PayPal payment."
-
-                    });
-
-            }
+        checkoutForm
+            ?.addEventListener(
+                "submit",
+                async function (event) {
 
 
-            if (
-                data.status !==
-                "COMPLETED"
-            ) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        orderID:
-                            data.id,
-
-                        status:
-                            data.status,
-
-                        error:
-                            "Payment was not completed."
-
-                    });
-
-            }
+                    event.preventDefault();
 
 
-/* =========================================================
-   VERIFY CAPTURED AMOUNT
-========================================================= */
+                    if (
+                        !checkoutForm
+                            .checkValidity()
+                    ) {
 
-            const capture =
-                data
-                    ?.purchase_units?.[0]
-                    ?.payments
-                    ?.captures?.[0];
+                        checkoutForm
+                            .reportValidity();
 
-
-            const capturedAmount =
-                capture
-                    ?.amount
-                    ?.value;
-
-
-            const capturedCurrency =
-                capture
-                    ?.amount
-                    ?.currency_code;
-
-
-            if (
-                capturedAmount !==
-                    validatedOrder.total ||
-                capturedCurrency !==
-                    "USD"
-            ) {
-
-                console.error(
-                    "Captured amount mismatch.",
-                    {
-
-                        expected:
-                            validatedOrder.total,
-
-                        captured:
-                            capturedAmount,
-
-                        currency:
-                            capturedCurrency
+                        return;
 
                     }
-                );
 
 
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Payment amount verification failed."
-
-                    });
-
-            }
+                    const completeOrderButton =
+                        checkoutForm
+                            .querySelector(
+                                'button[type="submit"]'
+                            );
 
 
-/* =========================================================
-   PREVENT DUPLICATE PAYMENT PROCESSING
-========================================================= */
+                    if (
+                        completeOrderButton
+                    ) {
 
-            const captureID =
-                capture?.id;
-
-
-            if (!captureID) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "PayPal capture ID is missing."
-
-                    });
-
-            }
+                        completeOrderButton.disabled =
+                            true;
 
 
-            if (
-                processedPayPalCaptures.has(
-                    captureID
-                )
-            ) {
+                        completeOrderButton.textContent =
+                            "CALCULATING SHIPPING...";
 
-                console.log(
-                    "Duplicate PayPal capture ignored:",
-                    captureID
-                );
+                    }
 
 
-                return res.json({
-
-                    success:
-                        true,
-
-                    duplicate:
-                        true,
-
-                    orderID:
-                        data.id,
-
-                    status:
-                        data.status,
-
-                    total:
-                        capturedAmount,
-
-                    currency:
-                        capturedCurrency
-
-                });
-
-            }
+                    try {
 
 
-            processedPayPalCaptures.add(
-                captureID
+                        const quote =
+                            await refreshShippingQuote();
+
+
+                        if (!quote) {
+
+                            throw new Error(
+                                "Shipping information is incomplete."
+                            );
+
+                        }
+
+
+                        currentShippingQuote =
+                            quote;
+
+
+                        const customerData =
+                            getCheckoutCustomer();
+
+
+                        sessionStorage.setItem(
+
+                            "setApartCheckoutCustomer",
+
+                            JSON.stringify(
+                                customerData
+                            )
+
+                        );
+
+
+                        if (
+                            completeOrderButton
+                        ) {
+
+                            completeOrderButton.textContent =
+                                "LOADING SECURE PAYMENT...";
+
+                        }
+
+
+                        await window
+                            .showSetApartPayPalButtons();
+
+
+                        if (
+                            completeOrderButton
+                        ) {
+
+                            completeOrderButton.style.display =
+                                "none";
+
+                        }
+
+
+                        setTimeout(
+
+                            function () {
+
+                                paypalContainer
+                                    ?.scrollIntoView({
+
+                                        behavior:
+                                            "smooth",
+
+                                        block:
+                                            "center"
+
+                                    });
+
+                            },
+
+                            100
+
+                        );
+
+
+                    } catch (
+                        error
+                    ) {
+
+
+                        console.error(
+                            "Unable to prepare checkout:",
+                            error
+                        );
+
+
+                        if (
+                            completeOrderButton
+                        ) {
+
+                            completeOrderButton.disabled =
+                                false;
+
+
+                            completeOrderButton.textContent =
+                                "PLACE ORDER";
+
+                        }
+
+
+                        alert(
+
+                            error.message ||
+
+                            "Checkout could not be prepared. Please try again."
+
+                        );
+
+                    }
+
+                }
             );
 
 
-            console.log(
-                "PayPal capture marked as processed:",
-                captureID
+        /* =====================================================
+           WHATSAPP ORDER
+        ===================================================== */
+
+        const whatsappButton =
+            document.getElementById(
+                "whatsappOrderButton"
             );
 
 
-/* =========================================================
-   SEND EMAIL NOTIFICATION
-========================================================= */
-
-            try {
-
-                await sendOrderNotification({
-
-                    orderID:
-                        data.id,
-
-                    total:
-                        capturedAmount,
-
-                    customer:
-                        customer || {},
-
-                    items:
-                        items,
-
-                    shipping:
-                        validatedOrder.shipping
-
-                });
+        whatsappButton
+            ?.addEventListener(
+                "click",
+                function (event) {
 
 
-                await sendCustomerConfirmation({
-
-                    orderID:
-                        data.id,
-
-                    total:
-                        capturedAmount,
-
-                    customer:
-                        customer || {},
-
-                    items:
-                        items,
-
-                    shipping:
-                        validatedOrder.shipping
-
-                });
-
-            }
+                    event.preventDefault();
 
 
-            catch (emailError) {
+                    const cart =
+                        getCart();
 
-                /*
-                   PAYMENT IS ALREADY SUCCESSFUL.
-                   Do not mark payment failed just because
-                   email notification failed.
-                */
 
-                console.error(
-                    "Payment completed but email failed:",
-                    emailError
+                    if (
+                        cart.length ===
+                        0
+                    ) {
+
+                        alert(
+                            "Your cart is empty."
+                        );
+
+                        return;
+
+                    }
+
+
+                    let total =
+                        0;
+
+
+                    const orderDetails =
+                        cart.map(
+                            function (
+                                item
+                            ) {
+
+
+                                const quantity =
+                                    Number(
+                                        item.quantity
+                                    ) || 1;
+
+
+                                const price =
+                                    Number(
+                                        item.price
+                                    ) || 0;
+
+
+                                total +=
+                                    price *
+                                    quantity;
+
+
+                                return [
+
+                                    `Product: ${item.name || item.id || "-"}`,
+
+                                    `Color: ${item.color || "-"}`,
+
+                                    `Size: ${item.size || "-"}`,
+
+                                    `Quantity: ${quantity}`,
+
+                                    `Price: $${price.toFixed(2)}`
+
+                                ].join(
+                                    "\n"
+                                );
+
+                            }
+                        );
+
+
+                    const message = [
+
+                        "Hello SET APART,",
+
+                        "",
+
+                        "I would like to place this order:",
+
+                        "",
+
+                        orderDetails.join(
+                            "\n\n"
+                        ),
+
+                        "",
+
+                        `TOTAL: $${total.toFixed(2)} USD`,
+
+                        "",
+
+                        "Please let me know how I can complete my order."
+
+                    ].join(
+                        "\n"
+                    );
+
+
+                    const whatsappNumber =
+                        "18494861203";
+
+
+                    const whatsappUrl =
+                        `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+
+
+                    window.open(
+
+                        whatsappUrl,
+
+                        "_blank",
+
+                        "noopener,noreferrer"
+
+                    );
+
+                }
+            );
+
+
+        /* =====================================================
+           GOOGLE APP / IN-APP BROWSER NOTICE
+        ===================================================== */
+
+        const userAgent =
+            navigator.userAgent ||
+            "";
+
+
+        const isGoogleApp =
+            /GSA\//i
+                .test(
+                    userAgent
                 );
 
 
-                failedEmailCaptures.add(
-                    captureID
+        if (
+            isGoogleApp &&
+            checkoutForm
+        ) {
+
+
+            const notice =
+                document.createElement(
+                    "div"
                 );
 
 
-                console.error(
-                    "Email failure recorded for PayPal capture:",
-                    captureID
-                );
-
-            }
+            notice.className =
+                "payment-browser-notice";
 
 
-/* =========================================================
-   SUCCESS RESPONSE
-========================================================= */
+            notice.innerHTML = `
 
-            res.json({
+                <strong>
+                    SECURE PAYMENT
+                </strong>
 
-                success:
-                    true,
+                <p>
 
-                orderID:
-                    data.id,
+                    PayPal and Debit/Credit Card payments work best
+                    in a supported browser.
 
-                status:
-                    data.status,
+                </p>
 
-                total:
-                    capturedAmount,
+                <div class="payment-browser-buttons">
 
-                currency:
-                    capturedCurrency
+                    <span class="browser-button">
+                        OPEN IN CHROME
+                    </span>
 
-            });
+                    <span class="browser-button">
+                        OPEN IN SAFARI
+                    </span>
+
+                </div>
+
+                <small>
+
+                    Open this page in Chrome or Safari to continue payment.
+
+                </small>
+
+            `;
+
+
+            checkoutForm.prepend(
+                notice
+            );
 
         }
-
-
-        catch (error) {
-
-            console.error(
-                "Capture order error:",
-                error
-            );
-
-
-            res
-                .status(500)
-                .json({
-
-                    success:
-                        false,
-
-                    error:
-                        "Payment capture failed."
-
-                });
-
-        }
-
-    }
-
-);
-
-
-/* =========================================================
-   SHIPPING CONFIRMATION ROUTE
-========================================================= */
-
-app.post(
-    "/api/orders/shipped",
-
-    async function (req, res) {
-
-        try {
-
-            const adminKey =
-                req.headers["x-admin-key"];
-
-
-            if (
-                !ADMIN_SHIPPING_KEY ||
-                adminKey !== ADMIN_SHIPPING_KEY
-            ) {
-
-                return res
-                    .status(401)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Unauthorized."
-
-                    });
-
-            }
-
-
-            const {
-
-                orderID,
-                customerEmail,
-                customerName,
-                carrier,
-                trackingNumber
-
-            } =
-                req.body || {};
-
-
-            if (
-                !orderID ||
-                !customerEmail ||
-                !trackingNumber
-            ) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Order ID, customer email and tracking number are required."
-
-                    });
-
-            }
-
-
-            await sendShippingConfirmation({
-
-                orderID,
-                customerEmail,
-                customerName,
-                carrier,
-                trackingNumber
-
-            });
-
-
-            return res.json({
-
-                success:
-                    true,
-
-                message:
-                    "Shipping confirmation email sent successfully."
-
-            });
-
-        }
-
-
-        catch (error) {
-
-            console.error(
-                "Shipping email route error:",
-                error
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success:
-                        false,
-
-                    error:
-                        "Shipping confirmation email could not be sent."
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   PAYPAL WEBHOOK
-========================================================= */
-
-app.post(
-    "/api/paypal/webhook",
-
-    async function (req, res) {
-
-        try {
-
-            const isVerified =
-                await verifyPayPalWebhook(
-                    req
-                );
-
-
-            if (!isVerified) {
-
-                console.error(
-                    "Rejected invalid PayPal webhook."
-                );
-
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "Invalid PayPal webhook signature."
-
-                    });
-
-            }
-
-
-            const event =
-                req.body;
-
-
-            const eventID =
-                event?.id;
-
-
-            if (!eventID) {
-
-                return res
-                    .status(400)
-                    .json({
-
-                        success:
-                            false,
-
-                        error:
-                            "PayPal webhook event ID is missing."
-
-                    });
-
-            }
-
-
-            if (
-                processedPayPalWebhookEvents.has(
-                    eventID
-                )
-            ) {
-
-                console.log(
-                    "Duplicate PayPal webhook event ignored:",
-                    eventID
-                );
-
-
-                return res
-                    .status(200)
-                    .json({
-
-                        success:
-                            true,
-
-                        duplicate:
-                            true
-
-                    });
-
-            }
-
-
-            processedPayPalWebhookEvents.add(
-                eventID
-            );
-
-
-            console.log(
-                "Verified PayPal webhook:",
-                event?.event_type ||
-                    "UNKNOWN EVENT"
-            );
-
-
-            if (
-                event?.event_type ===
-                "PAYMENT.CAPTURE.COMPLETED"
-            ) {
-
-                const capture =
-                    event.resource;
-
-
-                console.log(
-                    "Verified PayPal payment capture:",
-                    capture?.id
-                );
-
-
-                /*
-                   IMPORTANT:
-                   Do not send another order email here yet.
-
-                   The current capture endpoint already handles
-                   the order emails. This prevents duplicate
-                   fulfillment while we finish the webhook system.
-                */
-
-            }
-
-
-            return res
-                .status(200)
-                .json({
-
-                    success:
-                        true
-
-                });
-
-        }
-
-
-        catch (error) {
-
-            console.error(
-                "PayPal webhook error:",
-                error
-            );
-
-
-            return res
-                .status(500)
-                .json({
-
-                    success:
-                        false
-
-                });
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   START SERVER
-========================================================= */
-
-app.listen(
-    PORT,
-
-    function () {
-
-        console.log(
-            `SET APART PayPal + Email server running on port ${PORT}`
-        );
 
     }
 );
