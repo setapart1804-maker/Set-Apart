@@ -1658,17 +1658,7 @@ async function markOrderPaid({
                 payment_status =
                     'COMPLETED',
 
-                order_status =
-                    CASE
-
-                        WHEN order_status =
-                            'PENDING'
-
-                        THEN 'PAID'
-
-                        ELSE order_status
-
-                    END,
+                order_status = 'PAID',
 
                 updated_at =
                     NOW()
@@ -4211,10 +4201,36 @@ function adminMoney(
 
 
 /* =========================================================
+   EXPIRE OLD PENDING ORDERS
+========================================================= */
+
+async function expireOldPendingOrders() {
+
+    await db(
+        `
+        UPDATE orders
+
+        SET
+            payment_status = 'EXPIRED',
+            order_status = 'EXPIRED',
+            updated_at = NOW()
+
+        WHERE payment_status = 'PENDING_PAYMENT'
+          AND created_at < NOW() - INTERVAL '24 hours'
+        `
+    );
+
+}
+
+
+/* =========================================================
    GET ADMIN ORDERS
 ========================================================= */
 
 async function getAdminDashboardData() {
+
+    await expireOldPendingOrders();
+
 
     const summaryResult =
         await db(`
@@ -4243,6 +4259,13 @@ async function getAdminDashboardData() {
                     'PENDING_PAYMENT'
                 )::int
                     AS pending_payment,
+
+                COUNT(*)
+                FILTER (
+                    WHERE payment_status =
+                    'EXPIRED'
+                )::int
+                    AS expired,
 
                 COUNT(*)
                 FILTER (
@@ -5834,15 +5857,20 @@ const canComplete =
             <div class="stat">
 
                 <span>
-                    PENDING PAYMENT
+                    PENDING / EXPIRED
                 </span>
 
                 <strong>
 
-                    ${Number(
-                        summary.pending_payment ||
-                        0
-                    )}
+                   ${Number(
+    summary.pending_payment ||
+    0
+)}
+/
+${Number(
+    summary.expired ||
+    0
+)}
 
                 </strong>
 
