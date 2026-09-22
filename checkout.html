@@ -466,18 +466,6 @@
                                         Haiti
                                     </option>
 
-                                    <option value="US">
-                                        United States
-                                    </option>
-
-                                    <option value="CA">
-                                        Canada
-                                    </option>
-
-                                    <option value="FR">
-                                        France
-                                    </option>
-
                                 </select>
 
                             </div>
@@ -586,17 +574,28 @@
                                     value="standard"
                                     checked>
 
-                                <span>
-                                    STANDARD SHIPPING
+                                <span id="shippingMethodLabel">
+                                    SELECT YOUR COUNTRY
                                 </span>
 
                             </div>
 
-                            <strong>
-                                CALCULATED LATER
+                            <strong id="shippingMethodPrice">
+                                —
                             </strong>
 
                         </label>
+
+                        <p
+                            id="shippingMethodNote"
+                            style="
+                                margin-top: 10px;
+                                font-size: 12px;
+                                line-height: 1.6;
+                                color: #666666;
+                            ">
+                            Shipping will be calculated from your destination.
+                        </p>
 
                     </div>
 
@@ -732,8 +731,8 @@
                         SHIPPING
                     </span>
 
-                    <span>
-                        CALCULATED LATER
+                    <span id="checkoutShipping">
+                        —
                     </span>
 
                 </div>
