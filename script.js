@@ -1,1933 +1,529 @@
-/* =========================================================
-   SET APART — COMPLETE JAVASCRIPT
-   NO ARROWS / NO SWIPE / NO IMAGE SLIDER
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-
-    /* =====================================================
-       HEADER
-    ===================================================== */
-
-    const menuToggle =
-        document.getElementById("menuToggle");
-
-    const mobileMenu =
-        document.getElementById("mobileMenu");
-
-    const searchButton =
-        document.getElementById("searchButton");
-
-    const searchPanel =
-        document.getElementById("searchPanel");
-
-    const closeSearch =
-        document.getElementById("closeSearch");
-
-    const searchForm =
-        document.getElementById("searchForm");
-
-    const searchInput =
-        document.getElementById("searchInput");
-
-    const pageOverlay =
-        document.getElementById("pageOverlay");
-
-    const cartCount =
-        document.getElementById("cartCount");
-
-
-    /* =====================================================
-       MOBILE MENU
-    ===================================================== */
-
-    function openMenu() {
-
-        if (!mobileMenu || !menuToggle) {
-            return;
-        }
-
-        mobileMenu.classList.add("active");
-
-        menuToggle.classList.add("active");
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "true"
-        );
-
-        document.body.classList.add(
-            "menu-open"
-        );
-
-        if (pageOverlay) {
-
-            pageOverlay.classList.add(
-                "active"
-            );
-
-        }
-
-    }
-
-
-    function closeMenu() {
-
-        if (!mobileMenu || !menuToggle) {
-            return;
-        }
-
-        mobileMenu.classList.remove(
-            "active"
-        );
-
-        menuToggle.classList.remove(
-            "active"
-        );
-
-        menuToggle.setAttribute(
-            "aria-expanded",
-            "false"
-        );
-
-        document.body.classList.remove(
-            "menu-open"
-        );
-
-        if (
-            pageOverlay &&
-            !searchPanel?.classList.contains(
-                "active"
-            )
-        ) {
-
-            pageOverlay.classList.remove(
-                "active"
-            );
-
-        }
-
-    }
-
-
-    if (menuToggle) {
-
-        menuToggle.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                if (
-                    mobileMenu &&
-                    mobileMenu.classList.contains(
-                        "active"
-                    )
-                ) {
-
-                    closeMenu();
-
-                } else {
-
-                    closeSearchPanel();
-
-                    openMenu();
-
-                }
-
-            }
-        );
-
-    }
-
-
-    if (mobileMenu) {
-
-        mobileMenu
-            .querySelectorAll("a")
-            .forEach(function (link) {
-
-                link.addEventListener(
-                    "click",
-                    closeMenu
-                );
-
-            });
-
-    }
-
-
-    /* =====================================================
-       ACCESSIBILITY — ESCAPE KEY
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key !== "Escape") {
-                return;
-            }
-
-            if (
-                mobileMenu &&
-                mobileMenu.classList.contains("active")
-            ) {
-
-                closeMenu();
-
-                if (menuToggle) {
-                    menuToggle.focus();
-                }
-
-            }
-
-            if (
-                searchPanel &&
-                searchPanel.classList.contains("active")
-            ) {
-
-                closeSearchPanel();
-
-                if (searchButton) {
-                    searchButton.focus();
-                }
-
-            }
-
-        }
+/* =====================================================
+   CHECKOUT PAGE + SHIPPING
+===================================================== */
+
+const checkoutItems =
+    document.getElementById(
+        "checkoutItems"
     );
 
 
-    /* =====================================================
-       SEARCH
-    ===================================================== */
+const checkoutSubtotal =
+    document.getElementById(
+        "checkoutSubtotal"
+    );
 
-    function openSearchPanel() {
 
-        if (!searchPanel) {
-            return;
+const checkoutShipping =
+    document.getElementById(
+        "checkoutShipping"
+    );
+
+
+const checkoutTotal =
+    document.getElementById(
+        "checkoutTotal"
+    );
+
+
+const checkoutForm =
+    document.getElementById(
+        "checkoutForm"
+    );
+
+
+const checkoutCountry =
+    document.getElementById(
+        "country"
+    );
+
+
+const checkoutCity =
+    document.getElementById(
+        "city"
+    );
+
+
+const checkoutState =
+    document.getElementById(
+        "state"
+    );
+
+
+const shippingMethodLabel =
+    document.getElementById(
+        "shippingMethodLabel"
+    );
+
+
+const shippingMethodPrice =
+    document.getElementById(
+        "shippingMethodPrice"
+    );
+
+
+const shippingMethodNote =
+    document.getElementById(
+        "shippingMethodNote"
+    );
+
+
+const SHIPPING_BACKEND =
+    "https://set-apart.onrender.com";
+
+
+let checkoutSubtotalValue =
+    0;
+
+
+let currentShippingQuote =
+    null;
+
+
+let shippingRequestTimer =
+    null;
+
+
+function setShippingPending() {
+
+    currentShippingQuote =
+        null;
+
+    if (checkoutShipping) {
+        checkoutShipping.textContent =
+            "—";
+    }
+
+    if (shippingMethodPrice) {
+        shippingMethodPrice.textContent =
+            "—";
+    }
+
+    if (checkoutTotal) {
+        checkoutTotal.textContent =
+            money(
+                checkoutSubtotalValue
+            );
+    }
+
+}
+
+
+function updateShippingCopy(
+    quote
+) {
+
+    if (!quote) {
+        return;
+    }
+
+    if (shippingMethodLabel) {
+        shippingMethodLabel.textContent =
+            quote.method ||
+            "SHIPPING";
+    }
+
+    if (shippingMethodPrice) {
+        shippingMethodPrice.textContent =
+            quote.displayPrice ||
+            money(
+                quote.shippingUSD
+            );
+    }
+
+    if (checkoutShipping) {
+        checkoutShipping.textContent =
+            quote.displayPrice ||
+            money(
+                quote.shippingUSD
+            );
+    }
+
+    if (shippingMethodNote) {
+        shippingMethodNote.textContent =
+            quote.note ||
+            "Shipping calculated for your destination.";
+    }
+
+    if (checkoutTotal) {
+
+        const shippingUSD =
+            Number(
+                quote.shippingUSD
+            ) || 0;
+
+        checkoutTotal.textContent =
+            money(
+                checkoutSubtotalValue +
+                shippingUSD
+            );
+    }
+
+}
+
+
+async function refreshShippingQuote() {
+
+    if (
+        !checkoutForm ||
+        !checkoutCountry
+    ) {
+        return null;
+    }
+
+    const country =
+        checkoutCountry.value;
+
+    const city =
+        checkoutCity
+            ? checkoutCity.value.trim()
+            : "";
+
+    const state =
+        checkoutState
+            ? checkoutState.value.trim()
+            : "";
+
+
+    if (!country) {
+
+        setShippingPending();
+
+        if (shippingMethodLabel) {
+            shippingMethodLabel.textContent =
+                "SELECT YOUR COUNTRY";
         }
 
-        closeMenu();
+        if (shippingMethodNote) {
+            shippingMethodNote.textContent =
+                "Shipping will be calculated from your destination.";
+        }
 
-        searchPanel.classList.add(
-            "active"
-        );
+        return null;
+    }
 
-        document.body.classList.add(
-            "search-open"
-        );
 
-        if (pageOverlay) {
+    if (
+        country === "DO" &&
+        !city &&
+        !state
+    ) {
 
-            pageOverlay.classList.add(
-                "active"
+        setShippingPending();
+
+        if (shippingMethodLabel) {
+            shippingMethodLabel.textContent =
+                "STANDARD SHIPPING";
+        }
+
+        if (shippingMethodNote) {
+            shippingMethodNote.textContent =
+                "Enter your city or province to calculate shipping.";
+        }
+
+        return null;
+    }
+
+
+    try {
+
+        const response =
+            await fetch(
+                `${SHIPPING_BACKEND}/api/shipping/quote`,
+                {
+                    method:
+                        "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            country,
+                            city,
+                            state
+                        })
+                }
             );
 
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Unable to calculate shipping."
+            );
         }
 
+
+        currentShippingQuote =
+            data;
+
+        updateShippingCopy(
+            data
+        );
+
+        return data;
+
+    } catch (error) {
+
+        console.error(
+            "Shipping quote error:",
+            error
+        );
+
+        setShippingPending();
+
+        if (shippingMethodLabel) {
+            shippingMethodLabel.textContent =
+                "SHIPPING UNAVAILABLE";
+        }
+
+        if (shippingMethodNote) {
+            shippingMethodNote.textContent =
+                "Shipping could not be calculated. Please try again.";
+        }
+
+        throw error;
+    }
+
+}
+
+
+function scheduleShippingQuote() {
+
+    clearTimeout(
+        shippingRequestTimer
+    );
+
+    shippingRequestTimer =
         setTimeout(
             function () {
 
-                if (searchInput) {
-
-                    searchInput.focus();
-
-                }
+                refreshShippingQuote()
+                    .catch(function () {
+                        // Checkout UI already shows the error.
+                    });
 
             },
-            100
+            350
         );
 
-    }
+}
 
 
-    function closeSearchPanel() {
+if (checkoutItems) {
 
-        if (!searchPanel) {
-            return;
-        }
-
-        searchPanel.classList.remove(
-            "active"
-        );
-
-        document.body.classList.remove(
-            "search-open"
-        );
-
-        if (
-            pageOverlay &&
-            !mobileMenu?.classList.contains(
-                "active"
-            )
-        ) {
-
-            pageOverlay.classList.remove(
-                "active"
-            );
-
-        }
-
-    }
+    const cart =
+        getCart();
 
 
-    if (searchButton) {
-
-        searchButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                if (
-                    searchPanel &&
-                    searchPanel.classList.contains(
-                        "active"
-                    )
-                ) {
-
-                    closeSearchPanel();
-
-                } else {
-
-                    openSearchPanel();
-
-                }
-
-            }
-        );
-
-    }
+    checkoutItems.innerHTML =
+        "";
 
 
-    if (closeSearch) {
-
-        closeSearch.addEventListener(
-            "click",
-            closeSearchPanel
-        );
-
-    }
+    let subtotal =
+        0;
 
 
-    if (searchForm) {
+    if (
+        cart.length ===
+        0
+    ) {
 
-        searchForm.addEventListener(
-            "submit",
-            function (event) {
+        checkoutItems.innerHTML = `
 
-                event.preventDefault();
+            <div class="checkout-empty">
 
-                const query =
-                    searchInput
-                        ? searchInput.value.trim()
-                        : "";
+                <h3>
+                    YOUR CART IS EMPTY
+                </h3>
 
-                if (!query) {
-                    return;
-                }
+                <a
+                    href="shop.html"
+                    class="button button-black">
 
-                window.location.href =
-                    "shop.html?search=" +
-                    encodeURIComponent(
-                        query
+                    SHOP NOW
+
+                </a>
+
+            </div>
+
+        `;
+
+
+        if (checkoutForm) {
+
+            const submit =
+                checkoutForm
+                    .querySelector(
+                        '[type="submit"]'
                     );
 
-            }
-        );
 
-    }
+            if (submit) {
 
-
-    /* =====================================================
-       OVERLAY
-    ===================================================== */
-
-    if (pageOverlay) {
-
-        pageOverlay.addEventListener(
-            "click",
-            function () {
-
-                closeMenu();
-
-                closeSearchPanel();
+                submit.disabled =
+                    true;
 
             }
-        );
-
-    }
-
-
-    /* =====================================================
-       ESCAPE KEY
-    ===================================================== */
-
-    document.addEventListener(
-        "keydown",
-        function (event) {
-
-            if (event.key === "Escape") {
-
-                closeMenu();
-
-                closeSearchPanel();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       RESIZE
-    ===================================================== */
-
-    window.addEventListener(
-        "resize",
-        function () {
-
-            if (
-                window.innerWidth >
-                1024
-            ) {
-
-                closeMenu();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       CART HELPERS
-    ===================================================== */
-
-    function getCart() {
-
-        try {
-
-            const saved =
-                localStorage.getItem(
-                    "setApartCart"
-                );
-
-            if (!saved) {
-
-                return [];
-
-            }
-
-            const parsed =
-                JSON.parse(saved);
-
-            if (
-                Array.isArray(parsed)
-            ) {
-
-                return parsed;
-
-            }
-
-            if (
-                parsed &&
-                typeof parsed ===
-                    "object"
-            ) {
-
-                return [parsed];
-
-            }
-
-            return [];
-
-        } catch (error) {
-
-            console.error(
-                "Cart data error:",
-                error
-            );
-
-            return [];
 
         }
 
     }
 
 
-    function saveCart(cart) {
+    cart.forEach(
+        function (item) {
 
-        localStorage.setItem(
-            "setApartCart",
-            JSON.stringify(cart)
-        );
-
-        updateCartCount();
-
-    }
-
-
-    function updateCartCount() {
-
-        if (!cartCount) {
-            return;
-        }
-
-        const cart =
-            getCart();
-
-        let totalQuantity = 0;
-
-        cart.forEach(
-            function (item) {
-
-                totalQuantity +=
+            const quantity =
+                Math.max(
+                    1,
                     Number(
                         item.quantity
-                    ) || 1;
-
-            }
-        );
-
-        cartCount.textContent =
-            totalQuantity;
-
-        cartCount.style.display =
-            totalQuantity > 0
-                ? "flex"
-                : "none";
-
-    }
-
-
-    window.updateSetApartCartCount =
-        updateCartCount;
-
-
-    updateCartCount();
-
-
-    window.addEventListener(
-        "storage",
-        function (event) {
-
-            if (
-                event.key ===
-                "setApartCart"
-            ) {
-
-                updateCartCount();
-
-            }
-
-        }
-    );
-
-
-    /* =====================================================
-       PRODUCTS
-       FRONT IMAGE ONLY
-    ===================================================== */
-
-    const productData = {
-
-
-        pilgrim: {
-
-            id: "pilgrim",
-
-            name:
-                "PILGRIM HOODIE",
-
-            price:
-                34.99,
-
-            images: {
-
-                black:
-                    "PILGRIM BLACK FRONT 1.png",
-
-                white:
-                    "PILGRIM WHITE FRONT.jpeg",
-
-                brown:
-                    "PILGRIM BROWN FRONT.jpeg",
-
-                beige:
-                    "PILGRIM BEIGE FRONT.jpeg"
-
-            }
-
-        },
-
-
-        godfirst: {
-
-            id: "godfirst",
-
-            name:
-                "GOD FIRST HOODIE",
-
-            price:
-                34.99,
-
-            images: {
-
-                black:
-                    "GOD FIRST BLACK FRONT.jpeg",
-
-                white:
-                    "GOD FIRST WHITE FRONT.jpeg",
-
-                brown:
-                    "GOD FIRST BROWN FRONT.png",
-
-                beige:
-                    "GOD FIRST BEIGE FRONT.jpeg"
-
-            }
-
-        }
-
-    };
-
-
-    /* =====================================================
-       PRODUCT STATE
-    ===================================================== */
-
-    const productState = {
-
-        pilgrim: {
-
-            color:
-                "beige",
-
-            size:
-                null
-
-        },
-
-
-        godfirst: {
-
-            color:
-                "brown",
-
-            size:
-                null
-
-        }
-
-    };
-
-
-    /* =====================================================
-       UPDATE PRODUCT IMAGE
-    ===================================================== */
-
-    function updateProductImage(
-        productId,
-        color
-    ) {
-
-        const product =
-            productData[
-                productId
-            ];
-
-        if (!product) {
-            return;
-        }
-
-
-        const imageSource =
-            product.images[
-                color
-            ];
-
-        if (!imageSource) {
-            return;
-        }
-
-
-        const colorButton =
-            document.querySelector(
-                `.color-option[data-product="${productId}"]`
-            );
-
-        if (!colorButton) {
-            return;
-        }
-
-
-        const shopItem =
-            colorButton.closest(
-                ".shop-item"
-            );
-
-        if (!shopItem) {
-            return;
-        }
-
-
-        const image =
-            shopItem.querySelector(
-                ".shop-product-image"
-            );
-
-        if (!image) {
-            return;
-        }
-
-
-        image.src =
-            imageSource;
-
-
-        image.alt =
-            product.name +
-            " " +
-            color.toUpperCase() +
-            " Front";
-
-    }
-
-
-    /* =====================================================
-       COLORS
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".color-option"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        const productId =
-                            button.dataset
-                                .product;
-
-
-                        const color =
-                            button.dataset
-                                .color;
-
-
-                        if (
-                            !productId ||
-                            !color ||
-                            !productState[
-                                productId
-                            ]
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        productState[
-                            productId
-                        ].color =
-                            color;
-
-
-                        document
-                            .querySelectorAll(
-                                `.color-option[data-product="${productId}"]`
-                            )
-                            .forEach(
-                                function (
-                                    item
-                                ) {
-
-                                    item.classList.remove(
-                                        "active"
-                                    );
-
-                                    item.classList.remove(
-                                        "selected"
-                                    );
-
-                                }
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                        button.classList.add(
-                            "selected"
-                        );
-
-
-                        const shopItem =
-                            button.closest(
-                                ".shop-item"
-                            );
-
-
-                        if (shopItem) {
-
-                            const selectedColor =
-                                shopItem.querySelector(
-                                    ".selected-color"
-                                );
-
-
-                            if (
-                                selectedColor
-                            ) {
-
-                                selectedColor
-                                    .textContent =
-                                    color
-                                        .toUpperCase();
-
-                            }
-
-                        }
-
-
-                        updateProductImage(
-                            productId,
-                            color
-                        );
-
-                    }
-                );
-
-            }
-        );
-
-
-    /* =====================================================
-       SIZE
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".size-option"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        const productId =
-                            button.dataset
-                                .product;
-
-
-                        const size =
-                            button.dataset
-                                .size;
-
-
-                        if (
-                            !productId ||
-                            !size ||
-                            !productState[
-                                productId
-                            ]
-                        ) {
-
-                            return;
-
-                        }
-
-
-                        productState[
-                            productId
-                        ].size =
-                            size;
-
-
-                        document
-                            .querySelectorAll(
-                                `.size-option[data-product="${productId}"]`
-                            )
-                            .forEach(
-                                function (
-                                    item
-                                ) {
-
-                                    item.classList.remove(
-                                        "active"
-                                    );
-
-                                    item.classList.remove(
-                                        "selected"
-                                    );
-
-                                }
-                            );
-
-
-                        button.classList.add(
-                            "active"
-                        );
-
-                        button.classList.add(
-                            "selected"
-                        );
-
-                    }
-                );
-
-            }
-        );
-       /* =====================================================
-       ADD PRODUCT TO CART
-    ===================================================== */
-
-    function addProductToCart(
-        productId
-    ) {
-
-        const product =
-            productData[
-                productId
-            ];
-
-
-        const state =
-            productState[
-                productId
-            ];
-
-
-        if (
-            !product ||
-            !state
-        ) {
-
-            return false;
-
-        }
-
-
-        if (!state.size) {
-
-            alert(
-                "Please select a size first."
-            );
-
-            return false;
-
-        }
-
-
-        const selectedImage =
-            product.images[
-                state.color
-            ] ||
-            product.images.black ||
-            "";
-
-
-        const cartItem = {
-
-            id:
-                product.id,
-
-            name:
-                product.name,
-
-            price:
-                product.price,
-
-            color:
-                state.color,
-
-            size:
-                state.size,
-
-            quantity:
-                1,
-
-            image:
-                selectedImage
-
-        };
-
-
-        const cart =
-            getCart();
-
-
-        const existing =
-            cart.find(
-                function (item) {
-
-                    return (
-
-                        item.id ===
-                            cartItem.id &&
-
-                        item.color ===
-                            cartItem.color &&
-
-                        item.size ===
-                            cartItem.size
-
-                    );
-
-                }
-            );
-
-
-        if (existing) {
-
-            existing.quantity =
-                (
-                    Number(
-                        existing.quantity
                     ) || 1
-                ) + 1;
-
-        } else {
-
-            cart.push(
-                cartItem
-            );
-
-        }
-
-
-        saveCart(cart);
-
-        return true;
-
-    }
-
-
-    /* =====================================================
-       ADD TO CART BUTTON
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".add-to-cart"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
-
-
-                        const productId =
-                            button.dataset
-                                .product;
-
-
-                        const success =
-                            addProductToCart(
-                                productId
-                            );
-
-
-                        if (!success) {
-
-                            return;
-
-                        }
-
-
-                        const originalText =
-                            button.textContent;
-
-
-                        button.textContent =
-                            "ADDED ✓";
-
-
-                        setTimeout(
-                            function () {
-
-                                button.textContent =
-                                    originalText;
-
-                            },
-                            1200
-                        );
-
-                    }
                 );
 
-            }
-        );
+
+            const price =
+                Number(
+                    item.price
+                ) || 0;
 
 
-    /* =====================================================
-       BUY NOW
-    ===================================================== */
-
-    document
-        .querySelectorAll(
-            ".product-buy-now"
-        )
-        .forEach(
-            function (button) {
-
-                button.addEventListener(
-                    "click",
-                    function (event) {
-
-                        event.preventDefault();
+            const itemTotal =
+                price *
+                quantity;
 
 
-                        const productId =
-                            button.dataset
-                                .product;
+            subtotal +=
+                itemTotal;
 
 
-                        const success =
-                            addProductToCart(
-                                productId
-                            );
-
-
-                        if (success) {
-
-                            window.location.href =
-                                "cart.html";
-
-                        }
-
-                    }
+            const element =
+                document.createElement(
+                    "div"
                 );
 
-            }
-        );
 
+            element.className =
+                "checkout-summary-item";
 
-    /* =====================================================
-       SHOP FILTERS
-    ===================================================== */
 
-    const filterButtons =
-        document.querySelectorAll(
-            ".filter-button"
-        );
+            element.innerHTML = `
 
+                <div class="checkout-summary-image">
 
-    filterButtons.forEach(
-        function (button) {
+                    <img
+                        src="${item.image || ""}"
+                        alt="${item.name || "Product"}">
 
-            button.addEventListener(
-                "click",
-                function () {
+                    <span class="checkout-summary-quantity">
+                        ${quantity}
+                    </span>
 
-                    const filter =
-                        button.dataset
-                            .filter;
+                </div>
 
 
-                    filterButtons
-                        .forEach(
-                            function (
-                                item
-                            ) {
-
-                                item.classList.remove(
-                                    "active"
-                                );
-
-                            }
-                        );
-
-
-                    button.classList.add(
-                        "active"
-                    );
-
-
-                    document
-                        .querySelectorAll(
-                            ".shop-item"
-                        )
-                        .forEach(
-                            function (
-                                product
-                            ) {
-
-                                if (
-                                    filter ===
-                                        "all" ||
-
-                                    product
-                                        .dataset
-                                        .category ===
-                                        filter
-                                ) {
-
-                                    product.classList.remove(
-                                        "filter-hidden"
-                                    );
-
-                                } else {
-
-                                    product.classList.add(
-                                        "filter-hidden"
-                                    );
-
-                                }
-
-                            }
-                        );
-
-                }
-            );
-
-        }
-    );
-
-
-    /* =====================================================
-       SEARCH FROM URL
-    ===================================================== */
-
-    const urlParameters =
-        new URLSearchParams(
-            window.location.search
-        );
-
-
-    const searchQuery =
-        (
-            urlParameters.get(
-                "search"
-            ) || ""
-        )
-            .trim()
-            .toLowerCase();
-
-
-    if (searchQuery) {
-
-        document
-            .querySelectorAll(
-                ".shop-item"
-            )
-            .forEach(
-                function (product) {
-
-                    const productName =
-                        (
-                            product.dataset
-                                .name ||
-                            ""
-                        )
-                            .toLowerCase();
-
-
-                    if (
-                        productName.includes(
-                            searchQuery
-                        )
-                    ) {
-
-                        product.classList.remove(
-                            "search-hidden"
-                        );
-
-                    } else {
-
-                        product.classList.add(
-                            "search-hidden"
-                        );
-
-                    }
-
-                }
-            );
-
-    }
-
-
-    /* =====================================================
-       MONEY
-    ===================================================== */
-
-    function money(value) {
-
-        return (
-            "$" +
-            (
-                Number(value) ||
-                0
-            ).toFixed(2)
-        );
-
-    }
-
-
-    /* =====================================================
-       CART PAGE
-    ===================================================== */
-
-    const cartItemsContainer =
-        document.getElementById(
-            "cartItems"
-        );
-
-
-    const cartLayout =
-        document.getElementById(
-            "cartLayout"
-        );
-
-
-    const emptyCart =
-        document.getElementById(
-            "emptyCart"
-        );
-
-
-    const cartSubtotal =
-        document.getElementById(
-            "cartSubtotal"
-        );
-
-
-    const cartTotal =
-        document.getElementById(
-            "cartTotal"
-        );
-
-
-    const checkoutButton =
-        document.getElementById(
-            "checkoutButton"
-        );
-
-
-    function renderCart() {
-
-        if (!cartItemsContainer) {
-
-            return;
-
-        }
-
-
-        const cart =
-            getCart();
-
-
-        cartItemsContainer.innerHTML =
-            "";
-
-
-        if (
-            cart.length ===
-            0
-        ) {
-
-            if (cartLayout) {
-
-                cartLayout.style.display =
-                    "none";
-
-            }
-
-
-            if (emptyCart) {
-
-                emptyCart.classList.add(
-                    "active"
-                );
-
-            }
-
-
-            if (cartSubtotal) {
-
-                cartSubtotal.textContent =
-                    "$0.00";
-
-            }
-
-
-            if (cartTotal) {
-
-                cartTotal.textContent =
-                    "$0.00";
-
-            }
-
-
-            updateCartCount();
-
-            return;
-
-        }
-
-
-        if (cartLayout) {
-
-            cartLayout.style.display =
-                "";
-
-        }
-
-
-        if (emptyCart) {
-
-            emptyCart.classList.remove(
-                "active"
-            );
-
-        }
-
-
-        let subtotal =
-            0;
-
-
-        cart.forEach(
-            function (
-                item,
-                index
-            ) {
-
-                const quantity =
-                    Math.max(
-                        1,
-                        Number(
-                            item.quantity
-                        ) || 1
-                    );
-
-
-                const price =
-                    Number(
-                        item.price
-                    ) || 0;
-
-
-                const itemTotal =
-                    price *
-                    quantity;
-
-
-                subtotal +=
-                    itemTotal;
-
-
-                const cartItem =
-                    document.createElement(
-                        "article"
-                    );
-
-
-                cartItem.className =
-                    "cart-item";
-
-
-                cartItem.innerHTML = `
-
-                    <div class="cart-item-image">
-
-                        <img
-                            src="${item.image || ""}"
-                            alt="${item.name || "Product"}">
-
-                    </div>
-
-
-                    <div class="cart-item-info">
-
-                        <h3>
-                            ${item.name || ""}
-                        </h3>
-
-                        <p>
-                            COLOR:
-                            ${(item.color || "").toUpperCase()}
-                        </p>
-
-                        <p>
-                            SIZE:
-                            ${(item.size || "").toUpperCase()}
-                        </p>
-
-                        <p class="cart-item-price">
-                            ${money(price)}
-                        </p>
-
-                    </div>
-
-
-                    <div class="cart-item-controls">
-
-                        <div class="cart-quantity">
-
-                            <button
-                                type="button"
-                                class="quantity-minus"
-                                data-index="${index}"
-                                aria-label="Decrease quantity">
-                                −
-                            </button>
-
-                            <span>
-                                ${quantity}
-                            </span>
-
-                            <button
-                                type="button"
-                                class="quantity-plus"
-                                data-index="${index}"
-                                aria-label="Increase quantity">
-                                +
-                            </button>
-
-                        </div>
-
-
-                        <button
-                            type="button"
-                            class="cart-remove"
-                            data-index="${index}">
-
-                            REMOVE
-
-                        </button>
-
-                    </div>
-
-
-                    <div class="cart-item-total">
-
-                        ${money(itemTotal)}
-
-                    </div>
-
-                `;
-
-
-                cartItemsContainer
-                    .appendChild(
-                        cartItem
-                    );
-
-            }
-        );
-
-
-        if (cartSubtotal) {
-
-            cartSubtotal.textContent =
-                money(subtotal);
-
-        }
-
-
-        if (cartTotal) {
-
-            cartTotal.textContent =
-                money(subtotal);
-
-        }
-
-
-        updateCartCount();
-
-    }
-
-
-    /* =====================================================
-       CART QUANTITY + REMOVE
-    ===================================================== */
-                              if (cartItemsContainer) {
-
-        cartItemsContainer.addEventListener(
-            "click",
-            function (event) {
-
-
-                const plus =
-                    event.target.closest(
-                        ".quantity-plus"
-                    );
-
-
-                const minus =
-                    event.target.closest(
-                        ".quantity-minus"
-                    );
-
-
-                const remove =
-                    event.target.closest(
-                        ".cart-remove"
-                    );
-
-
-                const cart =
-                    getCart();
-
-
-                if (plus) {
-
-                    const index =
-                        Number(
-                            plus.dataset
-                                .index
-                        );
-
-
-                    if (
-                        cart[index]
-                    ) {
-
-                        cart[index]
-                            .quantity =
-                            (
-                                Number(
-                                    cart[
-                                        index
-                                    ].quantity
-                                ) || 1
-                            ) + 1;
-
-
-                        saveCart(
-                            cart
-                        );
-
-                        renderCart();
-
-                    }
-
-                }
-
-
-                if (minus) {
-
-                    const index =
-                        Number(
-                            minus.dataset
-                                .index
-                        );
-
-
-                    if (
-                        cart[index] &&
-                        Number(
-                            cart[
-                                index
-                            ].quantity
-                        ) > 1
-                    ) {
-
-                        cart[index]
-                            .quantity =
-                            Number(
-                                cart[
-                                    index
-                                ].quantity
-                            ) - 1;
-
-
-                        saveCart(
-                            cart
-                        );
-
-                        renderCart();
-
-                    }
-
-                }
-
-
-                if (remove) {
-
-                    const index =
-                        Number(
-                            remove.dataset
-                                .index
-                        );
-
-
-                    if (
-                        cart[index]
-                    ) {
-
-                        cart.splice(
-                            index,
-                            1
-                        );
-
-
-                        saveCart(
-                            cart
-                        );
-
-                        renderCart();
-
-                    }
-
-                }
-
-            }
-        );
-
-
-        renderCart();
-
-    }
-
-
-    /* =====================================================
-       CHECKOUT BUTTON
-    ===================================================== */
-
-    if (checkoutButton) {
-
-        checkoutButton.addEventListener(
-            "click",
-            function () {
-
-                if (
-                    getCart()
-                        .length >
-                    0
-                ) {
-
-                    window.location.href =
-                        "checkout.html";
-
-                }
-
-            }
-        );
-
-    }
-
-
-    /* =====================================================
-       CHECKOUT PAGE
-    ===================================================== */
-
-    const checkoutItems =
-        document.getElementById(
-            "checkoutItems"
-        );
-
-
-    const checkoutSubtotal =
-        document.getElementById(
-            "checkoutSubtotal"
-        );
-
-
-    const checkoutTotal =
-        document.getElementById(
-            "checkoutTotal"
-        );
-
-
-    const checkoutForm =
-        document.getElementById(
-            "checkoutForm"
-        );
-
-
-    if (checkoutItems) {
-
-        const cart =
-            getCart();
-
-
-        checkoutItems.innerHTML =
-            "";
-
-
-        let subtotal =
-            0;
-
-
-        if (
-            cart.length ===
-            0
-        ) {
-
-            checkoutItems.innerHTML = `
-
-                <div class="checkout-empty">
+                <div class="checkout-summary-info">
 
                     <h3>
-                        YOUR CART IS EMPTY
+                        ${item.name || ""}
                     </h3>
 
-                    <a
-                        href="shop.html"
-                        class="button button-black">
+                    <p>
+                        COLOR:
+                        ${(item.color || "").toUpperCase()}
+                    </p>
 
-                        SHOP NOW
+                    <p>
+                        SIZE:
+                        ${(item.size || "").toUpperCase()}
+                    </p>
 
-                    </a>
+                </div>
+
+
+                <div class="checkout-summary-price">
+
+                    ${money(itemTotal)}
 
                 </div>
 
             `;
 
 
-            if (checkoutForm) {
-
-                const submit =
-                    checkoutForm
-                        .querySelector(
-                            '[type="submit"]'
-                        );
-
-
-                if (submit) {
-
-                    submit.disabled =
-                        true;
-
-                }
-
-            }
+            checkoutItems
+                .appendChild(
+                    element
+                );
 
         }
+    );
 
 
-        cart.forEach(
-            function (item) {
-
-                const quantity =
-                    Math.max(
-                        1,
-                        Number(
-                            item.quantity
-                        ) || 1
-                    );
+    checkoutSubtotalValue =
+        subtotal;
 
 
-                const price =
-                    Number(
-                        item.price
-                    ) || 0;
+    if (checkoutSubtotal) {
 
-
-                const itemTotal =
-                    price *
-                    quantity;
-
-
-                subtotal +=
-                    itemTotal;
-
-
-                const element =
-                    document.createElement(
-                        "div"
-                    );
-
-
-                element.className =
-                    "checkout-summary-item";
-
-
-                element.innerHTML = `
-
-                    <div class="checkout-summary-image">
-
-                        <img
-                            src="${item.image || ""}"
-                            alt="${item.name || "Product"}">
-
-                        <span class="checkout-summary-quantity">
-                            ${quantity}
-                        </span>
-
-                    </div>
-
-
-                    <div class="checkout-summary-info">
-
-                        <h3>
-                            ${item.name || ""}
-                        </h3>
-
-                        <p>
-                            COLOR:
-                            ${(item.color || "").toUpperCase()}
-                        </p>
-
-                        <p>
-                            SIZE:
-                            ${(item.size || "").toUpperCase()}
-                        </p>
-
-                    </div>
-
-
-                    <div class="checkout-summary-price">
-
-                        ${money(itemTotal)}
-
-                    </div>
-
-                `;
-
-
-                checkoutItems
-                    .appendChild(
-                        element
-                    );
-
-            }
-        );
-
-
-        if (checkoutSubtotal) {
-
-            checkoutSubtotal.textContent =
-                money(subtotal);
-
-        }
-
-
-        if (checkoutTotal) {
-
-            checkoutTotal.textContent =
-                money(subtotal);
-
-        }
+        checkoutSubtotal.textContent =
+            money(subtotal);
 
     }
 
 
-    /* =====================================================
+    if (checkoutTotal) {
+
+        checkoutTotal.textContent =
+            money(subtotal);
+
+    }
+
+}
+
+
+if (checkoutCountry) {
+
+    checkoutCountry.addEventListener(
+        "change",
+        scheduleShippingQuote
+    );
+
+}
+
+
+if (checkoutCity) {
+
+    checkoutCity.addEventListener(
+        "input",
+        scheduleShippingQuote
+    );
+
+}
+
+
+if (checkoutState) {
+
+    checkoutState.addEventListener(
+        "input",
+        scheduleShippingQuote
+    );
+
+}
+
+
+/* =====================================================
    CHECKOUT FORM
    PLACE ORDER → SHOW PAYPAL PAYMENT OPTIONS
 ===================================================== */
@@ -1945,19 +541,6 @@ if (checkoutForm) {
                 return;
             }
 
-            const formData =
-                new FormData(checkoutForm);
-
-            const customerData =
-                Object.fromEntries(
-                    formData.entries()
-                );
-
-            sessionStorage.setItem(
-                "setApartCheckoutCustomer",
-                JSON.stringify(customerData)
-            );
-
             const completeOrderButton =
                 checkoutForm.querySelector(
                     'button[type="submit"]'
@@ -1966,10 +549,37 @@ if (checkoutForm) {
             if (completeOrderButton) {
                 completeOrderButton.disabled = true;
                 completeOrderButton.textContent =
-                    "LOADING SECURE PAYMENT...";
+                    "CALCULATING SHIPPING...";
             }
 
             try {
+
+                const quote =
+                    await refreshShippingQuote();
+
+                if (!quote) {
+                    throw new Error(
+                        "Shipping information is incomplete."
+                    );
+                }
+
+                const formData =
+                    new FormData(checkoutForm);
+
+                const customerData =
+                    Object.fromEntries(
+                        formData.entries()
+                    );
+
+                sessionStorage.setItem(
+                    "setApartCheckoutCustomer",
+                    JSON.stringify(customerData)
+                );
+
+                if (completeOrderButton) {
+                    completeOrderButton.textContent =
+                        "LOADING SECURE PAYMENT...";
+                }
 
                 if (
                     typeof window.showSetApartPayPalButtons !==
@@ -2008,7 +618,7 @@ if (checkoutForm) {
             } catch (error) {
 
                 console.error(
-                    "Unable to load PayPal:",
+                    "Unable to prepare checkout:",
                     error
                 );
 
@@ -2022,1134 +632,10 @@ if (checkoutForm) {
                 }
 
                 alert(
-                    "Secure payment could not be loaded. Please try again."
+                    error.message ||
+                    "Checkout could not be prepared. Please try again."
                 );
             }
         }
     );
 }
-
-
-    /* =====================================================
-       CONTACT FORM
-    ===================================================== */
-
-    const contactForm =
-        document.getElementById(
-            "contactForm"
-        );
-
-
-    const contactMessage =
-        document.getElementById(
-            "contactFormMessage"
-        );
-
-
-    if (contactForm) {
-
-        contactForm.addEventListener(
-            "submit",
-            function (event) {
-
-                event.preventDefault();
-
-
-                if (
-                    !contactForm
-                        .checkValidity()
-                ) {
-
-                    contactForm
-                        .reportValidity();
-
-                    return;
-
-                }
-
-
-                if (
-                    contactMessage
-                ) {
-
-                    contactMessage
-                        .textContent =
-                        "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
-
-                }
-
-
-                const submitButton =
-                    contactForm
-                        .querySelector(
-                            '[type="submit"]'
-                        );
-
-
-                if (
-                    submitButton
-                ) {
-
-                    const originalText =
-                        submitButton
-                            .textContent;
-
-
-                    submitButton
-                        .textContent =
-                        "MESSAGE READY ✓";
-
-
-                    setTimeout(
-                        function () {
-
-                            submitButton
-                                .textContent =
-                                originalText;
-
-                        },
-                        2000
-                    );
-
-                }
-
-            }
-        );
-
-    }
-
-
-});
-/* =========================================================
-   SET APART — PRODUCT FRONT / BACK BUTTONS
-========================================================= */
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const productImages = {
-
-        pilgrim: {
-
-            black: {
-
-                front:
-                    "PILGRIM BLACK FRONT 1.png",
-
-                back:
-                    "PILGRIM BLACK BACK.png"
-
-            },
-
-
-            white: {
-
-                front:
-                    "PILGRIM WHITE FRONT.jpeg",
-
-                back:
-                    "PILGRIM WHITE BACK.jpeg"
-
-            },
-
-
-            brown: {
-
-                front:
-                    "PILGRIM BROWN FRONT.jpeg",
-
-                back:
-                    "PILGRIM BROWN BLACK.jpeg"
-
-            },
-
-
-            beige: {
-
-                front:
-                    "PILGRIM BEIGE FRONT.jpeg",
-
-                back:
-                    "PILGRIM BEIGE BACK.jpeg"
-
-            }
-
-        },
-
-
-        godfirst: {
-
-            black: {
-
-                front:
-                    "GOD FIRST BLACK FRONT.jpeg",
-
-                back:
-                    "GOD FIRST BLACK BACK.jpeg"
-
-            },
-
-
-            white: {
-
-                front:
-                    "GOD FIRST WHITE FRONT.jpeg",
-
-                back:
-                    "GOD FIRST WHITE BACK.jpeg"
-
-            },
-
-
-            brown: {
-
-                front:
-                    "GOD FIRST BROWN FRONT.png",
-
-                back:
-                    "GOD FIRST BROWN BACK.png"
-
-            },
-
-
-            beige: {
-
-                front:
-                    "GOD FIRST BEIGE FRONT.jpeg",
-
-                back:
-                    "GOD FIRST BEIGE BACK.jpeg"
-
-            }
-
-        }
-
-    };
-
-
-    document
-        .querySelectorAll(
-            ".shop-item"
-        )
-        .forEach(
-            function (productCard) {
-
-
-                const gallery =
-                    productCard.querySelector(
-                        ".shop-item-gallery"
-                    );
-
-
-                const image =
-                    productCard.querySelector(
-                        ".shop-product-image"
-                    );
-
-
-                const leftButton =
-                    productCard.querySelector(
-                        ".product-image-btn-left"
-                    );
-
-
-                const rightButton =
-                    productCard.querySelector(
-                        ".product-image-btn-right"
-                    );
-
-
-                if (
-                    !gallery ||
-                    !image ||
-                    !leftButton ||
-                    !rightButton
-                ) {
-
-                    return;
-
-                }
-
-
-                /* =========================================
-                   DETECT PRODUCT
-                ========================================= */
-
-                let productName =
-                    "";
-
-
-                const title =
-                    productCard
-                        .querySelector(
-                            "h2"
-                        )
-                        ?.textContent
-                        .toLowerCase() ||
-                    "";
-
-
-                if (
-                    title.includes(
-                        "pilgrim"
-                    )
-                ) {
-
-                    productName =
-                        "pilgrim";
-
-                }
-
-
-                if (
-                    title.includes(
-                        "god first"
-                    )
-                ) {
-
-                    productName =
-                        "godfirst";
-
-                }
-
-
-                if (
-                    !productImages[
-                        productName
-                    ]
-                ) {
-
-                    return;
-
-                }
-
-
-                /* =========================================
-                   GET CURRENT COLOR
-                ========================================= */
-
-                function getCurrentColor() {
-
-                    const selected =
-                        productCard
-                            .querySelector(
-                                ".color-option.selected"
-                            );
-
-
-                    if (
-                        selected &&
-                        selected.dataset.color
-                    ) {
-
-                        return selected
-                            .dataset
-                            .color
-                            .toLowerCase();
-
-                    }
-
-
-                    return (
-                        productName ===
-                        "pilgrim"
-                    )
-                        ? "beige"
-                        : "brown";
-
-                }
-
-
-                /* =========================================
-                   LEFT = FRONT
-                ========================================= */
-
-                leftButton
-                    .addEventListener(
-                        "click",
-                        function () {
-
-                            const color =
-                                getCurrentColor();
-
-
-                            const frontImage =
-                                productImages[
-                                    productName
-                                ]?.[
-                                    color
-                                ]?.front;
-
-
-                            if (
-                                frontImage
-                            ) {
-
-                                image.src =
-                                    frontImage;
-
-                            }
-
-                        }
-                    );
-
-
-                /* =========================================
-                   RIGHT = BACK
-                ========================================= */
-
-                rightButton
-                    .addEventListener(
-                        "click",
-                        function () {
-
-                            const color =
-                                getCurrentColor();
-
-
-                            const backImage =
-                                productImages[
-                                    productName
-                                ]?.[
-                                    color
-                                ]?.back;
-
-
-                            if (
-                                backImage
-                            ) {
-
-                                image.src =
-                                    backImage;
-
-                            }
-
-                        }
-                    );
-
-            }
-        );
-
-});
-
-
-/* =========================================================
-   SET APART — PAYPAL CHECKOUT
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const PAYPAL_BACKEND =
-            "https://set-apart.onrender.com";
-
-        const paypalContainer =
-            document.getElementById(
-                "paypal-button-container"
-            );
-
-        const checkoutForm =
-            document.getElementById(
-                "checkoutForm"
-            );
-
-        if (!paypalContainer) {
-            return;
-        }
-
-
-        /* =====================================================
-           GET CART
-        ===================================================== */
-
-        function getPayPalCart() {
-
-            let cart = [];
-
-            try {
-
-                cart =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "setApartCart"
-                        ) || "[]"
-                    );
-
-            } catch (error) {
-
-                console.error(
-                    "Unable to read cart:",
-                    error
-                );
-
-                return [];
-            }
-
-
-            return cart.map(
-                function (item) {
-
-                    return {
-
-                        id:
-                            item.id,
-
-                        quantity:
-                            Number(
-                                item.quantity
-                            ) || 1,
-
-                        color:
-                            item.color || "",
-
-                        size:
-                            item.size || ""
-
-                    };
-
-                }
-            );
-        }
-
-
-        /* =====================================================
-           CUSTOMER
-        ===================================================== */
-
-        function getCheckoutCustomer() {
-
-            if (!checkoutForm) {
-                return {};
-            }
-
-            const formData =
-                new FormData(
-                    checkoutForm
-                );
-
-            return {
-
-                email:
-                    formData.get(
-                        "email"
-                    ) || "",
-
-                firstName:
-                    formData.get(
-                        "firstName"
-                    ) || "",
-
-                lastName:
-                    formData.get(
-                        "lastName"
-                    ) || "",
-
-                address:
-                    formData.get(
-                        "address"
-                    ) || "",
-
-                apartment:
-                    formData.get(
-                        "apartment"
-                    ) || "",
-
-                country:
-                    formData.get(
-                        "country"
-                    ) || "",
-
-                city:
-                    formData.get(
-                        "city"
-                    ) || "",
-
-                state:
-                    formData.get(
-                        "state"
-                    ) || "",
-
-                postalCode:
-                    formData.get(
-                        "postalCode"
-                    ) || "",
-
-                phone:
-                    formData.get(
-                        "phone"
-                    ) || ""
-
-            };
-        }
-
-
-        let paypalButtonsRendered =
-            false;
-
-        let paypalRenderPromise =
-            null;
-
-
-        /* =====================================================
-           SHOW PAYPAL
-        ===================================================== */
-
-        window.showSetApartPayPalButtons =
-            function () {
-
-                return new Promise(
-                    function (
-                        resolve,
-                        reject
-                    ) {
-
-                        const pageOverlay =
-                            document.getElementById(
-                                "pageOverlay"
-                            );
-
-                        const mobileMenu =
-                            document.getElementById(
-                                "mobileMenu"
-                            );
-
-                        const searchPanel =
-                            document.getElementById(
-                                "searchPanel"
-                            );
-
-
-                        if (pageOverlay) {
-
-                            pageOverlay.classList.remove(
-                                "active"
-                            );
-
-                        }
-
-
-                        if (mobileMenu) {
-
-                            mobileMenu.classList.remove(
-                                "active"
-                            );
-
-                        }
-
-
-                        if (searchPanel) {
-
-                            searchPanel.classList.remove(
-                                "active"
-                            );
-
-                        }
-
-
-                        document.body.classList.remove(
-                            "menu-open",
-                            "search-open"
-                        );
-
-
-                        paypalContainer.style.display =
-                            "block";
-
-
-                        if (paypalButtonsRendered) {
-
-                            resolve();
-                            return;
-
-                        }
-
-
-                        if (paypalRenderPromise) {
-
-                            paypalRenderPromise
-                                .then(resolve)
-                                .catch(reject);
-
-                            return;
-
-                        }
-
-
-                        if (
-                            typeof window.paypal ===
-                            "undefined"
-                        ) {
-
-                            reject(
-                                new Error(
-                                    "PayPal SDK did not load."
-                                )
-                            );
-
-                            return;
-                        }
-
-
-                        const buttons =
-                            window.paypal.Buttons({
-
-                                createOrder:
-                                    async function () {
-
-                                        if (
-                                            checkoutForm &&
-                                            !checkoutForm
-                                                .checkValidity()
-                                        ) {
-
-                                            checkoutForm
-                                                .reportValidity();
-
-                                            throw new Error(
-                                                "Complete checkout information first."
-                                            );
-                                        }
-
-
-                                        const items =
-                                            getPayPalCart();
-
-
-                                        if (
-                                            items.length ===
-                                            0
-                                        ) {
-
-                                            alert(
-                                                "Your cart is empty."
-                                            );
-
-                                            throw new Error(
-                                                "Cart is empty."
-                                            );
-                                        }
-
-
-                                        const customer =
-                                            getCheckoutCustomer();
-
-
-                                        sessionStorage.setItem(
-                                            "setApartCheckoutCustomer",
-                                            JSON.stringify(
-                                                customer
-                                            )
-                                        );
-
-
-                                        const response =
-                                            await fetch(
-
-                                                `${PAYPAL_BACKEND}/api/paypal/orders`,
-
-                                                {
-
-                                                    method:
-                                                        "POST",
-
-                                                    headers: {
-
-                                                        "Content-Type":
-                                                            "application/json"
-
-                                                    },
-
-                                                    body:
-                                                        JSON.stringify({
-
-                                                            items:
-                                                                items
-
-                                                        })
-
-                                                }
-                                            );
-
-
-                                        const data =
-                                            await response.json();
-
-
-                                        if (
-                                            !response.ok ||
-                                            !data.id
-                                        ) {
-
-                                            console.error(
-                                                "Create order error:",
-                                                data
-                                            );
-
-                                            throw new Error(
-                                                data.error ||
-                                                "Unable to create PayPal order."
-                                            );
-                                        }
-
-
-                                        return data.id;
-                                    },
-
-
-                                onApprove:
-                                    async function (
-                                        data
-                                    ) {
-
-                                        const items =
-                                            getPayPalCart();
-
-                                        const customer =
-                                            getCheckoutCustomer();
-
-
-                                        const response =
-                                            await fetch(
-
-                                                `${PAYPAL_BACKEND}/api/paypal/orders/${data.orderID}/capture`,
-
-                                                {
-
-                                                    method:
-                                                        "POST",
-
-                                                    headers: {
-
-                                                        "Content-Type":
-                                                            "application/json"
-
-                                                    },
-
-                                                    body:
-                                                        JSON.stringify({
-
-                                                            customer:
-                                                                customer,
-
-                                                            items:
-                                                                items
-
-                                                        })
-
-                                                }
-                                            );
-
-
-                                        const result =
-                                            await response.json();
-
-
-                                        if (
-                                            !response.ok ||
-                                            result.status !==
-                                                "COMPLETED"
-                                        ) {
-
-                                            console.error(
-                                                "Capture error:",
-                                                result
-                                            );
-
-                                            alert(
-                                                "Payment could not be completed."
-                                            );
-
-                                            return;
-                                        }
-
-
-                                        localStorage.removeItem(
-                                            "setApartCart"
-                                        );
-
-                                        sessionStorage.removeItem(
-                                            "setApartCheckoutCustomer"
-                                        );
-
-
-                                        alert(
-                                            "Payment successful! Thank you for your SET APART order."
-                                        );
-
-
-                                        window.location.href =
-                                            "index.html";
-                                    },
-
-
-                                onCancel:
-                                    function () {
-
-                                        console.log(
-                                            "Customer cancelled PayPal checkout."
-                                        );
-
-                                    },
-
-
-                                onError:
-                                    function (
-                                        error
-                                    ) {
-
-                                        console.error(
-                                            "PayPal checkout error:",
-                                            error
-                                        );
-
-                                        alert(
-                                            "Something went wrong with PayPal. Please try again."
-                                        );
-
-                                    }
-
-                            });
-
-
-                        paypalRenderPromise =
-                            buttons.render(
-                                "#paypal-button-container"
-                            );
-
-
-                        paypalRenderPromise
-                            .then(
-                                function () {
-
-                                    paypalButtonsRendered =
-                                        true;
-
-                                    paypalRenderPromise =
-                                        null;
-
-                                    resolve();
-
-                                }
-                            )
-                            .catch(
-                                function (
-                                    error
-                                ) {
-
-                                    paypalButtonsRendered =
-                                        false;
-
-                                    paypalRenderPromise =
-                                        null;
-
-                                    paypalContainer.innerHTML =
-                                        "";
-
-                                    reject(
-                                        error
-                                    );
-
-                                }
-                            );
-
-                    }
-                );
-            };
-
-    }
-);
-/* =========================================================
-   SET APART — ORDER ON WHATSAPP
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const whatsappButton =
-            document.getElementById(
-                "whatsappOrderButton"
-            );
-
-        if (!whatsappButton) {
-            return;
-        }
-
-        whatsappButton.addEventListener(
-            "click",
-            function (event) {
-
-                event.preventDefault();
-
-                const cart =
-                    JSON.parse(
-                        localStorage.getItem(
-                            "setApartCart"
-                        ) || "[]"
-                    );
-
-                if (
-                    !Array.isArray(cart) ||
-                    cart.length === 0
-                ) {
-
-                    alert(
-                        "Your cart is empty."
-                    );
-
-                    return;
-
-                }
-
-
-                let total =
-                    0;
-
-
-                const orderDetails =
-                    cart.map(
-                        function (item) {
-
-                            const quantity =
-                                Number(
-                                    item.quantity || 1
-                                );
-
-
-                            const price =
-                                Number(
-                                    item.price || 0
-                                );
-
-
-                            total +=
-                                price * quantity;
-
-
-                            return [
-
-                                `Product: ${item.name || item.id || "-"}`,
-
-                                `Color: ${item.color || "-"}`,
-
-                                `Size: ${item.size || "-"}`,
-
-                                `Quantity: ${quantity}`,
-
-                                `Price: $${price.toFixed(2)}`
-
-                            ].join("\n");
-
-                        }
-                    );
-
-
-                const message = [
-
-                    "Hello SET APART,",
-
-                    "",
-
-                    "I would like to place this order:",
-
-                    "",
-
-                    orderDetails.join(
-                        "\n\n"
-                    ),
-
-                    "",
-
-                    `TOTAL: $${total.toFixed(2)} USD`,
-
-                    "",
-
-                    "Please let me know how I can complete my order."
-
-                ].join("\n");
-
-
-                const whatsappNumber =
-                    "18494861203";
-
-
-                const whatsappUrl =
-                    `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
-
-
-                window.open(
-                    whatsappUrl,
-                    "_blank",
-                    "noopener,noreferrer"
-                );
-
-            }
-        );
-
-    }
-);
-
-/* =========================================================
-   GOOGLE APP / IN-APP BROWSER PAYMENT NOTICE
-========================================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    function () {
-
-        const userAgent =
-            navigator.userAgent || "";
-
-        const isGoogleApp =
-            /GSA\//i.test(userAgent);
-
-        if (!isGoogleApp) {
-            return;
-        }
-
-        const checkoutForm =
-            document.getElementById(
-                "checkoutForm"
-            );
-
-        if (!checkoutForm) {
-            return;
-        }
-
-        const notice =
-            document.createElement(
-                "div"
-            );
-
-        notice.className =
-            "payment-browser-notice";
-
-       notice.innerHTML = `
-    <strong>SECURE PAYMENT</strong>
-
-    <p>
-        PayPal and Debit/Credit Card payments work best
-        in a supported browser.
-    </p>
-
-    <div class="payment-browser-buttons">
-        <span class="browser-button">
-            OPEN IN CHROME
-        </span>
-
-        <span class="browser-button">
-            OPEN IN SAFARI
-        </span>
-    </div>
-
-    <small>
-        Open this page in Chrome or Safari to continue payment.
-    </small>
-`;
-
-        checkoutForm.prepend(
-            notice
-        );
-
-    }
-);
