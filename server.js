@@ -3289,6 +3289,234 @@ DATABASE_URL
 
 
 /* =========================================================
+   CONTACT FORM
+========================================================= */
+
+const contactLimiter = rateLimit({
+
+    windowMs:
+        15 * 60 * 1000,
+
+    limit:
+        5,
+
+    standardHeaders:
+        true,
+
+    legacyHeaders:
+        false,
+
+    message: {
+        success: false,
+        error: "Too many messages. Please try again later."
+    }
+
+});
+
+
+app.post(
+    "/api/contact",
+    contactLimiter,
+
+    async function (req, res) {
+
+        try {
+
+            const {
+                firstName,
+                lastName,
+                email,
+                subject,
+                message
+            } = req.body || {};
+
+
+            const cleanFirstName =
+                String(firstName || "").trim();
+
+            const cleanLastName =
+                String(lastName || "").trim();
+
+            const cleanEmail =
+                String(email || "").trim();
+
+            const cleanSubject =
+                String(subject || "").trim();
+
+            const cleanMessage =
+                String(message || "").trim();
+
+
+            if (
+                !cleanFirstName ||
+                !cleanLastName ||
+                !cleanEmail ||
+                !cleanSubject ||
+                !cleanMessage
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        error: "Please complete all required fields."
+                    });
+
+            }
+
+
+            if (
+                cleanFirstName.length > 100 ||
+                cleanLastName.length > 100 ||
+                cleanEmail.length > 254 ||
+                cleanSubject.length > 100 ||
+                cleanMessage.length > 5000
+            ) {
+
+                return res
+                    .status(400)
+                    .json({
+                        success: false,
+                        error: "Message information is too long."
+                    });
+
+            }
+
+
+            if (
+                !RESEND_API_KEY ||
+                !ORDER_NOTIFICATION_EMAIL
+            ) {
+
+                throw new Error(
+                    "Contact email service is not configured."
+                );
+
+            }
+
+
+            const fullName =
+                `${cleanFirstName} ${cleanLastName}`;
+
+
+            const result =
+                await resend.emails.send({
+
+                    from:
+                        "SET APART Contact <onboarding@resend.dev>",
+
+                    to: [
+                        ORDER_NOTIFICATION_EMAIL
+                    ],
+
+                    replyTo:
+                        cleanEmail,
+
+                    subject:
+                        `SET APART CONTACT — ${cleanSubject}`,
+
+                    html: `
+                        <div style="
+                            font-family:Arial,sans-serif;
+                            max-width:700px;
+                            margin:auto;
+                            color:#111;
+                        ">
+
+                            <h1>
+                                NEW CONTACT MESSAGE
+                            </h1>
+
+                            <hr>
+
+                            <p>
+                                <strong>Name:</strong>
+                                ${escapeHtml(fullName)}
+                            </p>
+
+                            <p>
+                                <strong>Email:</strong>
+                                ${escapeHtml(cleanEmail)}
+                            </p>
+
+                            <p>
+                                <strong>Subject:</strong>
+                                ${escapeHtml(cleanSubject)}
+                            </p>
+
+                            <hr>
+
+                            <p style="white-space:pre-wrap;">
+                                ${escapeHtml(cleanMessage)}
+                            </p>
+
+                            <hr>
+
+                            <p style="
+                                font-size:12px;
+                                color:#777;
+                            ">
+                                SET APART — Contact Form
+                            </p>
+
+                        </div>
+                    `
+
+                });
+
+
+            if (result.error) {
+
+                console.error(
+                    "Contact email error:",
+                    result.error
+                );
+
+                throw new Error(
+                    result.error.message ||
+                    "Contact email could not be sent."
+                );
+
+            }
+
+
+            return res.json({
+
+                success: true,
+
+                message:
+                    "Message sent successfully."
+
+            });
+
+        }
+
+        catch (error) {
+
+            console.error(
+                "Contact form error:",
+                error
+            );
+
+
+            return res
+                .status(500)
+                .json({
+
+                    success: false,
+
+                    error:
+                        "Message could not be sent. Please try again."
+
+                });
+
+        }
+
+    }
+);
+
+
+/* =========================================================
 SHIPPING QUOTE ROUTE
 ========================================================= */
 
