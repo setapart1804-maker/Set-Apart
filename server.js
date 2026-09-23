@@ -7,9 +7,15 @@ const cors = require("cors");
 const { Resend } = require("resend");
 const { Pool } = require("pg");
 const crypto = require("crypto");
+const rateLimit = require("express-rate-limit");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+
+app.set("trust proxy", 1);
+
+const PORT =
+    process.env.PORT ||
+    3000;
 
 
 /* =========================================================
@@ -35,7 +41,9 @@ const PAYPAL_WEBHOOK_ID =
     process.env.PAYPAL_WEBHOOK_ID;
 
 const DOP_PER_USD =
-    Number(process.env.DOP_PER_USD);
+    Number(
+        process.env.DOP_PER_USD
+    );
 
 const DATABASE_URL =
     process.env.DATABASE_URL;
@@ -63,10 +71,14 @@ const resend =
 
 const pool =
     DATABASE_URL
+
         ? new Pool({
+
             connectionString:
                 DATABASE_URL
+
         })
+
         : null;
 
 
@@ -83,6 +95,7 @@ async function db(
 
     }
 
+
     return pool.query(
         text,
         params
@@ -96,18 +109,31 @@ async function db(
 ========================================================= */
 
 app.use(
+
     express.json({
-        limit: "1mb"
+
+        limit:
+            "1mb"
+
     })
+
 );
 
+
 app.use(
+
     express.urlencoded({
-        extended: false
+
+        extended:
+            false
+
     })
+
 );
 
+
 app.use(
+
     cors({
 
         origin: [
@@ -121,18 +147,25 @@ app.use(
         ],
 
         methods: [
+
             "GET",
             "POST",
             "OPTIONS"
+
         ],
 
         allowedHeaders: [
-    "Content-Type",
-    "x-admin-key",
-    "Authorization"
-]
+
+            "Content-Type",
+
+            "x-admin-key",
+
+            "Authorization"
+
+        ]
 
     })
+
 );
 
 
@@ -151,17 +184,21 @@ const PRODUCTS = {
             34.99,
 
         colors: [
+
             "beige",
             "white",
             "brown",
             "black"
+
         ],
 
         sizes: [
+
             "S",
             "M",
             "L",
             "XL"
+
         ]
 
     },
@@ -176,17 +213,21 @@ const PRODUCTS = {
             34.99,
 
         colors: [
+
             "brown",
             "white",
             "black",
             "beige"
+
         ],
 
         sizes: [
+
             "S",
             "M",
             "L",
             "XL"
+
         ]
 
     }
@@ -194,19 +235,17 @@ const PRODUCTS = {
 };
 
 
-const failedEmailCaptures =
-    new Set();
-
-
 const processedPayPalWebhookEvents =
     new Set();
 
 
 /* =========================================================
-   HELPERS
+   GENERAL HELPERS
 ========================================================= */
 
-function escapeHtml(value) {
+function escapeHtml(
+    value
+) {
 
     return String(
         value ?? ""
@@ -240,7 +279,9 @@ function escapeHtml(value) {
 }
 
 
-function normalizePlace(value) {
+function normalizePlace(
+    value
+) {
 
     return String(
         value || ""
@@ -265,10 +306,13 @@ function normalizePlace(value) {
 function getDopPerUsd() {
 
     if (
+
         !Number.isFinite(
             DOP_PER_USD
         ) ||
+
         DOP_PER_USD <= 0
+
     ) {
 
         throw new Error(
@@ -277,10 +321,15 @@ function getDopPerUsd() {
 
     }
 
+
     return DOP_PER_USD;
 
 }
 
+
+/* =========================================================
+   OLD ADMIN API KEY HELPER
+========================================================= */
 
 function requireAdmin(
     req,
@@ -294,9 +343,12 @@ function requireAdmin(
 
 
     if (
+
         !ADMIN_SHIPPING_KEY ||
+
         adminKey !==
             ADMIN_SHIPPING_KEY
+
     ) {
 
         res
@@ -322,12 +374,17 @@ function requireAdmin(
 }
 
 
+/* =========================================================
+   CUSTOMER VALIDATION
+========================================================= */
+
 function validateCustomer(
     customer
 ) {
 
     const source =
-        customer || {};
+        customer ||
+        {};
 
 
     const clean = {
@@ -453,12 +510,14 @@ function validateCustomer(
 
 
     if (
+
         ![
             "DO",
             "HT"
         ].includes(
             clean.country
         )
+
     ) {
 
         throw new Error(
@@ -482,7 +541,8 @@ function calculateShipping(
 ) {
 
     const safeCustomer =
-        customer || {};
+        customer ||
+        {};
 
 
     const country =
@@ -588,7 +648,9 @@ function calculateShipping(
 
         const shippingDOP =
             isCapitalArea
+
                 ? 300
+
                 : 500;
 
 
@@ -654,10 +716,13 @@ function calculateOrder(
 ) {
 
     if (
+
         !Array.isArray(
             items
         ) ||
+
         items.length === 0
+
     ) {
 
         throw new Error(
@@ -726,9 +791,11 @@ function calculateOrder(
 
 
                 if (
+
                     !product.colors.includes(
                         color
                     )
+
                 ) {
 
                     throw new Error(
@@ -739,9 +806,11 @@ function calculateOrder(
 
 
                 if (
+
                     !product.sizes.includes(
                         size
                     )
+
                 ) {
 
                     throw new Error(
@@ -752,11 +821,15 @@ function calculateOrder(
 
 
                 if (
+
                     !Number.isInteger(
                         quantity
                     ) ||
+
                     quantity < 1 ||
+
                     quantity > 20
+
                 ) {
 
                     throw new Error(
@@ -883,8 +956,11 @@ function calculateOrder(
 async function generateAccessToken() {
 
     if (
+
         !PAYPAL_CLIENT_ID ||
+
         !PAYPAL_CLIENT_SECRET
+
     ) {
 
         throw new Error(
@@ -1303,6 +1379,7 @@ async function savePendingOrder({
                     customer.phone,
 
                     customer.address,
+
                     customer.apartment ||
                         null,
 
@@ -1436,8 +1513,11 @@ async function getStoredOrder(
 
             `
             SELECT *
+
             FROM orders
+
             WHERE paypal_order_id = $1
+
             LIMIT 1
             `,
 
@@ -1467,8 +1547,11 @@ async function getStoredOrder(
 
             `
             SELECT *
+
             FROM order_items
+
             WHERE order_id = $1
+
             ORDER BY id ASC
             `,
 
@@ -1658,7 +1741,8 @@ async function markOrderPaid({
                 payment_status =
                     'COMPLETED',
 
-                order_status = 'PAID',
+                order_status =
+                    'PAID',
 
                 updated_at =
                     NOW()
@@ -1754,6 +1838,415 @@ async function markOrderShipped({
 
 
     return result.rows[0];
+
+}
+
+
+/* =========================================================
+   EMAIL FAILURE DATABASE HELPERS
+========================================================= */
+
+async function ensureEmailFailuresTable() {
+
+    await db(`
+
+        CREATE TABLE IF NOT EXISTS email_failures (
+
+            id BIGSERIAL PRIMARY KEY,
+
+            paypal_order_id VARCHAR(100) NOT NULL
+                REFERENCES orders(paypal_order_id)
+                ON DELETE CASCADE,
+
+            email_type VARCHAR(50) NOT NULL,
+
+            recipient_email VARCHAR(255) NOT NULL,
+
+            error_message TEXT NOT NULL,
+
+            retry_count INTEGER NOT NULL DEFAULT 0,
+
+            resolved BOOLEAN NOT NULL DEFAULT FALSE,
+
+            created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+            updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+
+            last_retry_at TIMESTAMPTZ,
+
+            resolved_at TIMESTAMPTZ
+
+        )
+
+    `);
+
+
+    await db(`
+
+        ALTER TABLE email_failures
+
+        ADD COLUMN IF NOT EXISTS updated_at
+        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+
+    `);
+
+
+    await db(`
+
+        CREATE INDEX IF NOT EXISTS
+        idx_email_failures_resolved
+
+        ON email_failures(resolved)
+
+    `);
+
+
+    await db(`
+
+        CREATE INDEX IF NOT EXISTS
+        idx_email_failures_order
+
+        ON email_failures(paypal_order_id)
+
+    `);
+
+}
+
+
+function emailErrorMessage(
+    error
+) {
+
+    if (!error) {
+
+        return "Unknown email error.";
+
+    }
+
+
+    if (
+        typeof error ===
+        "string"
+    ) {
+
+        return error;
+
+    }
+
+
+    if (
+        error.message
+    ) {
+
+        return String(
+            error.message
+        );
+
+    }
+
+
+    try {
+
+        return JSON.stringify(
+            error
+        );
+
+    }
+
+
+    catch {
+
+        return String(
+            error
+        );
+
+    }
+
+}
+
+
+async function recordEmailFailure({
+
+    orderID,
+    emailType,
+    recipientEmail,
+    errorMessage
+
+}) {
+
+    await ensureEmailFailuresTable();
+
+
+    const recipient =
+        String(
+            recipientEmail ||
+            "NOT_CONFIGURED"
+        ).trim();
+
+
+    const existing =
+        await db(
+
+            `
+            SELECT id
+
+            FROM email_failures
+
+            WHERE paypal_order_id = $1
+              AND email_type = $2
+              AND recipient_email = $3
+              AND resolved = FALSE
+
+            ORDER BY id DESC
+
+            LIMIT 1
+            `,
+
+            [
+                orderID,
+                emailType,
+                recipient
+            ]
+
+        );
+
+
+    if (
+        existing.rows.length >
+        0
+    ) {
+
+        await db(
+
+            `
+            UPDATE email_failures
+
+            SET
+                error_message = $1,
+                updated_at = NOW()
+
+            WHERE id = $2
+            `,
+
+            [
+
+                String(
+                    errorMessage ||
+                    "Unknown email error."
+                ),
+
+                existing.rows[0].id
+
+            ]
+
+        );
+
+
+        return existing.rows[0].id;
+
+    }
+
+
+    const inserted =
+        await db(
+
+            `
+            INSERT INTO email_failures (
+
+                paypal_order_id,
+
+                email_type,
+
+                recipient_email,
+
+                error_message
+
+            )
+
+            VALUES (
+                $1,
+                $2,
+                $3,
+                $4
+            )
+
+            RETURNING id
+            `,
+
+            [
+
+                orderID,
+
+                emailType,
+
+                recipient,
+
+                String(
+                    errorMessage ||
+                    "Unknown email error."
+                )
+
+            ]
+
+        );
+
+
+    return inserted.rows[0].id;
+
+}
+
+
+async function resolveEmailFailures({
+
+    orderID,
+    emailType,
+    recipientEmail
+
+}) {
+
+    await ensureEmailFailuresTable();
+
+
+    await db(
+
+        `
+        UPDATE email_failures
+
+        SET
+
+            resolved = TRUE,
+
+            resolved_at = NOW(),
+
+            updated_at = NOW()
+
+        WHERE paypal_order_id = $1
+
+          AND email_type = $2
+
+          AND recipient_email = $3
+
+          AND resolved = FALSE
+        `,
+
+        [
+
+            orderID,
+
+            emailType,
+
+            String(
+                recipientEmail ||
+                "NOT_CONFIGURED"
+            ).trim()
+
+        ]
+
+    );
+
+}
+
+
+async function attemptTrackedEmail({
+
+    orderID,
+    emailType,
+    recipientEmail,
+    send
+
+}) {
+
+    try {
+
+        await send();
+
+
+        await resolveEmailFailures({
+
+            orderID:
+                orderID,
+
+            emailType:
+                emailType,
+
+            recipientEmail:
+                recipientEmail
+
+        });
+
+
+        return {
+
+            success:
+                true
+
+        };
+
+    }
+
+
+    catch (
+        error
+    ) {
+
+        console.error(
+
+            `${emailType} email failed:`,
+
+            error
+
+        );
+
+
+        try {
+
+            await recordEmailFailure({
+
+                orderID:
+                    orderID,
+
+                emailType:
+                    emailType,
+
+                recipientEmail:
+                    recipientEmail,
+
+                errorMessage:
+                    emailErrorMessage(
+                        error
+                    )
+
+            });
+
+        }
+
+
+        catch (
+            databaseError
+        ) {
+
+            console.error(
+
+                "Could not save failed email:",
+
+                databaseError
+
+            );
+
+        }
+
+
+        return {
+
+            success:
+                false,
+
+            error:
+                error
+
+        };
+
+    }
 
 }
 
@@ -1884,16 +2377,16 @@ async function sendOrderNotification({
 }) {
 
     if (
+
         !RESEND_API_KEY ||
+
         !ORDER_NOTIFICATION_EMAIL
+
     ) {
 
-        console.error(
+        throw new Error(
             "Resend environment variables are missing."
         );
-
-
-        return;
 
     }
 
@@ -1954,24 +2447,33 @@ async function sendOrderNotification({
 
 
             <p>
+
                 <strong>
                     PayPal Order ID:
                 </strong>
 
-                ${escapeHtml(orderID)}
+                ${escapeHtml(
+                    orderID
+                )}
+
             </p>
 
 
             <p>
+
                 <strong>
                     Total Paid:
                 </strong>
 
-                $${escapeHtml(total)} USD
+                $${escapeHtml(
+                    total
+                )} USD
+
             </p>
 
 
             <p>
+
                 <strong>
                     Shipping Method:
                 </strong>
@@ -1980,10 +2482,12 @@ async function sendOrderNotification({
                     shipping?.method ||
                     "-"
                 )}
+
             </p>
 
 
             <p>
+
                 <strong>
                     Shipping Fee:
                 </strong>
@@ -1992,6 +2496,7 @@ async function sendOrderNotification({
                     shipping?.displayPrice ||
                     "-"
                 )}
+
             </p>
 
 
@@ -2073,7 +2578,9 @@ async function sendOrderNotification({
 
                 <tbody>
 
-                    ${orderItemsHtml(items)}
+                    ${orderItemsHtml(
+                        items
+                    )}
 
                 </tbody>
 
@@ -2092,7 +2599,9 @@ async function sendOrderNotification({
                 <strong>
 
                     TOTAL:
-                    $${escapeHtml(total)} USD
+                    $${escapeHtml(
+                        total
+                    )} USD
 
                 </strong>
 
@@ -2109,10 +2618,9 @@ async function sendOrderNotification({
             from:
                 "SET APART Orders <onboarding@resend.dev>",
 
-            to:
-                [
-                    ORDER_NOTIFICATION_EMAIL
-                ],
+            to: [
+                ORDER_NOTIFICATION_EMAIL
+            ],
 
             subject:
                 `NEW SET APART ORDER — $${total}`,
@@ -2128,13 +2636,20 @@ async function sendOrderNotification({
     ) {
 
         console.error(
+
             "Resend order email error:",
+
             result.error
+
         );
 
 
         throw new Error(
+
+            result.error?.message ||
+
             "Order email could not be sent."
+
         );
 
     }
@@ -2157,10 +2672,23 @@ async function sendCustomerConfirmation({
 }) {
 
     if (
+        !RESEND_API_KEY
+    ) {
+
+        throw new Error(
+            "RESEND_API_KEY is missing."
+        );
+
+    }
+
+
+    if (
         !customer?.email
     ) {
 
-        return;
+        throw new Error(
+            "Customer email is required."
+        );
 
     }
 
@@ -2197,9 +2725,7 @@ async function sendCustomerConfirmation({
                         letter-spacing:4px;
                     "
                 >
-
                     SET APART
-
                 </h1>
 
 
@@ -2208,9 +2734,7 @@ async function sendCustomerConfirmation({
                         letter-spacing:2px;
                     "
                 >
-
                     CALLED TO LIVE DIFFERENTLY.
-
                 </p>
 
             </div>
@@ -2230,6 +2754,7 @@ async function sendCustomerConfirmation({
                 <p>
 
                     Hi
+
                     ${escapeHtml(
                         customer.firstName ||
                         "there"
@@ -2246,7 +2771,9 @@ async function sendCustomerConfirmation({
                         Order ID:
                     </strong>
 
-                    ${escapeHtml(orderID)}
+                    ${escapeHtml(
+                        orderID
+                    )}
 
                 </p>
 
@@ -2257,7 +2784,9 @@ async function sendCustomerConfirmation({
                         Total Paid:
                     </strong>
 
-                    $${escapeHtml(total)} USD
+                    $${escapeHtml(
+                        total
+                    )} USD
 
                 </p>
 
@@ -2307,7 +2836,9 @@ async function sendCustomerConfirmation({
 
                     <tbody>
 
-                        ${orderItemsHtml(items)}
+                        ${orderItemsHtml(
+                            items
+                        )}
 
                     </tbody>
 
@@ -2351,7 +2882,10 @@ async function sendCustomerConfirmation({
                     <strong>
 
                         TOTAL:
-                        $${escapeHtml(total)} USD
+
+                        $${escapeHtml(
+                            total
+                        )} USD
 
                     </strong>
 
@@ -2370,10 +2904,9 @@ async function sendCustomerConfirmation({
             from:
                 "SET APART Orders <onboarding@resend.dev>",
 
-            to:
-                [
-                    customer.email
-                ],
+            to: [
+                customer.email
+            ],
 
             subject:
                 "ORDER CONFIRMED — SET APART",
@@ -2389,13 +2922,20 @@ async function sendCustomerConfirmation({
     ) {
 
         console.error(
+
             "Customer confirmation email error:",
+
             result.error
+
         );
 
 
         throw new Error(
+
+            result.error?.message ||
+
             "Customer confirmation email could not be sent."
+
         );
 
     }
@@ -2418,8 +2958,22 @@ async function sendShippingConfirmation({
 }) {
 
     if (
+        !RESEND_API_KEY
+    ) {
+
+        throw new Error(
+            "RESEND_API_KEY is missing."
+        );
+
+    }
+
+
+    if (
+
         !customerEmail ||
+
         !trackingNumber
+
     ) {
 
         throw new Error(
@@ -2474,6 +3028,7 @@ async function sendShippingConfirmation({
                 <p>
 
                     Hi
+
                     ${escapeHtml(
                         customerName ||
                         "there"
@@ -2490,7 +3045,9 @@ async function sendShippingConfirmation({
                         Order ID:
                     </strong>
 
-                    ${escapeHtml(orderID)}
+                    ${escapeHtml(
+                        orderID
+                    )}
 
                 </p>
 
@@ -2534,10 +3091,9 @@ async function sendShippingConfirmation({
             from:
                 "SET APART Orders <onboarding@resend.dev>",
 
-            to:
-                [
-                    customerEmail
-                ],
+            to: [
+                customerEmail
+            ],
 
             subject:
                 "YOUR ORDER HAS SHIPPED — SET APART",
@@ -2553,13 +3109,20 @@ async function sendShippingConfirmation({
     ) {
 
         console.error(
+
             "Shipping confirmation email error:",
+
             result.error
+
         );
 
 
         throw new Error(
+
+            result.error?.message ||
+
             "Shipping confirmation email could not be sent."
+
         );
 
     }
@@ -2572,6 +3135,7 @@ async function sendShippingConfirmation({
 ========================================================= */
 
 app.get(
+
     "/",
 
     function (
@@ -2595,6 +3159,7 @@ app.get(
         });
 
     }
+
 );
 
 
@@ -2675,7 +3240,6 @@ app.post(
 
 /* =========================================================
    CREATE PAYPAL ORDER
-   SAVE PENDING ORDER TO NEON
 ========================================================= */
 
 app.post(
@@ -2802,13 +3366,19 @@ app.post(
 
 
             if (
+
                 !response.ok ||
+
                 !data.id
+
             ) {
 
                 console.error(
+
                     "PayPal create order error:",
+
                     data
+
                 );
 
 
@@ -2870,8 +3440,11 @@ app.post(
         ) {
 
             console.error(
+
                 "Create order error:",
+
                 error
+
             );
 
 
@@ -2962,13 +3535,11 @@ app.post(
             }
 
 
-            /* =================================================
-               ALREADY PAID
-            ================================================= */
-
             if (
+
                 stored.order.payment_status ===
                 "COMPLETED"
+
             ) {
 
                 return res.json({
@@ -3036,10 +3607,6 @@ app.post(
                     ?.amount;
 
 
-            /* =================================================
-               VERIFY PAYPAL ORDER BEFORE CAPTURE
-            ================================================= */
-
             if (
 
                 paypalAmount?.value !==
@@ -3090,10 +3657,6 @@ app.post(
                 );
 
 
-            /* =================================================
-               CAPTURE PAYMENT
-            ================================================= */
-
             if (!capture) {
 
                 const captureResponse =
@@ -3129,11 +3692,6 @@ app.post(
                         .json();
 
 
-                /* =================================================
-                   IF PAYPAL SAYS CAPTURE ERROR,
-                   CHECK WHETHER IT WAS ALREADY CAPTURED
-                ================================================= */
-
                 if (
                     !captureResponse.ok
                 ) {
@@ -3157,8 +3715,11 @@ app.post(
                     if (!capture) {
 
                         console.error(
+
                             "PayPal capture error:",
+
                             captureData
+
                         );
 
 
@@ -3186,8 +3747,10 @@ app.post(
                 else {
 
                     if (
+
                         captureData.status !==
                         "COMPLETED"
+
                     ) {
 
                         return res
@@ -3262,10 +3825,6 @@ app.post(
                     ?.currency_code;
 
 
-            /* =================================================
-               VERIFY CAPTURED AMOUNT
-            ================================================= */
-
             if (
 
                 capturedAmount !==
@@ -3313,10 +3872,6 @@ app.post(
             }
 
 
-            /* =================================================
-               UPDATE DATABASE
-            ================================================= */
-
             const paidOrder =
                 await markOrderPaid({
 
@@ -3341,75 +3896,89 @@ app.post(
                 );
 
 
-            const items =
+            const orderItems =
                 itemsFromStoredOrder(
                     stored.items
                 );
 
 
-            /* =================================================
-               EMAILS
-            ================================================= */
-
-            try {
-
-                await sendOrderNotification({
+            const adminEmailResult =
+                await attemptTrackedEmail({
 
                     orderID:
                         orderID,
 
-                    total:
-                        capturedAmount,
+                    emailType:
+                        "ADMIN_ORDER",
 
-                    customer:
-                        customer,
+                    recipientEmail:
+                        ORDER_NOTIFICATION_EMAIL ||
+                        "NOT_CONFIGURED",
 
-                    items:
-                        items,
+                    send:
+                        function () {
 
-                    shipping:
-                        shipping
+                            return sendOrderNotification({
+
+                                orderID:
+                                    orderID,
+
+                                total:
+                                    capturedAmount,
+
+                                customer:
+                                    customer,
+
+                                items:
+                                    orderItems,
+
+                                shipping:
+                                    shipping
+
+                            });
+
+                        }
 
                 });
 
 
-                await sendCustomerConfirmation({
+            const customerEmailResult =
+                await attemptTrackedEmail({
 
                     orderID:
                         orderID,
 
-                    total:
-                        capturedAmount,
+                    emailType:
+                        "CUSTOMER_CONFIRMATION",
 
-                    customer:
-                        customer,
+                    recipientEmail:
+                        customer.email,
 
-                    items:
-                        items,
+                    send:
+                        function () {
 
-                    shipping:
-                        shipping
+                            return sendCustomerConfirmation({
+
+                                orderID:
+                                    orderID,
+
+                                total:
+                                    capturedAmount,
+
+                                customer:
+                                    customer,
+
+                                items:
+                                    orderItems,
+
+                                shipping:
+                                    shipping
+
+                            });
+
+                        }
 
                 });
-
-            }
-
-
-            catch (
-                emailError
-            ) {
-
-                console.error(
-                    "Payment completed but email failed:",
-                    emailError
-                );
-
-
-                failedEmailCaptures.add(
-                    capture.id
-                );
-
-            }
 
 
             return res.json({
@@ -3432,6 +4001,16 @@ app.post(
                 currency:
                     capturedCurrency,
 
+                emails: {
+
+                    admin:
+                        adminEmailResult.success,
+
+                    customer:
+                        customerEmailResult.success
+
+                },
+
                 shipping:
                     shipping
 
@@ -3445,8 +4024,11 @@ app.post(
         ) {
 
             console.error(
+
                 "Capture order error:",
+
                 error
+
             );
 
 
@@ -3472,23 +4054,25 @@ app.post(
 
 
 /* =========================================================
-   FAILED EMAILS — ADMIN
+   FAILED EMAILS — ADMIN API
 ========================================================= */
 
 app.get(
 
     "/api/admin/failed-emails",
 
-    function (
+    async function (
         req,
         res
     ) {
 
         if (
+
             !requireAdmin(
                 req,
                 res
             )
+
         ) {
 
             return;
@@ -3496,20 +4080,87 @@ app.get(
         }
 
 
-        return res.json({
+        try {
 
-            success:
-                true,
+            await ensureEmailFailuresTable();
 
-            count:
-                failedEmailCaptures.size,
 
-            captureIDs:
-                Array.from(
-                    failedEmailCaptures
-                )
+            const result =
+                await db(`
 
-        });
+                    SELECT
+
+                        id,
+
+                        paypal_order_id,
+
+                        email_type,
+
+                        recipient_email,
+
+                        error_message,
+
+                        retry_count,
+
+                        created_at,
+
+                        last_retry_at
+
+                    FROM email_failures
+
+                    WHERE resolved = FALSE
+
+                    ORDER BY created_at DESC
+
+                    LIMIT 100
+
+                `);
+
+
+            return res.json({
+
+                success:
+                    true,
+
+                count:
+                    result.rows.length,
+
+                failures:
+                    result.rows
+
+            });
+
+        }
+
+
+        catch (
+            error
+        ) {
+
+            console.error(
+
+                "Failed email admin API error:",
+
+                error
+
+            );
+
+
+            return res
+
+                .status(500)
+
+                .json({
+
+                    success:
+                        false,
+
+                    error:
+                        "Unable to load failed emails."
+
+                });
+
+        }
 
     }
 
@@ -3517,7 +4168,7 @@ app.get(
 
 
 /* =========================================================
-   MARK ORDER SHIPPED
+   MARK ORDER SHIPPED API
 ========================================================= */
 
 app.post(
@@ -3530,10 +4181,12 @@ app.post(
     ) {
 
         if (
+
             !requireAdmin(
                 req,
                 res
             )
+
         ) {
 
             return;
@@ -3555,8 +4208,11 @@ app.post(
 
 
             if (
+
                 !orderID ||
+
                 !trackingNumber
+
             ) {
 
                 return res
@@ -3602,8 +4258,13 @@ app.post(
 
 
             if (
+
                 stored.order.payment_status !==
-                "COMPLETED"
+                    "COMPLETED" ||
+
+                stored.order.order_status !==
+                    "PROCESSING"
+
             ) {
 
                 return res
@@ -3616,7 +4277,7 @@ app.post(
                             false,
 
                         error:
-                            "Only paid orders can be marked as shipped."
+                            "Only paid PROCESSING orders can be marked as shipped."
 
                     });
 
@@ -3630,27 +4291,6 @@ app.post(
                     .trim();
 
 
-            await sendShippingConfirmation({
-
-                orderID:
-                    orderID,
-
-                customerEmail:
-                    stored.order
-                        .customer_email,
-
-                customerName:
-                    customerName,
-
-                carrier:
-                    carrier,
-
-                trackingNumber:
-                    trackingNumber
-
-            });
-
-
             const updated =
                 await markOrderShipped({
 
@@ -3658,10 +4298,54 @@ app.post(
                         orderID,
 
                     carrier:
-                        carrier,
+                        String(
+                            carrier ||
+                            ""
+                        ).trim(),
 
                     trackingNumber:
-                        trackingNumber
+                        String(
+                            trackingNumber
+                        ).trim()
+
+                });
+
+
+            const emailResult =
+                await attemptTrackedEmail({
+
+                    orderID:
+                        orderID,
+
+                    emailType:
+                        "SHIPPING_CONFIRMATION",
+
+                    recipientEmail:
+                        stored.order.customer_email,
+
+                    send:
+                        function () {
+
+                            return sendShippingConfirmation({
+
+                                orderID:
+                                    orderID,
+
+                                customerEmail:
+                                    stored.order.customer_email,
+
+                                customerName:
+                                    customerName,
+
+                                carrier:
+                                    carrier,
+
+                                trackingNumber:
+                                    trackingNumber
+
+                            });
+
+                        }
 
                 });
 
@@ -3671,8 +4355,15 @@ app.post(
                 success:
                     true,
 
+                emailSent:
+                    emailResult.success,
+
                 message:
-                    "Shipping confirmation email sent successfully.",
+                    emailResult.success
+
+                        ? "Order marked SHIPPED and shipping email sent successfully."
+
+                        : "Order marked SHIPPED, but the shipping email failed and was added to FAILED EMAILS.",
 
                 orderStatus:
                     updated.order_status
@@ -3687,8 +4378,11 @@ app.post(
         ) {
 
             console.error(
+
                 "Shipping confirmation error:",
+
                 error
+
             );
 
 
@@ -3781,9 +4475,11 @@ app.post(
 
 
             if (
+
                 processedPayPalWebhookEvents.has(
                     eventID
                 )
+
             ) {
 
                 return res
@@ -3819,8 +4515,10 @@ app.post(
 
 
             if (
+
                 event?.event_type ===
                 "PAYMENT.CAPTURE.COMPLETED"
+
             ) {
 
                 console.log(
@@ -3853,8 +4551,11 @@ app.post(
         ) {
 
             console.error(
+
                 "PayPal webhook error:",
+
                 error
+
             );
 
 
@@ -3875,28 +4576,45 @@ app.post(
 
 );
 
+
 /* =========================================================
    SET APART — ADMIN DASHBOARD
 ========================================================= */
 
-function secureTextEqual(a, b) {
+function secureTextEqual(
+    a,
+    b
+) {
 
     const left =
         Buffer.from(
-            String(a ?? ""),
+
+            String(
+                a ?? ""
+            ),
+
             "utf8"
+
         );
+
 
     const right =
         Buffer.from(
-            String(b ?? ""),
+
+            String(
+                b ?? ""
+            ),
+
             "utf8"
+
         );
 
 
     if (
+
         left.length !==
         right.length
+
     ) {
 
         return false;
@@ -3923,12 +4641,17 @@ function adminBasicAuth(
 ) {
 
     if (
+
         !ADMIN_USERNAME ||
+
         !ADMIN_PASSWORD
+
     ) {
 
         return res
+
             .status(503)
+
             .send(
                 "Admin login is not configured."
             );
@@ -3944,19 +4667,26 @@ function adminBasicAuth(
 
 
     if (
+
         !authorization.startsWith(
             "Basic "
         )
+
     ) {
 
         res.set(
+
             "WWW-Authenticate",
+
             'Basic realm="SET APART Admin", charset="UTF-8"'
+
         );
 
 
         return res
+
             .status(401)
+
             .send(
                 "Authentication required."
             );
@@ -3989,13 +4719,18 @@ function adminBasicAuth(
     catch {
 
         res.set(
+
             "WWW-Authenticate",
+
             'Basic realm="SET APART Admin", charset="UTF-8"'
+
         );
 
 
         return res
+
             .status(401)
+
             .send(
                 "Authentication required."
             );
@@ -4010,18 +4745,22 @@ function adminBasicAuth(
 
 
     if (
-        separator <
-        0
+        separator < 0
     ) {
 
         res.set(
+
             "WWW-Authenticate",
+
             'Basic realm="SET APART Admin", charset="UTF-8"'
+
         );
 
 
         return res
+
             .status(401)
+
             .send(
                 "Authentication required."
             );
@@ -4057,18 +4796,26 @@ function adminBasicAuth(
 
 
     if (
+
         !validUsername ||
+
         !validPassword
+
     ) {
 
         res.set(
+
             "WWW-Authenticate",
+
             'Basic realm="SET APART Admin", charset="UTF-8"'
+
         );
 
 
         return res
+
             .status(401)
+
             .send(
                 "Invalid admin credentials."
             );
@@ -4082,24 +4829,57 @@ function adminBasicAuth(
 
 
 /* =========================================================
+   ADMIN RATE LIMIT
+========================================================= */
+
+const adminLimiter =
+    rateLimit({
+
+        windowMs:
+            15 * 60 * 1000,
+
+        limit:
+            20,
+
+        standardHeaders:
+            true,
+
+        legacyHeaders:
+            false,
+
+        skipSuccessfulRequests:
+            true,
+
+        message:
+            "Too many admin login attempts. Please try again later."
+
+    });
+
+
+/* =========================================================
    ADMIN CSRF SECURITY
 ========================================================= */
 
 function createAdminCsrfToken(
-    orderID,
+    identifier,
     action
 ) {
 
     return crypto
 
         .createHmac(
+
             "sha256",
+
             ADMIN_PASSWORD ||
             ""
+
         )
 
         .update(
-            `${orderID}:${action}:set-apart-admin`
+
+            `${identifier}:${action}:set-apart-admin`
+
         )
 
         .digest(
@@ -4110,14 +4890,14 @@ function createAdminCsrfToken(
 
 
 function verifyAdminCsrfToken(
-    orderID,
+    identifier,
     action,
     token
 ) {
 
     const expected =
         createAdminCsrfToken(
-            orderID,
+            identifier,
             action
         );
 
@@ -4143,30 +4923,36 @@ function setAdminSecurityHeaders(
         "no-store, max-age=0"
     );
 
+
     res.set(
         "Pragma",
         "no-cache"
     );
+
 
     res.set(
         "X-Robots-Tag",
         "noindex, nofollow, noarchive"
     );
 
+
     res.set(
         "X-Content-Type-Options",
         "nosniff"
     );
+
 
     res.set(
         "X-Frame-Options",
         "DENY"
     );
 
+
     res.set(
         "Referrer-Policy",
         "no-referrer"
     );
+
 
     res.set(
 
@@ -4188,13 +4974,16 @@ function adminMoney(
 ) {
 
     return (
+
         "$" +
+
         Number(
             value ||
             0
         ).toFixed(
             2
         )
+
     );
 
 }
@@ -4206,30 +4995,42 @@ function adminMoney(
 
 async function expireOldPendingOrders() {
 
-    await db(
-        `
+    await db(`
+
         UPDATE orders
 
         SET
-            payment_status = 'EXPIRED',
-            order_status = 'EXPIRED',
-            updated_at = NOW()
 
-        WHERE payment_status = 'PENDING_PAYMENT'
-          AND created_at < NOW() - INTERVAL '24 hours'
-        `
-    );
+            payment_status =
+                'EXPIRED',
+
+            order_status =
+                'EXPIRED',
+
+            updated_at =
+                NOW()
+
+        WHERE payment_status =
+            'PENDING_PAYMENT'
+
+          AND created_at <
+            NOW() - INTERVAL '24 hours'
+
+    `);
 
 }
 
 
 /* =========================================================
-   GET ADMIN ORDERS
+   GET ADMIN DASHBOARD DATA
 ========================================================= */
 
 async function getAdminDashboardData() {
 
     await expireOldPendingOrders();
+
+
+    await ensureEmailFailuresTable();
 
 
     const summaryResult =
@@ -4240,12 +5041,16 @@ async function getAdminDashboardData() {
                 COUNT(*)::int
                     AS total_orders,
 
+
                 COALESCE(
 
                     SUM(total_usd)
+
                     FILTER (
+
                         WHERE payment_status =
                         'COMPLETED'
+
                     ),
 
                     0
@@ -4253,47 +5058,72 @@ async function getAdminDashboardData() {
                 )
                     AS total_sales,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE payment_status =
                     'PENDING_PAYMENT'
+
                 )::int
                     AS pending_payment,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE payment_status =
                     'EXPIRED'
+
                 )::int
                     AS expired,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE order_status =
                     'PAID'
+
                 )::int
                     AS paid,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE order_status =
                     'PROCESSING'
+
                 )::int
                     AS processing,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE order_status =
                     'SHIPPED'
+
                 )::int
                     AS shipped,
 
+
                 COUNT(*)
+
                 FILTER (
+
                     WHERE order_status =
                     'COMPLETED'
+
                 )::int
                     AS completed
+
 
             FROM orders
 
@@ -4306,6 +5136,7 @@ async function getAdminDashboardData() {
             SELECT
 
                 o.*,
+
 
                 COALESCE(
 
@@ -4345,8 +5176,10 @@ async function getAdminDashboardData() {
                     )
 
                     FILTER (
+
                         WHERE oi.id
                         IS NOT NULL
+
                     ),
 
                     '[]'::json
@@ -4354,33 +5187,387 @@ async function getAdminDashboardData() {
                 )
                     AS items
 
+
             FROM orders o
 
+
             LEFT JOIN order_items oi
+
                 ON oi.order_id =
                 o.id
+
 
             GROUP BY
                 o.id
 
+
             ORDER BY
                 o.created_at DESC
+
 
             LIMIT 250
 
         `);
 
 
+    const failedEmailsResult =
+        await db(`
+
+            SELECT
+
+                ef.id,
+
+                ef.paypal_order_id,
+
+                ef.email_type,
+
+                ef.recipient_email,
+
+                ef.error_message,
+
+                ef.retry_count,
+
+                ef.created_at,
+
+                ef.last_retry_at,
+
+                o.payment_status,
+
+                o.order_status
+
+
+            FROM email_failures ef
+
+
+            JOIN orders o
+
+                ON o.paypal_order_id =
+                ef.paypal_order_id
+
+
+            WHERE ef.resolved =
+                FALSE
+
+
+            ORDER BY
+                ef.created_at DESC
+
+
+            LIMIT 100
+
+        `);
+
+
     return {
 
-        summary:
-            summaryResult.rows[0] ||
-            {},
+        summary: {
+
+            ...(
+                summaryResult.rows[0] ||
+                {}
+            ),
+
+            failed_emails:
+                failedEmailsResult
+                    .rows
+                    .length
+
+        },
+
 
         orders:
-            ordersResult.rows
+            ordersResult.rows,
+
+
+        failedEmails:
+            failedEmailsResult.rows
 
     };
+
+}
+
+
+/* =========================================================
+   RETRY FAILED EMAIL
+========================================================= */
+
+async function retryFailedEmail(
+    failureID
+) {
+
+    await ensureEmailFailuresTable();
+
+
+    const failureResult =
+        await db(
+
+            `
+            SELECT *
+
+            FROM email_failures
+
+            WHERE id = $1
+
+              AND resolved =
+                FALSE
+
+            LIMIT 1
+            `,
+
+            [
+                failureID
+            ]
+
+        );
+
+
+    if (
+
+        failureResult.rows.length ===
+        0
+
+    ) {
+
+        throw new Error(
+            "Failed email record was not found or is already resolved."
+        );
+
+    }
+
+
+    const failure =
+        failureResult.rows[0];
+
+
+    const stored =
+        await getStoredOrder(
+            failure.paypal_order_id
+        );
+
+
+    if (!stored) {
+
+        throw new Error(
+            "Order linked to this failed email was not found."
+        );
+
+    }
+
+
+    const customer =
+        customerFromStoredOrder(
+            stored.order
+        );
+
+
+    const shipping =
+        shippingFromStoredOrder(
+            stored.order
+        );
+
+
+    const items =
+        itemsFromStoredOrder(
+            stored.items
+        );
+
+
+    const total =
+        Number(
+            stored.order.total_usd
+        ).toFixed(
+            2
+        );
+
+
+    try {
+
+        if (
+
+            failure.email_type ===
+            "ADMIN_ORDER"
+
+        ) {
+
+            await sendOrderNotification({
+
+                orderID:
+                    failure.paypal_order_id,
+
+                total:
+                    total,
+
+                customer:
+                    customer,
+
+                items:
+                    items,
+
+                shipping:
+                    shipping
+
+            });
+
+        }
+
+
+        else if (
+
+            failure.email_type ===
+            "CUSTOMER_CONFIRMATION"
+
+        ) {
+
+            await sendCustomerConfirmation({
+
+                orderID:
+                    failure.paypal_order_id,
+
+                total:
+                    total,
+
+                customer:
+                    customer,
+
+                items:
+                    items,
+
+                shipping:
+                    shipping
+
+            });
+
+        }
+
+
+        else if (
+
+            failure.email_type ===
+            "SHIPPING_CONFIRMATION"
+
+        ) {
+
+            if (
+                !stored.order.tracking_number
+            ) {
+
+                throw new Error(
+                    "Tracking number is missing for this shipped order."
+                );
+
+            }
+
+
+            await sendShippingConfirmation({
+
+                orderID:
+                    failure.paypal_order_id,
+
+                customerEmail:
+                    stored.order.customer_email,
+
+                customerName:
+                    `${stored.order.first_name} ${stored.order.last_name}`
+                        .trim(),
+
+                carrier:
+                    stored.order.carrier,
+
+                trackingNumber:
+                    stored.order.tracking_number
+
+            });
+
+        }
+
+
+        else {
+
+            throw new Error(
+                "Unknown email type."
+            );
+
+        }
+
+
+        await db(
+
+            `
+            UPDATE email_failures
+
+            SET
+
+                resolved =
+                    TRUE,
+
+                resolved_at =
+                    NOW(),
+
+                last_retry_at =
+                    NOW(),
+
+                retry_count =
+                    retry_count + 1,
+
+                updated_at =
+                    NOW()
+
+            WHERE id = $1
+            `,
+
+            [
+                failureID
+            ]
+
+        );
+
+
+        return failure;
+
+    }
+
+
+    catch (
+        error
+    ) {
+
+        await db(
+
+            `
+            UPDATE email_failures
+
+            SET
+
+                error_message = $1,
+
+                last_retry_at =
+                    NOW(),
+
+                retry_count =
+                    retry_count + 1,
+
+                updated_at =
+                    NOW()
+
+            WHERE id = $2
+            `,
+
+            [
+
+                emailErrorMessage(
+                    error
+                ),
+
+                failureID
+
+            ]
+
+        );
+
+
+        throw error;
+
+    }
 
 }
 
@@ -4403,7 +5590,19 @@ function renderAdminDashboard(
         Array.isArray(
             data.orders
         )
+
             ? data.orders
+
+            : [];
+
+
+    const failedEmails =
+        Array.isArray(
+            data.failedEmails
+        )
+
+            ? data.failedEmails
+
             : [];
 
 
@@ -4420,14 +5619,115 @@ function renderAdminDashboard(
                         Array.isArray(
                             order.items
                         )
+
                             ? order.items
+
                             : [];
 
 
-                    const isPaid =
+                    const paymentStatus =
+                        String(
+                            order.payment_status ||
+                            ""
+                        )
+                            .trim()
+                            .toUpperCase();
 
-                        order.payment_status ===
+
+                    const orderStatus =
+                        String(
+                            order.order_status ||
+                            ""
+                        )
+                            .trim()
+                            .toUpperCase();
+
+
+                    const isPaid =
+                        paymentStatus ===
                         "COMPLETED";
+
+
+                    const canProcess =
+
+                        isPaid &&
+
+                        orderStatus ===
+                        "PAID";
+
+
+                    const canShip =
+
+                        isPaid &&
+
+                        orderStatus ===
+                        "PROCESSING";
+
+
+                    const canComplete =
+
+                        isPaid &&
+
+                        orderStatus ===
+                        "SHIPPED";
+
+
+                    const canDelete =
+
+                        [
+
+                            "PENDING_PAYMENT",
+
+                            "EXPIRED"
+
+                        ].includes(
+                            paymentStatus
+                        )
+
+                        ||
+
+                        orderStatus ===
+                        "CANCELLED";
+
+
+                    const processToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "process"
+
+                        );
+
+
+                    const shipToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "ship"
+
+                        );
+
+
+                    const completeToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "complete"
+
+                        );
+
+
+                    const deleteToken =
+                        createAdminCsrfToken(
+
+                            order.paypal_order_id,
+
+                            "delete"
+
+                        );
 
 
                     const productsHtml =
@@ -4452,8 +5752,7 @@ function renderAdminDashboard(
                                                 String(
                                                     item.color ||
                                                     ""
-                                                )
-                                                .toUpperCase()
+                                                ).toUpperCase()
                                             )}
                                         </td>
 
@@ -4492,82 +5791,6 @@ function renderAdminDashboard(
                         );
 
 
-                    const processToken =
-                        createAdminCsrfToken(
-
-                            order.paypal_order_id,
-
-                            "process"
-
-                        );
-
-
-                    const shipToken =
-                        createAdminCsrfToken(
-
-                            order.paypal_order_id,
-
-                            "ship"
-
-                        );
-
-
-                    const completeToken =
-                        createAdminCsrfToken(
-
-                            order.paypal_order_id,
-
-                            "complete"
-
-                        );
-
-
-                   const canProcess =
-
-    isPaid &&
-
-    order.order_status ===
-        "PAID";
-
-
-const canShip =
-
-    isPaid &&
-
-    order.order_status ===
-        "PROCESSING";
-
-
-const canComplete =
-
-    isPaid &&
-
-    order.order_status ===
-        "SHIPPED";
-
-                   const canDelete =
-
-    [
-        "PENDING_PAYMENT",
-        "EXPIRED"
-    ].includes(
-        String(
-            order.payment_status || ""
-        )
-            .trim()
-            .toUpperCase()
-    )
-
-    ||
-
-    String(
-        order.order_status || ""
-    )
-        .trim()
-        .toUpperCase() ===
-        "CANCELLED";
-
-
                     const shippingPrice =
 
                         order.shipping_local_currency ===
@@ -4589,7 +5812,6 @@ const canComplete =
 
                         <article class="order-card">
 
-
                             <div class="order-top">
 
                                 <div>
@@ -4606,12 +5828,15 @@ const canComplete =
                                     <div class="order-date">
 
                                         ${escapeHtml(
+
                                             new Date(
                                                 order.created_at
                                             )
-                                            .toLocaleString(
-                                                "en-US"
-                                            )
+
+                                                .toLocaleString(
+                                                    "en-US"
+                                                )
+
                                         )}
 
                                     </div>
@@ -4630,7 +5855,7 @@ const canComplete =
                                     >
 
                                         ${escapeHtml(
-                                            order.payment_status
+                                            paymentStatus
                                         )}
 
                                     </span>
@@ -4639,7 +5864,7 @@ const canComplete =
                                     <span class="badge">
 
                                         ${escapeHtml(
-                                            order.order_status
+                                            orderStatus
                                         )}
 
                                     </span>
@@ -4700,9 +5925,9 @@ const canComplete =
                                             order.apartment
 
                                                 ? ", " +
-                                                escapeHtml(
-                                                    order.apartment
-                                                )
+                                                  escapeHtml(
+                                                      order.apartment
+                                                  )
 
                                                 : ""
                                         }
@@ -4720,9 +5945,9 @@ const canComplete =
                                             order.state
 
                                                 ? ", " +
-                                                escapeHtml(
-                                                    order.state
-                                                )
+                                                  escapeHtml(
+                                                      order.state
+                                                  )
 
                                                 : ""
                                         }
@@ -4795,8 +6020,11 @@ const canComplete =
                                         Capture:
 
                                         ${escapeHtml(
+
                                             order.paypal_capture_id ||
+
                                             "Not captured"
+
                                         )}
 
                                     </p>
@@ -4829,8 +6057,11 @@ const canComplete =
                                         Carrier:
 
                                         ${escapeHtml(
+
                                             order.carrier ||
+
                                             "—"
+
                                         )}
 
                                     </p>
@@ -4841,8 +6072,11 @@ const canComplete =
                                         Tracking:
 
                                         ${escapeHtml(
+
                                             order.tracking_number ||
+
                                             "—"
+
                                         )}
 
                                     </p>
@@ -4922,28 +6156,33 @@ const canComplete =
                                         ? `
 
                                             <form
+
                                                 method="post"
+
                                                 action="/admin/orders/${encodeURIComponent(
                                                     order.paypal_order_id
                                                 )}/action"
+
                                             >
 
                                                 <input
                                                     type="hidden"
                                                     name="action"
-                                                    value="process">
+                                                    value="process"
+                                                >
+
 
                                                 <input
                                                     type="hidden"
                                                     name="csrf"
-                                                    value="${processToken}">
+                                                    value="${processToken}"
+                                                >
+
 
                                                 <button
                                                     type="submit"
                                                 >
-
                                                     MARK PROCESSING
-
                                                 </button>
 
                                             </form>
@@ -4960,45 +6199,63 @@ const canComplete =
                                         ? `
 
                                             <form
+
                                                 class="ship-form"
+
                                                 method="post"
+
                                                 action="/admin/orders/${encodeURIComponent(
                                                     order.paypal_order_id
                                                 )}/action"
+
                                             >
 
                                                 <input
                                                     type="hidden"
                                                     name="action"
-                                                    value="ship">
+                                                    value="ship"
+                                                >
+
 
                                                 <input
                                                     type="hidden"
                                                     name="csrf"
-                                                    value="${shipToken}">
+                                                    value="${shipToken}"
+                                                >
 
 
                                                 <input
+
                                                     type="text"
+
                                                     name="carrier"
+
                                                     maxlength="100"
-                                                    placeholder="Carrier">
+
+                                                    placeholder="Carrier"
+
+                                                >
 
 
                                                 <input
+
                                                     type="text"
+
                                                     name="trackingNumber"
+
                                                     maxlength="255"
+
                                                     placeholder="Tracking number"
-                                                    required>
+
+                                                    required
+
+                                                >
 
 
                                                 <button
                                                     type="submit"
                                                 >
-
                                                     MARK SHIPPED
-
                                                 </button>
 
                                             </form>
@@ -5015,30 +6272,37 @@ const canComplete =
                                         ? `
 
                                             <form
+
                                                 method="post"
+
                                                 action="/admin/orders/${encodeURIComponent(
                                                     order.paypal_order_id
                                                 )}/action"
+
                                             >
 
                                                 <input
                                                     type="hidden"
                                                     name="action"
-                                                    value="complete">
+                                                    value="complete"
+                                                >
+
 
                                                 <input
                                                     type="hidden"
                                                     name="csrf"
-                                                    value="${completeToken}">
+                                                    value="${completeToken}"
+                                                >
 
 
                                                 <button
+
                                                     type="submit"
+
                                                     class="secondary"
+
                                                 >
-
                                                     MARK COMPLETED
-
                                                 </button>
 
                                             </form>
@@ -5048,59 +6312,54 @@ const canComplete =
                                         : ""
                                 }
 
+
                                 ${
-    canDelete
-        ? `
-            <form
+                                    canDelete
 
-                method="POST"
+                                        ? `
 
-                action="/admin/orders/${encodeURIComponent(
-                    order.paypal_order_id
-                )}/action"
+                                            <form
 
-                onsubmit="
-                    return confirm(
-                        'Are you sure you want to permanently delete this order?'
-                    );
-                "
+                                                method="post"
 
-            >
+                                                action="/admin/orders/${encodeURIComponent(
+                                                    order.paypal_order_id
+                                                )}/action"
 
-                <input
-                    type="hidden"
-                    name="action"
-                    value="delete"
-                >
+                                                onsubmit="return confirm('Are you sure you want to permanently delete this order?');"
 
-                <input
-                    type="hidden"
-                    name="csrf"
-                    value="${createAdminCsrfToken(
-                        order.paypal_order_id,
-                        "delete"
-                    )}"
-                >
+                                            >
 
-                <button
-                    type="submit"
-                    style="
-                        background:#b91c1c;
-                        color:#ffffff;
-                        border:0;
-                        padding:12px 18px;
-                        font-weight:700;
-                        cursor:pointer;
-                        border-radius:6px;
-                    "
-                >
-                    DELETE ORDER
-                </button>
+                                                <input
+                                                    type="hidden"
+                                                    name="action"
+                                                    value="delete"
+                                                >
 
-            </form>
-        `
-        : ""
-}
+
+                                                <input
+                                                    type="hidden"
+                                                    name="csrf"
+                                                    value="${deleteToken}"
+                                                >
+
+
+                                                <button
+
+                                                    type="submit"
+
+                                                    class="danger"
+
+                                                >
+                                                    DELETE ORDER
+                                                </button>
+
+                                            </form>
+
+                                        `
+
+                                        : ""
+                                }
 
 
                             </div>
@@ -5115,11 +6374,150 @@ const canComplete =
                 ""
             )
 
+
             : `
 
                 <div class="empty">
 
                     NO ORDERS YET.
+
+                </div>
+
+            `;
+
+
+    const failedEmailsHtml =
+        failedEmails.length
+
+            ? failedEmails.map(
+
+                function (
+                    failure
+                ) {
+
+                    const retryToken =
+                        createAdminCsrfToken(
+
+                            `email-${failure.id}`,
+
+                            "retry-email"
+
+                        );
+
+
+                    return `
+
+                        <article class="failed-email-card">
+
+                            <div>
+
+                                <strong>
+
+                                    ${escapeHtml(
+                                        failure.email_type
+                                    )}
+
+                                </strong>
+
+
+                                <div class="small-line">
+
+                                    Order:
+
+                                    ${escapeHtml(
+                                        failure.paypal_order_id
+                                    )}
+
+                                </div>
+
+
+                                <div class="small-line">
+
+                                    Recipient:
+
+                                    ${escapeHtml(
+                                        failure.recipient_email
+                                    )}
+
+                                </div>
+
+
+                                <div
+                                    class="small-line error-text"
+                                >
+
+                                    ${escapeHtml(
+                                        failure.error_message
+                                    )}
+
+                                </div>
+
+
+                                <div class="small-line">
+
+                                    Retries:
+
+                                    ${Number(
+                                        failure.retry_count ||
+                                        0
+                                    )}
+
+                                </div>
+
+                            </div>
+
+
+                            <form
+
+                                method="post"
+
+                                action="/admin/email-failures/${encodeURIComponent(
+                                    failure.id
+                                )}/retry"
+
+                            >
+
+                                <input
+
+                                    type="hidden"
+
+                                    name="csrf"
+
+                                    value="${retryToken}"
+
+                                >
+
+
+                                <button
+
+                                    type="submit"
+
+                                    class="secondary"
+
+                                >
+
+                                    RETRY EMAIL
+
+                                </button>
+
+                            </form>
+
+                        </article>
+
+                    `;
+
+                }
+
+            ).join(
+                ""
+            )
+
+
+            : `
+
+                <div class="empty compact-empty">
+
+                    NO FAILED EMAILS.
 
                 </div>
 
@@ -5136,13 +6534,18 @@ const canComplete =
 
     <meta charset="UTF-8">
 
+
     <meta
         name="viewport"
-        content="width=device-width, initial-scale=1.0">
+        content="width=device-width, initial-scale=1.0"
+    >
+
 
     <meta
         name="robots"
-        content="noindex, nofollow, noarchive">
+        content="noindex, nofollow, noarchive"
+    >
+
 
     <title>
         SET APART — ADMIN
@@ -5152,13 +6555,17 @@ const canComplete =
     <style>
 
         * {
-            box-sizing: border-box;
+
+            box-sizing:
+                border-box;
+
         }
 
 
         body {
 
-            margin: 0;
+            margin:
+                0;
 
             font-family:
                 Arial,
@@ -5248,9 +6655,9 @@ const canComplete =
 
             grid-template-columns:
                 repeat(
-                    6,
+                    auto-fit,
                     minmax(
-                        140px,
+                        150px,
                         1fr
                     )
                 );
@@ -5275,6 +6682,9 @@ const canComplete =
 
             padding:
                 20px;
+
+            min-width:
+                0;
 
         }
 
@@ -5339,7 +6749,12 @@ const canComplete =
             align-items:
                 center;
 
-            margin-bottom:
+            gap:
+                20px;
+
+            margin:
+                30px
+                0
                 15px;
 
         }
@@ -5349,6 +6764,9 @@ const canComplete =
 
             margin:
                 0;
+
+            font-size:
+                24px;
 
         }
 
@@ -5367,7 +6785,8 @@ const canComplete =
         }
 
 
-        .order-card {
+        .order-card,
+        .failed-email-card {
 
             background:
                 #ffffff;
@@ -5426,7 +6845,8 @@ const canComplete =
         }
 
 
-        .order-date {
+        .order-date,
+        .small-line {
 
             color:
                 #777777;
@@ -5434,8 +6854,22 @@ const canComplete =
             font-size:
                 12px;
 
+            line-height:
+                1.55;
+
             margin-top:
                 6px;
+
+            word-break:
+                break-word;
+
+        }
+
+
+        .error-text {
+
+            color:
+                #9b1c1c;
 
         }
 
@@ -5642,7 +7076,10 @@ const canComplete =
 
 
         form {
-            margin: 0;
+
+            margin:
+                0;
+
         }
 
 
@@ -5720,6 +7157,48 @@ const canComplete =
         }
 
 
+        button.danger {
+
+            background:
+                #b91c1c;
+
+            border-color:
+                #b91c1c;
+
+            color:
+                #ffffff;
+
+        }
+
+
+        .failed-email-card {
+
+            display:
+                flex;
+
+            align-items:
+                center;
+
+            justify-content:
+                space-between;
+
+            gap:
+                24px;
+
+        }
+
+
+        .failed-email-card > div {
+
+            min-width:
+                0;
+
+            flex:
+                1;
+
+        }
+
+
         .empty {
 
             background:
@@ -5738,21 +7217,18 @@ const canComplete =
         }
 
 
+        .compact-empty {
+
+            padding:
+                24px;
+
+        }
+
+
         @media (
             max-width:
             1050px
         ) {
-
-            .stats {
-
-                grid-template-columns:
-                    repeat(
-                        3,
-                        1fr
-                    );
-
-            }
-
 
             .order-grid {
 
@@ -5770,7 +7246,9 @@ const canComplete =
             700px
         ) {
 
-            .admin-header {
+            .admin-header,
+            .order-top,
+            .failed-email-card {
 
                 flex-direction:
                     column;
@@ -5781,27 +7259,10 @@ const canComplete =
             }
 
 
-            .stats {
-
-                grid-template-columns:
-                    1fr
-                    1fr;
-
-            }
-
-
             .order-grid {
 
                 grid-template-columns:
                     1fr;
-
-            }
-
-
-            .order-top {
-
-                flex-direction:
-                    column;
 
             }
 
@@ -5817,15 +7278,10 @@ const canComplete =
             }
 
 
-            .actions form {
-
-                width:
-                    100%;
-
-            }
-
-
-            .actions button {
+            .actions form,
+            .actions button,
+            .failed-email-card form,
+            .failed-email-card button {
 
                 width:
                     100%;
@@ -5847,24 +7303,18 @@ const canComplete =
         <div>
 
             <div class="admin-logo">
-
                 SET APART
-
             </div>
 
             <small>
-
                 PRIVATE ADMIN DASHBOARD
-
             </small>
 
         </div>
 
 
         <small>
-
-            ORDERS • PAYMENTS • SHIPPING
-
+            ORDERS • PAYMENTS • SHIPPING • EMAILS
         </small>
 
     </header>
@@ -5938,15 +7388,17 @@ const canComplete =
 
                 <strong>
 
-                   ${Number(
-    summary.pending_payment ||
-    0
-)}
-/
-${Number(
-    summary.expired ||
-    0
-)}
+                    ${Number(
+                        summary.pending_payment ||
+                        0
+                    )}
+
+                    /
+
+                    ${Number(
+                        summary.expired ||
+                        0
+                    )}
 
                 </strong>
 
@@ -6014,7 +7466,41 @@ ${Number(
             </div>
 
 
+            <div class="stat">
+
+                <span>
+                    FAILED EMAILS
+                </span>
+
+                <strong>
+
+                    ${Number(
+                        summary.failed_emails ||
+                        0
+                    )}
+
+                </strong>
+
+            </div>
+
+
         </section>
+
+
+        <div class="section-title">
+
+            <h1>
+                FAILED EMAILS
+            </h1>
+
+            <a href="/admin">
+                REFRESH
+            </a>
+
+        </div>
+
+
+        ${failedEmailsHtml}
 
 
         <div class="section-title">
@@ -6024,9 +7510,7 @@ ${Number(
             </h1>
 
             <a href="/admin">
-
                 REFRESH
-
             </a>
 
         </div>
@@ -6055,6 +7539,8 @@ app.get(
 
     "/admin",
 
+    adminLimiter,
+
     adminBasicAuth,
 
     async function (
@@ -6079,14 +7565,16 @@ app.get(
                     ""
                 ).slice(
                     0,
-                    250
+                    300
                 );
 
 
             return res
+
                 .type(
                     "html"
                 )
+
                 .send(
 
                     renderAdminDashboard(
@@ -6104,16 +7592,153 @@ app.get(
         ) {
 
             console.error(
+
                 "Admin dashboard error:",
+
                 error
+
             );
 
 
             return res
+
                 .status(500)
+
                 .send(
                     "Admin dashboard could not be loaded."
                 );
+
+        }
+
+    }
+
+);
+
+
+/* =========================================================
+   RETRY FAILED EMAIL — ADMIN
+========================================================= */
+
+app.post(
+
+    "/admin/email-failures/:failureID/retry",
+
+    adminLimiter,
+
+    adminBasicAuth,
+
+    async function (
+        req,
+        res
+    ) {
+
+        try {
+
+            setAdminSecurityHeaders(
+                res
+            );
+
+
+            const failureID =
+                Number(
+                    req.params.failureID
+                );
+
+
+            const csrf =
+                String(
+                    req.body.csrf ||
+                    ""
+                );
+
+
+            if (
+
+                !Number.isInteger(
+                    failureID
+                ) ||
+
+                failureID < 1
+
+            ) {
+
+                return res
+
+                    .status(400)
+
+                    .send(
+                        "Invalid failed email ID."
+                    );
+
+            }
+
+
+            if (
+
+                !verifyAdminCsrfToken(
+
+                    `email-${failureID}`,
+
+                    "retry-email",
+
+                    csrf
+
+                )
+
+            ) {
+
+                return res
+
+                    .status(403)
+
+                    .send(
+                        "Invalid admin security token."
+                    );
+
+            }
+
+
+            const failure =
+                await retryFailedEmail(
+                    failureID
+                );
+
+
+            return res.redirect(
+
+                303,
+
+                `/admin?notice=${encodeURIComponent(
+                    `Email for order ${failure.paypal_order_id} was sent successfully.`
+                )}`
+
+            );
+
+        }
+
+
+        catch (
+            error
+        ) {
+
+            console.error(
+
+                "Retry failed email error:",
+
+                error
+
+            );
+
+
+            return res.redirect(
+
+                303,
+
+                `/admin?notice=${encodeURIComponent(
+                    `Email retry failed: ${emailErrorMessage(error)}`
+                )}`
+
+            );
 
         }
 
@@ -6129,6 +7754,8 @@ app.get(
 app.post(
 
     "/admin/orders/:orderID/action",
+
+    adminLimiter,
 
     adminBasicAuth,
 
@@ -6172,17 +7799,20 @@ app.post(
                 !orderID ||
 
                 ![
-    "process",
-    "ship",
-    "complete",
-    "delete"
-].includes(
-    action
-)
+                    "process",
+                    "ship",
+                    "complete",
+                    "delete"
+                ].includes(
+                    action
+                )
+
             ) {
 
                 return res
+
                     .status(400)
+
                     .send(
                         "Invalid admin action."
                     );
@@ -6191,15 +7821,23 @@ app.post(
 
 
             if (
+
                 !verifyAdminCsrfToken(
+
                     orderID,
+
                     action,
+
                     csrf
+
                 )
+
             ) {
 
                 return res
+
                     .status(403)
+
                     .send(
                         "Invalid admin security token."
                     );
@@ -6216,7 +7854,9 @@ app.post(
             if (!stored) {
 
                 return res
+
                     .status(404)
+
                     .send(
                         "Order not found."
                     );
@@ -6224,281 +7864,361 @@ app.post(
             }
 
 
-          if (
-    action !== "delete" &&
-    stored.order.payment_status !== "COMPLETED"
-) {
+            if (
 
-    return res
-        .status(400)
-        .send(
-            "This order has not completed payment and cannot be fulfilled."
-        );
+                action !==
+                    "delete" &&
 
-}
+                stored.order.payment_status !==
+                    "COMPLETED"
+
+            ) {
+
+                return res
+
+                    .status(400)
+
+                    .send(
+                        "This order has not completed payment and cannot be fulfilled."
+                    );
+
+            }
+
 
             let notice =
                 "";
 
-/* =================================================
-   DELETE ORDER
-================================================= */
-
-if (
-    action ===
-    "delete"
-) {
-
-    const result =
-        await db(
-
-            `
-            DELETE FROM orders
-
-            WHERE paypal_order_id = $1
-
-              AND (
-                    payment_status = 'PENDING_PAYMENT'
-                    OR payment_status = 'EXPIRED'
-                    OR order_status = 'CANCELLED'
-                  )
-
-            RETURNING paypal_order_id
-            `,
-
-            [
-                orderID
-            ]
-
-        );
-
-
-    if (
-        result.rows.length ===
-        0
-    ) {
-
-        return res
-            .status(400)
-            .send(
-                "Only PENDING, EXPIRED, or CANCELLED orders can be deleted."
-            );
-
-    }
-
-
-    notice =
-        `Order ${orderID} was deleted.`;
-
-}
-           
 
             /* =================================================
-                               PROCESSING
+               DELETE ORDER
             ================================================= */
 
-if (
-    action ===
-    "process"
-) {
+            if (
+                action ===
+                "delete"
+            ) {
 
-    const result =
-        await db(
+                const result =
+                    await db(
 
-            `
-            UPDATE orders
+                        `
+                        DELETE FROM orders
 
-            SET
-                order_status = 'PROCESSING',
-                updated_at = NOW()
+                        WHERE paypal_order_id = $1
 
-            WHERE paypal_order_id = $1
-              AND payment_status = 'COMPLETED'
-              AND order_status = 'PAID'
+                          AND (
 
-            RETURNING *
-            `,
+                                payment_status =
+                                    'PENDING_PAYMENT'
 
-            [
-                orderID
-            ]
+                                OR payment_status =
+                                    'EXPIRED'
 
-        );
+                                OR order_status =
+                                    'CANCELLED'
 
+                              )
 
-    if (
-        result.rows.length ===
-        0
-    ) {
+                        RETURNING paypal_order_id
+                        `,
 
-        return res
-            .status(400)
-            .send(
-                "Only PAID orders can be marked as PROCESSING."
-            );
+                        [
+                            orderID
+                        ]
 
-    }
+                    );
 
 
-    notice =
-        `Order ${orderID} is now PROCESSING.`;
+                if (
 
-}
+                    result.rows.length ===
+                    0
 
-          /* =================================================
-   COMPLETE
-================================================= */
+                ) {
 
-if (
-    action ===
-    "complete"
-) {
+                    return res
 
-    const result =
-        await db(
+                        .status(400)
 
-            `
-            UPDATE orders
+                        .send(
+                            "Only PENDING, EXPIRED, or CANCELLED orders can be deleted."
+                        );
 
-            SET
-                order_status = 'COMPLETED',
-                updated_at = NOW()
+                }
 
-            WHERE paypal_order_id = $1
-              AND payment_status = 'COMPLETED'
-              AND order_status = 'SHIPPED'
 
-            RETURNING *
-            `,
+                notice =
+                    `Order ${orderID} was deleted.`;
 
-            [
-                orderID
-            ]
+            }
 
-        );
 
+            /* =================================================
+               PROCESSING
+            ================================================= */
 
-    if (
-        result.rows.length ===
-        0
-    ) {
+            if (
+                action ===
+                "process"
+            ) {
 
-        return res
-            .status(400)
-            .send(
-                "Only SHIPPED orders can be marked as COMPLETED."
-            );
+                const result =
+                    await db(
 
-    }
+                        `
+                        UPDATE orders
 
+                        SET
 
-    notice =
-        `Order ${orderID} is now COMPLETED.`;
+                            order_status =
+                                'PROCESSING',
 
-}
-           
-/* =================================================
-   SHIP
-================================================= */
+                            updated_at =
+                                NOW()
 
-if (
-    action ===
-    "ship"
-) {
+                        WHERE paypal_order_id = $1
 
-    const currentOrderStatus =
-        String(
-            stored.order.order_status || ""
-        )
-            .trim()
-            .toUpperCase();
+                          AND payment_status =
+                                'COMPLETED'
 
+                          AND order_status =
+                                'PAID'
 
-    if (
-        currentOrderStatus !==
-        "PROCESSING"
-    ) {
+                        RETURNING *
+                        `,
 
-        return res
-            .status(400)
-            .send(
-                "Only PROCESSING orders can be marked as SHIPPED."
-            );
+                        [
+                            orderID
+                        ]
 
-    }
+                    );
 
 
-    const carrier =
-        String(
-            req.body.carrier || ""
-        ).trim();
+                if (
 
+                    result.rows.length ===
+                    0
 
-    const trackingNumber =
-        String(
-            req.body.trackingNumber || ""
-        ).trim();
+                ) {
 
+                    return res
 
-    if (
-        !trackingNumber
-    ) {
+                        .status(400)
 
-        return res
-            .status(400)
-            .send(
-                "Tracking number is required."
-            );
+                        .send(
+                            "Only PAID orders can be marked as PROCESSING."
+                        );
 
-    }
+                }
 
 
-    const customerName =
+                notice =
+                    `Order ${orderID} is now PROCESSING.`;
 
-        `${stored.order.first_name} ${stored.order.last_name}`
+            }
 
-            .trim();
 
+            /* =================================================
+               COMPLETE
+            ================================================= */
 
-    await sendShippingConfirmation({
+            if (
+                action ===
+                "complete"
+            ) {
 
-        orderID:
-            orderID,
+                const result =
+                    await db(
 
-        customerEmail:
-            stored.order.customer_email,
+                        `
+                        UPDATE orders
 
-        customerName:
-            customerName,
+                        SET
 
-        carrier:
-            carrier,
+                            order_status =
+                                'COMPLETED',
 
-        trackingNumber:
-            trackingNumber
+                            updated_at =
+                                NOW()
 
-    });
+                        WHERE paypal_order_id = $1
 
+                          AND payment_status =
+                                'COMPLETED'
 
-    await markOrderShipped({
+                          AND order_status =
+                                'SHIPPED'
 
-        paypalOrderID:
-            orderID,
+                        RETURNING *
+                        `,
 
-        carrier:
-            carrier,
+                        [
+                            orderID
+                        ]
 
-        trackingNumber:
-            trackingNumber
+                    );
 
-    });
 
+                if (
 
-    notice =
-        `Order ${orderID} is now SHIPPED.`;
+                    result.rows.length ===
+                    0
 
-}
-           
+                ) {
+
+                    return res
+
+                        .status(400)
+
+                        .send(
+                            "Only SHIPPED orders can be marked as COMPLETED."
+                        );
+
+                }
+
+
+                notice =
+                    `Order ${orderID} is now COMPLETED.`;
+
+            }
+
+
+            /* =================================================
+               SHIP
+            ================================================= */
+
+            if (
+                action ===
+                "ship"
+            ) {
+
+                const currentOrderStatus =
+                    String(
+                        stored.order.order_status ||
+                        ""
+                    )
+                        .trim()
+                        .toUpperCase();
+
+
+                if (
+
+                    currentOrderStatus !==
+                    "PROCESSING"
+
+                ) {
+
+                    return res
+
+                        .status(400)
+
+                        .send(
+                            "Only PROCESSING orders can be marked as SHIPPED."
+                        );
+
+                }
+
+
+                const carrier =
+                    String(
+                        req.body.carrier ||
+                        ""
+                    ).trim();
+
+
+                const trackingNumber =
+                    String(
+                        req.body.trackingNumber ||
+                        ""
+                    ).trim();
+
+
+                if (
+                    !trackingNumber
+                ) {
+
+                    return res
+
+                        .status(400)
+
+                        .send(
+                            "Tracking number is required."
+                        );
+
+                }
+
+
+                const customerName =
+
+                    `${stored.order.first_name} ${stored.order.last_name}`
+
+                        .trim();
+
+
+                await markOrderShipped({
+
+                    paypalOrderID:
+                        orderID,
+
+                    carrier:
+                        carrier,
+
+                    trackingNumber:
+                        trackingNumber
+
+                });
+
+
+                const shippingEmailResult =
+                    await attemptTrackedEmail({
+
+                        orderID:
+                            orderID,
+
+                        emailType:
+                            "SHIPPING_CONFIRMATION",
+
+                        recipientEmail:
+                            stored.order.customer_email,
+
+                        send:
+                            function () {
+
+                                return sendShippingConfirmation({
+
+                                    orderID:
+                                        orderID,
+
+                                    customerEmail:
+                                        stored.order.customer_email,
+
+                                    customerName:
+                                        customerName,
+
+                                    carrier:
+                                        carrier,
+
+                                    trackingNumber:
+                                        trackingNumber
+
+                                });
+
+                            }
+
+                    });
+
+
+                notice =
+
+                    shippingEmailResult.success
+
+                        ? `Order ${orderID} is now SHIPPED.`
+
+                        : `Order ${orderID} is now SHIPPED. Shipping email failed and was added to FAILED EMAILS.`;
+
+            }
+
+
             return res.redirect(
 
                 303,
@@ -6510,6 +8230,7 @@ if (
             );
 
         }
+
 
         catch (
             error
@@ -6525,7 +8246,9 @@ if (
 
 
             return res
+
                 .status(500)
+
                 .send(
                     "Unable to update order."
                 );
@@ -6535,7 +8258,8 @@ if (
     }
 
 );
-           
+
+
 /* =========================================================
    DATABASE STARTUP CHECK
 ========================================================= */
@@ -6548,7 +8272,10 @@ if (pool) {
 
         .then(
 
-            function () {
+            async function () {
+
+                await ensureEmailFailuresTable();
+
 
                 console.log(
                     "SET APART database connected successfully."
@@ -6577,6 +8304,7 @@ if (pool) {
         );
 
 }
+
 
 else {
 
