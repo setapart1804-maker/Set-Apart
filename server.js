@@ -179,7 +179,7 @@ name:
 "PILGRIM HOODIE",
 
 price:
-0.24,
+34.99,
 
 colors: [
 
@@ -641,7 +641,9 @@ destination.includes(
 
 
 const shippingDOP =
-    0;
+    isCapitalArea
+        ? 300
+        : 500;
 
 
 const shippingUSD =
