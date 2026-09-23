@@ -87,7 +87,7 @@ const SET_APART_PRODUCTS = {
             "PILGRIM HOODIE",
 
         price:
-            1,
+            0.24,
 
         defaultColor:
             "beige",
