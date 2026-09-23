@@ -2906,15 +2906,16 @@ document.addEventListener(
 window.location.href =
     "order-success.html";
 
+},
 
-                                onCancel:
-                                    function () {
+onCancel:
+    function () {
 
-                                        console.log(
-                                            "Customer cancelled PayPal checkout."
-                                        );
+        console.log(
+            "Customer cancelled PayPal checkout."
+        );
 
-                                    },
+    },
 
 
                                 onError:
