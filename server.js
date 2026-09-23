@@ -235,8 +235,7 @@ const PRODUCTS = {
 };
 
 
-const processedPayPalWebhookEvents =
-    new Set();
+
 
 
 /* =========================================================
@@ -4406,6 +4405,89 @@ app.post(
 
 );
 
+/* =========================================================
+   PAYPAL WEBHOOK DATABASE HELPER
+========================================================= */
+
+async function registerPayPalWebhookEvent(
+    event
+) {
+
+    const eventID =
+        String(
+            event?.id ||
+            ""
+        ).trim();
+
+
+    const eventType =
+        String(
+            event?.event_type ||
+            "UNKNOWN"
+        ).trim();
+
+
+    const resourceID =
+        event?.resource?.id
+
+            ? String(
+                event.resource.id
+            )
+
+            : null;
+
+
+    if (!eventID) {
+
+        throw new Error(
+            "PayPal webhook event ID is missing."
+        );
+
+    }
+
+
+    const result =
+        await db(
+
+            `
+            INSERT INTO paypal_webhook_events (
+
+                paypal_event_id,
+                event_type,
+                resource_id
+
+            )
+
+            VALUES (
+                $1,
+                $2,
+                $3
+            )
+
+            ON CONFLICT (
+                paypal_event_id
+            )
+
+            DO NOTHING
+
+            RETURNING paypal_event_id
+            `,
+
+            [
+                eventID,
+                eventType,
+                resourceID
+            ]
+
+        );
+
+
+    return (
+        result.rows.length > 0
+    );
+
+}
+
 
 /* =========================================================
    PAYPAL WEBHOOK
@@ -4421,6 +4503,10 @@ app.post(
     ) {
 
         try {
+
+            /* =============================================
+               VERIFY PAYPAL SIGNATURE
+            ============================================= */
 
             const verified =
                 await verifyPayPalWebhook(
@@ -4452,7 +4538,10 @@ app.post(
 
 
             const eventID =
-                event?.id;
+                String(
+                    event?.id ||
+                    ""
+                ).trim();
 
 
             if (!eventID) {
@@ -4474,13 +4563,26 @@ app.post(
             }
 
 
-            if (
+            /* =============================================
+               DATABASE DUPLICATE PROTECTION
+            ============================================= */
 
-                processedPayPalWebhookEvents.has(
+            const isNewEvent =
+                await registerPayPalWebhookEvent(
+                    event
+                );
+
+
+            if (!isNewEvent) {
+
+                console.log(
+
+                    "Duplicate PayPal webhook ignored:",
+
                     eventID
-                )
 
-            ) {
+                );
+
 
                 return res
 
@@ -4499,33 +4601,68 @@ app.post(
             }
 
 
-            processedPayPalWebhookEvents.add(
-                eventID
-            );
+            /* =============================================
+               NEW VERIFIED EVENT
+            ============================================= */
+
+            const eventType =
+                String(
+                    event?.event_type ||
+                    "UNKNOWN"
+                );
 
 
             console.log(
 
                 "Verified PayPal webhook:",
 
-                event?.event_type ||
-                "UNKNOWN EVENT"
+                eventType,
+
+                eventID
 
             );
 
 
+            /* =============================================
+               PAYMENT CAPTURE COMPLETED
+            ============================================= */
+
             if (
 
-                event?.event_type ===
+                eventType ===
                 "PAYMENT.CAPTURE.COMPLETED"
 
             ) {
+
+                const captureID =
+                    event?.resource?.id ||
+                    null;
+
+
+                const relatedOrderID =
+
+                    event
+                        ?.resource
+                        ?.supplementary_data
+                        ?.related_ids
+                        ?.order_id ||
+
+                    null;
+
 
                 console.log(
 
                     "Verified PayPal payment capture:",
 
-                    event.resource?.id
+                    {
+
+                        captureID:
+                            captureID,
+
+                        orderID:
+                            relatedOrderID
+
+                    }
 
                 );
 
@@ -4539,7 +4676,10 @@ app.post(
                 .json({
 
                     success:
-                        true
+                        true,
+
+                    duplicate:
+                        false
 
                 });
 
@@ -4558,6 +4698,11 @@ app.post(
 
             );
 
+
+            /*
+             * Return 500 so PayPal can retry
+             * if database processing temporarily fails.
+             */
 
             return res
 
