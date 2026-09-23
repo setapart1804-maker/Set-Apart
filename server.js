@@ -179,7 +179,7 @@ name:
 "PILGRIM HOODIE",
 
 price:
-34.99,
+1,
 
 colors: [
 
