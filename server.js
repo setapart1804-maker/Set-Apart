@@ -641,11 +641,7 @@ destination.includes(
 
 
 const shippingDOP =
-isCapitalArea
-
-? 300
-
-: 500;
+    0;
 
 
 const shippingUSD =
