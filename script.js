@@ -2408,84 +2408,205 @@ document.addEventListener(
             );
 
 
-        /* =====================================================
-           CONTACT FORM
-        ===================================================== */
+/* =====================================================
+   CONTACT FORM
+===================================================== */
 
-        const contactForm =
-            document.getElementById(
-                "contactForm"
-            );
-
-
-        const contactMessage =
-            document.getElementById(
-                "contactFormMessage"
-            );
+const contactForm =
+    document.getElementById(
+        "contactForm"
+    );
 
 
-        contactForm
-            ?.addEventListener(
-                "submit",
-                function (event) {
-
-                    event.preventDefault();
+const contactMessage =
+    document.getElementById(
+        "contactFormMessage"
+    );
 
 
-                    if (
-                        !contactForm
-                            .checkValidity()
-                    ) {
+if (contactForm) {
 
+    contactForm.addEventListener(
+        "submit",
+
+        async function (event) {
+
+            event.preventDefault();
+
+
+            if (
+                !contactForm
+                    .checkValidity()
+            ) {
+
+                contactForm
+                    .reportValidity();
+
+                return;
+
+            }
+
+
+            const submitButton =
+                contactForm
+                    .querySelector(
+                        '[type="submit"]'
+                    );
+
+
+            const originalText =
+                submitButton
+                    ? submitButton.textContent
+                    : "SEND MESSAGE";
+
+
+            if (submitButton) {
+
+                submitButton.disabled =
+                    true;
+
+                submitButton.textContent =
+                    "SENDING...";
+
+            }
+
+
+            if (contactMessage) {
+
+                contactMessage.textContent =
+                    "";
+
+            }
+
+
+            try {
+
+                const formData =
+                    new FormData(
                         contactForm
-                            .reportValidity();
-
-                        return;
-
-                    }
+                    );
 
 
-                    if (
-                        contactMessage
-                    ) {
-
-                        contactMessage.textContent =
-                            "MESSAGE READY — EMAIL SERVICE NOT CONNECTED YET.";
-
-                    }
+                const contactData =
+                    Object.fromEntries(
+                        formData.entries()
+                    );
 
 
-                    const submitButton =
-                        contactForm
-                            .querySelector(
-                                '[type="submit"]'
-                            );
+                const response =
+                    await fetch(
+
+                        "https://set-apart.onrender.com/api/contact",
+
+                        {
+
+                            method:
+                                "POST",
+
+                            headers: {
+
+                                "Content-Type":
+                                    "application/json"
+
+                            },
+
+                            body:
+                                JSON.stringify(
+                                    contactData
+                                )
+
+                        }
+
+                    );
 
 
-                    if (!submitButton) {
-                        return;
-                    }
+                const result =
+                    await response.json();
 
 
-                    const originalText =
-                        submitButton.textContent;
+                if (
+                    !response.ok ||
+                    !result.success
+                ) {
 
+                    throw new Error(
+                        result.error ||
+                        "Message could not be sent."
+                    );
+
+                }
+
+
+                if (contactMessage) {
+
+                    contactMessage.textContent =
+                        "MESSAGE SENT SUCCESSFULLY ✓";
+
+                }
+
+
+                if (submitButton) {
 
                     submitButton.textContent =
-                        "MESSAGE READY ✓";
+                        "MESSAGE SENT ✓";
+
+                }
 
 
-                    setTimeout(
-                        function () {
+                contactForm.reset();
+
+
+                setTimeout(
+                    function () {
+
+                        if (submitButton) {
+
+                            submitButton.disabled =
+                                false;
 
                             submitButton.textContent =
                                 originalText;
 
-                        },
-                        2000
-                    );
+                        }
+
+                    },
+                    3000
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "Contact form error:",
+                    error
+                );
+
+
+                if (contactMessage) {
+
+                    contactMessage.textContent =
+                        "MESSAGE COULD NOT BE SENT. PLEASE TRY AGAIN.";
 
                 }
+
+
+                if (submitButton) {
+
+                    submitButton.disabled =
+                        false;
+
+                    submitButton.textContent =
+                        originalText;
+
+                }
+
+            }
+
+        }
+    );
+
+}
             );
 
 
