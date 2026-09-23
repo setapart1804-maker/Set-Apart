@@ -2889,15 +2889,22 @@ document.addEventListener(
                                         );
 
 
-                                        alert(
-                                            "Payment successful! Thank you for your SET APART order."
-                                        );
+                                       sessionStorage.setItem(
+    "setApartLastOrder",
+    JSON.stringify({
+        orderID:
+            result.orderID || data.orderID,
 
+        total:
+            result.total,
 
-                                        window.location.href =
-                                            "index.html";
+        currency:
+            result.currency || "USD"
+    })
+);
 
-                                    },
+window.location.href =
+    "order-success.html";
 
 
                                 onCancel:
