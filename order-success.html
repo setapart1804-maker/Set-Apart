@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Your SET APART order has been confirmed.">
+
+    <title>Order Confirmed — SET APART</title>
+
+    <link
+        rel="stylesheet"
+        href="style.css">
+
+    <style>
+
+        .order-success-page {
+            min-height: 72vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 70px 20px;
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .order-success-card {
+            width: 100%;
+            max-width: 680px;
+            border: 1px solid #111111;
+            padding: 50px 40px;
+            text-align: center;
+            background: #ffffff;
+        }
+
+        .success-icon {
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 28px;
+            border: 2px solid #111111;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .order-success-eyebrow {
+            margin: 0 0 10px;
+            font-size: 11px;
+            letter-spacing: 2px;
+            font-weight: 700;
+        }
+
+        .order-success-card h1 {
+            margin: 0 0 18px;
+            font-size: clamp(30px, 5vw, 48px);
+            line-height: 1;
+            letter-spacing: 1px;
+        }
+
+        .order-success-message {
+            max-width: 500px;
+            margin: 0 auto 35px;
+            font-size: 15px;
+            line-height: 1.7;
+            color: #555555;
+        }
+
+        .order-details {
+            margin: 35px 0;
+            border-top: 1px solid #dddddd;
+            border-bottom: 1px solid #dddddd;
+            text-align: left;
+        }
+
+        .order-detail-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 17px 0;
+            border-bottom: 1px solid #eeeeee;
+        }
+
+        .order-detail-row:last-child {
+            border-bottom: none;
+        }
+
+        .order-detail-label {
+            font-size: 11px;
+            letter-spacing: 1px;
+            font-weight: 700;
+            color: #666666;
+        }
+
+        .order-detail-value {
+            font-size: 13px;
+            font-weight: 700;
+            text-align: right;
+            overflow-wrap: anywhere;
+        }
+
+        .order-success-note {
+            margin: 25px auto 35px;
+            max-width: 520px;
+            font-size: 13px;
+            line-height: 1.7;
+            color: #555555;
+        }
+
+        .order-success-actions {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .order-success-button {
+            min-width: 190px;
+            padding: 15px 22px;
+            text-decoration: none;
+            border: 1px solid #111111;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            transition:
+                background 0.2s ease,
+                color 0.2s ease;
+        }
+
+        .order-success-button-primary {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        .order-success-button-primary:hover {
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .order-success-button-secondary {
+            background: #ffffff;
+            color: #111111;
+        }
+
+        .order-success-button-secondary:hover {
+            background: #111111;
+            color: #ffffff;
+        }
+
+        @media (max-width: 600px) {
+
+            .order-success-page {
+                padding: 45px 16px;
+            }
+
+            .order-success-card {
+                padding: 38px 22px;
+            }
+
+            .order-detail-row {
+                flex-direction: column;
+                gap: 7px;
+            }
+
+            .order-detail-value {
+                text-align: left;
+            }
+
+            .order-success-actions {
+                flex-direction: column;
+            }
+
+            .order-success-button {
+                width: 100%;
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- =====================================================
+     ANNOUNCEMENT BAR
+===================================================== -->
+
+<div class="announcement-bar">
+
+    <p>
+        NEW DROP — CALLED TO LIVE DIFFERENTLY.
+    </p>
+
+</div>
+
+
+<!-- =====================================================
+     HEADER
+===================================================== -->
+
+<header class="site-header">
+
+    <div class="navbar">
+
+
+        <button
+            type="button"
+            class="menu-toggle"
+            id="menuToggle"
+            aria-label="Open menu"
+            aria-expanded="false">
+
+            <span></span>
+            <span></span>
+            <span></span>
+
+        </button>
+
+
+        <a
+            href="index.html"
+            class="site-logo"
+            aria-label="SET APART Home">
+
+            <img
+                src="LOGO (2).png"
+                alt="SET APART Logo">
+
+        </a>
+
+
+        <nav
+            class="main-nav"
+            id="mainNav"
+            aria-label="Main navigation">
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+
+        <div class="nav-actions">
+
+            <button
+                type="button"
+                class="nav-icon-button"
+                id="searchButton"
+                aria-label="Open search">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <circle
+                        cx="11"
+                        cy="11"
+                        r="6.5">
+                    </circle>
+
+                    <path
+                        d="M16 16L21 21">
+                    </path>
+
+                </svg>
+
+            </button>
+
+
+            <a
+                href="cart.html"
+                class="nav-icon-button cart-link"
+                aria-label="Shopping cart">
+
+                <svg
+                    viewBox="0 0 24 24"
+                    aria-hidden="true">
+
+                    <path
+                        d="M3 4H5L7.2 15H18.5L21 7H6">
+                    </path>
+
+                    <circle
+                        cx="9"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                    <circle
+                        cx="18"
+                        cy="20"
+                        r="1">
+                    </circle>
+
+                </svg>
+
+                <span
+                    class="cart-count"
+                    id="cartCount">
+                    0
+                </span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+    <div
+        class="mobile-menu"
+        id="mobileMenu">
+
+        <nav>
+
+            <a href="index.html">
+                HOME
+            </a>
+
+            <a href="shop.html">
+                SHOP
+            </a>
+
+            <a href="about.html">
+                ABOUT
+            </a>
+
+            <a href="contact.html">
+                CONTACT
+            </a>
+
+        </nav>
+
+    </div>
+
+</header>
+
+
+<!-- =====================================================
+     SEARCH PANEL
+===================================================== -->
+
+<div
+    class="search-panel"
+    id="searchPanel">
+
+    <div class="search-panel-inner">
+
+        <form
+            class="search-form"
+            id="searchForm">
+
+            <input
+                type="search"
+                id="searchInput"
+                placeholder="Search products..."
+                autocomplete="off"
+                aria-label="Search products">
+
+            <button
+                type="submit"
+                class="search-submit">
+
+                SEARCH
+
+            </button>
+
+            <button
+                type="button"
+                class="search-close"
+                id="closeSearch"
+                aria-label="Close search">
+
+                ×
+
+            </button>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ORDER SUCCESS
+===================================================== -->
+
+<main id="main-content">
+
+    <section class="order-success-page">
+
+        <div class="order-success-card">
+
+            <div
+                class="success-icon"
+                aria-hidden="true">
+                ✓
+            </div>
+
+
+            <p class="order-success-eyebrow">
+                SET APART
+            </p>
+
+
+            <h1>
+                PAYMENT SUCCESSFUL
+            </h1>
+
+
+            <p class="order-success-message">
+
+                Thank you for your order.
+                Your payment has been successfully received
+                and your SET APART order is now confirmed.
+
+            </p>
+
+
+            <div
+                class="order-details"
+                id="orderDetails">
+
+
+                <div class="order-detail-row">
+
+                    <span class="order-detail-label">
+                        ORDER
+                    </span>
+
+                    <span
+                        class="order-detail-value"
+                        id="successOrderID">
+
+                        —
+
+                    </span>
+
+                </div>
+
+
+                <div class="order-detail-row">
+
+                    <span class="order-detail-label">
+                        PAYMENT STATUS
+                    </span>
+
+                    <span class="order-detail-value">
+                        PAID
+                    </span>
+
+                </div>
+
+
+                <div class="order-detail-row">
+
+                    <span class="order-detail-label">
+                        TOTAL PAID
+                    </span>
+
+                    <span
+                        class="order-detail-value"
+                        id="successTotal">
+
+                        —
+
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <p class="order-success-note">
+
+                We are now preparing your order.
+                Please keep your order number for reference.
+
+            </p>
+
+
+            <div class="order-success-actions">
+
+                <a
+                    href="shop.html"
+                    class="
+                        order-success-button
+                        order-success-button-primary
+                    ">
+
+                    CONTINUE SHOPPING
+
+                </a>
+
+
+                <a
+                    href="index.html"
+                    class="
+                        order-success-button
+                        order-success-button-secondary
+                    ">
+
+                    RETURN HOME
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<!-- =====================================================
+     FOOTER
+===================================================== -->
+
+<footer class="footer">
+
+    <div class="footer-inner">
+
+        <div class="footer-brand">
+
+            <a href="index.html">
+
+                <img
+                    src="LOGO (2).png"
+                    alt="SET APART Logo">
+
+            </a>
+
+            <p>
+                Faith-Inspired Streetwear.
+            </p>
+
+            <p>
+                Called to Live Differently.
+            </p>
+
+        </div>
+
+
+        <div class="footer-columns">
+
+            <div class="footer-column">
+
+                <h3>
+                    SHOP
+                </h3>
+
+                <a href="shop.html">
+                    All Products
+                </a>
+
+                <a href="shop.html">
+                    Hoodies
+                </a>
+
+            </div>
+
+
+            <div class="footer-column">
+
+                <h3>
+                    ABOUT
+                </h3>
+
+                <a href="about.html">
+                    Our Story
+                </a>
+
+                <a href="contact.html">
+                    Contact
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>
+
+
+<!-- =====================================================
+     ORDER CONFIRMATION DATA
+===================================================== -->
+
+<script>
+
+    document.addEventListener(
+        "DOMContentLoaded",
+        function () {
+
+            const storedOrder =
+                sessionStorage.getItem(
+                    "setApartLastOrder"
+                );
+
+
+            if (!storedOrder) {
+
+                document.getElementById(
+                    "successOrderID"
+                ).textContent =
+                    "CONFIRMED";
+
+
+                document.getElementById(
+                    "successTotal"
+                ).textContent =
+                    "PAYMENT RECEIVED";
+
+
+                return;
+
+            }
+
+
+            try {
+
+                const order =
+                    JSON.parse(
+                        storedOrder
+                    );
+
+
+                const orderID =
+                    String(
+                        order.orderID ||
+                        ""
+                    ).trim();
+
+
+                const total =
+                    Number(
+                        order.total
+                    );
+
+
+                const currency =
+                    String(
+                        order.currency ||
+                        "USD"
+                    ).trim();
+
+
+                document.getElementById(
+                    "successOrderID"
+                ).textContent =
+                    orderID ||
+                    "CONFIRMED";
+
+
+                document.getElementById(
+                    "successTotal"
+                ).textContent =
+                    Number.isFinite(total)
+
+                        ? `$${total.toFixed(2)} ${currency}`
+
+                        : "PAYMENT RECEIVED";
+
+            }
+
+
+            catch (error) {
+
+                console.error(
+                    "Unable to load order confirmation:",
+                    error
+                );
+
+
+                document.getElementById(
+                    "successOrderID"
+                ).textContent =
+                    "CONFIRMED";
+
+
+                document.getElementById(
+                    "successTotal"
+                ).textContent =
+                    "PAYMENT RECEIVED";
+
+            }
+
+        }
+    );
+
+</script>
+
+
+<!-- =====================================================
+     MAIN JAVASCRIPT
+===================================================== -->
+
+<script src="script.js"></script>
+
+
+</body>
+
+</html>
