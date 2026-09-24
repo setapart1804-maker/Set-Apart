@@ -5605,3 +5605,14 @@ textarea:focus-visible {
     border: 1px solid #000000;
     box-sizing: border-box;
 }
+
+/* MOBILE HOME HERO HEIGHT */
+@media (max-width: 700px) {
+
+    .hero {
+        min-height: 520px !important;
+        height: 520px !important;
+        background-position: center 35% !important;
+    }
+
+}
