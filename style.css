@@ -5595,3 +5595,13 @@ textarea:focus-visible {
     }
 
 }
+
+/* =========================================================
+   HOODIE IMAGE FRAME — BLACK BORDER
+========================================================= */
+
+.product-image,
+.shop-item-gallery {
+    border: 1px solid #000000;
+    box-sizing: border-box;
+}
