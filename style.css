@@ -5671,3 +5671,40 @@ textarea:focus-visible {
     }
 
 }
+/* =========================================================
+   HOME HERO — MOBILE TEXT SIZE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .hero-content {
+        width: 92% !important;
+    }
+
+    .hero .eyebrow {
+        margin-bottom: 8px !important;
+        font-size: 8px !important;
+        letter-spacing: 2px !important;
+    }
+
+    .hero h1 {
+        font-size: 42px !important;
+        line-height: .9 !important;
+        letter-spacing: -2px !important;
+    }
+
+    .hero h2 {
+        margin: 10px 0 14px !important;
+        font-size: 9px !important;
+        line-height: 1.4 !important;
+        letter-spacing: 2px !important;
+    }
+
+    .hero .button {
+        min-height: 36px !important;
+        padding: 0 18px !important;
+        font-size: 8px !important;
+        letter-spacing: 1.5px !important;
+    }
+
+}
