@@ -5652,3 +5652,14 @@ textarea:focus-visible {
         padding: 60px 0 45px !important;
     }
 }
+
+/* HOME HERO — SAME SIZE AS SHOP ON DESKTOP ONLY */
+@media (min-width: 1025px) {
+
+    .hero {
+        min-height: 0 !important;
+        height: auto !important;
+        padding: 90px 0 70px !important;
+    }
+
+}
