@@ -5622,3 +5622,7 @@ textarea:focus-visible {
     margin-top: 40px;
     text-align: center;
 }
+
+.shop-item {
+    scroll-margin-top: 140px;
+}
