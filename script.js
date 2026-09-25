@@ -2653,12 +2653,156 @@ if (contactForm) {
 
         function getCheckoutCustomer() {
 
-            if (!checkoutForm) {
+           if (searchForm) {
 
-                return {};
+    searchForm.addEventListener(
+        "submit",
+        function (event) {
 
+            event.preventDefault();
+
+            const rawQuery =
+                searchInput
+                    ? searchInput.value.trim()
+                    : "";
+
+            if (!rawQuery) {
+                if (searchInput) {
+                    searchInput.focus();
+                }
+
+                return;
             }
 
+            const query =
+                rawQuery.toLowerCase();
+
+            const products =
+                Array.from(
+                    document.querySelectorAll(
+                        ".shop-item"
+                    )
+                );
+
+
+            /* If customer searches from HOME or another page */
+            if (products.length === 0) {
+
+                window.location.href =
+                    "shop.html?search=" +
+                    encodeURIComponent(
+                        rawQuery
+                    );
+
+                return;
+            }
+
+
+            /* If customer is already on SHOP */
+            let firstMatch = null;
+            let matchCount = 0;
+
+            products.forEach(
+                function (product) {
+
+                    const productName =
+                        (
+                            product.dataset.name ||
+                            ""
+                        ).toLowerCase();
+
+                    const category =
+                        (
+                            product.dataset.category ||
+                            ""
+                        ).toLowerCase();
+
+                    const title =
+                        (
+                            product
+                                .querySelector("h2")
+                                ?.textContent ||
+                            ""
+                        ).toLowerCase();
+
+                    const searchableText =
+                        productName +
+                        " " +
+                        category +
+                        " " +
+                        title;
+
+
+                    const isMatch =
+                        searchableText.includes(
+                            query
+                        );
+
+
+                    product.classList.toggle(
+                        "search-hidden",
+                        !isMatch
+                    );
+
+
+                    if (isMatch) {
+
+                        matchCount++;
+
+                        if (!firstMatch) {
+                            firstMatch =
+                                product;
+                        }
+                    }
+                }
+            );
+
+
+            closeSearchPanel();
+
+
+            if (firstMatch) {
+
+                setTimeout(
+                    function () {
+
+                        firstMatch.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start"
+                        });
+
+                    },
+                    150
+                );
+
+            } else {
+
+                alert(
+                    "NO PRODUCTS FOUND."
+                );
+            }
+
+
+            const currentUrl =
+                new URL(
+                    window.location.href
+                );
+
+            currentUrl.searchParams.set(
+                "search",
+                rawQuery
+            );
+
+            window.history.replaceState(
+                {},
+                "",
+                currentUrl
+            );
+
+        }
+    );
+
+}
 
             const formData =
                 new FormData(
