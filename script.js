@@ -1329,64 +1329,98 @@ document.addEventListener(
 
 
         /* =====================================================
-           SEARCH FROM URL
-        ===================================================== */
+   SEARCH FROM URL
+===================================================== */
 
-        const urlParameters =
-            new URLSearchParams(
-                window.location.search
-            );
-
-
-        const searchQuery =
-            (
-                urlParameters.get(
-                    "search"
-                ) ||
-                ""
-            )
-                .trim()
-                .toLowerCase();
+const urlParameters =
+    new URLSearchParams(
+        window.location.search
+    );
 
 
-        if (searchQuery) {
-
-            document
-                .querySelectorAll(
-                    ".shop-item"
-                )
-                .forEach(
-                    function (
-                        product
-                    ) {
-
-                        const productName =
-                            (
-                                product
-                                    .dataset
-                                    .name ||
-                                ""
-                            )
-                                .toLowerCase();
+const searchQuery =
+    (
+        urlParameters.get(
+            "search"
+        ) || ""
+    )
+        .trim()
+        .toLowerCase();
 
 
-                        product
-                            .classList
-                            .toggle(
+if (searchQuery) {
 
-                                "search-hidden",
+    let firstMatch = null;
 
-                                !productName
-                                    .includes(
-                                        searchQuery
-                                    )
+    document
+        .querySelectorAll(
+            ".shop-item"
+        )
+        .forEach(
+            function (product) {
 
-                            );
+                const productName =
+                    (
+                        product.dataset
+                            .name || ""
+                    )
+                        .toLowerCase();
 
+
+                if (
+                    productName.includes(
+                        searchQuery
+                    )
+                ) {
+
+                    product.classList.remove(
+                        "search-hidden"
+                    );
+
+                    if (!firstMatch) {
+                        firstMatch =
+                            product;
                     }
-                );
 
-        }
+                } else {
+
+                    product.classList.add(
+                        "search-hidden"
+                    );
+
+                }
+
+            }
+        );
+
+
+    if (firstMatch) {
+
+        setTimeout(
+            function () {
+
+                const headerOffset = 125;
+
+                const productTop =
+                    firstMatch
+                        .getBoundingClientRect()
+                        .top +
+                    window.pageYOffset -
+                    headerOffset;
+
+
+                window.scrollTo({
+                    top: productTop,
+                    behavior: "smooth"
+                });
+
+            },
+            300
+        );
+
+    }
+
+}
 
 
         /* =====================================================
