@@ -6150,21 +6150,20 @@ html body {
 
 }
 /* =========================================================
-   SHOP — SAME CARD SIZE AS HOME — DESKTOP ONLY
+   SHOP — SAME GRID AS HOME — DESKTOP ONLY
 ========================================================= */
 
 @media (min-width: 1025px) {
 
     .shop-catalog-grid {
-        width: calc(50% - 12.5px) !important;
+        width: 100% !important;
         max-width: none !important;
 
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
 
         gap: 25px !important;
 
-        margin-left: auto !important;
-        margin-right: auto !important;
+        margin: 0 !important;
     }
 
 }
