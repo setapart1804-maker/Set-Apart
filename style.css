@@ -6076,3 +6076,53 @@ html body {
     }
 
 }
+
+/* =========================================================
+   PRODUCT DETAIL — MOBILE FULL WIDTH
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .product-detail-page .shop-product-grid {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .product-detail-page .shop-item {
+        display: grid !important;
+
+        grid-template-columns: 1fr !important;
+
+        width: 100% !important;
+
+        gap: 25px !important;
+    }
+
+    .product-detail-page .shop-item-gallery {
+        width: 100% !important;
+        max-width: 100% !important;
+
+        margin: 0 !important;
+    }
+
+    .product-detail-page .shop-product-image {
+        display: block;
+
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    .product-detail-page .shop-item-info {
+        position: static !important;
+
+        width: 100% !important;
+        max-width: 100% !important;
+
+        padding: 0 !important;
+    }
+
+    .product-detail-page .shop-item-info h2 {
+        font-size: 30px !important;
+    }
+
+}
