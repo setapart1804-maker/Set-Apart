@@ -6719,7 +6719,12 @@ order.shipping_usd
 
 return `
 
-<article class="order-card">
+<article
+    class="order-card"
+    id="order-${escapeHtml(
+        order.paypal_order_id
+    )}"
+>
 
 <div class="order-top">
 
@@ -8668,11 +8673,13 @@ failureID
 
 return res.redirect(
 
-303,
+    303,
 
-`/admin?notice=${encodeURIComponent(
-`Email for order ${failure.paypal_order_id} was sent successfully.`
-)}`
+    `/admin?notice=${encodeURIComponent(
+        notice
+    )}#order-${encodeURIComponent(
+        orderID
+    )}`
 
 );
 
