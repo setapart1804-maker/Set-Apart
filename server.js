@@ -8488,43 +8488,7 @@ ${orderCards}
 
 </main>
 
-<script>
-if ("scrollRestoration" in history) {
-    history.scrollRestoration = "manual";
-}
-
-document.addEventListener("submit", function () {
-    sessionStorage.setItem(
-        "setApartAdminScrollY",
-        String(window.scrollY)
-    );
-});
-
-window.addEventListener("load", function () {
-    const savedScroll =
-        sessionStorage.getItem(
-            "setApartAdminScrollY"
-        );
-
-    if (savedScroll === null) {
-        return;
-    }
-
-    const y = Number(savedScroll);
-
-    setTimeout(function () {
-        window.scrollTo({
-            top: y,
-            left: 0,
-            behavior: "auto"
-        });
-
-        sessionStorage.removeItem(
-            "setApartAdminScrollY"
-        );
-    }, 150);
-});
-</script>
+<script src="/admin-scroll.js" defer></script>
 
 </body>
 </html>
@@ -8533,6 +8497,61 @@ window.addEventListener("load", function () {
 
 }
 
+app.get(
+    "/admin-scroll.js",
+    adminLimiter,
+    adminBasicAuth,
+    function (req, res) {
+
+        res
+            .type("application/javascript")
+            .set("Cache-Control", "no-store")
+            .send(`
+                if ("scrollRestoration" in history) {
+                    history.scrollRestoration = "manual";
+                }
+
+                document.addEventListener(
+                    "submit",
+                    function () {
+                        sessionStorage.setItem(
+                            "setApartAdminScrollY",
+                            String(window.scrollY)
+                        );
+                    }
+                );
+
+                window.addEventListener(
+                    "load",
+                    function () {
+                        const savedScroll =
+                            sessionStorage.getItem(
+                                "setApartAdminScrollY"
+                            );
+
+                        if (savedScroll === null) {
+                            return;
+                        }
+
+                        const y = Number(savedScroll);
+
+                        window.scrollTo(0, y);
+
+                        setTimeout(
+                            function () {
+                                window.scrollTo(0, y);
+
+                                sessionStorage.removeItem(
+                                    "setApartAdminScrollY"
+                                );
+                            },
+                            100
+                        );
+                    }
+                );
+            `);
+    }
+);
 
 /* =========================================================
 ADMIN PAGE
