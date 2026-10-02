@@ -8488,9 +8488,11 @@ ${orderCards}
 
 </main>
 
+<script>
+    // script nou sot ba w la
+</script>
 
 </body>
-
 </html>
 
 `;
