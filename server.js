@@ -4642,6 +4642,39 @@ error:
 }
 
 
+const isHaitiPickupOrder =
+String(
+stored.order.country || ""
+)
+.trim()
+.toUpperCase() ===
+"HT" ||
+
+String(
+stored.order.shipping_method || ""
+)
+.trim()
+.toUpperCase() ===
+"PÉTION-VILLE PICKUP";
+
+
+if (isHaitiPickupOrder) {
+
+return res
+.status(400)
+.json({
+
+success:
+false,
+
+error:
+"Haiti pickup orders must use READY FOR PICKUP, not SHIPPED."
+
+});
+
+}
+
+
 if (
 
 stored.order.payment_status !==
@@ -5950,37 +5983,28 @@ AS paid,
 
 
 COUNT(*)
-
 FILTER (
-
-WHERE order_status =
-'PROCESSING'
-
+    WHERE order_status = 'PROCESSING'
 )::int
-AS processing,
-
+    AS processing,
 
 COUNT(*)
-
 FILTER (
-
-WHERE order_status =
-'SHIPPED'
-
+    WHERE order_status = 'READY_FOR_PICKUP'
 )::int
-AS shipped,
-
+    AS ready_for_pickup,
 
 COUNT(*)
-
 FILTER (
-
-WHERE order_status =
-'COMPLETED'
-
+    WHERE order_status = 'SHIPPED'
 )::int
-AS completed
+    AS shipped,
 
+COUNT(*)
+FILTER (
+    WHERE order_status = 'COMPLETED'
+)::int
+    AS completed
 
 FROM orders
 
@@ -6419,6 +6443,7 @@ failureID
 
 ]
 
+
 );
 
 
@@ -6501,32 +6526,52 @@ order.order_status ||
 
 
 const isPaid =
-paymentStatus ===
-"COMPLETED";
+    paymentStatus ===
+    "COMPLETED";
+
+
+const isHaitiPickup =
+    String(
+        order.country || ""
+    )
+        .trim()
+        .toUpperCase() ===
+        "HT" ||
+
+    String(
+        order.shipping_method || ""
+    )
+        .trim()
+        .toUpperCase() ===
+        "PÉTION-VILLE PICKUP";
 
 
 const canProcess =
-
-isPaid &&
-
-orderStatus ===
-"PAID";
+    isPaid &&
+    orderStatus ===
+    "PAID";
 
 
 const canShip =
+    isPaid &&
+    !isHaitiPickup &&
+    orderStatus ===
+    "PROCESSING";
 
-isPaid &&
 
-orderStatus ===
-"PROCESSING";
+const canReadyForPickup =
+    isPaid &&
+    isHaitiPickup &&
+    orderStatus ===
+    "PROCESSING";
 
 
 const canComplete =
-
-isPaid &&
-
-orderStatus ===
-"SHIPPED";
+    isPaid &&
+    (
+        orderStatus === "SHIPPED" ||
+        orderStatus === "READY_FOR_PICKUP"
+    );
 
 
 const canDelete =
@@ -6564,6 +6609,13 @@ order.paypal_order_id,
 
 "ship"
 
+);
+
+
+const readyPickupToken =
+createAdminCsrfToken(
+    order.paypal_order_id,
+    "ready-pickup"
 );
 
 
@@ -7116,6 +7168,45 @@ required
 type="submit"
 >
 MARK SHIPPED
+</button>
+
+</form>
+
+`
+
+: ""
+}
+
+
+${
+canReadyForPickup
+
+? `
+
+<form
+method="post"
+action="/admin/orders/${encodeURIComponent(
+order.paypal_order_id
+)}/action"
+>
+
+<input
+type="hidden"
+name="action"
+value="ready-pickup"
+>
+
+<input
+type="hidden"
+name="csrf"
+value="${readyPickupToken}"
+>
+
+<button
+type="submit"
+class="secondary"
+>
+MARK READY FOR PICKUP
 </button>
 
 </form>
@@ -8302,6 +8393,17 @@ summary.processing ||
 
 
 <div class="stat">
+<span>READY FOR PICKUP</span>
+<strong>
+${Number(
+summary.ready_for_pickup ||
+0
+)}
+</strong>
+</div>
+
+
+<div class="stat">
 
 <span>
 SHIPPED / COMPLETED
@@ -8661,6 +8763,7 @@ if (
 ![
 "process",
 "ship",
+"ready-pickup",
 "complete",
 "delete"
 ].includes(
@@ -8879,6 +8982,74 @@ notice =
 
 
 /* =================================================
+READY FOR PICKUP — HAITI
+================================================= */
+
+if (
+action ===
+"ready-pickup"
+) {
+
+const result =
+await db(
+
+`
+UPDATE orders
+
+SET
+
+order_status =
+'READY_FOR_PICKUP',
+
+updated_at =
+NOW()
+
+WHERE paypal_order_id = $1
+
+AND payment_status =
+'COMPLETED'
+
+AND order_status =
+'PROCESSING'
+
+AND (
+country = 'HT'
+OR shipping_method = 'PÉTION-VILLE PICKUP'
+)
+
+RETURNING *
+`,
+
+[
+orderID
+]
+
+);
+
+
+if (
+result.rows.length ===
+0
+) {
+
+return res
+
+.status(400)
+
+.send(
+"Only paid Haiti pickup orders in PROCESSING can be marked READY FOR PICKUP."
+);
+
+}
+
+
+notice =
+`Order ${orderID} is now READY FOR PICKUP.`;
+
+}
+
+
+/* =================================================
 COMPLETE
 ================================================= */
 
@@ -8906,8 +9077,10 @@ WHERE paypal_order_id = $1
 AND payment_status =
 'COMPLETED'
 
-AND order_status =
-'SHIPPED'
+AND order_status IN (
+'SHIPPED',
+'READY_FOR_PICKUP'
+)
 
 RETURNING *
 `,
@@ -8931,7 +9104,7 @@ return res
 .status(400)
 
 .send(
-"Only SHIPPED orders can be marked as COMPLETED."
+"Only SHIPPED or READY FOR PICKUP orders can be marked as COMPLETED."
 );
 
 }
@@ -8974,6 +9147,35 @@ return res
 
 .send(
 "Only PROCESSING orders can be marked as SHIPPED."
+);
+
+}
+
+
+const isHaitiPickupOrder =
+String(
+stored.order.country || ""
+)
+.trim()
+.toUpperCase() ===
+"HT" ||
+
+String(
+stored.order.shipping_method || ""
+)
+.trim()
+.toUpperCase() ===
+"PÉTION-VILLE PICKUP";
+
+
+if (isHaitiPickupOrder) {
+
+return res
+
+.status(400)
+
+.send(
+"Haiti pickup orders must use READY FOR PICKUP, not SHIPPED."
 );
 
 }
