@@ -8489,7 +8489,59 @@ ${orderCards}
 </main>
 
 <script>
-    // script nou sot ba w la
+document.addEventListener(
+    "submit",
+    function (event) {
+        const form = event.target;
+        const card = form.closest(".order-card");
+
+        if (
+            card &&
+            card.id
+        ) {
+            sessionStorage.setItem(
+                "setApartAdminLastOrder",
+                card.id
+            );
+        }
+    }
+);
+
+
+window.addEventListener(
+    "DOMContentLoaded",
+    function () {
+        const cardId =
+            sessionStorage.getItem(
+                "setApartAdminLastOrder"
+            );
+
+        if (!cardId) {
+            return;
+        }
+
+        sessionStorage.removeItem(
+            "setApartAdminLastOrder"
+        );
+
+        const card =
+            document.getElementById(
+                cardId
+            );
+
+        if (card) {
+            setTimeout(
+                function () {
+                    card.scrollIntoView({
+                        behavior: "auto",
+                        block: "center"
+                    });
+                },
+                100
+            );
+        }
+    }
+);
 </script>
 
 </body>
