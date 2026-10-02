@@ -1326,8 +1326,7 @@ document.addEventListener(
             }
         );
 
-
-        /* =====================================================
+/* =====================================================
    SEARCH FROM URL
 ===================================================== */
 
@@ -1335,7 +1334,6 @@ const urlParameters =
     new URLSearchParams(
         window.location.search
     );
-
 
 const searchQuery =
     (
@@ -1349,20 +1347,20 @@ const searchQuery =
 
 if (searchQuery) {
 
-    let firstMatch = null;
-
     document
         .querySelectorAll(
-            ".shop-item"
+            ".shop-catalog-card, .shop-item"
         )
         .forEach(
             function (product) {
 
                 const productName =
                     (
-                        product.dataset
-                            .name || ""
+                        product.dataset.name ||
+                        product.textContent ||
+                        ""
                     )
+                        .trim()
                         .toLowerCase();
 
 
@@ -1376,11 +1374,6 @@ if (searchQuery) {
                         "search-hidden"
                     );
 
-                    if (!firstMatch) {
-                        firstMatch =
-                            product;
-                    }
-
                 } else {
 
                     product.classList.add(
@@ -1393,28 +1386,32 @@ if (searchQuery) {
         );
 
 
-    if (firstMatch) {
+    const firstResult =
+        document.querySelector(
+            ".shop-catalog-card:not(.search-hidden), .shop-item:not(.search-hidden)"
+        );
+
+
+    if (firstResult) {
 
         setTimeout(
             function () {
 
-                const headerOffset = 125;
-
-                const productTop =
-                    firstMatch
+                const position =
+                    firstResult
                         .getBoundingClientRect()
                         .top +
-                    window.pageYOffset -
-                    headerOffset;
+                    window.scrollY -
+                    120;
 
 
                 window.scrollTo({
-                    top: productTop,
+                    top: position,
                     behavior: "smooth"
                 });
 
             },
-            300
+            200
         );
 
     }
