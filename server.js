@@ -8489,59 +8489,41 @@ ${orderCards}
 </main>
 
 <script>
-document.addEventListener(
-    "submit",
-    function (event) {
-        const form = event.target;
-        const card = form.closest(".order-card");
+if ("scrollRestoration" in history) {
+    history.scrollRestoration = "manual";
+}
 
-        if (
-            card &&
-            card.id
-        ) {
-            sessionStorage.setItem(
-                "setApartAdminLastOrder",
-                card.id
-            );
-        }
-    }
-);
+document.addEventListener("submit", function () {
+    sessionStorage.setItem(
+        "setApartAdminScrollY",
+        String(window.scrollY)
+    );
+});
 
-
-window.addEventListener(
-    "DOMContentLoaded",
-    function () {
-        const cardId =
-            sessionStorage.getItem(
-                "setApartAdminLastOrder"
-            );
-
-        if (!cardId) {
-            return;
-        }
-
-        sessionStorage.removeItem(
-            "setApartAdminLastOrder"
+window.addEventListener("load", function () {
+    const savedScroll =
+        sessionStorage.getItem(
+            "setApartAdminScrollY"
         );
 
-        const card =
-            document.getElementById(
-                cardId
-            );
-
-        if (card) {
-            setTimeout(
-                function () {
-                    card.scrollIntoView({
-                        behavior: "auto",
-                        block: "center"
-                    });
-                },
-                100
-            );
-        }
+    if (savedScroll === null) {
+        return;
     }
-);
+
+    const y = Number(savedScroll);
+
+    setTimeout(function () {
+        window.scrollTo({
+            top: y,
+            left: 0,
+            behavior: "auto"
+        });
+
+        sessionStorage.removeItem(
+            "setApartAdminScrollY"
+        );
+    }, 150);
+});
 </script>
 
 </body>
