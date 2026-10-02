@@ -6691,7 +6691,10 @@ order.created_at
 )
 
 .toLocaleString(
-"en-US"
+    "en-US",
+    {
+        timeZone: "America/Santo_Domingo"
+    }
 )
 
 )}
