@@ -1291,10 +1291,9 @@ document.addEventListener(
                             );
 
 
-                        document
-                            .querySelectorAll(
-                                ".shop-item"
-                            )
+                       document.querySelectorAll(
+    ".shop-item, .shop-catalog-card"
+)
                             .forEach(
                                 function (
                                     product
