@@ -6167,3 +6167,8 @@ html body {
     }
 
 }
+
+.shop-catalog-card.search-hidden,
+.shop-catalog-card.filter-hidden {
+    display: none !important;
+}
