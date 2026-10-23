@@ -50,7 +50,7 @@
 
     <meta
         name="theme-color"
-        content="#000000">
+        content="#f4f4ef">
 
 
     <!-- =====================================================
@@ -145,11 +145,11 @@
 </head>
 
 
-<body class="home-atelier-page">
+<body class="sa-home-page">
 
 
     <!-- =====================================================
-         SKIP LINK
+         ACCESSIBILITY
     ====================================================== -->
 
     <a
@@ -166,12 +166,12 @@
          HEADER
     ====================================================== -->
 
-    <header class="site-header home-header">
+    <header class="sa-header">
 
-        <div class="home-navbar">
+        <div class="sa-header-inner">
 
 
-            <!-- MOBILE MENU -->
+            <!-- MOBILE MENU BUTTON -->
 
             <button
                 type="button"
@@ -188,10 +188,10 @@
 
 
 
-            <!-- DESKTOP NAVIGATION -->
+            <!-- LEFT NAV -->
 
             <nav
-                class="home-desktop-nav"
+                class="sa-main-nav"
                 aria-label="Main navigation">
 
                 <a
@@ -202,11 +202,13 @@
 
                 </a>
 
+
                 <a href="#collection">
 
                     COLLECTION
 
                 </a>
+
 
                 <a href="#purpose">
 
@@ -218,11 +220,11 @@
 
 
 
-            <!-- WORDMARK -->
+            <!-- CENTER BRAND -->
 
             <a
                 href="index.html"
-                class="home-wordmark"
+                class="sa-header-brand"
                 aria-label="SET APART Home">
 
                 SET APART
@@ -235,13 +237,16 @@
 
             <button
                 type="button"
-                class="home-bag-button"
+                class="sa-header-bag"
                 id="homeBagButton"
                 aria-label="Open shopping bag">
 
-                <span>
+                <span class="sa-bag-text">
+
                     BAG
+
                 </span>
+
 
                 <span
                     class="cart-count"
@@ -267,13 +272,12 @@
 
             <nav>
 
-                <a
-                    href="index.html"
-                    aria-current="page">
+                <a href="index.html">
 
                     HOME
 
                 </a>
+
 
                 <a href="#collection">
 
@@ -281,17 +285,20 @@
 
                 </a>
 
+
                 <a href="#purpose">
 
                     OUR PURPOSE
 
                 </a>
 
+
                 <a href="about.html">
 
                     ABOUT
 
                 </a>
+
 
                 <a href="contact.html">
 
@@ -316,22 +323,29 @@
 
 
         <!-- =================================================
-             THE ATELIER
+             HERO / AUTOMATIC ATELIER
         ================================================== -->
 
         <section
-            class="sa-atelier"
-            id="saAtelier">
+            class="sa-hero"
+            id="saHero">
 
 
-            <div class="sa-atelier-meta">
+            <!-- TOP META -->
+
+            <div class="sa-hero-meta">
 
                 <span>
+
                     THE ATELIER
+
                 </span>
 
+
                 <span>
+
                     SET APART / 2026
+
                 </span>
 
             </div>
@@ -339,42 +353,86 @@
 
 
             <!-- =============================================
-                 RACK VIEW
+                 PROGRESS BAR
             ============================================== -->
 
             <div
-                class="sa-rack-view"
-                id="saRackView">
+                class="sa-hero-progress"
+                aria-hidden="true">
 
 
-                <div
-                    class="sa-rack-bar"
-                    aria-hidden="true">
-                </div>
+                <span
+                    class="sa-progress-item active"
+                    data-progress-index="0">
+
+                    <i></i>
+
+                </span>
+
+
+                <span
+                    class="sa-progress-item"
+                    data-progress-index="1">
+
+                    <i></i>
+
+                </span>
+
+
+                <span
+                    class="sa-progress-item"
+                    data-progress-index="2">
+
+                    <i></i>
+
+                </span>
+
+
+                <span
+                    class="sa-progress-item"
+                    data-progress-index="3">
+
+                    <i></i>
+
+                </span>
+
+            </div>
 
 
 
-                <div class="sa-rack-products">
+            <!-- =============================================
+                 SCENE 01
+                 BOTH HOODIES
+            ============================================== -->
+
+            <div
+                class="sa-hero-intro active"
+                id="saHeroIntro">
+
+
+                <div class="sa-intro-products">
 
 
                     <!-- PILGRIM -->
 
                     <button
                         type="button"
-                        class="sa-rack-product"
-                        data-sa-product="pilgrim">
+                        class="
+                            sa-intro-product
+                            sa-intro-product-left
+                        "
+                        data-open-showcase="pilgrim">
 
-                        <span
-                            class="sa-hanger"
-                            aria-hidden="true">
-                        </span>
 
                         <img
-                            src="PILGRIM BROWN FRONT.jpeg"
+                            src="PILGRIM-BROWN-FRONT-NOBG.png"
                             alt="SET APART PILGRIM Brown Hoodie">
 
-                        <span class="sa-rack-name">
+
+                        <span>
+
                             PILGRIM
+
                         </span>
 
                     </button>
@@ -385,20 +443,22 @@
 
                     <button
                         type="button"
-                        class="sa-rack-product"
-                        data-sa-product="godfirst">
+                        class="
+                            sa-intro-product
+                            sa-intro-product-right
+                        "
+                        data-open-showcase="godfirst">
 
-                        <span
-                            class="sa-hanger"
-                            aria-hidden="true">
-                        </span>
 
                         <img
-                            src="GOD FIRST BLACK FRONT.jpeg"
+                            src="GOD-FIRST-BLACK-FRONT-NOBG.png"
                             alt="SET APART GOD FIRST Black Hoodie">
 
-                        <span class="sa-rack-name">
+
+                        <span>
+
                             GOD FIRST
+
                         </span>
 
                     </button>
@@ -408,23 +468,29 @@
 
 
 
-                <div class="sa-rack-bottom">
+                <div class="sa-intro-copy">
 
                     <p>
+
                         CALLED TO LIVE DIFFERENTLY.
+
                     </p>
+
 
                     <button
                         type="button"
-                        class="sa-explore-button"
-                        id="saExploreButton">
+                        class="sa-intro-button"
+                        id="saExploreCollection">
 
                         EXPLORE THE COLLECTION ↗
 
                     </button>
 
+
                     <small>
+
                         SELECT A PIECE
+
                     </small>
 
                 </div>
@@ -434,24 +500,13 @@
 
 
             <!-- =============================================
-                 PRODUCT SHOWCASE
+                 AUTOMATIC PRODUCT CAROUSEL
             ============================================== -->
 
             <div
-                class="sa-showcase"
-                id="saShowcase"
+                class="sa-product-carousel"
+                id="saProductCarousel"
                 aria-hidden="true">
-
-
-                <button
-                    type="button"
-                    class="sa-showcase-back"
-                    id="saShowcaseBack">
-
-                    ← BACK TO ATELIER
-
-                </button>
-
 
 
                 <!-- PREVIOUS -->
@@ -459,10 +514,10 @@
                 <button
                     type="button"
                     class="
-                        sa-showcase-arrow
-                        sa-showcase-prev
+                        sa-carousel-arrow
+                        sa-carousel-arrow-left
                     "
-                    id="saShowcasePrev"
+                    id="saCarouselPrev"
                     aria-label="Previous product">
 
                     ←
@@ -471,130 +526,173 @@
 
 
 
-                <div class="sa-showcase-center">
+                <!-- =========================================
+                     VISUAL STAGE
+                ========================================== -->
+
+                <div class="sa-carousel-visual">
 
 
-                    <!-- PRODUCT IMAGE -->
+                    <!-- MAIN PRODUCT -->
 
                     <div
-                        class="sa-showcase-image-wrap"
-                        id="saShowcaseImageWrap">
+                        class="sa-carousel-main"
+                        id="saCarouselMainWrap">
+
 
                         <img
-                            id="saShowcaseImage"
-                            src="PILGRIM BROWN FRONT.jpeg"
-                            alt="SET APART PILGRIM Brown Hoodie">
+                            id="saCarouselMainImage"
+                            src="PILGRIM-BROWN-FRONT-NOBG.png"
+                            alt="PILGRIM Brown Hoodie">
+
 
                     </div>
 
 
 
-                    <!-- PRODUCT INFORMATION -->
+                    <!-- NEXT PRODUCT PREVIEW -->
 
-                    <div class="sa-showcase-info">
-
-                        <span
-                            class="sa-showcase-counter"
-                            id="saShowcaseCounter">
-
-                            01 / 02
-
-                        </span>
+                    <div
+                        class="sa-carousel-preview"
+                        id="saCarouselPreviewWrap">
 
 
-                        <h1 id="saShowcaseTitle">
+                        <img
+                            id="saCarouselPreviewImage"
+                            src="GOD-FIRST-BLACK-FRONT-NOBG.png"
+                            alt="GOD FIRST Black Hoodie">
 
-                            PILGRIM — BROWN
 
-                        </h1>
+                    </div>
 
 
-                        <p id="saShowcaseSubtitle">
-
-                            WALK BY FAITH · $34.99 USD
-
-                        </p>
+                </div>
 
 
 
-                        <!-- FRONT / BACK -->
+                <!-- =========================================
+                     PRODUCT DETAILS
+                ========================================== -->
 
-                        <div class="sa-side-switch">
-
-                            <button
-                                type="button"
-                                class="sa-side-button active"
-                                data-sa-side="front">
-
-                                FRONT
-
-                            </button>
+                <div class="sa-carousel-info">
 
 
-                            <button
-                                type="button"
-                                class="sa-side-button"
-                                data-sa-side="back">
+                    <span
+                        class="sa-carousel-count"
+                        id="saCarouselCount">
 
-                                BACK
+                        01 / 04
 
-                            </button>
-
-                        </div>
+                    </span>
 
 
+                    <h1 id="saCarouselTitle">
 
-                        <!-- COLORS -->
+                        PILGRIM — FRONT
 
-                        <div class="sa-showcase-colors">
-
-
-                            <button
-                                type="button"
-                                class="sa-color beige"
-                                data-sa-color="beige"
-                                aria-label="Beige">
-                            </button>
+                    </h1>
 
 
-                            <button
-                                type="button"
-                                class="sa-color brown active"
-                                data-sa-color="brown"
-                                aria-label="Brown">
-                            </button>
+                    <p id="saCarouselSubtitle">
+
+                        WALK BY FAITH · $34.99 USD
+
+                    </p>
 
 
-                            <button
-                                type="button"
-                                class="sa-color black"
-                                data-sa-color="black"
-                                aria-label="Black">
-                            </button>
 
+                    <!-- FRONT / BACK -->
 
-                            <button
-                                type="button"
-                                class="sa-color white"
-                                data-sa-color="white"
-                                aria-label="White">
-                            </button>
-
-
-                        </div>
-
+                    <div class="sa-carousel-side-toggle">
 
 
                         <button
                             type="button"
-                            class="sa-see-piece"
-                            id="saSeePiece">
+                            class="sa-carousel-side active"
+                            data-carousel-side="front">
 
-                            SEE THE PIECE ↗
+                            FRONT
 
                         </button>
 
+
+                        <button
+                            type="button"
+                            class="sa-carousel-side"
+                            data-carousel-side="back">
+
+                            BACK
+
+                        </button>
+
+
                     </div>
+
+
+
+                    <!-- COLORS -->
+
+                    <div class="sa-carousel-colors">
+
+
+                        <button
+                            type="button"
+                            class="
+                                sa-carousel-color
+                                beige
+                            "
+                            data-carousel-color="beige"
+                            aria-label="Beige">
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="
+                                sa-carousel-color
+                                brown
+                                active
+                            "
+                            data-carousel-color="brown"
+                            aria-label="Brown">
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="
+                                sa-carousel-color
+                                black
+                            "
+                            data-carousel-color="black"
+                            aria-label="Black">
+                        </button>
+
+
+                        <button
+                            type="button"
+                            class="
+                                sa-carousel-color
+                                white
+                            "
+                            data-carousel-color="white"
+                            aria-label="White">
+                        </button>
+
+
+                    </div>
+
+
+
+                    <button
+                        type="button"
+                        class="sa-see-piece"
+                        id="saSeePiece">
+
+                        SEE THE PIECE ↗
+
+                    </button>
+
 
                 </div>
 
@@ -605,10 +703,10 @@
                 <button
                     type="button"
                     class="
-                        sa-showcase-arrow
-                        sa-showcase-next
+                        sa-carousel-arrow
+                        sa-carousel-arrow-right
                     "
-                    id="saShowcaseNext"
+                    id="saCarouselNext"
                     aria-label="Next product">
 
                     →
@@ -617,6 +715,7 @@
 
 
             </div>
+
 
         </section>
 
@@ -631,8 +730,10 @@
             id="purpose">
 
 
-            <p>
+            <p class="sa-statement-label">
+
                 SET APART
+
             </p>
 
 
@@ -645,11 +746,16 @@
             </h2>
 
 
-            <div class="sa-statement-copy">
+
+            <div class="sa-statement-bottom">
+
 
                 <span>
+
                     01
+
                 </span>
+
 
                 <p>
 
@@ -662,6 +768,7 @@
 
                 </p>
 
+
             </div>
 
         </section>
@@ -673,34 +780,48 @@
         ================================================== -->
 
         <section
-            class="sa-essentials"
+            class="sa-collection"
             id="collection">
 
 
-            <div class="sa-section-heading">
+            <!-- SECTION HEADING -->
+
+            <div class="sa-collection-heading">
+
 
                 <div>
 
                     <p>
+
                         THE COLLECTION
+
                     </p>
 
+
                     <h2>
+
                         THE ESSENTIALS.
+
                     </h2>
 
                 </div>
 
 
                 <span>
+
                     02 PIECES
+
                 </span>
+
 
             </div>
 
 
 
-            <div class="sa-essential-grid">
+            <!-- PRODUCTS -->
+
+            <div class="sa-collection-grid">
+
 
 
                 <!-- =========================================
@@ -709,43 +830,59 @@
 
                 <button
                     type="button"
-                    class="sa-essential-card"
+                    class="sa-collection-card"
                     data-open-product="pilgrim">
 
 
-                    <div class="sa-essential-image">
+                    <div class="sa-collection-image">
+
 
                         <img
-                            src="PILGRIM BEIGE FRONT.jpeg"
-                            alt="SET APART PILGRIM Beige Hoodie">
+                            src="PILGRIM-BROWN-FRONT-NOBG.png"
+                            alt="SET APART PILGRIM Hoodie">
 
-                        <span>
+
+                        <span class="sa-product-number">
+
                             01
+
                         </span>
+
 
                     </div>
 
 
-                    <div class="sa-essential-info">
+
+                    <div class="sa-collection-info">
+
 
                         <div>
 
                             <h3>
+
                                 PILGRIM
+
                             </h3>
 
+
                             <p>
+
                                 WALK BY FAITH
+
                             </p>
 
                         </div>
 
 
                         <strong>
+
                             $34.99
+
                         </strong>
 
+
                     </div>
+
 
                 </button>
 
@@ -757,43 +894,59 @@
 
                 <button
                     type="button"
-                    class="sa-essential-card"
+                    class="sa-collection-card"
                     data-open-product="godfirst">
 
 
-                    <div class="sa-essential-image">
+                    <div class="sa-collection-image">
+
 
                         <img
-                            src="GOD FIRST BROWN FRONT.png"
-                            alt="SET APART GOD FIRST Brown Hoodie">
+                            src="GOD-FIRST-BLACK-FRONT-NOBG.png"
+                            alt="SET APART GOD FIRST Hoodie">
 
-                        <span>
+
+                        <span class="sa-product-number">
+
                             02
+
                         </span>
+
 
                     </div>
 
 
-                    <div class="sa-essential-info">
+
+                    <div class="sa-collection-info">
+
 
                         <div>
 
                             <h3>
+
                                 GOD FIRST
+
                             </h3>
 
+
                             <p>
+
                                 PUT GOD FIRST
+
                             </p>
 
                         </div>
 
 
                         <strong>
+
                             $34.99
+
                         </strong>
 
+
                     </div>
+
 
                 </button>
 
@@ -810,8 +963,11 @@
 
         <section class="sa-scripture">
 
+
             <p>
+
                 ROMANS 12:2
+
             </p>
 
 
@@ -824,8 +980,11 @@
 
 
             <span>
+
                 CALLED TO LIVE DIFFERENTLY.
+
             </span>
+
 
         </section>
 
@@ -843,6 +1002,8 @@
         id="saProductModal"
         aria-hidden="true">
 
+
+        <!-- OVERLAY -->
 
         <button
             type="button"
@@ -873,23 +1034,28 @@
 
             <div class="sa-modal-gallery">
 
+
                 <img
                     id="saModalImage"
-                    src="PILGRIM BEIGE FRONT.jpeg"
+                    src="PILGRIM-BROWN-FRONT-NOBG.png"
                     alt="SET APART Hoodie">
+
 
             </div>
 
 
 
-            <!-- PRODUCT INFO -->
+            <!-- PRODUCT INFORMATION -->
 
             <div class="sa-modal-info">
 
 
-                <p class="sa-modal-label">
+                <p class="sa-modal-brand">
+
                     SET APART
+
                 </p>
+
 
 
                 <h2 id="saModalTitle">
@@ -899,6 +1065,7 @@
                 </h2>
 
 
+
                 <p
                     class="sa-modal-description"
                     id="saModalDescription">
@@ -906,6 +1073,7 @@
                     WALK BY FAITH
 
                 </p>
+
 
 
                 <p
@@ -918,22 +1086,32 @@
 
 
 
-                <!-- COLOR -->
+                <!-- =========================================
+                     COLOR
+                ========================================== -->
 
                 <div class="sa-modal-option">
 
 
-                    <div class="sa-modal-option-head">
+                    <div class="sa-modal-option-header">
+
 
                         <span>
+
                             COLOR
+
                         </span>
+
 
                         <span id="saModalColorName">
-                            BEIGE
+
+                            BROWN
+
                         </span>
 
+
                     </div>
+
 
 
                     <div class="sa-modal-colors">
@@ -941,11 +1119,7 @@
 
                         <button
                             type="button"
-                            class="
-                                sa-modal-color
-                                beige
-                                active
-                            "
+                            class="sa-modal-color beige"
                             data-modal-color="beige"
                             aria-label="Beige">
                         </button>
@@ -956,6 +1130,7 @@
                             class="
                                 sa-modal-color
                                 brown
+                                active
                             "
                             data-modal-color="brown"
                             aria-label="Brown">
@@ -964,10 +1139,7 @@
 
                         <button
                             type="button"
-                            class="
-                                sa-modal-color
-                                black
-                            "
+                            class="sa-modal-color black"
                             data-modal-color="black"
                             aria-label="Black">
                         </button>
@@ -975,10 +1147,7 @@
 
                         <button
                             type="button"
-                            class="
-                                sa-modal-color
-                                white
-                            "
+                            class="sa-modal-color white"
                             data-modal-color="white"
                             aria-label="White">
                         </button>
@@ -986,20 +1155,71 @@
 
                     </div>
 
+
                 </div>
 
 
 
-                <!-- SIZE -->
+                <!-- =========================================
+                     FRONT / BACK
+                ========================================== -->
 
                 <div class="sa-modal-option">
 
+
                     <span class="sa-modal-option-title">
-                        SIZE
+
+                        VIEW
+
                     </span>
 
 
+                    <div class="sa-modal-view-switch">
+
+
+                        <button
+                            type="button"
+                            class="active"
+                            data-modal-side="front">
+
+                            FRONT
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-modal-side="back">
+
+                            BACK
+
+                        </button>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- =========================================
+                     SIZE
+                ========================================== -->
+
+                <div class="sa-modal-option">
+
+
+                    <span class="sa-modal-option-title">
+
+                        SIZE
+
+                    </span>
+
+
+
                     <div class="sa-modal-sizes">
+
 
                         <button
                             type="button"
@@ -1036,22 +1256,31 @@
 
                         </button>
 
+
                     </div>
+
 
                 </div>
 
 
 
-                <!-- QUANTITY -->
+                <!-- =========================================
+                     QUANTITY
+                ========================================== -->
 
                 <div class="sa-modal-quantity">
 
+
                     <span>
+
                         QUANTITY
+
                     </span>
 
 
+
                     <div>
+
 
                         <button
                             type="button"
@@ -1064,7 +1293,9 @@
 
 
                         <strong id="saQuantity">
+
                             1
+
                         </strong>
 
 
@@ -1077,13 +1308,17 @@
 
                         </button>
 
+
                     </div>
+
 
                 </div>
 
 
 
-                <!-- ADD TO BAG -->
+                <!-- =========================================
+                     ADD TO BAG
+                ========================================== -->
 
                 <button
                     type="button"
@@ -1093,6 +1328,7 @@
                     ADD TO BAG — $34.99
 
                 </button>
+
 
 
                 <p class="sa-modal-note">
@@ -1124,20 +1360,25 @@
             type="button"
             class="sa-bag-overlay"
             id="saBagOverlay"
-            aria-label="Close bag">
+            aria-label="Close shopping bag">
         </button>
 
 
 
-        <aside class="sa-bag-drawer">
+        <aside
+            class="sa-bag-drawer"
+            aria-label="Shopping bag">
 
 
-            <!-- BAG HEADER -->
+            <!-- HEADER -->
 
             <div class="sa-bag-header">
 
+
                 <h2>
+
                     YOUR BAG
+
                 </h2>
 
 
@@ -1149,11 +1390,12 @@
 
                 </button>
 
+
             </div>
 
 
 
-            <!-- BAG ITEMS -->
+            <!-- PRODUCTS -->
 
             <div
                 class="sa-bag-items"
@@ -1162,7 +1404,7 @@
 
 
 
-            <!-- EMPTY BAG -->
+            <!-- EMPTY STATE -->
 
             <div
                 class="sa-bag-empty"
@@ -1181,17 +1423,25 @@
                 id="saBagFooter">
 
 
-                <div>
+                <div class="sa-bag-subtotal">
+
 
                     <span>
+
                         SUBTOTAL
+
                     </span>
 
+
                     <strong id="saBagSubtotal">
+
                         $0.00
+
                     </strong>
 
+
                 </div>
+
 
 
                 <a
@@ -1201,6 +1451,7 @@
                     VIEW BAG
 
                 </a>
+
 
 
                 <a
@@ -1213,6 +1464,7 @@
 
 
             </div>
+
 
         </aside>
 
@@ -1234,7 +1486,8 @@
 
             <div class="footer-brand">
 
-                <p class="sa-footer-wordmark">
+
+                <p class="sa-footer-logo">
 
                     SET APART
 
@@ -1254,21 +1507,26 @@
 
                 </p>
 
+
             </div>
 
 
 
-            <!-- LINKS -->
+            <!-- FOOTER LINKS -->
 
             <div class="footer-columns">
+
 
 
                 <!-- EXPLORE -->
 
                 <div class="footer-column">
 
+
                     <h3>
+
                         EXPLORE
+
                     </h3>
 
 
@@ -1299,6 +1557,7 @@
 
                     </a>
 
+
                 </div>
 
 
@@ -1307,8 +1566,11 @@
 
                 <div class="footer-column">
 
+
                     <h3>
+
                         FOLLOW
+
                     </h3>
 
 
@@ -1331,6 +1593,7 @@
 
                     </a>
 
+
                 </div>
 
 
@@ -1339,8 +1602,11 @@
 
                 <div class="footer-column">
 
+
                     <h3>
+
                         LEGAL
+
                     </h3>
 
 
@@ -1385,18 +1651,19 @@
 
                     </a>
 
+
                 </div>
 
 
             </div>
 
+
         </div>
 
 
 
-        <!-- COPYRIGHT -->
-
         <div class="footer-bottom">
+
 
             <p>
 
@@ -1404,15 +1671,16 @@
 
             </p>
 
+
         </div>
+
 
     </footer>
 
 
 
     <!-- =====================================================
-         PAGE OVERLAY
-         NEEDED BY EXISTING MOBILE MENU JS
+         MOBILE MENU OVERLAY
     ====================================================== -->
 
     <div
