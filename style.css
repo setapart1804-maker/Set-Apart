@@ -4556,3 +4556,36 @@ textarea {
   max-width:360px;
   margin:14px auto 0!important;
 }
+
+/* VIDEO-FAITHFUL ONE-SCENE OVERRIDES */
+.sa-reference-home #saClothesRail{height:clamp(280px,35vw,425px)!important;gap:clamp(28px,8vw,135px)!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece{flex:0 0 clamp(155px,19vw,245px)!important;width:clamp(155px,19vw,245px)!important;height:clamp(230px,29vw,350px)!important;animation:saConstantFloating 5s ease-in-out infinite!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece:nth-of-type(2){animation-delay:-2.5s!important}
+.sa-reference-home #referenceProductLayer{background:#eeedeb!important}
+.sa-reference-home #referenceProductLayer .reference-product-overlay{background:transparent!important;backdrop-filter:none!important}
+.sa-reference-home #referenceProductLayer .reference-product-detail{position:absolute!important;inset:0!important;width:100vw!important;height:100dvh!important;min-height:100dvh!important;max-height:100dvh!important;overflow:hidden!important;padding:35px!important;border:0!important;background:#eeedeb!important;backdrop-filter:none!important;align-items:center!important;justify-content:center!important}
+.sa-reference-home #referenceProductLayer .reference-product-gallery{z-index:3!important;width:min(70vw,740px)!important}
+.sa-reference-home #referenceProductLayer #referenceDetailImage{width:min(63vw,660px)!important;height:min(62dvh,620px)!important;max-height:none!important;object-fit:contain!important}
+.sa-reference-home #referenceProductLayer .sa-shadow-garment{display:block!important;position:absolute!important;z-index:1!important;width:min(33vw,370px)!important;height:min(53dvh,490px)!important;object-fit:contain;top:24%!important;left:58%!important;opacity:.33!important;filter:blur(15px)!important;pointer-events:none}
+.sa-reference-home #referenceProductLayer .reference-product-info{z-index:4!important}
+.sa-reference-home #referenceProductLayer .sa-floating-color-tags{z-index:8!important;top:9%!important;right:clamp(25px,11vw,160px)!important;display:flex!important;flex-direction:row!important;gap:5px!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag{position:relative!important;width:clamp(39px,4vw,61px)!important;min-height:78px!important;padding:13px 3px 4px!important;font-size:8px!important;letter-spacing:0!important;display:flex!important;justify-content:center;align-items:center;transform:none!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag[data-color=beige]{background:#d6bf9d!important;color:#111!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag[data-color=brown]{background:#71452f!important;color:white!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag[data-color=black]{background:#232323!important;color:white!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag[data-color=white]{background:white!important;color:#111!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag.is-active{outline:2px solid #aaa59b!important;outline-offset:3px!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:before{top:-20px!important;height:20px!important}
+.sa-reference-home #referenceProductLayer .sa-showcase-previous{left:14px!important;top:48%!important}
+.sa-reference-home #referenceProductLayer .sa-showcase-next{right:14px!important;top:48%!important}
+.sa-reference-home #referenceProductLayer .reference-product-close{position:fixed!important;top:18px!important;right:24px!important}
+@media(max-width:700px){
+.sa-reference-home #saClothesRail{gap:16px!important;height:260px!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece{flex-basis:38vw!important;width:38vw!important;height:205px!important}
+.sa-reference-home #referenceProductLayer .reference-product-detail{padding:35px 12px 20px!important}
+.sa-reference-home #referenceProductLayer #referenceDetailImage{width:82vw!important;height:48dvh!important}
+.sa-reference-home #referenceProductLayer .sa-floating-color-tags{top:13%!important;right:20px!important;gap:4px!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag{width:35px!important;min-height:53px!important;font-size:7px!important}
+.sa-reference-home #referenceProductLayer .sa-shadow-garment{left:52%!important;top:28%!important;width:45vw!important;filter:blur(9px)!important}
+.sa-reference-home #referenceProductLayer .reference-product-gallery{width:100%!important}
+}

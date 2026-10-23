@@ -374,11 +374,34 @@ function initHome() {
     renderStage();
   }
 
+  let showcaseSource = null;
+  function sourceForProduct(id) {
+    return document.querySelector('#saClothesRail [data-reference-product="' + id + '"] img');
+  }
+  function updateShadow() {
+    const shadow = document.getElementById("saShadowGarment");
+    if (!shadow) return;
+    const other = currentSelection().id === "pilgrim" ? "godfirst" : "pilgrim";
+    shadow.src = sourceForProduct(other)?.getAttribute("src") || PRODUCTS[other].sideImage;
+  }
+  function animateOpen() {
+    if (!showcaseSource || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    const a = showcaseSource.getBoundingClientRect(), b = detailImage.getBoundingClientRect();
+    if (!a.width || !b.width) return;
+    const dx = a.left+a.width/2-b.left-b.width/2;
+    const dy = a.top+a.height/2-b.top-b.height/2;
+    detailImage.animate([
+      {transform:"translate("+dx+"px,"+dy+"px) scale("+(a.width/b.width)+")", opacity:.45,filter:"blur(5px)"},
+      {transform:"translate(0,0) scale(1)",opacity:1,filter:"blur(0px)"}
+    ],{duration:720,easing:"cubic-bezier(.18,.75,.2,1)"});
+  }
+
   function openDetail(id, color) {
     const index = findSlide(id, color);
 
     if (index >= 0) activeIndex = index;
 
+    showcaseSource = sourceForProduct(id);
     selectedSize = null;
     selectedQuantity = 1;
     detailSide = "front";
@@ -389,6 +412,7 @@ function initHome() {
     detailLayer.classList.add("is-active");
     detailLayer.setAttribute("aria-hidden", "false");
     document.body.classList.add("sa-lock");
+    requestAnimationFrame(animateOpen);
   }
 
   function renderDetail() {
@@ -397,6 +421,7 @@ function initHome() {
     if (!product) return;
 
     detailImage.src = getImage(id, color, detailSide);
+    updateShadow();
     detailImage.alt = `${product.name} ${color} ${detailSide}`;
 
     if (detailTitle) {
@@ -690,6 +715,7 @@ function initHome() {
       activeIndex = next;
       detailSide = "front";
       renderDetail();
+      detailImage.animate([{opacity:.25,filter:"blur(12px)",transform:"translateX(" + (-direction*45) + "px)"},{opacity:1,filter:"blur(0)",transform:"translateX(0)"}],{duration:600,easing:"ease-out"});
     }
   }
   detailLayer.querySelector(".sa-showcase-previous")?.addEventListener("click", () => nextShowcase(-1));
