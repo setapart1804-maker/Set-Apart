@@ -17,7 +17,7 @@ const PRODUCTS = {
     price: 34.99,
     message: "Walk by faith.",
     defaultColor: "brown",
-    sideImage: "PILGRIM-BROWN-SIDE.png",
+    sideImage: "PILGRIM BROWN FRONT.jpeg",
     images: {
       brown: {
         front: "PILGRIM BROWN FRONT.jpeg",
@@ -44,7 +44,7 @@ const PRODUCTS = {
     price: 34.99,
     message: "Every day, the choice is simple: God first.",
     defaultColor: "black",
-    sideImage: "GOD-FIRST-WHITE-SIDE.png",
+    sideImage: "GOD FIRST WHITE FRONT.jpeg",
     images: {
       black: {
         front: "GOD FIRST BLACK FRONT.jpeg",
@@ -385,6 +385,7 @@ function initHome() {
 
     renderDetail();
 
+    detailLayer.classList.remove("sa-order-mode");
     detailLayer.classList.add("is-active");
     detailLayer.setAttribute("aria-hidden", "false");
     document.body.classList.add("sa-lock");
@@ -423,6 +424,30 @@ function initHome() {
         };
 
         gallery.appendChild(button);
+      });
+    }
+
+    // Render hanging color tags to the right of the enlarged garment.
+    const floatingTags = document.getElementById("saFloatingColorTags");
+    if (floatingTags) {
+      floatingTags.replaceChildren();
+      COLORS.forEach((option) => {
+        const tag = makeElement("button", "sa-color-hang-tag" + (option === color ? " is-active" : ""));
+        tag.type = "button";
+        tag.dataset.color = option;
+        tag.textContent = option.toUpperCase();
+        tag.setAttribute("aria-label", product.name + " in " + option);
+        tag.setAttribute("aria-pressed", String(option === color));
+        tag.onclick = () => {
+          const index = findSlide(id, option);
+          if (index >= 0) {
+            activeIndex = index;
+            detailSide = "front";
+            renderStage();
+            renderDetail();
+          }
+        };
+        floatingTags.appendChild(tag);
       });
     }
 
@@ -514,15 +539,19 @@ function initHome() {
     }
 
     if (detailAdd) {
-      detailAdd.textContent =
-        "ADD TO BAG — " + money(product.price * selectedQuantity);
-
+      const ordering = detailLayer.classList.contains("sa-order-mode");
+      detailAdd.textContent = ordering ? "CONFIRM — ADD TO BAG" : "ADD TO BAG";
       detailAdd.onclick = () => {
+        if (!detailLayer.classList.contains("sa-order-mode")) {
+          detailLayer.classList.add("sa-order-mode");
+          renderDetail();
+          detailInfo.querySelector(".reference-size-row button")?.focus();
+          return;
+        }
         if (!selectedSize) {
           alert("Please select a size first.");
           return;
         }
-
         if (addToCart(id, color, selectedSize, selectedQuantity)) {
           closeDetail();
           openBag();
@@ -532,6 +561,7 @@ function initHome() {
   }
 
   function closeDetail() {
+    detailLayer.classList.remove("sa-order-mode");
     detailLayer.classList.remove("is-active");
     detailLayer.setAttribute("aria-hidden", "true");
 
@@ -648,6 +678,22 @@ function initHome() {
 
   document.getElementById("homeBagButton")
     ?.addEventListener("click", openBag);
+
+  function nextShowcase(direction) {
+    const { id, color } = currentSelection();
+    const options = COLORS.filter((option) => findSlide(id, option) >= 0);
+    if (!options.length) return;
+    const position = options.indexOf(color);
+    const nextColor = options[(position + direction + options.length) % options.length];
+    const next = findSlide(id, nextColor);
+    if (next >= 0) {
+      activeIndex = next;
+      detailSide = "front";
+      renderDetail();
+    }
+  }
+  detailLayer.querySelector(".sa-showcase-previous")?.addEventListener("click", () => nextShowcase(-1));
+  detailLayer.querySelector(".sa-showcase-next")?.addEventListener("click", () => nextShowcase(1));
 
   detailLayer.querySelector(".reference-product-close")
     ?.addEventListener("click", closeDetail);
