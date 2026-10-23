@@ -4,10 +4,11 @@
 <head>
 
     <meta charset="UTF-8">
- 
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0">
+
 
     <!-- =====================================================
          PRIMARY SEO
@@ -53,7 +54,7 @@
 
 
     <!-- =====================================================
-         FACEBOOK / WHATSAPP / OPEN GRAPH
+         OPEN GRAPH
     ====================================================== -->
 
     <meta
@@ -134,7 +135,7 @@
 
 
     <!-- =====================================================
-         MAIN CSS
+         CSS
     ====================================================== -->
 
     <link
@@ -143,168 +144,104 @@
 
 </head>
 
-<body>
 
-<body>
+<body class="home-atelier-page">
 
- <a class="skip-link" href="#main-content">
-    Skip to main content
-</a>
 
-<!-- =====================================================
-     ANNOUNCEMENT BAR
-===================================================== -->
+    <!-- =====================================================
+         SKIP LINK
+    ====================================================== -->
 
-<div class="announcement-bar">
+    <a
+        class="skip-link"
+        href="#main-content">
 
-    <p>
-        “…Set Apart for the gospel of God.” — Romans 1:1
-    </p>
+        Skip to main content
 
-</div>
+    </a>
 
 
 
-<!-- =====================================================
-     HEADER / NAVBAR
-===================================================== -->
+    <!-- =====================================================
+         HEADER
+    ====================================================== -->
 
-<header class="site-header">
+    <header class="site-header home-header">
 
-    <div class="navbar">
-
-
-        <!-- MOBILE MENU BUTTON -->
-
-        <button
-            type="button"
-            class="menu-toggle"
-            id="menuToggle"
-            aria-label="Open menu"
-            aria-expanded="false">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
+        <div class="home-navbar">
 
 
-
-        <!-- LOGO -->
-
-        <a
-            href="index.html"
-            class="site-logo"
-            aria-label="SET APART Home">
-
-            <img
-                src="LOGO (2).png"
-                alt="SET APART Logo">
-
-        </a>
-
-
-
-        <!-- DESKTOP NAVIGATION -->
-
-        <nav
-            class="main-nav"
-            id="mainNav"
-            aria-label="Main navigation">
-
-            <a href="index.html" aria-current="page">
-               
-                HOME
-           </a>
-
-
-            <a href="shop.html">
-
-                SHOP
-
-            </a>
-
-
-            <a href="about.html">
-
-                ABOUT
-
-            </a>
-
-
-            <a href="contact.html">
-
-                CONTACT
-
-            </a>
-
-        </nav>
-
-
-
-        <!-- RIGHT ICONS -->
-
-        <div class="nav-actions">
-
-
-            <!-- SEARCH -->
+            <!-- MOBILE MENU -->
 
             <button
                 type="button"
-                class="nav-icon-button"
-                id="searchButton"
-                aria-label="Open search">
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Open menu"
+                aria-expanded="false">
 
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
-
-                    <circle
-                        cx="11"
-                        cy="11"
-                        r="6.5">
-                    </circle>
-
-                    <path
-                        d="M16 16L21 21">
-                    </path>
-
-                </svg>
+                <span></span>
+                <span></span>
+                <span></span>
 
             </button>
 
 
 
-            <!-- CART -->
+            <!-- DESKTOP NAVIGATION -->
+
+            <nav
+                class="home-desktop-nav"
+                aria-label="Main navigation">
+
+                <a
+                    href="index.html"
+                    aria-current="page">
+
+                    HOME
+
+                </a>
+
+                <a href="#collection">
+
+                    COLLECTION
+
+                </a>
+
+                <a href="#purpose">
+
+                    OUR PURPOSE
+
+                </a>
+
+            </nav>
+
+
+
+            <!-- WORDMARK -->
 
             <a
-                href="cart.html"
-                class="nav-icon-button cart-link"
-                aria-label="Shopping cart">
+                href="index.html"
+                class="home-wordmark"
+                aria-label="SET APART Home">
 
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
+                SET APART
 
-                    <path
-                        d="M3 4H5L7.2 15H18.5L21 7H6">
-                    </path>
+            </a>
 
-                    <circle
-                        cx="9"
-                        cy="20"
-                        r="1">
-                    </circle>
 
-                    <circle
-                        cx="18"
-                        cy="20"
-                        r="1">
-                    </circle>
 
-                </svg>
+            <!-- BAG -->
 
+            <button
+                type="button"
+                class="home-bag-button"
+                id="homeBagButton"
+                aria-label="Open shopping bag">
+
+                <span>
+                    BAG
+                </span>
 
                 <span
                     class="cart-count"
@@ -314,290 +251,617 @@
 
                 </span>
 
-            </a>
+            </button>
 
         </div>
 
 
-    </div>
 
-
-
-    <!-- =================================================
-         MOBILE MENU PANEL
-    ================================================== -->
-
-    <div
-        class="mobile-menu"
-        id="mobileMenu">
-
-        <nav>
-
-           <a href="index.html" aria-current="page">
-    HOME
-</a>
-
-            <a href="shop.html">
-                SHOP
-            </a>
-
-            <a href="about.html">
-                ABOUT
-            </a>
-
-            <a href="contact.html">
-                CONTACT
-            </a>
-
-        </nav>
-
-    </div>
-
-</header>
-
-
-
-<!-- =====================================================
-     SEARCH PANEL
-===================================================== -->
-
-<div
-    class="search-panel"
-    id="searchPanel">
-
-    <div class="search-panel-inner">
-
-        <form
-            class="search-form"
-            id="searchForm">
-
-            <input
-                type="search"
-                id="searchInput"
-                placeholder="Search products..."
-                autocomplete="off"
-                aria-label="Search products">
-
-
-            <button
-                type="submit"
-                class="search-submit">
-
-                SEARCH
-
-            </button>
-
-
-            <button
-                type="button"
-                class="search-close"
-                id="closeSearch"
-                aria-label="Close search">
-
-                ×
-
-            </button>
-
-        </form>
-
-    </div>
-
-</div>
-
-
-
-<!-- =====================================================
-     MAIN CONTENT
-===================================================== -->
-
-<main id="main-content">
-
-
-<!-- =====================================================
-     HERO
-===================================================== -->
-
-<section class="hero">
-
-    <div class="hero-overlay"></div>
-
-
-    <div class="hero-content">
-
-        <p class="eyebrow">
-
-            FAITH-INSPIRED STREETWEAR
-
-        </p>
-
-
-        <h1>
-
-            SET APART
-
-        </h1>
-
-
-        <h2>
-
-            CALLED TO LIVE DIFFERENTLY.
-
-        </h2>
-
-
-        <a
-            href="shop.html#shopProductGrid"
-            class="button button-white">
-
-            SHOP NOW
-
-        </a>
-
-    </div>
-
-</section>
-
-<!-- =====================================================
-     HOME ATELIER — INTERACTIVE COLLECTION
-===================================================== -->
-
-<section
-    class="home-atelier"
-    id="homeAtelier">
-
-    <div class="home-atelier-topline">
-
-        <span>
-            THE ATELIER
-        </span>
-
-        <span>
-            FAITH-INSPIRED STREETWEAR
-        </span>
-
-    </div>
-
-
-    <div class="home-atelier-stage">
-
-
-        <!-- =============================================
-             RACK
-        ============================================== -->
+        <!-- =================================================
+             MOBILE MENU
+        ================================================== -->
 
         <div
-            class="home-atelier-rack"
-            id="homeAtelierRack">
+            class="mobile-menu"
+            id="mobileMenu">
+
+            <nav>
+
+                <a
+                    href="index.html"
+                    aria-current="page">
+
+                    HOME
+
+                </a>
+
+                <a href="#collection">
+
+                    COLLECTION
+
+                </a>
+
+                <a href="#purpose">
+
+                    OUR PURPOSE
+
+                </a>
+
+                <a href="about.html">
+
+                    ABOUT
+
+                </a>
+
+                <a href="contact.html">
+
+                    CONTACT
+
+                </a>
+
+            </nav>
+
+        </div>
+
+    </header>
+
+
+
+    <!-- =====================================================
+         MAIN
+    ====================================================== -->
+
+    <main id="main-content">
+
+
+
+        <!-- =================================================
+             THE ATELIER
+        ================================================== -->
+
+        <section
+            class="sa-atelier"
+            id="saAtelier">
+
+
+            <div class="sa-atelier-meta">
+
+                <span>
+                    THE ATELIER
+                </span>
+
+                <span>
+                    SET APART / 2026
+                </span>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 RACK VIEW
+            ============================================== -->
 
             <div
-                class="home-atelier-rail"
+                class="sa-rack-view"
+                id="saRackView">
+
+
+                <div
+                    class="sa-rack-bar"
+                    aria-hidden="true">
+                </div>
+
+
+
+                <div class="sa-rack-products">
+
+
+                    <!-- PILGRIM -->
+
+                    <button
+                        type="button"
+                        class="sa-rack-product"
+                        data-sa-product="pilgrim">
+
+                        <span
+                            class="sa-hanger"
+                            aria-hidden="true">
+                        </span>
+
+                        <img
+                            src="PILGRIM BROWN FRONT.jpeg"
+                            alt="SET APART PILGRIM Brown Hoodie">
+
+                        <span class="sa-rack-name">
+                            PILGRIM
+                        </span>
+
+                    </button>
+
+
+
+                    <!-- GOD FIRST -->
+
+                    <button
+                        type="button"
+                        class="sa-rack-product"
+                        data-sa-product="godfirst">
+
+                        <span
+                            class="sa-hanger"
+                            aria-hidden="true">
+                        </span>
+
+                        <img
+                            src="GOD FIRST BLACK FRONT.jpeg"
+                            alt="SET APART GOD FIRST Black Hoodie">
+
+                        <span class="sa-rack-name">
+                            GOD FIRST
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+
+                <div class="sa-rack-bottom">
+
+                    <p>
+                        CALLED TO LIVE DIFFERENTLY.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="sa-explore-button"
+                        id="saExploreButton">
+
+                        EXPLORE THE COLLECTION ↗
+
+                    </button>
+
+                    <small>
+                        SELECT A PIECE
+                    </small>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =============================================
+                 PRODUCT SHOWCASE
+            ============================================== -->
+
+            <div
+                class="sa-showcase"
+                id="saShowcase"
                 aria-hidden="true">
-            </div>
 
-
-            <div class="home-atelier-hangers">
-
-
-                <!-- PILGRIM -->
 
                 <button
                     type="button"
-                    class="
-                        home-atelier-hanger
-                        home-atelier-hanger-left
-                    "
-                    data-atelier-product="pilgrim">
+                    class="sa-showcase-back"
+                    id="saShowcaseBack">
 
-                    <span
-                        class="home-atelier-hook"
-                        aria-hidden="true">
-                    </span>
-
-                    <img
-                        src="PILGRIM BROWN FRONT.jpeg"
-                        alt="PILGRIM Brown Hoodie">
-
-                    <span class="home-atelier-hanger-name">
-                        PILGRIM
-                    </span>
+                    ← BACK TO ATELIER
 
                 </button>
 
 
-                <!-- GOD FIRST -->
+
+                <!-- PREVIOUS -->
 
                 <button
                     type="button"
                     class="
-                        home-atelier-hanger
-                        home-atelier-hanger-right
+                        sa-showcase-arrow
+                        sa-showcase-prev
                     "
-                    data-atelier-product="godfirst">
+                    id="saShowcasePrev"
+                    aria-label="Previous product">
 
-                    <span
-                        class="home-atelier-hook"
-                        aria-hidden="true">
-                    </span>
+                    ←
 
-                    <img
-                        src="GOD FIRST BLACK FRONT.jpeg"
-                        alt="GOD FIRST Black Hoodie">
+                </button>
 
-                    <span class="home-atelier-hanger-name">
-                        GOD FIRST
-                    </span>
+
+
+                <div class="sa-showcase-center">
+
+
+                    <!-- PRODUCT IMAGE -->
+
+                    <div
+                        class="sa-showcase-image-wrap"
+                        id="saShowcaseImageWrap">
+
+                        <img
+                            id="saShowcaseImage"
+                            src="PILGRIM BROWN FRONT.jpeg"
+                            alt="SET APART PILGRIM Brown Hoodie">
+
+                    </div>
+
+
+
+                    <!-- PRODUCT INFORMATION -->
+
+                    <div class="sa-showcase-info">
+
+                        <span
+                            class="sa-showcase-counter"
+                            id="saShowcaseCounter">
+
+                            01 / 02
+
+                        </span>
+
+
+                        <h1 id="saShowcaseTitle">
+
+                            PILGRIM — BROWN
+
+                        </h1>
+
+
+                        <p id="saShowcaseSubtitle">
+
+                            WALK BY FAITH · $34.99 USD
+
+                        </p>
+
+
+
+                        <!-- FRONT / BACK -->
+
+                        <div class="sa-side-switch">
+
+                            <button
+                                type="button"
+                                class="sa-side-button active"
+                                data-sa-side="front">
+
+                                FRONT
+
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="sa-side-button"
+                                data-sa-side="back">
+
+                                BACK
+
+                            </button>
+
+                        </div>
+
+
+
+                        <!-- COLORS -->
+
+                        <div class="sa-showcase-colors">
+
+
+                            <button
+                                type="button"
+                                class="sa-color beige"
+                                data-sa-color="beige"
+                                aria-label="Beige">
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="sa-color brown active"
+                                data-sa-color="brown"
+                                aria-label="Brown">
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="sa-color black"
+                                data-sa-color="black"
+                                aria-label="Black">
+                            </button>
+
+
+                            <button
+                                type="button"
+                                class="sa-color white"
+                                data-sa-color="white"
+                                aria-label="White">
+                            </button>
+
+
+                        </div>
+
+
+
+                        <button
+                            type="button"
+                            class="sa-see-piece"
+                            id="saSeePiece">
+
+                            SEE THE PIECE ↗
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- NEXT -->
+
+                <button
+                    type="button"
+                    class="
+                        sa-showcase-arrow
+                        sa-showcase-next
+                    "
+                    id="saShowcaseNext"
+                    aria-label="Next product">
+
+                    →
 
                 </button>
 
 
             </div>
 
+        </section>
 
-            <div class="home-atelier-rack-copy">
+
+
+        <!-- =================================================
+             BRAND STATEMENT
+        ================================================== -->
+
+        <section
+            class="sa-statement"
+            id="purpose">
+
+
+            <p>
+                SET APART
+            </p>
+
+
+            <h2>
+
+                NOT JUST WORN.<br>
+
+                LIVED.
+
+            </h2>
+
+
+            <div class="sa-statement-copy">
+
+                <span>
+                    01
+                </span>
 
                 <p>
-                    CALLED TO LIVE DIFFERENTLY
+
+                    Faith is more than something we say.
+
+                    It shapes the way we walk,
+                    the way we live,
+                    and the way we represent
+                    who we belong to.
+
                 </p>
-
-                <button
-                    type="button"
-                    class="home-atelier-outline-button"
-                    id="homeAtelierExplore">
-
-                    VIEW COLLECTION
-
-                    <span aria-hidden="true">
-                        ↗
-                    </span>
-
-                </button>
-
-                <small>
-                    SELECT A HOODIE TO EXPLORE
-                </small>
 
             </div>
 
-        </div>
+        </section>
 
 
 
-        <!-- =============================================
-             PRODUCT SPOTLIGHT
-        ============================================== -->
+        <!-- =================================================
+             COLLECTION
+        ================================================== -->
 
-        <div
-            class="home-atelier-detail"
-            id="homeAtelierDetail"
-            aria-hidden="true">
+        <section
+            class="sa-essentials"
+            id="collection">
+
+
+            <div class="sa-section-heading">
+
+                <div>
+
+                    <p>
+                        THE COLLECTION
+                    </p>
+
+                    <h2>
+                        THE ESSENTIALS.
+                    </h2>
+
+                </div>
+
+
+                <span>
+                    02 PIECES
+                </span>
+
+            </div>
+
+
+
+            <div class="sa-essential-grid">
+
+
+                <!-- =========================================
+                     PILGRIM
+                ========================================== -->
+
+                <button
+                    type="button"
+                    class="sa-essential-card"
+                    data-open-product="pilgrim">
+
+
+                    <div class="sa-essential-image">
+
+                        <img
+                            src="PILGRIM BEIGE FRONT.jpeg"
+                            alt="SET APART PILGRIM Beige Hoodie">
+
+                        <span>
+                            01
+                        </span>
+
+                    </div>
+
+
+                    <div class="sa-essential-info">
+
+                        <div>
+
+                            <h3>
+                                PILGRIM
+                            </h3>
+
+                            <p>
+                                WALK BY FAITH
+                            </p>
+
+                        </div>
+
+
+                        <strong>
+                            $34.99
+                        </strong>
+
+                    </div>
+
+                </button>
+
+
+
+                <!-- =========================================
+                     GOD FIRST
+                ========================================== -->
+
+                <button
+                    type="button"
+                    class="sa-essential-card"
+                    data-open-product="godfirst">
+
+
+                    <div class="sa-essential-image">
+
+                        <img
+                            src="GOD FIRST BROWN FRONT.png"
+                            alt="SET APART GOD FIRST Brown Hoodie">
+
+                        <span>
+                            02
+                        </span>
+
+                    </div>
+
+
+                    <div class="sa-essential-info">
+
+                        <div>
+
+                            <h3>
+                                GOD FIRST
+                            </h3>
+
+                            <p>
+                                PUT GOD FIRST
+                            </p>
+
+                        </div>
+
+
+                        <strong>
+                            $34.99
+                        </strong>
+
+                    </div>
+
+                </button>
+
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================================
+             SCRIPTURE
+        ================================================== -->
+
+        <section class="sa-scripture">
+
+            <p>
+                ROMANS 12:2
+            </p>
+
+
+            <blockquote>
+
+                “Do not conform to the pattern of this world,
+                but be transformed by the renewing of your mind.”
+
+            </blockquote>
+
+
+            <span>
+                CALLED TO LIVE DIFFERENTLY.
+            </span>
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================================
+         PRODUCT MODAL
+    ====================================================== -->
+
+    <div
+        class="sa-product-modal"
+        id="saProductModal"
+        aria-hidden="true">
+
+
+        <button
+            type="button"
+            class="sa-modal-overlay"
+            id="saModalOverlay"
+            aria-label="Close product">
+        </button>
+
+
+
+        <div class="sa-product-panel">
 
 
             <!-- CLOSE -->
 
             <button
                 type="button"
-                class="home-atelier-close"
-                id="homeAtelierClose">
+                class="sa-modal-close"
+                id="saModalClose">
 
                 CLOSE ×
 
@@ -605,105 +869,84 @@
 
 
 
-            <!-- LEFT -->
+            <!-- PRODUCT IMAGE -->
 
-            <button
-                type="button"
-                class="
-                    home-atelier-arrow
-                    home-atelier-arrow-left
-                "
-                id="homeAtelierPrev"
-                aria-label="Previous hoodie">
+            <div class="sa-modal-gallery">
 
-                ←
+                <img
+                    id="saModalImage"
+                    src="PILGRIM BEIGE FRONT.jpeg"
+                    alt="SET APART Hoodie">
 
-            </button>
+            </div>
 
 
 
-            <div class="home-atelier-product">
+            <!-- PRODUCT INFO -->
+
+            <div class="sa-modal-info">
 
 
-                <div
-                    class="home-atelier-image-wrap"
-                    id="homeAtelierImageWrap">
-
-                    <img
-                        id="homeAtelierImage"
-                        src="PILGRIM BROWN FRONT.jpeg"
-                        alt="PILGRIM Brown Hoodie">
-
-                </div>
+                <p class="sa-modal-label">
+                    SET APART
+                </p>
 
 
+                <h2 id="saModalTitle">
 
-                <div class="home-atelier-product-info">
+                    PILGRIM
 
-
-                    <span
-                        class="home-atelier-counter"
-                        id="homeAtelierCounter">
-
-                        01 / 02
-
-                    </span>
+                </h2>
 
 
-                    <h2 id="homeAtelierTitle">
+                <p
+                    class="sa-modal-description"
+                    id="saModalDescription">
 
-                        PILGRIM — BROWN
+                    WALK BY FAITH
 
-                    </h2>
+                </p>
 
 
-                    <p id="homeAtelierDescription">
+                <p
+                    class="sa-modal-price"
+                    id="saModalPrice">
 
-                        Walk by faith. · $34.99 USD
+                    $34.99 USD
 
-                    </p>
+                </p>
 
 
 
-                    <!-- FRONT / BACK -->
+                <!-- COLOR -->
 
-                    <div class="home-atelier-view-toggle">
-
-                        <button
-                            type="button"
-                            class="home-atelier-view active"
-                            data-atelier-side="front">
-
-                            FRONT
-
-                        </button>
+                <div class="sa-modal-option">
 
 
-                        <button
-                            type="button"
-                            class="home-atelier-view"
-                            data-atelier-side="back">
+                    <div class="sa-modal-option-head">
 
-                            BACK
+                        <span>
+                            COLOR
+                        </span>
 
-                        </button>
+                        <span id="saModalColorName">
+                            BEIGE
+                        </span>
 
                     </div>
 
 
-
-                    <!-- COLORS -->
-
-                    <div class="home-atelier-colors">
+                    <div class="sa-modal-colors">
 
 
                         <button
                             type="button"
                             class="
-                                home-atelier-color
+                                sa-modal-color
                                 beige
+                                active
                             "
-                            data-atelier-color="beige"
+                            data-modal-color="beige"
                             aria-label="Beige">
                         </button>
 
@@ -711,11 +954,10 @@
                         <button
                             type="button"
                             class="
-                                home-atelier-color
+                                sa-modal-color
                                 brown
-                                active
                             "
-                            data-atelier-color="brown"
+                            data-modal-color="brown"
                             aria-label="Brown">
                         </button>
 
@@ -723,10 +965,10 @@
                         <button
                             type="button"
                             class="
-                                home-atelier-color
+                                sa-modal-color
                                 black
                             "
-                            data-atelier-color="black"
+                            data-modal-color="black"
                             aria-label="Black">
                         </button>
 
@@ -734,406 +976,457 @@
                         <button
                             type="button"
                             class="
-                                home-atelier-color
+                                sa-modal-color
                                 white
                             "
-                            data-atelier-color="white"
+                            data-modal-color="white"
                             aria-label="White">
                         </button>
 
 
                     </div>
 
+                </div>
 
 
-                    <a
-                        href="shop.html#shopProductGrid"
-                        class="home-atelier-piece-link">
 
-                        SEE THE PIECE ↗
+                <!-- SIZE -->
 
-                    </a>
+                <div class="sa-modal-option">
 
+                    <span class="sa-modal-option-title">
+                        SIZE
+                    </span>
+
+
+                    <div class="sa-modal-sizes">
+
+                        <button
+                            type="button"
+                            data-modal-size="S">
+
+                            S
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-modal-size="M">
+
+                            M
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-modal-size="L">
+
+                            L
+
+                        </button>
+
+
+                        <button
+                            type="button"
+                            data-modal-size="XL">
+
+                            XL
+
+                        </button>
+
+                    </div>
 
                 </div>
+
+
+
+                <!-- QUANTITY -->
+
+                <div class="sa-modal-quantity">
+
+                    <span>
+                        QUANTITY
+                    </span>
+
+
+                    <div>
+
+                        <button
+                            type="button"
+                            id="saQuantityMinus"
+                            aria-label="Decrease quantity">
+
+                            −
+
+                        </button>
+
+
+                        <strong id="saQuantity">
+                            1
+                        </strong>
+
+
+                        <button
+                            type="button"
+                            id="saQuantityPlus"
+                            aria-label="Increase quantity">
+
+                            +
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ADD TO BAG -->
+
+                <button
+                    type="button"
+                    class="sa-add-bag"
+                    id="saAddBag">
+
+                    ADD TO BAG — $34.99
+
+                </button>
+
+
+                <p class="sa-modal-note">
+
+                    FAITH-INSPIRED STREETWEAR · SET APART
+
+                </p>
+
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =====================================================
+         BAG DRAWER
+    ====================================================== -->
+
+    <div
+        class="sa-bag-layer"
+        id="saBagLayer"
+        aria-hidden="true">
+
+
+        <button
+            type="button"
+            class="sa-bag-overlay"
+            id="saBagOverlay"
+            aria-label="Close bag">
+        </button>
+
+
+
+        <aside class="sa-bag-drawer">
+
+
+            <!-- BAG HEADER -->
+
+            <div class="sa-bag-header">
+
+                <h2>
+                    YOUR BAG
+                </h2>
+
+
+                <button
+                    type="button"
+                    id="saBagClose">
+
+                    CLOSE ×
+
+                </button>
 
             </div>
 
 
 
-            <!-- RIGHT -->
+            <!-- BAG ITEMS -->
 
-            <button
-                type="button"
-                class="
-                    home-atelier-arrow
-                    home-atelier-arrow-right
-                "
-                id="homeAtelierNext"
-                aria-label="Next hoodie">
-
-                →
-
-            </button>
+            <div
+                class="sa-bag-items"
+                id="saBagItems">
+            </div>
 
 
-        </div>
 
+            <!-- EMPTY BAG -->
+
+            <div
+                class="sa-bag-empty"
+                id="saBagEmpty">
+
+                YOUR BAG IS EMPTY.
+
+            </div>
+
+
+
+            <!-- BAG FOOTER -->
+
+            <div
+                class="sa-bag-footer"
+                id="saBagFooter">
+
+
+                <div>
+
+                    <span>
+                        SUBTOTAL
+                    </span>
+
+                    <strong id="saBagSubtotal">
+                        $0.00
+                    </strong>
+
+                </div>
+
+
+                <a
+                    href="cart.html"
+                    class="sa-bag-view">
+
+                    VIEW BAG
+
+                </a>
+
+
+                <a
+                    href="checkout.html"
+                    class="sa-bag-checkout">
+
+                    CHECKOUT
+
+                </a>
+
+
+            </div>
+
+        </aside>
 
     </div>
 
-</section>
-
-<!-- =====================================================
-     NEW DROP
-===================================================== -->
-
-<section class="section new-drop-section">
-
-    <div class="container">
 
 
-        <div class="section-heading">
+    <!-- =====================================================
+         FOOTER
+    ====================================================== -->
 
-            <p class="eyebrow">
-
-                FEATURED
-
-            </p>
+    <footer class="footer">
 
 
-            <h2>
+        <div class="footer-inner">
 
-                NEW DROP
 
-            </h2>
+            <!-- BRAND -->
+
+            <div class="footer-brand">
+
+                <p class="sa-footer-wordmark">
+
+                    SET APART
+
+                </p>
+
+
+                <p>
+
+                    Faith-Inspired Streetwear.
+
+                </p>
+
+
+                <p>
+
+                    Called to Live Differently.
+
+                </p>
+
+            </div>
+
+
+
+            <!-- LINKS -->
+
+            <div class="footer-columns">
+
+
+                <!-- EXPLORE -->
+
+                <div class="footer-column">
+
+                    <h3>
+                        EXPLORE
+                    </h3>
+
+
+                    <a href="#collection">
+
+                        Collection
+
+                    </a>
+
+
+                    <a href="#purpose">
+
+                        Our Purpose
+
+                    </a>
+
+
+                    <a href="about.html">
+
+                        About
+
+                    </a>
+
+
+                    <a href="contact.html">
+
+                        Contact
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- FOLLOW -->
+
+                <div class="footer-column">
+
+                    <h3>
+                        FOLLOW
+                    </h3>
+
+
+                    <a
+                        href="https://www.instagram.com/setapart1804/"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        Instagram
+
+                    </a>
+
+
+                    <a
+                        href="https://www.tiktok.com/@set.apart1804"
+                        target="_blank"
+                        rel="noopener noreferrer">
+
+                        TikTok
+
+                    </a>
+
+                </div>
+
+
+
+                <!-- LEGAL -->
+
+                <div class="footer-column">
+
+                    <h3>
+                        LEGAL
+                    </h3>
+
+
+                    <a href="privacy-policy.html">
+
+                        Privacy Policy
+
+                    </a>
+
+
+                    <a href="cookie-policy.html">
+
+                        Cookie Policy
+
+                    </a>
+
+
+                    <a href="sales-policy.html">
+
+                        Sales Policy
+
+                    </a>
+
+
+                    <a href="shipping-policy.html">
+
+                        Shipping Policy
+
+                    </a>
+
+
+                    <a href="refund-policy.html">
+
+                        Refund Policy
+
+                    </a>
+
+
+                    <a href="legal-notice.html">
+
+                        Legal Notice
+
+                    </a>
+
+                </div>
+
+
+            </div>
 
         </div>
 
 
 
-        <div class="product-grid">
+        <!-- COPYRIGHT -->
 
-
-            <!-- PRODUCT 1 -->
-
-            <article class="product-card">
-
-                <a
-                    href="shop.html#shopProductGrid"
-                    class="product-image">
-
-                    <img
-                        src="GOD FIRST BROWN FRONT.png"
-                        alt="GOD FIRST Brown Hoodie">
-
-                </a>
-
-
-                <div class="product-card-info">
-
-                    <h3>
-
-                        GOD FIRST — 
-
-                    </h3>
-
-
-                    <p>
-
-                        HOODIE
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PRODUCT 2 -->
-
-            <article class="product-card">
-
-                <a
-                    href="shop.html#shopProductGrid"
-                    class="product-image">
-
-                    <img
-                        src="PILGRIM BLACK FRONT 1.png"
-                        alt="PILGRIM Black Hoodie">
-
-                </a>
-
-
-                <div class="product-card-info">
-
-                    <h3>
-
-                        PILGRIM — 
-
-                    </h3>
-
-
-                    <p>
-
-                        HOODIE
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PRODUCT 3 -->
-
-            <article class="product-card">
-
-                 <a
-                    href="shop.html#shopProductGrid"
-                    class="product-image">
-
-                    <img
-                        src="GOD FIRST WHITE FRONT.jpeg"
-                        alt="GOD FIRST White Hoodie">
-
-                </a>
-
-
-                <div class="product-card-info">
-
-                    <h3>
-
-                        GOD FIRST — 
-
-                    </h3>
-
-
-                    <p>
-
-                        HOODIE
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-            <!-- PRODUCT 4 -->
-
-            <article class="product-card">
-
-              <a
-                    href="shop.html#shopProductGrid"
-                    class="product-image">
-
-                    <img
-                        src="PILGRIM BEIGE FRONT.jpeg"
-                        alt="PILGRIM Beige Hoodie">
-
-                </a>
-
-
-                <div class="product-card-info">
-
-                    <h3>
-
-                        PILGRIM — 
-
-                    </h3>
-
-
-                    <p>
-
-                        HOODIE
-
-                    </p>
-
-                </div>
-
-            </article>
-
-
-
-
-        <div class="section-button">
-
-            <a
-               href="shop.html#shopProductGrid"
-                class="button button-black">
-
-                VIEW ALL PRODUCTS
-
-            </a>
-
-        </div>
-
-
-    </div>
-
-</section>
-
-
-
-<!-- =====================================================
-     FOOTER
-===================================================== -->
-
-<footer class="footer">
-
-    <div class="footer-inner">
-
-
-        <!-- BRAND -->
-
-        <div class="footer-brand">
-
-            <a href="index.html">
-
-                <img
-                    src="LOGO (2).png"
-                    alt="SET APART Logo">
-
-            </a>
-
+        <div class="footer-bottom">
 
             <p>
 
-                Faith-Inspired Streetwear.
-
-            </p>
-
-
-            <p>
-
-                Called to Live Differently.
+                © 2026 SET APART. ALL RIGHTS RESERVED.
 
             </p>
 
         </div>
 
+    </footer>
 
 
-        <!-- FOOTER LINKS -->
-<div class="footer-columns">
 
-    <div class="footer-column">
+    <!-- =====================================================
+         PAGE OVERLAY
+         NEEDED BY EXISTING MOBILE MENU JS
+    ====================================================== -->
 
-        <h3>SHOP</h3>
-
-        <a href="shop.html#shopProductGrid"
-            All Products
-        </a>
-
-        <a href="shop.html#shopProductGrid"
-            Hoodies
-        </a>
-
+    <div
+        class="page-overlay"
+        id="pageOverlay">
     </div>
 
 
-    <div class="footer-column">
 
-        <h3>ABOUT</h3>
+    <!-- =====================================================
+         JAVASCRIPT
+    ====================================================== -->
 
-        <a href="about.html">
-            Our Story
-        </a>
-
-        <a href="contact.html">
-            Contact
-        </a>
-
-    </div>
-
-
-   <div class="footer-column">
-
-    <h3>FOLLOW</h3>
-
-    <a href="https://www.instagram.com/setapart1804/"
-       target="_blank"
-       rel="noopener noreferrer">
-        Instagram
-    </a>
-
-    <a href="https://www.tiktok.com/@set.apart1804"
-       target="_blank"
-       rel="noopener noreferrer">
-        TikTok
-    </a>
-
-</div>
-
-
-    <div class="footer-column">
-
-        <h3>LEGAL</h3>
-
-        <a href="privacy-policy.html">
-            Privacy Policy
-        </a>
-
-        <a href="cookie-policy.html">
-            Cookie Policy
-        </a>
-
-        <a href="sales-policy.html">
-            Sales Policy
-        </a>
-
-        <a href="shipping-policy.html">
-            Shipping Policy
-        </a>
-
-        <a href="refund-policy.html">
-            Refund Policy
-        </a>
-
-        <a href="legal-notice.html">
-            Legal Notice
-        </a>
-
-    </div>
-
-</div>
-
-
-
-    <div class="footer-bottom">
-
-        <p>
-
-            © 2026 SET APART. ALL RIGHTS RESERVED.
-
-        </p>
-
-    </div>
-
-</footer>
-
-
-
-<!-- =====================================================
-     OVERLAY
-===================================================== -->
-
-<div
-    class="page-overlay"
-    id="pageOverlay">
-</div>
-
-
-
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 
 </body>
