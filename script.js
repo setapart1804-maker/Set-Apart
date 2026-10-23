@@ -4631,3 +4631,1675 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   SET APART — HOME EXPERIENCE
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const atelier =
+            document.getElementById(
+                "saAtelier"
+            );
+
+
+        if (!atelier) {
+            return;
+        }
+
+
+        const showcase =
+            document.getElementById(
+                "saShowcase"
+            );
+
+
+        const showcaseImageWrap =
+            document.getElementById(
+                "saShowcaseImageWrap"
+            );
+
+
+        const showcaseImage =
+            document.getElementById(
+                "saShowcaseImage"
+            );
+
+
+        const showcaseTitle =
+            document.getElementById(
+                "saShowcaseTitle"
+            );
+
+
+        const showcaseSubtitle =
+            document.getElementById(
+                "saShowcaseSubtitle"
+            );
+
+
+        const showcaseCounter =
+            document.getElementById(
+                "saShowcaseCounter"
+            );
+
+
+        const productModal =
+            document.getElementById(
+                "saProductModal"
+            );
+
+
+        const modalImage =
+            document.getElementById(
+                "saModalImage"
+            );
+
+
+        const modalTitle =
+            document.getElementById(
+                "saModalTitle"
+            );
+
+
+        const modalDescription =
+            document.getElementById(
+                "saModalDescription"
+            );
+
+
+        const modalPrice =
+            document.getElementById(
+                "saModalPrice"
+            );
+
+
+        const modalColorName =
+            document.getElementById(
+                "saModalColorName"
+            );
+
+
+        const quantityText =
+            document.getElementById(
+                "saQuantity"
+            );
+
+
+        const bagLayer =
+            document.getElementById(
+                "saBagLayer"
+            );
+
+
+        const bagItems =
+            document.getElementById(
+                "saBagItems"
+            );
+
+
+        const bagEmpty =
+            document.getElementById(
+                "saBagEmpty"
+            );
+
+
+        const bagFooter =
+            document.getElementById(
+                "saBagFooter"
+            );
+
+
+        const bagSubtotal =
+            document.getElementById(
+                "saBagSubtotal"
+            );
+
+
+
+        const homeProducts = {
+
+            pilgrim: {
+
+                id:
+                    "pilgrim",
+
+                name:
+                    "PILGRIM",
+
+                description:
+                    "WALK BY FAITH",
+
+                price:
+                    34.99,
+
+                defaultColor:
+                    "brown"
+
+            },
+
+
+            godfirst: {
+
+                id:
+                    "godfirst",
+
+                name:
+                    "GOD FIRST",
+
+                description:
+                    "PUT GOD FIRST",
+
+                price:
+                    34.99,
+
+                defaultColor:
+                    "black"
+
+            }
+
+        };
+
+
+        const productOrder = [
+            "pilgrim",
+            "godfirst"
+        ];
+
+
+        let showcaseProduct =
+            "pilgrim";
+
+
+        let showcaseColor =
+            "brown";
+
+
+        let showcaseSide =
+            "front";
+
+
+        let modalProduct =
+            "pilgrim";
+
+
+        let modalColor =
+            "beige";
+
+
+        let modalSize =
+            null;
+
+
+        let modalQuantity =
+            1;
+
+
+        let touchStartX =
+            0;
+
+
+
+        /* =====================================================
+           PRODUCT IMAGE
+        ===================================================== */
+
+        function getProductImage(
+            productId,
+            color,
+            side = "front"
+        ) {
+
+            return (
+                SET_APART_PRODUCTS
+                    ?.[productId]
+                    ?.images
+                    ?.[color]
+                    ?.[side] ||
+                ""
+            );
+
+        }
+
+
+
+        /* =====================================================
+           SHOWCASE
+        ===================================================== */
+
+        function renderShowcase(
+            animate = true
+        ) {
+
+            const product =
+                homeProducts[
+                    showcaseProduct
+                ];
+
+
+            const imageSource =
+                getProductImage(
+                    showcaseProduct,
+                    showcaseColor,
+                    showcaseSide
+                );
+
+
+            const update =
+                function () {
+
+                    showcaseImage.src =
+                        imageSource;
+
+
+                    showcaseImage.alt =
+                        product.name +
+                        " " +
+                        showcaseColor.toUpperCase();
+
+
+                    showcaseTitle.textContent =
+                        product.name +
+                        " — " +
+                        showcaseColor.toUpperCase();
+
+
+                    showcaseSubtitle.textContent =
+                        product.description +
+                        " · $" +
+                        product.price.toFixed(2) +
+                        " USD";
+
+
+                    const index =
+                        productOrder
+                            .indexOf(
+                                showcaseProduct
+                            );
+
+
+                    showcaseCounter.textContent =
+                        String(
+                            index + 1
+                        )
+                            .padStart(
+                                2,
+                                "0"
+                            ) +
+                        " / " +
+                        String(
+                            productOrder.length
+                        )
+                            .padStart(
+                                2,
+                                "0"
+                            );
+
+
+                    document
+                        .querySelectorAll(
+                            ".sa-side-button"
+                        )
+                        .forEach(
+                            function (
+                                button
+                            ) {
+
+                                button
+                                    .classList
+                                    .toggle(
+
+                                        "active",
+
+                                        button
+                                            .dataset
+                                            .saSide ===
+                                            showcaseSide
+
+                                    );
+
+                            }
+                        );
+
+
+                    document
+                        .querySelectorAll(
+                            ".sa-color"
+                        )
+                        .forEach(
+                            function (
+                                button
+                            ) {
+
+                                button
+                                    .classList
+                                    .toggle(
+
+                                        "active",
+
+                                        button
+                                            .dataset
+                                            .saColor ===
+                                            showcaseColor
+
+                                    );
+
+                            }
+                        );
+
+                };
+
+
+            if (
+                !animate ||
+                !showcaseImageWrap
+            ) {
+
+                update();
+
+                return;
+
+            }
+
+
+            showcaseImageWrap
+                .classList
+                .add(
+                    "changing"
+                );
+
+
+            setTimeout(
+                function () {
+
+                    update();
+
+
+                    showcaseImageWrap
+                        .classList
+                        .remove(
+                            "changing"
+                        );
+
+                },
+                160
+            );
+
+        }
+
+
+
+        function openShowcase(
+            productId
+        ) {
+
+            if (
+                !homeProducts[
+                    productId
+                ]
+            ) {
+
+                return;
+
+            }
+
+
+            showcaseProduct =
+                productId;
+
+
+            showcaseColor =
+                homeProducts[
+                    productId
+                ].defaultColor;
+
+
+            showcaseSide =
+                "front";
+
+
+            renderShowcase(
+                false
+            );
+
+
+            atelier
+                .classList
+                .add(
+                    "show-product"
+                );
+
+
+            showcase
+                ?.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+        }
+
+
+
+        function closeShowcase() {
+
+            atelier
+                .classList
+                .remove(
+                    "show-product"
+                );
+
+
+            showcase
+                ?.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+        }
+
+
+
+        function changeShowcaseProduct(
+            direction
+        ) {
+
+            let index =
+                productOrder
+                    .indexOf(
+                        showcaseProduct
+                    );
+
+
+            index +=
+                direction;
+
+
+            if (
+                index <
+                0
+            ) {
+
+                index =
+                    productOrder.length -
+                    1;
+
+            }
+
+
+            if (
+                index >=
+                productOrder.length
+            ) {
+
+                index =
+                    0;
+
+            }
+
+
+            showcaseProduct =
+                productOrder[
+                    index
+                ];
+
+
+            showcaseColor =
+                homeProducts[
+                    showcaseProduct
+                ].defaultColor;
+
+
+            showcaseSide =
+                "front";
+
+
+            renderShowcase();
+
+        }
+
+
+
+        document
+            .querySelectorAll(
+                "[data-sa-product]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            openShowcase(
+                                button
+                                    .dataset
+                                    .saProduct
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saExploreButton"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    openShowcase(
+                        "pilgrim"
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saShowcaseBack"
+            )
+            ?.addEventListener(
+                "click",
+                closeShowcase
+            );
+
+
+        document
+            .getElementById(
+                "saShowcasePrev"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    changeShowcaseProduct(
+                        -1
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saShowcaseNext"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    changeShowcaseProduct(
+                        1
+                    );
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".sa-side-button"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            showcaseSide =
+                                button
+                                    .dataset
+                                    .saSide;
+
+
+                            renderShowcase();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".sa-color"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            showcaseColor =
+                                button
+                                    .dataset
+                                    .saColor;
+
+
+                            showcaseSide =
+                                "front";
+
+
+                            renderShowcase();
+
+                        }
+                    );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           MODAL
+        ===================================================== */
+
+        function renderModal() {
+
+            const product =
+                homeProducts[
+                    modalProduct
+                ];
+
+
+            modalImage.src =
+                getProductImage(
+                    modalProduct,
+                    modalColor,
+                    "front"
+                );
+
+
+            modalImage.alt =
+                product.name +
+                " " +
+                modalColor.toUpperCase();
+
+
+            modalTitle.textContent =
+                product.name;
+
+
+            modalDescription.textContent =
+                product.description;
+
+
+            modalPrice.textContent =
+                "$" +
+                product.price.toFixed(2) +
+                " USD";
+
+
+            modalColorName.textContent =
+                modalColor.toUpperCase();
+
+
+            quantityText.textContent =
+                String(
+                    modalQuantity
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".sa-modal-color"
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        button
+                            .classList
+                            .toggle(
+
+                                "active",
+
+                                button
+                                    .dataset
+                                    .modalColor ===
+                                    modalColor
+
+                            );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    ".sa-modal-sizes button"
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        button
+                            .classList
+                            .toggle(
+
+                                "active",
+
+                                button
+                                    .dataset
+                                    .modalSize ===
+                                    modalSize
+
+                            );
+
+                    }
+                );
+
+
+            document
+                .getElementById(
+                    "saAddBag"
+                )
+                .textContent =
+
+                    "ADD TO BAG — $" +
+
+                    (
+                        product.price *
+                        modalQuantity
+                    )
+                        .toFixed(2);
+
+        }
+
+
+
+        function openProductModal(
+            productId
+        ) {
+
+            if (
+                !homeProducts[
+                    productId
+                ]
+            ) {
+
+                return;
+
+            }
+
+
+            modalProduct =
+                productId;
+
+
+            modalColor =
+                productId ===
+                    "pilgrim"
+
+                    ? "beige"
+
+                    : "brown";
+
+
+            modalSize =
+                null;
+
+
+            modalQuantity =
+                1;
+
+
+            renderModal();
+
+
+            productModal
+                .classList
+                .add(
+                    "active"
+                );
+
+
+            productModal
+                .setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+            document.body
+                .classList
+                .add(
+                    "sa-lock"
+                );
+
+        }
+
+
+
+        function closeProductModal() {
+
+            productModal
+                ?.classList
+                .remove(
+                    "active"
+                );
+
+
+            productModal
+                ?.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+            if (
+                !bagLayer
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                document.body
+                    .classList
+                    .remove(
+                        "sa-lock"
+                    );
+
+            }
+
+        }
+
+
+
+        document
+            .querySelectorAll(
+                "[data-open-product]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            openProductModal(
+                                button
+                                    .dataset
+                                    .openProduct
+                            );
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saSeePiece"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    openProductModal(
+                        showcaseProduct
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saModalClose"
+            )
+            ?.addEventListener(
+                "click",
+                closeProductModal
+            );
+
+
+        document
+            .getElementById(
+                "saModalOverlay"
+            )
+            ?.addEventListener(
+                "click",
+                closeProductModal
+            );
+
+
+        document
+            .querySelectorAll(
+                ".sa-modal-color"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            modalColor =
+                                button
+                                    .dataset
+                                    .modalColor;
+
+
+                            renderModal();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document
+            .querySelectorAll(
+                ".sa-modal-sizes button"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button.addEventListener(
+                        "click",
+                        function () {
+
+                            modalSize =
+                                button
+                                    .dataset
+                                    .modalSize;
+
+
+                            renderModal();
+
+                        }
+                    );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saQuantityMinus"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    modalQuantity =
+                        Math.max(
+                            1,
+                            modalQuantity -
+                            1
+                        );
+
+
+                    renderModal();
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saQuantityPlus"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    modalQuantity +=
+                        1;
+
+
+                    renderModal();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           BAG
+        ===================================================== */
+
+        function renderBag() {
+
+            const cart =
+                getCart();
+
+
+            bagItems.innerHTML =
+                "";
+
+
+            let subtotal =
+                0;
+
+
+            cart.forEach(
+                function (
+                    item,
+                    index
+                ) {
+
+                    const quantity =
+                        Math.max(
+                            1,
+                            Number(
+                                item.quantity
+                            ) || 1
+                        );
+
+
+                    const price =
+                        Number(
+                            item.price
+                        ) || 0;
+
+
+                    subtotal +=
+                        price *
+                        quantity;
+
+
+                    const element =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    element.className =
+                        "sa-bag-item";
+
+
+                    element.innerHTML = `
+
+                        <div class="sa-bag-item-image">
+
+                            <img
+                                src="${item.image || ""}"
+                                alt="${item.name || "SET APART Product"}">
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>
+                                ${item.name || ""}
+                            </h3>
+
+                            <p>
+                                ${(item.color || "").toUpperCase()}
+                                ·
+                                ${(item.size || "").toUpperCase()}
+                                ·
+                                QTY ${quantity}
+                            </p>
+
+                            <button
+                                type="button"
+                                class="sa-bag-remove"
+                                data-bag-index="${index}">
+
+                                REMOVE
+
+                            </button>
+
+                        </div>
+
+
+                        <strong>
+
+                            $${(
+                                price *
+                                quantity
+                            ).toFixed(2)}
+
+                        </strong>
+
+                    `;
+
+
+                    bagItems.appendChild(
+                        element
+                    );
+
+                }
+            );
+
+
+            bagSubtotal.textContent =
+                "$" +
+                subtotal.toFixed(2);
+
+
+            const empty =
+                cart.length ===
+                0;
+
+
+            bagEmpty.style.display =
+                empty
+                    ? "flex"
+                    : "none";
+
+
+            bagFooter.style.display =
+                empty
+                    ? "none"
+                    : "block";
+
+        }
+
+
+
+        function openBag() {
+
+            renderBag();
+
+
+            bagLayer
+                .classList
+                .add(
+                    "active"
+                );
+
+
+            bagLayer
+                .setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+            document.body
+                .classList
+                .add(
+                    "sa-lock"
+                );
+
+        }
+
+
+
+        function closeBag() {
+
+            bagLayer
+                .classList
+                .remove(
+                    "active"
+                );
+
+
+            bagLayer
+                .setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+            if (
+                !productModal
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                document.body
+                    .classList
+                    .remove(
+                        "sa-lock"
+                    );
+
+            }
+
+        }
+
+
+
+        document
+            .getElementById(
+                "homeBagButton"
+            )
+            ?.addEventListener(
+                "click",
+                openBag
+            );
+
+
+        document
+            .getElementById(
+                "saBagClose"
+            )
+            ?.addEventListener(
+                "click",
+                closeBag
+            );
+
+
+        document
+            .getElementById(
+                "saBagOverlay"
+            )
+            ?.addEventListener(
+                "click",
+                closeBag
+            );
+
+
+
+        bagItems
+            ?.addEventListener(
+                "click",
+                function (
+                    event
+                ) {
+
+                    const removeButton =
+                        event.target
+                            .closest(
+                                "[data-bag-index]"
+                            );
+
+
+                    if (
+                        !removeButton
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const index =
+                        Number(
+                            removeButton
+                                .dataset
+                                .bagIndex
+                        );
+
+
+                    const cart =
+                        getCart();
+
+
+                    if (
+                        !Number.isInteger(
+                            index
+                        ) ||
+                        !cart[
+                            index
+                        ]
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    cart.splice(
+                        index,
+                        1
+                    );
+
+
+                    saveCart(
+                        cart
+                    );
+
+
+                    renderBag();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           ADD TO BAG
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saAddBag"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        !modalSize
+                    ) {
+
+                        alert(
+                            "Please select a size."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const product =
+                        homeProducts[
+                            modalProduct
+                        ];
+
+
+                    const image =
+                        getProductImage(
+                            modalProduct,
+                            modalColor,
+                            "front"
+                        );
+
+
+                    const cart =
+                        getCart();
+
+
+                    const existing =
+                        cart.find(
+                            function (
+                                item
+                            ) {
+
+                                return (
+
+                                    item.id ===
+                                        modalProduct &&
+
+                                    String(
+                                        item.color
+                                    )
+                                        .toLowerCase() ===
+                                        modalColor &&
+
+                                    String(
+                                        item.size
+                                    )
+                                        .toUpperCase() ===
+                                        modalSize
+
+                                );
+
+                            }
+                        );
+
+
+                    if (
+                        existing
+                    ) {
+
+                        existing.quantity =
+
+                            (
+                                Number(
+                                    existing.quantity
+                                ) || 1
+                            ) +
+
+                            modalQuantity;
+
+                    } else {
+
+                        cart.push({
+
+                            id:
+                                modalProduct,
+
+                            name:
+                                product.name +
+                                " HOODIE",
+
+                            price:
+                                product.price,
+
+                            color:
+                                modalColor,
+
+                            size:
+                                modalSize,
+
+                            quantity:
+                                modalQuantity,
+
+                            image:
+                                image
+
+                        });
+
+                    }
+
+
+                    saveCart(
+                        cart
+                    );
+
+
+                    closeProductModal();
+
+
+                    openBag();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           KEYBOARD
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (
+                event
+            ) {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    if (
+                        productModal
+                            ?.classList
+                            .contains(
+                                "active"
+                            )
+                    ) {
+
+                        closeProductModal();
+
+                        return;
+
+                    }
+
+
+                    if (
+                        bagLayer
+                            ?.classList
+                            .contains(
+                                "active"
+                            )
+                    ) {
+
+                        closeBag();
+
+                        return;
+
+                    }
+
+
+                    if (
+                        atelier
+                            .classList
+                            .contains(
+                                "show-product"
+                            )
+                    ) {
+
+                        closeShowcase();
+
+                    }
+
+                }
+
+
+                if (
+                    !atelier
+                        .classList
+                        .contains(
+                            "show-product"
+                        )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowLeft"
+                ) {
+
+                    changeShowcaseProduct(
+                        -1
+                    );
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowRight"
+                ) {
+
+                    changeShowcaseProduct(
+                        1
+                    );
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================================
+           MOBILE SWIPE
+        ===================================================== */
+
+        showcaseImageWrap
+            ?.addEventListener(
+                "touchstart",
+                function (
+                    event
+                ) {
+
+                    touchStartX =
+                        event
+                            .touches[
+                                0
+                            ]
+                            .clientX;
+
+                },
+                {
+                    passive:
+                        true
+                }
+            );
+
+
+        showcaseImageWrap
+            ?.addEventListener(
+                "touchend",
+                function (
+                    event
+                ) {
+
+                    const endX =
+                        event
+                            .changedTouches[
+                                0
+                            ]
+                            .clientX;
+
+
+                    const difference =
+                        endX -
+                        touchStartX;
+
+
+                    if (
+                        Math.abs(
+                            difference
+                        ) <
+                        45
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    changeShowcaseProduct(
+
+                        difference >
+                            0
+
+                            ? -1
+
+                            : 1
+
+                    );
+
+                },
+                {
+                    passive:
+                        true
+                }
+            );
+
+
+
+        renderShowcase(
+            false
+        );
+
+        renderBag();
+
+    }
+);
