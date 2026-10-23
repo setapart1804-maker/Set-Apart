@@ -6303,3 +6303,2171 @@ document.addEventListener(
 
     }
 );
+
+/* =========================================================
+   SET APART — HOME FINAL INTERACTIONS
+========================================================= */
+
+document.addEventListener(
+    "DOMContentLoaded",
+    function () {
+
+        const hero =
+            document.getElementById("saHero");
+
+        if (!hero) {
+            return;
+        }
+
+
+        /* =====================================================
+           ELEMENTS
+        ===================================================== */
+
+        const intro =
+            document.getElementById(
+                "saHeroIntro"
+            );
+
+        const carousel =
+            document.getElementById(
+                "saProductCarousel"
+            );
+
+        const carouselVisual =
+            carousel?.querySelector(
+                ".sa-carousel-visual"
+            );
+
+        const mainImage =
+            document.getElementById(
+                "saCarouselMainImage"
+            );
+
+        const previewImage =
+            document.getElementById(
+                "saCarouselPreviewImage"
+            );
+
+        const carouselTitle =
+            document.getElementById(
+                "saCarouselTitle"
+            );
+
+        const carouselSubtitle =
+            document.getElementById(
+                "saCarouselSubtitle"
+            );
+
+        const carouselCount =
+            document.getElementById(
+                "saCarouselCount"
+            );
+
+
+        const modal =
+            document.getElementById(
+                "saProductModal"
+            );
+
+        const modalImage =
+            document.getElementById(
+                "saModalImage"
+            );
+
+        const modalTitle =
+            document.getElementById(
+                "saModalTitle"
+            );
+
+        const modalDescription =
+            document.getElementById(
+                "saModalDescription"
+            );
+
+        const modalPrice =
+            document.getElementById(
+                "saModalPrice"
+            );
+
+        const modalColorName =
+            document.getElementById(
+                "saModalColorName"
+            );
+
+        const quantityText =
+            document.getElementById(
+                "saQuantity"
+            );
+
+
+        const bagLayer =
+            document.getElementById(
+                "saBagLayer"
+            );
+
+        const bagItems =
+            document.getElementById(
+                "saBagItems"
+            );
+
+        const bagEmpty =
+            document.getElementById(
+                "saBagEmpty"
+            );
+
+        const bagFooter =
+            document.getElementById(
+                "saBagFooter"
+            );
+
+        const bagSubtotal =
+            document.getElementById(
+                "saBagSubtotal"
+            );
+
+
+        /* =====================================================
+           PRODUCTS
+        ===================================================== */
+
+        const HOME_PRODUCTS = {
+
+            pilgrim: {
+
+                id:
+                    "pilgrim",
+
+                name:
+                    "PILGRIM",
+
+                description:
+                    "WALK BY FAITH",
+
+                price:
+                    34.99,
+
+                defaultColor:
+                    "brown"
+
+            },
+
+
+            godfirst: {
+
+                id:
+                    "godfirst",
+
+                name:
+                    "GOD FIRST",
+
+                description:
+                    "PUT GOD FIRST",
+
+                price:
+                    34.99,
+
+                defaultColor:
+                    "black"
+
+            }
+
+        };
+
+
+        /* =====================================================
+           TRANSPARENT IMAGES
+        ===================================================== */
+
+        const HOME_TRANSPARENT_IMAGES = {
+
+            pilgrim: {
+
+                brown: {
+
+                    front:
+                        "PILGRIM-BROWN-FRONT-NOBG.png",
+
+                    back:
+                        "PILGRIM-BROWN-BACK-NOBG.png"
+
+                }
+
+            },
+
+
+            godfirst: {
+
+                black: {
+
+                    front:
+                        "GOD-FIRST-BLACK-FRONT-NOBG.png",
+
+                    back:
+                        "GOD-FIRST-BLACK-BACK-NOBG.png"
+
+                }
+
+            }
+
+        };
+
+
+        function getHomeImage(
+            productId,
+            color,
+            side
+        ) {
+
+            const transparent =
+                HOME_TRANSPARENT_IMAGES
+                    ?.[productId]
+                    ?.[color]
+                    ?.[side];
+
+
+            if (transparent) {
+                return transparent;
+            }
+
+
+            return (
+                SET_APART_PRODUCTS
+                    ?.[productId]
+                    ?.images
+                    ?.[color]
+                    ?.[side] ||
+                ""
+            );
+
+        }
+
+
+
+        /* =====================================================
+           CAROUSEL SEQUENCE
+        ===================================================== */
+
+        const carouselSteps = [
+
+            {
+                product:
+                    "pilgrim",
+
+                color:
+                    "brown",
+
+                side:
+                    "front"
+            },
+
+            {
+                product:
+                    "pilgrim",
+
+                color:
+                    "brown",
+
+                side:
+                    "back"
+            },
+
+            {
+                product:
+                    "godfirst",
+
+                color:
+                    "black",
+
+                side:
+                    "front"
+            },
+
+            {
+                product:
+                    "godfirst",
+
+                color:
+                    "black",
+
+                side:
+                    "back"
+            }
+
+        ];
+
+
+        let currentStep =
+            0;
+
+        let carouselProduct =
+            "pilgrim";
+
+        let carouselColor =
+            "brown";
+
+        let carouselSide =
+            "front";
+
+        let autoTimer =
+            null;
+
+        let introTimer =
+            null;
+
+        let touchStartX =
+            0;
+
+
+
+        /* =====================================================
+           PROGRESS BAR
+        ===================================================== */
+
+        function updateProgress() {
+
+            document
+                .querySelectorAll(
+                    ".sa-progress-item"
+                )
+                .forEach(
+                    function (
+                        item,
+                        index
+                    ) {
+
+                        item.classList.toggle(
+                            "active",
+                            index ===
+                                currentStep
+                        );
+
+                    }
+                );
+
+        }
+
+
+
+        /* =====================================================
+           CAROUSEL RENDER
+        ===================================================== */
+
+        function renderCarousel(
+            animate = true
+        ) {
+
+            const product =
+                HOME_PRODUCTS[
+                    carouselProduct
+                ];
+
+
+            if (!product) {
+                return;
+            }
+
+
+            const source =
+                getHomeImage(
+                    carouselProduct,
+                    carouselColor,
+                    carouselSide
+                );
+
+
+            const nextIndex =
+                (
+                    currentStep +
+                    1
+                ) %
+                carouselSteps.length;
+
+
+            const next =
+                carouselSteps[
+                    nextIndex
+                ];
+
+
+            const nextImage =
+                getHomeImage(
+                    next.product,
+                    next.color,
+                    next.side
+                );
+
+
+            const update =
+                function () {
+
+                    if (mainImage) {
+
+                        mainImage.src =
+                            source;
+
+                        mainImage.alt =
+                            product.name +
+                            " " +
+                            carouselColor.toUpperCase() +
+                            " " +
+                            carouselSide.toUpperCase();
+
+                    }
+
+
+                    if (previewImage) {
+
+                        previewImage.src =
+                            nextImage;
+
+                    }
+
+
+                    if (carouselTitle) {
+
+                        carouselTitle.textContent =
+                            product.name +
+                            " — " +
+                            carouselSide.toUpperCase();
+
+                    }
+
+
+                    if (carouselSubtitle) {
+
+                        carouselSubtitle.textContent =
+                            product.description +
+                            " · $" +
+                            product.price.toFixed(2) +
+                            " USD";
+
+                    }
+
+
+                    if (carouselCount) {
+
+                        carouselCount.textContent =
+                            String(
+                                currentStep +
+                                1
+                            )
+                                .padStart(
+                                    2,
+                                    "0"
+                                ) +
+                            " / " +
+                            String(
+                                carouselSteps.length
+                            )
+                                .padStart(
+                                    2,
+                                    "0"
+                                );
+
+                    }
+
+
+                    document
+                        .querySelectorAll(
+                            ".sa-carousel-side"
+                        )
+                        .forEach(
+                            function (
+                                button
+                            ) {
+
+                                button
+                                    .classList
+                                    .toggle(
+
+                                        "active",
+
+                                        button
+                                            .dataset
+                                            .carouselSide ===
+                                            carouselSide
+
+                                    );
+
+                            }
+                        );
+
+
+                    document
+                        .querySelectorAll(
+                            ".sa-carousel-color"
+                        )
+                        .forEach(
+                            function (
+                                button
+                            ) {
+
+                                button
+                                    .classList
+                                    .toggle(
+
+                                        "active",
+
+                                        button
+                                            .dataset
+                                            .carouselColor ===
+                                            carouselColor
+
+                                    );
+
+                            }
+                        );
+
+
+                    updateProgress();
+
+                };
+
+
+            if (
+                !animate ||
+                !carouselVisual
+            ) {
+
+                update();
+
+                return;
+
+            }
+
+
+            carouselVisual
+                .classList
+                .add(
+                    "is-changing"
+                );
+
+
+            setTimeout(
+                function () {
+
+                    update();
+
+
+                    carouselVisual
+                        .classList
+                        .remove(
+                            "is-changing"
+                        );
+
+                },
+                350
+            );
+
+        }
+
+
+
+        /* =====================================================
+           SET STEP
+        ===================================================== */
+
+        function setCarouselStep(
+            index,
+            animate = true
+        ) {
+
+            if (
+                index <
+                0
+            ) {
+
+                index =
+                    carouselSteps.length -
+                    1;
+
+            }
+
+
+            if (
+                index >=
+                carouselSteps.length
+            ) {
+
+                index =
+                    0;
+
+            }
+
+
+            currentStep =
+                index;
+
+
+            const step =
+                carouselSteps[
+                    currentStep
+                ];
+
+
+            carouselProduct =
+                step.product;
+
+
+            carouselColor =
+                step.color;
+
+
+            carouselSide =
+                step.side;
+
+
+            renderCarousel(
+                animate
+            );
+
+        }
+
+
+
+        /* =====================================================
+           AUTO PLAY
+        ===================================================== */
+
+        function stopAutoPlay() {
+
+            clearInterval(
+                autoTimer
+            );
+
+
+            autoTimer =
+                null;
+
+        }
+
+
+        function startAutoPlay() {
+
+            stopAutoPlay();
+
+
+            autoTimer =
+                setInterval(
+                    function () {
+
+                        setCarouselStep(
+                            currentStep +
+                            1
+                        );
+
+                    },
+                    3500
+                );
+
+        }
+
+
+        function restartAutoPlay() {
+
+            startAutoPlay();
+
+        }
+
+
+
+        /* =====================================================
+           OPEN CAROUSEL
+        ===================================================== */
+
+        function openCarousel(
+            productId =
+                "pilgrim"
+        ) {
+
+            clearTimeout(
+                introTimer
+            );
+
+
+            intro
+                ?.classList
+                .add(
+                    "is-hidden"
+                );
+
+
+            carousel
+                ?.classList
+                .add(
+                    "active"
+                );
+
+
+            carousel
+                ?.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+            if (
+                productId ===
+                "godfirst"
+            ) {
+
+                setCarouselStep(
+                    2,
+                    false
+                );
+
+            } else {
+
+                setCarouselStep(
+                    0,
+                    false
+                );
+
+            }
+
+
+            startAutoPlay();
+
+        }
+
+
+
+        /* =====================================================
+           INTRO BUTTONS
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-open-showcase]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                openCarousel(
+                                    button
+                                        .dataset
+                                        .openShowcase
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saExploreCollection"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    openCarousel(
+                        "pilgrim"
+                    );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           CAROUSEL ARROWS
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saCarouselPrev"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    setCarouselStep(
+                        currentStep -
+                        1
+                    );
+
+
+                    restartAutoPlay();
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saCarouselNext"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    setCarouselStep(
+                        currentStep +
+                        1
+                    );
+
+
+                    restartAutoPlay();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           FRONT / BACK
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                ".sa-carousel-side"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                const side =
+                                    button
+                                        .dataset
+                                        .carouselSide;
+
+
+                                if (
+                                    side !==
+                                        "front" &&
+                                    side !==
+                                        "back"
+                                ) {
+
+                                    return;
+
+                                }
+
+
+                                carouselSide =
+                                    side;
+
+
+                                renderCarousel();
+
+
+                                restartAutoPlay();
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           CAROUSEL COLORS
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                ".sa-carousel-color"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                const color =
+                                    button
+                                        .dataset
+                                        .carouselColor;
+
+
+                                if (!color) {
+                                    return;
+                                }
+
+
+                                carouselColor =
+                                    color;
+
+
+                                carouselSide =
+                                    "front";
+
+
+                                renderCarousel();
+
+
+                                restartAutoPlay();
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           PRODUCT MODAL STATE
+        ===================================================== */
+
+        let modalProduct =
+            "pilgrim";
+
+        let modalColor =
+            "brown";
+
+        let modalSide =
+            "front";
+
+        let modalSize =
+            null;
+
+        let modalQuantity =
+            1;
+
+
+
+        /* =====================================================
+           MODAL RENDER
+        ===================================================== */
+
+        function renderModal() {
+
+            const product =
+                HOME_PRODUCTS[
+                    modalProduct
+                ];
+
+
+            if (!product) {
+                return;
+            }
+
+
+            const imageSource =
+                getHomeImage(
+                    modalProduct,
+                    modalColor,
+                    modalSide
+                );
+
+
+            if (modalImage) {
+
+                modalImage.src =
+                    imageSource;
+
+
+                modalImage.alt =
+                    product.name +
+                    " " +
+                    modalColor.toUpperCase() +
+                    " " +
+                    modalSide.toUpperCase();
+
+            }
+
+
+            if (modalTitle) {
+
+                modalTitle.textContent =
+                    product.name;
+
+            }
+
+
+            if (modalDescription) {
+
+                modalDescription.textContent =
+                    product.description;
+
+            }
+
+
+            if (modalPrice) {
+
+                modalPrice.textContent =
+                    "$" +
+                    product.price.toFixed(2) +
+                    " USD";
+
+            }
+
+
+            if (modalColorName) {
+
+                modalColorName.textContent =
+                    modalColor.toUpperCase();
+
+            }
+
+
+            if (quantityText) {
+
+                quantityText.textContent =
+                    String(
+                        modalQuantity
+                    );
+
+            }
+
+
+            document
+                .querySelectorAll(
+                    ".sa-modal-color"
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        button
+                            .classList
+                            .toggle(
+
+                                "active",
+
+                                button
+                                    .dataset
+                                    .modalColor ===
+                                    modalColor
+
+                            );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    "[data-modal-side]"
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        button
+                            .classList
+                            .toggle(
+
+                                "active",
+
+                                button
+                                    .dataset
+                                    .modalSide ===
+                                    modalSide
+
+                            );
+
+                    }
+                );
+
+
+            document
+                .querySelectorAll(
+                    "[data-modal-size]"
+                )
+                .forEach(
+                    function (
+                        button
+                    ) {
+
+                        button
+                            .classList
+                            .toggle(
+
+                                "active",
+
+                                button
+                                    .dataset
+                                    .modalSize ===
+                                    modalSize
+
+                            );
+
+                    }
+                );
+
+
+            const addButton =
+                document.getElementById(
+                    "saAddBag"
+                );
+
+
+            if (addButton) {
+
+                addButton.textContent =
+
+                    "ADD TO BAG — $" +
+
+                    (
+                        product.price *
+                        modalQuantity
+                    )
+                        .toFixed(2);
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           OPEN / CLOSE MODAL
+        ===================================================== */
+
+        function openProductModal(
+            productId
+        ) {
+
+            if (
+                !HOME_PRODUCTS[
+                    productId
+                ]
+            ) {
+
+                return;
+
+            }
+
+
+            stopAutoPlay();
+
+
+            modalProduct =
+                productId;
+
+
+            modalColor =
+                HOME_PRODUCTS[
+                    productId
+                ].defaultColor;
+
+
+            modalSide =
+                "front";
+
+
+            modalSize =
+                null;
+
+
+            modalQuantity =
+                1;
+
+
+            renderModal();
+
+
+            modal
+                ?.classList
+                .add(
+                    "active"
+                );
+
+
+            modal
+                ?.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+            document.body
+                .classList
+                .add(
+                    "sa-lock"
+                );
+
+        }
+
+
+        function closeProductModal() {
+
+            modal
+                ?.classList
+                .remove(
+                    "active"
+                );
+
+
+            modal
+                ?.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+            if (
+                !bagLayer
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                document.body
+                    .classList
+                    .remove(
+                        "sa-lock"
+                    );
+
+            }
+
+
+            if (
+                carousel
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                startAutoPlay();
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           SEE PIECE
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saSeePiece"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    openProductModal(
+                        carouselProduct
+                    );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           COLLECTION CARDS
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-open-product]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                openProductModal(
+                                    button
+                                        .dataset
+                                        .openProduct
+                                );
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           MODAL CLOSE
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saModalClose"
+            )
+            ?.addEventListener(
+                "click",
+                closeProductModal
+            );
+
+
+        document
+            .getElementById(
+                "saModalOverlay"
+            )
+            ?.addEventListener(
+                "click",
+                closeProductModal
+            );
+
+
+
+        /* =====================================================
+           MODAL COLORS
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                ".sa-modal-color"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                modalColor =
+                                    button
+                                        .dataset
+                                        .modalColor;
+
+
+                                modalSide =
+                                    "front";
+
+
+                                renderModal();
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           MODAL FRONT / BACK
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-modal-side]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                modalSide =
+                                    button
+                                        .dataset
+                                        .modalSide;
+
+
+                                renderModal();
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           SIZE
+        ===================================================== */
+
+        document
+            .querySelectorAll(
+                "[data-modal-size]"
+            )
+            .forEach(
+                function (
+                    button
+                ) {
+
+                    button
+                        .addEventListener(
+                            "click",
+                            function () {
+
+                                modalSize =
+                                    button
+                                        .dataset
+                                        .modalSize;
+
+
+                                renderModal();
+
+                            }
+                        );
+
+                }
+            );
+
+
+
+        /* =====================================================
+           QUANTITY
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saQuantityMinus"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    modalQuantity =
+                        Math.max(
+                            1,
+                            modalQuantity -
+                            1
+                        );
+
+
+                    renderModal();
+
+                }
+            );
+
+
+        document
+            .getElementById(
+                "saQuantityPlus"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    modalQuantity +=
+                        1;
+
+
+                    renderModal();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           BAG RENDER
+        ===================================================== */
+
+        function renderHomeBag() {
+
+            if (
+                !bagItems ||
+                !bagSubtotal
+            ) {
+
+                return;
+
+            }
+
+
+            const cart =
+                getCart();
+
+
+            bagItems.innerHTML =
+                "";
+
+
+            let subtotal =
+                0;
+
+
+            cart.forEach(
+                function (
+                    item,
+                    index
+                ) {
+
+                    const quantity =
+                        Math.max(
+                            1,
+                            Number(
+                                item.quantity
+                            ) || 1
+                        );
+
+
+                    const price =
+                        Number(
+                            item.price
+                        ) || 0;
+
+
+                    subtotal +=
+                        price *
+                        quantity;
+
+
+                    const element =
+                        document.createElement(
+                            "article"
+                        );
+
+
+                    element.className =
+                        "sa-bag-item";
+
+
+                    element.innerHTML = `
+
+                        <div class="sa-bag-item-image">
+
+                            <img
+                                src="${item.image || ""}"
+                                alt="${item.name || "SET APART Product"}">
+
+                        </div>
+
+
+                        <div>
+
+                            <h3>
+                                ${item.name || ""}
+                            </h3>
+
+                            <p>
+
+                                ${(item.color || "").toUpperCase()}
+
+                                ·
+
+                                ${(item.size || "").toUpperCase()}
+
+                                ·
+
+                                QTY ${quantity}
+
+                            </p>
+
+                            <button
+                                type="button"
+                                class="sa-bag-remove"
+                                data-bag-index="${index}">
+
+                                REMOVE
+
+                            </button>
+
+                        </div>
+
+
+                        <strong>
+
+                            $${(
+                                price *
+                                quantity
+                            ).toFixed(2)}
+
+                        </strong>
+
+                    `;
+
+
+                    bagItems.appendChild(
+                        element
+                    );
+
+                }
+            );
+
+
+            bagSubtotal.textContent =
+                "$" +
+                subtotal.toFixed(2);
+
+
+            const isEmpty =
+                cart.length ===
+                0;
+
+
+            if (bagEmpty) {
+
+                bagEmpty.style.display =
+                    isEmpty
+                        ? "flex"
+                        : "none";
+
+            }
+
+
+            if (bagFooter) {
+
+                bagFooter.style.display =
+                    isEmpty
+                        ? "none"
+                        : "block";
+
+            }
+
+        }
+
+
+
+        /* =====================================================
+           OPEN / CLOSE BAG
+        ===================================================== */
+
+        function openBag() {
+
+            stopAutoPlay();
+
+
+            renderHomeBag();
+
+
+            bagLayer
+                ?.classList
+                .add(
+                    "active"
+                );
+
+
+            bagLayer
+                ?.setAttribute(
+                    "aria-hidden",
+                    "false"
+                );
+
+
+            document.body
+                .classList
+                .add(
+                    "sa-lock"
+                );
+
+        }
+
+
+        function closeBag() {
+
+            bagLayer
+                ?.classList
+                .remove(
+                    "active"
+                );
+
+
+            bagLayer
+                ?.setAttribute(
+                    "aria-hidden",
+                    "true"
+                );
+
+
+            if (
+                !modal
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                document.body
+                    .classList
+                    .remove(
+                        "sa-lock"
+                    );
+
+            }
+
+
+            if (
+                carousel
+                    ?.classList
+                    .contains(
+                        "active"
+                    )
+            ) {
+
+                startAutoPlay();
+
+            }
+
+        }
+
+
+
+        document
+            .getElementById(
+                "homeBagButton"
+            )
+            ?.addEventListener(
+                "click",
+                openBag
+            );
+
+
+        document
+            .getElementById(
+                "saBagClose"
+            )
+            ?.addEventListener(
+                "click",
+                closeBag
+            );
+
+
+        document
+            .getElementById(
+                "saBagOverlay"
+            )
+            ?.addEventListener(
+                "click",
+                closeBag
+            );
+
+
+
+        /* =====================================================
+           REMOVE FROM BAG
+        ===================================================== */
+
+        bagItems
+            ?.addEventListener(
+                "click",
+                function (
+                    event
+                ) {
+
+                    const button =
+                        event.target.closest(
+                            "[data-bag-index]"
+                        );
+
+
+                    if (!button) {
+                        return;
+                    }
+
+
+                    const index =
+                        Number(
+                            button
+                                .dataset
+                                .bagIndex
+                        );
+
+
+                    const cart =
+                        getCart();
+
+
+                    if (
+                        !Number.isInteger(
+                            index
+                        ) ||
+                        !cart[
+                            index
+                        ]
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    cart.splice(
+                        index,
+                        1
+                    );
+
+
+                    saveCart(
+                        cart
+                    );
+
+
+                    renderHomeBag();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           ADD TO BAG
+        ===================================================== */
+
+        document
+            .getElementById(
+                "saAddBag"
+            )
+            ?.addEventListener(
+                "click",
+                function () {
+
+                    if (
+                        !modalSize
+                    ) {
+
+                        alert(
+                            "Please select a size."
+                        );
+
+                        return;
+
+                    }
+
+
+                    const product =
+                        HOME_PRODUCTS[
+                            modalProduct
+                        ];
+
+
+                    const selectedImage =
+                        getHomeImage(
+                            modalProduct,
+                            modalColor,
+                            "front"
+                        );
+
+
+                    const cart =
+                        getCart();
+
+
+                    const existing =
+                        cart.find(
+                            function (
+                                item
+                            ) {
+
+                                return (
+
+                                    item.id ===
+                                        modalProduct &&
+
+                                    String(
+                                        item.color
+                                    )
+                                        .toLowerCase() ===
+                                        modalColor &&
+
+                                    String(
+                                        item.size
+                                    )
+                                        .toUpperCase() ===
+                                        modalSize
+
+                                );
+
+                            }
+                        );
+
+
+                    if (existing) {
+
+                        existing.quantity =
+                            (
+                                Number(
+                                    existing.quantity
+                                ) || 1
+                            ) +
+                            modalQuantity;
+
+                    } else {
+
+                        cart.push({
+
+                            id:
+                                modalProduct,
+
+                            name:
+                                product.name +
+                                " HOODIE",
+
+                            price:
+                                product.price,
+
+                            color:
+                                modalColor,
+
+                            size:
+                                modalSize,
+
+                            quantity:
+                                modalQuantity,
+
+                            image:
+                                selectedImage
+
+                        });
+
+                    }
+
+
+                    saveCart(
+                        cart
+                    );
+
+
+                    closeProductModal();
+
+
+                    openBag();
+
+                }
+            );
+
+
+
+        /* =====================================================
+           MOBILE SWIPE
+        ===================================================== */
+
+        carouselVisual
+            ?.addEventListener(
+                "touchstart",
+                function (
+                    event
+                ) {
+
+                    touchStartX =
+                        event
+                            .touches[
+                                0
+                            ]
+                            .clientX;
+
+                },
+                {
+                    passive:
+                        true
+                }
+            );
+
+
+        carouselVisual
+            ?.addEventListener(
+                "touchend",
+                function (
+                    event
+                ) {
+
+                    const endX =
+                        event
+                            .changedTouches[
+                                0
+                            ]
+                            .clientX;
+
+
+                    const difference =
+                        endX -
+                        touchStartX;
+
+
+                    if (
+                        Math.abs(
+                            difference
+                        ) <
+                        45
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    if (
+                        difference >
+                        0
+                    ) {
+
+                        setCarouselStep(
+                            currentStep -
+                            1
+                        );
+
+                    } else {
+
+                        setCarouselStep(
+                            currentStep +
+                            1
+                        );
+
+                    }
+
+
+                    restartAutoPlay();
+
+                },
+                {
+                    passive:
+                        true
+                }
+            );
+
+
+
+        /* =====================================================
+           KEYBOARD
+        ===================================================== */
+
+        document.addEventListener(
+            "keydown",
+            function (
+                event
+            ) {
+
+                if (
+                    event.key ===
+                    "Escape"
+                ) {
+
+                    if (
+                        modal
+                            ?.classList
+                            .contains(
+                                "active"
+                            )
+                    ) {
+
+                        closeProductModal();
+
+                        return;
+
+                    }
+
+
+                    if (
+                        bagLayer
+                            ?.classList
+                            .contains(
+                                "active"
+                            )
+                    ) {
+
+                        closeBag();
+
+                        return;
+
+                    }
+
+                }
+
+
+                if (
+                    !carousel
+                        ?.classList
+                        .contains(
+                            "active"
+                        )
+                ) {
+
+                    return;
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowLeft"
+                ) {
+
+                    setCarouselStep(
+                        currentStep -
+                        1
+                    );
+
+
+                    restartAutoPlay();
+
+                }
+
+
+                if (
+                    event.key ===
+                    "ArrowRight"
+                ) {
+
+                    setCarouselStep(
+                        currentStep +
+                        1
+                    );
+
+
+                    restartAutoPlay();
+
+                }
+
+            }
+        );
+
+
+
+        /* =====================================================
+           INITIAL STATE
+        ===================================================== */
+
+        renderCarousel(
+            false
+        );
+
+
+        renderHomeBag();
+
+
+        /*
+         * Videyo a kòmanse ak 2 hoodies.
+         * Apre kèk segonn li antre otomatikman
+         * nan carousel la.
+         */
+
+        introTimer =
+            setTimeout(
+                function () {
+
+                    openCarousel(
+                        "pilgrim"
+                    );
+
+                },
+                3200
+            );
+
+    }
+);
