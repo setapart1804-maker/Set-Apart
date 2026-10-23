@@ -17,7 +17,7 @@ const PRODUCTS = {
     price: 34.99,
     message: "Walk by faith.",
     defaultColor: "brown",
-    sideImage: "PILGRIM-BROWN-SIDE.png",
+    sideImage: "PILGRIM BROWN FRONT.jpeg",
     images: {
       brown: {
         front: "PILGRIM BROWN FRONT.jpeg",
@@ -44,7 +44,7 @@ const PRODUCTS = {
     price: 34.99,
     message: "Every day, the choice is simple: God first.",
     defaultColor: "black",
-    sideImage: "GOD-FIRST-WHITE-SIDE.png",
+    sideImage: "GOD FIRST WHITE FRONT.jpeg",
     images: {
       black: {
         front: "GOD FIRST BLACK FRONT.jpeg",
