@@ -6173,3 +6173,1283 @@ html body {
 .shop-catalog-card.filter-hidden {
     display: none !important;
 }
+
+/* =========================================================
+   SET APART — HOME ATELIER
+========================================================= */
+
+.home-atelier {
+    --atelier-bg: #f7f7f3;
+    --atelier-ink: #111;
+    --atelier-muted: #777;
+    --atelier-line: #d4d4ce;
+
+    position: relative;
+
+    padding:
+        55px
+        30px
+        45px;
+
+    overflow: hidden;
+
+    background:
+        var(--atelier-bg);
+
+    color:
+        var(--atelier-ink);
+
+    border-top:
+        1px solid #ecece7;
+
+    border-bottom:
+        1px solid #ecece7;
+}
+
+
+/* TOP TEXT */
+
+.home-atelier-topline {
+    width:
+        min(
+            100%,
+            1450px
+        );
+
+    margin:
+        0 auto 20px;
+
+    display: flex;
+
+    justify-content:
+        space-between;
+
+    align-items:
+        center;
+
+    gap: 20px;
+
+    color:
+        #8b8b85;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        2px;
+}
+
+
+/* MAIN STAGE */
+
+.home-atelier-stage {
+    width:
+        min(
+            100%,
+            1250px
+        );
+
+    min-height:
+        690px;
+
+    margin:
+        0 auto;
+
+    position:
+        relative;
+}
+
+
+/* =========================================================
+   RACK
+========================================================= */
+
+.home-atelier-rack,
+.home-atelier-detail {
+    position:
+        absolute;
+
+    inset:
+        0;
+
+    transition:
+        opacity .45s ease,
+        transform .55s
+            cubic-bezier(
+                .22,
+                .75,
+                .22,
+                1
+            ),
+        visibility .45s ease;
+}
+
+
+.home-atelier-rack {
+    opacity:
+        1;
+
+    visibility:
+        visible;
+
+    transform:
+        translateY(0);
+}
+
+
+.home-atelier-rack.is-hidden {
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+    transform:
+        translateY(-18px);
+}
+
+
+/* RAIL */
+
+.home-atelier-rail {
+    width:
+        min(
+            calc(100% - 140px),
+            930px
+        );
+
+    height:
+        3px;
+
+    position:
+        absolute;
+
+    top:
+        115px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    background:
+        #161616;
+
+    border-radius:
+        5px;
+
+    transform-origin:
+        center;
+}
+
+
+/* HANGERS WRAPPER */
+
+.home-atelier-hangers {
+    width:
+        min(
+            100%,
+            900px
+        );
+
+    min-height:
+        455px;
+
+    margin:
+        0 auto;
+
+    padding-top:
+        105px;
+
+    display:
+        flex;
+
+    justify-content:
+        center;
+
+    align-items:
+        flex-start;
+
+    gap:
+        clamp(
+            35px,
+            8vw,
+            115px
+        );
+}
+
+
+/* EACH HOODIE */
+
+.home-atelier-hanger {
+    width:
+        clamp(
+            210px,
+            25vw,
+            290px
+        );
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    background:
+        transparent;
+
+    border:
+        0;
+
+    transition:
+        transform .35s ease,
+        filter .35s ease,
+        opacity .5s ease;
+}
+
+
+.home-atelier-hanger:hover {
+    transform:
+        translateY(-7px);
+
+    filter:
+        drop-shadow(
+            0 17px 17px
+            rgba(
+                0,
+                0,
+                0,
+                .08
+            )
+        );
+}
+
+
+/* HOOK */
+
+.home-atelier-hook {
+    width:
+        34px;
+
+    height:
+        47px;
+
+    position:
+        absolute;
+
+    top:
+        -4px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    border:
+        2px solid
+        #222;
+
+    border-bottom:
+        0;
+
+    border-radius:
+        22px
+        22px
+        0
+        0;
+}
+
+
+.home-atelier-hook::after {
+    content:
+        "";
+
+    width:
+        96px;
+
+    height:
+        45px;
+
+    position:
+        absolute;
+
+    top:
+        29px;
+
+    left:
+        50%;
+
+    transform:
+        translateX(-50%);
+
+    border-top:
+        2px solid
+        #222;
+
+    border-left:
+        2px solid
+        transparent;
+
+    border-right:
+        2px solid
+        transparent;
+}
+
+
+/* HOODIE IMAGE */
+
+.home-atelier-hanger img {
+    width:
+        100%;
+
+    height:
+        350px;
+
+    margin-top:
+        30px;
+
+    object-fit:
+        contain;
+
+    object-position:
+        center;
+
+    pointer-events:
+        none;
+
+    user-select:
+        none;
+}
+
+
+.home-atelier-hanger-name {
+    margin-top:
+        8px;
+
+    color:
+        #777;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        2px;
+}
+
+
+/* TEXT UNDER RACK */
+
+.home-atelier-rack-copy {
+    position:
+        relative;
+
+    z-index:
+        2;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    margin-top:
+        0;
+
+    text-align:
+        center;
+}
+
+
+.home-atelier-rack-copy p {
+    margin-bottom:
+        18px;
+
+    font-size:
+        10px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        3px;
+}
+
+
+.home-atelier-outline-button {
+    min-height:
+        44px;
+
+    padding:
+        0 24px;
+
+    display:
+        inline-flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    gap:
+        8px;
+
+    border:
+        1px solid
+        #bdbdb7;
+
+    border-radius:
+        999px;
+
+    background:
+        transparent;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+
+    transition:
+        .25s ease;
+}
+
+
+.home-atelier-outline-button:hover {
+    background:
+        #111;
+
+    color:
+        #fff;
+
+    border-color:
+        #111;
+
+    transform:
+        translateY(-2px);
+}
+
+
+.home-atelier-rack-copy small {
+    margin-top:
+        15px;
+
+    color:
+        #969690;
+
+    font-size:
+        7px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        1.8px;
+}
+
+
+
+/* =========================================================
+   PRODUCT DETAIL
+========================================================= */
+
+.home-atelier-detail {
+    opacity:
+        0;
+
+    visibility:
+        hidden;
+
+    pointer-events:
+        none;
+
+    transform:
+        translateY(
+            25px
+        )
+        scale(.98);
+}
+
+
+.home-atelier-detail.is-active {
+    opacity:
+        1;
+
+    visibility:
+        visible;
+
+    pointer-events:
+        auto;
+
+    transform:
+        translateY(0)
+        scale(1);
+}
+
+
+/* CLOSE */
+
+.home-atelier-close {
+    position:
+        absolute;
+
+    top:
+        10px;
+
+    right:
+        10px;
+
+    z-index:
+        10;
+
+    padding:
+        10px;
+
+    color:
+        #555;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.5px;
+}
+
+
+/* PRODUCT */
+
+.home-atelier-product {
+    width:
+        min(
+            100%,
+            760px
+        );
+
+    margin:
+        0 auto;
+
+    padding-top:
+        30px;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+}
+
+
+/* LARGE IMAGE */
+
+.home-atelier-image-wrap {
+    width:
+        min(
+            100%,
+            600px
+        );
+
+    height:
+        480px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    transition:
+        opacity .25s ease,
+        transform .35s ease;
+}
+
+
+.home-atelier-image-wrap img {
+    width:
+        100%;
+
+    height:
+        100%;
+
+    object-fit:
+        contain;
+
+    filter:
+        drop-shadow(
+            0
+            22px
+            18px
+            rgba(
+                0,
+                0,
+                0,
+                .07
+            )
+        );
+}
+
+
+.home-atelier-image-wrap.is-changing {
+    opacity:
+        0;
+
+    transform:
+        scale(.96);
+}
+
+
+/* PRODUCT INFO */
+
+.home-atelier-product-info {
+    width:
+        100%;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    text-align:
+        center;
+}
+
+
+.home-atelier-counter {
+    margin-bottom:
+        9px;
+
+    color:
+        #888;
+
+    font-size:
+        8px;
+
+    font-weight:
+        700;
+
+    letter-spacing:
+        2px;
+}
+
+
+.home-atelier-product-info h2 {
+    font-size:
+        clamp(
+            19px,
+            2.2vw,
+            27px
+        );
+
+    font-weight:
+        900;
+}
+
+
+.home-atelier-product-info > p {
+    margin-top:
+        7px;
+
+    color:
+        #777;
+
+    font-size:
+        11px;
+}
+
+
+
+/* =========================================================
+   FRONT / BACK
+========================================================= */
+
+.home-atelier-view-toggle {
+    min-width:
+        165px;
+
+    height:
+        36px;
+
+    margin-top:
+        18px;
+
+    padding:
+        3px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        1fr
+        1fr;
+
+    border:
+        1px solid
+        #c6c6c0;
+
+    border-radius:
+        999px;
+}
+
+
+.home-atelier-view {
+    border-radius:
+        999px;
+
+    font-size:
+        8px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1px;
+}
+
+
+.home-atelier-view.active {
+    background:
+        #111;
+
+    color:
+        #fff;
+}
+
+
+
+/* =========================================================
+   COLORS
+========================================================= */
+
+.home-atelier-colors {
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        13px;
+
+    margin-top:
+        15px;
+}
+
+
+.home-atelier-color {
+    width:
+        22px;
+
+    height:
+        22px;
+
+    position:
+        relative;
+
+    border:
+        1px solid
+        rgba(
+            0,
+            0,
+            0,
+            .18
+        );
+
+    border-radius:
+        50%;
+}
+
+
+.home-atelier-color::after {
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        -5px;
+
+    border:
+        1px solid
+        transparent;
+
+    border-radius:
+        50%;
+}
+
+
+.home-atelier-color.active::after {
+    border-color:
+        #111;
+}
+
+
+.home-atelier-color.black {
+    background:
+        #111;
+}
+
+
+.home-atelier-color.white {
+    background:
+        #fff;
+}
+
+
+.home-atelier-color.brown {
+    background:
+        #754126;
+}
+
+
+.home-atelier-color.beige {
+    background:
+        #d8c09e;
+}
+
+
+
+/* LINK */
+
+.home-atelier-piece-link {
+    margin-top:
+        19px;
+
+    padding-bottom:
+        4px;
+
+    border-bottom:
+        1px solid
+        #111;
+
+    font-size:
+        9px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        1.5px;
+}
+
+
+
+/* =========================================================
+   ARROWS
+========================================================= */
+
+.home-atelier-arrow {
+    width:
+        42px;
+
+    height:
+        42px;
+
+    position:
+        absolute;
+
+    top:
+        50%;
+
+    z-index:
+        7;
+
+    transform:
+        translateY(-50%);
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    border:
+        1px solid
+        #c6c6c0;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(
+            247,
+            247,
+            243,
+            .9
+        );
+
+    font-size:
+        17px;
+
+    transition:
+        .2s ease;
+}
+
+
+.home-atelier-arrow:hover {
+    background:
+        #111;
+
+    color:
+        #fff;
+}
+
+
+.home-atelier-arrow-left {
+    left:
+        15px;
+}
+
+
+.home-atelier-arrow-right {
+    right:
+        15px;
+}
+
+
+
+/* =========================================================
+   ENTRY ANIMATION
+========================================================= */
+
+.home-atelier:not(.atelier-visible)
+.home-atelier-rail {
+    opacity:
+        0;
+
+    transform:
+        translateX(-50%)
+        scaleX(.4);
+}
+
+
+.home-atelier:not(.atelier-visible)
+.home-atelier-hanger {
+    opacity:
+        0;
+
+    transform:
+        translateY(30px)
+        scale(.96);
+}
+
+
+.home-atelier-rail {
+    transition:
+        opacity .5s ease,
+        transform .8s ease;
+}
+
+
+.home-atelier-hanger {
+    transition:
+        opacity .55s ease,
+        transform .65s ease;
+}
+
+
+.home-atelier-hanger-right {
+    transition-delay:
+        .08s;
+}
+
+
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (
+    max-width: 1024px
+) {
+
+    .home-atelier {
+        padding:
+            45px
+            22px
+            35px;
+    }
+
+
+    .home-atelier-stage {
+        min-height:
+            660px;
+    }
+
+
+    .home-atelier-rail {
+        top:
+            105px;
+
+        width:
+            calc(
+                100% -
+                80px
+            );
+    }
+
+
+    .home-atelier-hangers {
+        min-height:
+            420px;
+    }
+
+
+    .home-atelier-hanger {
+        width:
+            clamp(
+                180px,
+                27vw,
+                240px
+            );
+    }
+
+
+    .home-atelier-hanger img {
+        height:
+            320px;
+    }
+
+
+    .home-atelier-image-wrap {
+        width:
+            min(
+                80vw,
+                560px
+            );
+
+        height:
+            450px;
+    }
+
+}
+
+
+
+/* =========================================================
+   PHONE
+========================================================= */
+
+@media (
+    max-width: 700px
+) {
+
+    .home-atelier {
+        padding:
+            32px
+            15px
+            28px;
+    }
+
+
+    .home-atelier-topline {
+        font-size:
+            7px;
+
+        letter-spacing:
+            1.2px;
+    }
+
+
+    .home-atelier-stage {
+        min-height:
+            590px;
+    }
+
+
+    .home-atelier-rail {
+        width:
+            calc(
+                100% -
+                35px
+            );
+
+        top:
+            85px;
+    }
+
+
+    .home-atelier-hangers {
+        width:
+            100%;
+
+        min-height:
+            350px;
+
+        padding-top:
+            82px;
+
+        gap:
+            2px;
+    }
+
+
+    .home-atelier-hanger {
+        width:
+            min(
+                44vw,
+                180px
+            );
+    }
+
+
+    .home-atelier-hanger img {
+        height:
+            250px;
+
+        margin-top:
+            28px;
+    }
+
+
+    .home-atelier-hook {
+        transform:
+            translateX(-50%)
+            scale(.78);
+    }
+
+
+    .home-atelier-hanger-name {
+        font-size:
+            7px;
+    }
+
+
+    .home-atelier-rack-copy {
+        margin-top:
+            12px;
+    }
+
+
+    .home-atelier-rack-copy p {
+        font-size:
+            9px;
+
+        letter-spacing:
+            2px;
+    }
+
+
+    .home-atelier-image-wrap {
+        width:
+            min(
+                82vw,
+                350px
+            );
+
+        height:
+            345px;
+    }
+
+
+    .home-atelier-product {
+        padding-top:
+            20px;
+    }
+
+
+    .home-atelier-product-info h2 {
+        font-size:
+            18px;
+    }
+
+
+    .home-atelier-product-info > p {
+        font-size:
+            10px;
+    }
+
+
+    .home-atelier-arrow {
+        width:
+            36px;
+
+        height:
+            36px;
+
+        top:
+            43%;
+    }
+
+
+    .home-atelier-arrow-left {
+        left:
+            0;
+    }
+
+
+    .home-atelier-arrow-right {
+        right:
+            0;
+    }
+
+
+    .home-atelier-close {
+        top:
+            0;
+
+        right:
+            0;
+    }
+
+}
+
+
+
+/* REDUCED MOTION */
+
+@media (
+    prefers-reduced-motion:
+    reduce
+) {
+
+    .home-atelier *,
+    .home-atelier *::before,
+    .home-atelier *::after {
+
+        transition-duration:
+            .01ms !important;
+
+        animation-duration:
+            .01ms !important;
+    }
+
+}
