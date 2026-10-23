@@ -4396,3 +4396,141 @@ textarea {
 @media(prefers-reduced-motion:reduce) {
  .sa-reference-home #saClothesRail .reference-hanging-piece {animation:none!important;transition:none!important;}
 }
+
+/* === OCT 23 FINAL REFERENCE: PERSISTENT FLOAT + FULLSCREEN GARMENT VIEW === */
+.sa-reference-home #saClothesRail .reference-hanging-piece{
+  animation:saConstantFloating 4.5s ease-in-out infinite!important;
+  transform-origin:50% 5%!important;
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece:nth-of-type(2){
+  animation-delay:-2.25s!important;
+}
+@keyframes saConstantFloating{
+  0%,100%{transform:translate3d(0,0,0) rotate(-1deg)}
+  50%{transform:translate3d(0,-14px,0) rotate(1deg)}
+}
+@media(hover:hover){
+ .sa-reference-home #saClothesRail .reference-hanging-piece:hover{
+  animation:saConstantFloating 3.2s ease-in-out infinite!important;
+ }
+}
+.sa-reference-home #referenceProductLayer .reference-product-overlay{
+ background:rgba(246,245,240,.26)!important;
+ backdrop-filter:blur(2px)!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-detail{
+ position:relative!important;
+ display:flex!important;
+ flex-direction:column!important;
+ justify-content:center!important;
+ width:min(94vw,1200px)!important;
+ min-height:min(91svh,830px)!important;
+ max-height:94svh!important;
+ padding:56px clamp(28px,5vw,84px) 30px!important;
+ border-radius:0!important;
+ background:rgba(246,245,240,.47)!important;
+ backdrop-filter:blur(7px)!important;
+ overflow:auto!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-gallery{
+ background:transparent!important;
+ min-height:0!important;
+ width:100%!important;
+ padding:0!important;
+ display:flex!important;
+ flex-direction:column!important;
+ align-items:center!important;
+}
+.sa-reference-home #referenceProductLayer #referenceDetailImage{
+ display:block!important;
+ margin:0 auto!important;
+ width:min(60vw,620px)!important;
+ height:min(67svh,615px)!important;
+ max-height:615px!important;
+ object-fit:contain!important;
+}
+.sa-reference-home #referenceProductLayer .reference-gallery-switch{
+ position:static!important;
+ transform:none!important;
+ margin:8px auto 0!important;
+ display:flex!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-info{
+ width:100%!important;
+ max-width:620px!important;
+ align-self:center!important;
+ margin:6px auto 0!important;
+ padding:0!important;
+ text-align:center!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-info .reference-product-price,
+.sa-reference-home #referenceProductLayer .reference-product-info .reference-size-row,
+.sa-reference-home #referenceProductLayer .reference-product-info .reference-quantity-row,
+.sa-reference-home #referenceProductLayer .reference-product-info .reference-color-row,
+.sa-reference-home #referenceProductLayer .reference-product-option:has(.reference-size-row),
+.sa-reference-home #referenceProductLayer .reference-product-option:has(.reference-color-row){
+ display:none!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-info h2{
+ font-size:clamp(24px,3vw,34px)!important;
+ margin:5px auto!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-message{margin-top:6px!important;}
+.sa-reference-home #referenceProductLayer .reference-add-button{
+ width:min(100%,240px)!important;
+ margin:12px auto 0!important;
+ display:block!important;
+}
+.sa-reference-home #referenceProductLayer .sa-showcase-title{
+ position:absolute;top:20px;left:26px;
+ font:700 10px Arial,sans-serif;letter-spacing:.22em;
+}
+.sa-reference-home #referenceProductLayer .sa-floating-color-tags{
+ position:absolute;z-index:12;
+ right:clamp(15px,5%,70px);top:20%;
+ display:flex;flex-direction:column;gap:10px;
+}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag{
+ position:relative;width:90px;min-height:40px;
+ padding:12px 7px 8px;
+ background:rgba(250,249,246,.78);border:1px solid #b7b3aa;
+ font-size:10px;letter-spacing:.1em;font-weight:700;
+ transition:background .2s,color .2s,transform .2s;
+}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:before{
+ content:"";position:absolute;top:-12px;left:50%;
+ height:12px;border-left:1px solid #827f78;
+}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag.is-active,
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:hover{
+ background:#171717;color:#fff;transform:translateX(-4px);
+}
+.sa-reference-home #referenceProductLayer .sa-showcase-previous,
+.sa-reference-home #referenceProductLayer .sa-showcase-next{
+ position:absolute;top:50%;z-index:10;
+ font-size:34px;line-height:1;padding:10px;border:0;background:transparent;
+}
+.sa-reference-home #referenceProductLayer .sa-showcase-previous{left:25px;}
+.sa-reference-home #referenceProductLayer .sa-showcase-next{right:25px;}
+.sa-reference-home #referenceProductLayer .reference-product-close{
+ position:absolute!important;top:18px!important;right:20px!important;
+ margin:0!important;
+}
+@media(max-width:700px){
+ .sa-reference-home #referenceProductLayer .reference-product-detail{
+  width:98vw!important;min-height:85svh!important;
+  padding:58px 12px 25px!important;
+ }
+ .sa-reference-home #referenceProductLayer #referenceDetailImage{
+  width:75vw!important;height:min(49svh,420px)!important;
+ }
+ .sa-reference-home #referenceProductLayer .sa-floating-color-tags{top:24%;right:6px;gap:7px;}
+ .sa-reference-home #referenceProductLayer .sa-color-hang-tag{width:59px;min-height:32px;font-size:8px;padding:10px 3px 5px;}
+ .sa-reference-home #referenceProductLayer .sa-showcase-previous{left:3px;}
+ .sa-reference-home #referenceProductLayer .sa-showcase-next{right:3px;}
+ .sa-reference-home #referenceProductLayer .sa-showcase-previous,
+ .sa-reference-home #referenceProductLayer .sa-showcase-next{font-size:23px;}
+}
+@media(prefers-reduced-motion:reduce){
+ .sa-reference-home #saClothesRail .reference-hanging-piece{animation:none!important;}
+}
