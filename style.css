@@ -4305,3 +4305,94 @@ textarea {
     scroll-behavior: auto !important;
   }
 }
+
+/* SET APART TWO HOODIES — FINAL CLOTHES TREATMENT */
+.sa-reference-home #saClothesRail.sa-two-hoodie-rail {
+ position:relative!important;display:flex!important;justify-content:center!important;align-items:flex-start!important;
+ gap:clamp(20px,7vw,110px)!important;width:min(95vw,960px)!important;
+ height:clamp(340px,43vw,500px)!important;overflow:visible!important;
+ margin:0 auto!important;padding:0!important;scroll-snap-type:none!important;
+}
+.sa-reference-home #saClothesRail .sa-rail-bar {
+ display:block!important;position:absolute!important;top:54px!important;left:10%!important;right:auto!important;
+ width:80%!important;height:2px!important;background:rgba(45,42,36,.52)!important;transform:none!important;
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece {
+ display:flex!important;position:relative!important;flex:0 1 clamp(150px,23vw,270px)!important;
+ width:clamp(150px,23vw,270px)!important;height:clamp(270px,38vw,435px)!important;
+ margin:48px 0 0!important;padding:0!important;opacity:1!important;scale:1!important;translate:0!important;
+ transform:none!important;border:none!important;background:transparent!important;cursor:pointer;
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece img {
+ width:100%!important;height:100%!important;object-fit:contain!important;
+ object-position:center top!important;pointer-events:none!important;
+ filter:drop-shadow(0 16px 15px rgba(0,0,0,.1))!important;
+}
+.sa-reference-home #saClothesRail .reference-hook {top:-15px!important;left:50%!important;}
+@keyframes saHoverFloat {
+ 0%,100%{transform:translateY(0) rotate(0deg)}
+ 25%{transform:translateY(-7px) rotate(-1.1deg)}
+ 55%{transform:translateY(-14px) rotate(1deg)}
+ 80%{transform:translateY(-6px) rotate(-.6deg)}
+}
+@media (hover:hover) and (pointer:fine) {
+ .sa-reference-home #saClothesRail .reference-hanging-piece:hover {
+  animation:saHoverFloat 2.7s ease-in-out infinite!important;
+  scale:1!important;translate:0!important;
+ }
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece:focus-visible {
+ outline:2px solid #111;outline-offset:6px;
+}
+.sa-reference-home #referenceProductStage {display:none!important;}
+.sa-reference-home #referenceProductLayer.is-active {display:flex!important;padding:12px!important;}
+.sa-reference-home #referenceProductLayer .reference-product-overlay {
+ background:rgba(246,245,240,.10)!important;
+ backdrop-filter:blur(2px)!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-detail {
+ display:flex!important;flex-direction:column!important;align-items:center!important;
+ width:min(92vw,620px)!important;max-height:calc(100svh - 24px)!important;
+ padding:18px 26px 26px!important;overflow-y:auto!important;
+ background:rgba(246,245,240,.61)!important;
+ border:1px solid rgba(255,255,255,.68)!important;border-radius:8px!important;
+ backdrop-filter:blur(9px)!important;
+ box-shadow:0 18px 55px rgba(0,0,0,.12)!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-gallery {
+ display:flex!important;flex-direction:column!important;justify-content:center!important;align-items:center!important;
+ width:100%!important;min-height:0!important;background:transparent!important;padding:0!important;
+}
+.sa-reference-home #referenceProductLayer #referenceDetailImage {
+ width:min(100%,340px)!important;height:min(40vh,330px)!important;object-fit:contain!important;
+}
+.sa-reference-home #referenceProductLayer .reference-gallery-switch {
+ position:static!important;transform:none!important;margin:4px auto 0!important;justify-content:center!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-info {
+ width:100%!important;max-width:490px!important;padding:0!important;margin:10px auto 0!important;
+ align-self:center!important;text-align:center!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-info h2 {
+ font-size:clamp(24px,3vw,35px)!important;margin-top:7px!important;
+}
+.sa-reference-home #referenceProductLayer .reference-product-message {margin-top:7px!important;font-size:13px!important;}
+.sa-reference-home #referenceProductLayer .reference-product-price {margin-top:9px!important;}
+.sa-reference-home #referenceProductLayer .reference-color-row,
+.sa-reference-home #referenceProductLayer .reference-size-row,
+.sa-reference-home #referenceProductLayer .reference-quantity-row {justify-content:center!important;}
+.sa-reference-home #referenceProductLayer .reference-option-heading {justify-content:center!important;gap:14px!important;}
+.sa-reference-home #referenceProductLayer .reference-product-close {position:sticky!important;top:0!important;align-self:flex-end!important;z-index:10!important;margin-bottom:-32px!important;}
+@media(max-width:700px) {
+ .sa-reference-home #saClothesRail.sa-two-hoodie-rail {height:310px!important;gap:12px!important;}
+ .sa-reference-home #saClothesRail .sa-rail-bar {top:38px!important;}
+ .sa-reference-home #saClothesRail .reference-hanging-piece {
+  flex:0 1 min(44vw,165px)!important;width:min(44vw,165px)!important;
+  height:270px!important;margin-top:32px!important;
+ }
+ .sa-reference-home #referenceProductLayer .reference-product-detail {width:96vw!important;padding:12px 16px 18px!important;}
+ .sa-reference-home #referenceProductLayer #referenceDetailImage {height:min(30vh,235px)!important;}
+}
+@media(prefers-reduced-motion:reduce) {
+ .sa-reference-home #saClothesRail .reference-hanging-piece {animation:none!important;transition:none!important;}
+}
