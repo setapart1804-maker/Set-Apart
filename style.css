@@ -4063,3 +4063,24 @@ textarea {
     }
 }
 
+
+/* SHOW ABOUT IN MOBILE HEADER */
+
+@media (max-width: 700px) {
+
+    .sa-reference-home .reference-nav-left a[href="about.html"],
+    .sa-inner-page .reference-nav-left a[href="about.html"] {
+        display: inline-flex;
+        font-size: 9px;
+    }
+
+    .sa-reference-home .reference-nav-left,
+    .sa-inner-page .reference-nav-left {
+        gap: 12px;
+    }
+
+    .sa-reference-home .reference-header-inner,
+    .sa-inner-page .reference-header-inner {
+        grid-template-columns: 1fr auto 1fr;
+    }
+}
