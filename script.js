@@ -24,8 +24,8 @@ const PRODUCTS = {
         back: "PILGRIM BROWN BLACK.jpeg"
       },
       black: {
-        front: "PILGRIM BLACK FRONT 1.png",
-        back: "PILGRIM BLACK BACK.png"
+        front: "PILGRIM BLACK FRONT.jpeg",
+        back: "PILGRIM BLACK BACK.jpeg"
       },
       beige: {
         front: "PILGRIM BEIGE FRONT.jpeg",
@@ -51,8 +51,8 @@ const PRODUCTS = {
         back: "GOD FIRST BLACK BACK.jpeg"
       },
       brown: {
-        front: "GOD FIRST BROWN FRONT.png",
-        back: "GOD FIRST BROWN BACK.png"
+        front: "GOD FIRST BROWN FRONT.jpeg",
+        back: "GOD FIRST BROWN BACK.jpeg"
       },
       beige: {
         front: "GOD FIRST BEIGE FRONT.jpeg",
