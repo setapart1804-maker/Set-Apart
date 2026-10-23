@@ -4534,3 +4534,25 @@ textarea {
 @media(prefers-reduced-motion:reduce){
  .sa-reference-home #saClothesRail .reference-hanging-piece{animation:none!important;}
 }
+
+/* Size and quantity appear only after ADD TO BAG is intentionally selected */
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-product-option:has(.reference-size-row),
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-size-row,
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-quantity-row {
+  display:flex!important;
+}
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-product-option:has(.reference-size-row) {
+  flex-direction:column!important;
+  align-items:stretch!important;
+  max-width:360px;
+  margin:16px auto 0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-size-row{
+  display:grid!important;
+  grid-template-columns:repeat(4,minmax(0,1fr))!important;
+}
+.sa-reference-home #referenceProductLayer.sa-order-mode .reference-quantity-row{
+  display:flex!important;
+  max-width:360px;
+  margin:14px auto 0!important;
+}
