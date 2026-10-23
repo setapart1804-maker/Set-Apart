@@ -385,6 +385,7 @@ function initHome() {
 
     renderDetail();
 
+    detailLayer.classList.remove("sa-order-mode");
     detailLayer.classList.add("is-active");
     detailLayer.setAttribute("aria-hidden", "false");
     document.body.classList.add("sa-lock");
@@ -538,15 +539,19 @@ function initHome() {
     }
 
     if (detailAdd) {
-      detailAdd.textContent =
-        "ADD TO BAG — " + money(product.price * selectedQuantity);
-
+      const ordering = detailLayer.classList.contains("sa-order-mode");
+      detailAdd.textContent = ordering ? "CONFIRM — ADD TO BAG" : "ADD TO BAG";
       detailAdd.onclick = () => {
+        if (!detailLayer.classList.contains("sa-order-mode")) {
+          detailLayer.classList.add("sa-order-mode");
+          renderDetail();
+          detailInfo.querySelector(".reference-size-row button")?.focus();
+          return;
+        }
         if (!selectedSize) {
           alert("Please select a size first.");
           return;
         }
-
         if (addToCart(id, color, selectedSize, selectedQuantity)) {
           closeDetail();
           openBag();
@@ -556,6 +561,7 @@ function initHome() {
   }
 
   function closeDetail() {
+    detailLayer.classList.remove("sa-order-mode");
     detailLayer.classList.remove("is-active");
     detailLayer.setAttribute("aria-hidden", "true");
 
