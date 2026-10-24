@@ -563,10 +563,18 @@ function initHome() {
     }
 
     if (detailAdd) {
-      const ordering = detailLayer.classList.contains("sa-order-mode");
-      detailAdd.textContent = "ADD TO BAG";
+      const inCollection = detailLayer.classList.contains("sa-collection-purchase");
+      detailAdd.textContent = inCollection ? "ADD TO BAG" : "DETAILS PRODUCT";
       detailAdd.onclick = () => {
-        if (!selectedSize) { alert("Please select a size first."); return; }
+        if (!inCollection) {
+          detailLayer.classList.add("sa-collection-purchase", "sa-order-mode");
+          renderDetail();
+          return;
+        }
+        if (!selectedSize) {
+          alert("Please select a size first.");
+          return;
+        }
         if (addToCart(id, color, selectedSize, selectedQuantity)) {
           closeDetail();
           openBag();
