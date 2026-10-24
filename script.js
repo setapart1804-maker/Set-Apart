@@ -21,11 +21,11 @@ const PRODUCTS = {
     images: {
       brown: {
         front: "PILGRIM BROWN FRONT.jpeg",
-        back: "PILGRIM BROWN BLACK.jpeg"
+        back: "PILGRIM BROWN BACK.jpeg"
       },
       black: {
-        front: "PILGRIM BLACK FRONT.png",
-        back: "PILGRIM BLACK BACK.png"
+        front: "PILGRIM BLACK FRONT.jpeg",
+        back: "PILGRIM BLACK BACK.jpeg"
       },
       beige: {
         front: "PILGRIM BEIGE FRONT.jpeg",
