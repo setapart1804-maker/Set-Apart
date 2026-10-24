@@ -382,7 +382,8 @@ function initHome() {
     const shadow = document.getElementById("saShadowGarment");
     if (!shadow) return;
     const other = currentSelection().id === "pilgrim" ? "godfirst" : "pilgrim";
-    shadow.src = sourceForProduct(other)?.getAttribute("src") || PRODUCTS[other].sideImage;
+    shadow.src = getImage(other, other === "pilgrim" ? "brown" : "white", "front");
+    shadow.dataset.other = other;
   }
   function animateOpen() {
     if (!showcaseSource || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -408,7 +409,7 @@ function initHome() {
 
     renderDetail();
 
-    detailLayer.classList.remove("sa-order-mode");
+    detailLayer.classList.add("sa-order-mode");
     detailLayer.classList.add("is-active");
     detailLayer.setAttribute("aria-hidden", "false");
     document.body.classList.add("sa-lock");
@@ -562,13 +563,8 @@ function initHome() {
 
     if (detailAdd) {
       const ordering = detailLayer.classList.contains("sa-order-mode");
-      detailAdd.textContent = ordering ? "CONFIRM — ADD TO BAG" : "GO TO SHOP";
+      detailAdd.textContent = "ADD TO BAG";
       detailAdd.onclick = () => {
-        if (!ordering) {
-          closeDetail();
-          document.getElementById("collection")?.scrollIntoView({behavior:"smooth",block:"start"});
-          return;
-        }
         if (!selectedSize) { alert("Please select a size first."); return; }
         if (addToCart(id, color, selectedSize, selectedQuantity)) {
           closeDetail();
