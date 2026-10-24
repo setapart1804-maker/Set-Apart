@@ -4830,3 +4830,21 @@ textarea {
 @media(prefers-reduced-motion:reduce){
  .sa-reference-home #saClothesRail .reference-hanging-piece{animation:none!important}
 }
+
+/* TEST BRANCH ONLY: hanger artwork on rail, original animated product modal remains untouched. */
+.sa-reference-home #saClothesRail{gap:0!important;align-items:flex-start!important}
+.sa-reference-home #saClothesRail .sa-rail-end{width:26px!important;height:26px!important;top:35px!important;border-width:2px!important}
+.sa-reference-home #saClothesRail .sa-rail-end:after{inset:6px!important;border-width:1px!important}
+.sa-reference-home #saClothesRail .sa-rail-end-left{left:calc(5% - 12px)!important}
+.sa-reference-home #saClothesRail .sa-rail-end-right{right:calc(5% - 12px)!important}
+.sa-reference-home #saClothesRail .sa-showroom-hanger{display:none!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece{margin-top:78px!important;flex-basis:clamp(150px,28vw,300px)!important;width:clamp(150px,28vw,300px)!important;transform-origin:50% -31px!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim{z-index:5!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{margin-left:-24px!important;z-index:4!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim img{width:100%!important;height:100%!important}
+.sa-reference-home #saClothesRail .reference-hanging-piece::before{content:"";position:absolute;z-index:5;top:-30px;left:calc(50% - 5px);width:10px;height:42px;border:2px solid #303030;border-bottom:0;border-radius:10px 10px 0 0;pointer-events:none}
+@media(max-width:700px){
+ .sa-reference-home #saClothesRail .reference-hanging-piece{margin-top:78px!important;width:43vw!important;flex-basis:43vw!important}
+ .sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{margin-left:-12px!important}
+ .sa-reference-home #saClothesRail .reference-hanging-piece::before{top:-35px;height:47px;width:8px;left:calc(50% - 4px)}
+}
