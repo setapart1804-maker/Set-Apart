@@ -4713,3 +4713,21 @@ textarea {
  backdrop-filter:blur(6px)!important;
  -webkit-backdrop-filter:blur(6px)!important;
 }
+
+/* COLLECTION PURCHASE — softer corners without changing layout */
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+  border-radius:18px!important;
+  overflow:hidden!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+  border-radius:18px 0 0 18px!important;
+}
+@media(max-width:700px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+  border-radius:14px!important;
+  overflow-y:auto!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+  border-radius:14px 14px 0 0!important;
+ }
+}
