@@ -55,18 +55,21 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 @keyframes float{0%,100%{transform:rotate(-.45deg)}50%{transform:rotate(.45deg)}}
 @media(max-width:650px){.piece.asset-ready::before{top:-39px;height:54px;width:8px;left:calc(50% - 4px);border-width:2px}}
 
-/* Reference-inspired display: gentle garment overlap on one shared rail. */
+/* Showroom experiment: delicate overlap, metal hooks physically aligned to rail */
 .showroom{gap:0;align-items:flex-start}
 .showroom>.piece{flex:0 1 300px;min-width:0;z-index:2}
 .showroom>.piece.pilgrim{z-index:3}
-.showroom>.piece.asset-ready:not(.pilgrim){margin-left:-46px;margin-top:108px}
-.showroom>.piece.asset-ready::before{top:-28px;height:46px;left:calc(50% - 5px);z-index:5}
-.showroom>.piece.asset-ready:not(.pilgrim)::before{top:-41px;height:59px}
+.showroom>.piece.asset-ready{margin-top:92px;transform-origin:center -34px}
+.showroom>.piece.asset-ready:not(.pilgrim){margin-left:-24px;z-index:2}
+/* Rail top 67px, piece top 92px: hook reaches rail at piece-relative -25px */
+.showroom>.piece.asset-ready::before{content:"";position:absolute;z-index:6;left:calc(50% - 4px);top:-25px;width:8px;height:34px;border:3px solid #2f2f2f;border-bottom:0;border-right-color:#4a4a4a;border-radius:11px 11px 0 0;background:transparent;pointer-events:none}
+.showroom>.piece.asset-ready img{transform:none!important;width:100%!important;height:100%!important;margin:0!important;object-fit:contain;object-position:center top}
 @media(max-width:650px){
  .showroom>.piece{flex:0 1 46%;width:46%}
- .showroom>.piece.asset-ready:not(.pilgrim){margin-left:-15px;margin-top:107px}
- .showroom>.piece.asset-ready::before{top:-39px;height:54px}
- .showroom>.piece.asset-ready:not(.pilgrim)::before{top:-47px;height:62px}
+ .showroom>.piece.asset-ready{margin-top:94px}
+ .showroom>.piece.asset-ready:not(.pilgrim){margin-left:-12px}
+ /* Mobile rail top 60px; piece top 94px */
+ .showroom>.piece.asset-ready::before{left:calc(50% - 3px);top:-34px;width:6px;height:43px;border-width:2px}
 }
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
