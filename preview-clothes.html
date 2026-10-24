@@ -17,11 +17,11 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .piece{border:0;background:transparent;position:relative;margin-top:95px;padding:0;flex:0 1 300px;width:clamp(135px,32vw,300px);height:clamp(215px,34vw,350px);cursor:pointer;transform-origin:center -20px;animation:float 5.7s ease-in-out infinite}
 .piece:nth-of-type(2){animation-delay:-2.85s}
 .piece img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;object-position:center top;filter:drop-shadow(7px 16px 10px #0002)}
-.piece.pilgrim img{width:93%;height:93%;margin:auto}
-.hanger{position:absolute;top:-22px;left:50%;transform:translateX(-50%);height:66px;width:94px;z-index:1;pointer-events:none}
-.hook{position:absolute;left:44px;top:-18px;width:9px;height:35px;border:2px solid #595653;border-bottom:0;border-radius:9px 9px 0 0}
-.wood{position:absolute;top:13px;left:9px;width:77px;height:30px;background:linear-gradient(135deg,#7d4927,#b47b47 55%,#774621);border-radius:5px;clip-path:polygon(48% 0,53% 0,100% 82%,97% 100%,3% 100%,0 82%)}
-.wood:after{content:"";position:absolute;inset:4px;background:linear-gradient(120deg,#ad7743,#d0a471,#966035);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%)}
+.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:scale(1.07);transform-origin:center top}
+.hanger{position:absolute;top:-20px;left:50%;transform:translateX(-50%);height:63px;width:98px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:45px;top:-23px;width:10px;height:40px;border:2.5px solid #66615b;border-bottom:0;border-radius:13px 13px 0 0;transform:rotate(5deg)}
+.wood{position:absolute;top:15px;left:6px;width:86px;height:29px;background:linear-gradient(150deg,#9c6838,#c89964 50%,#80502b);border-radius:7px;clip-path:polygon(49% 0,54% 0,100% 78%,97% 100%,3% 100%,0 78%);box-shadow:0 2px 2px #0002}
+.wood:after{content:"";position:absolute;inset:4px 5px 5px;background:linear-gradient(115deg,#c69b6c,#e0b98b,#a97743);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%)}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-.9deg)}50%{transform:translateY(-8px) rotate(.9deg)}}
 .info{display:flex;justify-content:space-between;gap:15px;margin:20px auto 0;max-width:1030px;font-size:11px;color:#676057;letter-spacing:.1em;font-weight:700}
 .info strong{color:#151515} .note{text-align:center;margin-top:35px;color:#6c655e;font-size:12px}
@@ -30,7 +30,7 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .panel{position:relative;background:#f5f2eced;backdrop-filter:blur(11px);width:min(920px,95vw);min-height:360px;border-radius:18px;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:32px;box-shadow:0 24px 70px #0003}
 .panel img{width:100%;max-height:430px;object-fit:contain}.panel h2{font-size:clamp(24px,4vw,48px);letter-spacing:-.05em}.panel p{color:#615d58;line-height:1.6}
 .close{position:absolute;right:15px;top:15px;border:0;background:none;font-size:30px;cursor:pointer}.disclaimer{font-size:12px!important}
-@media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:52px;width:23px;height:23px}.end.left{left:calc(5% - 11px)}.end.right{right:calc(5% - 11px)}.end:after{inset:6px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.78)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
+@media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:52px;width:23px;height:23px}.end.left{left:calc(5% - 11px)}.end.right{right:calc(5% - 11px)}.end:after{inset:6px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.83)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.piece{animation:none}}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
