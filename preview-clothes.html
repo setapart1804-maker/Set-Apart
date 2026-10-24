@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SET APART — CLOTHES showroom preview (not live)</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#f7f5f1;color:#111;font-family:Arial,Helvetica,sans-serif}
+header{height:72px;display:flex;align-items:center;justify-content:space-between;padding:0 clamp(18px,5vw,80px);border-bottom:1px solid #ddd9d2;gap:14px}
+.brand{font-weight:900;letter-spacing:.14em;font-size:17px}.tag{font:700 10px Arial;letter-spacing:.12em;color:#6b6256;text-align:right}
+main{max-width:1200px;margin:auto;padding:clamp(28px,5vw,70px) 16px 40px}
+.overline{text-align:center;font-size:11px;letter-spacing:.28em;font-weight:800}
+h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin:10px 0 12px;line-height:1}
+.description{text-align:center;color:#716b62;font-size:14px;margin:0 0 35px}
+.showroom{position:relative;isolation:isolate;margin:0 auto;background:linear-gradient(115deg,#e7e2d9,#f3efe7 50%,#e6e1d8);width:min(100%,1030px);height:clamp(340px,49vw,540px);box-shadow:inset 0 3px 30px #ffffff77,0 14px 60px #0000000b;overflow:hidden;border-radius:3px;display:flex;justify-content:center;gap:clamp(10px,7vw,115px)}
+.rod{position:absolute;top:67px;left:5%;right:5%;height:9px;background:linear-gradient(#3d3d3d,#080808 70%);border-radius:9px;box-shadow:0 5px 7px #0004}
+.end{position:absolute;top:55px;width:27px;height:27px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#515151,#0d0d0d 75%);box-shadow:0 6px 12px #0004;border:3px solid #171717}
+.end:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid #666;background:#161616}
+.end.left{left:calc(5% - 13px)}.end.right{right:calc(5% - 13px)}
+.piece{border:0;background:transparent;position:relative;margin-top:95px;padding:0;flex:0 1 300px;width:clamp(135px,32vw,300px);height:clamp(215px,34vw,350px);cursor:pointer;transform-origin:center -20px;animation:float 5.7s ease-in-out infinite}
+.piece:nth-of-type(2){animation-delay:-2.85s}
+.piece img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;object-position:center top;filter:drop-shadow(7px 16px 10px #0002)}
+.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:translateY(-18px) scale(1.16);transform-origin:center top}
+.hanger{position:absolute;top:-23px;left:50%;transform:translateX(-50%);height:90px;width:120px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:55px;top:-5px;width:10px;height:62px;border:2.5px solid #77736f;border-bottom:0;border-radius:12px 12px 0 0;transform:rotate(2deg)}
+.wood{position:absolute;top:51px;left:0;width:120px;height:40px;background:linear-gradient(#101010,#252525);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%);border-radius:6px}
+.wood:after{content:"";position:absolute;left:9px;right:9px;bottom:6px;height:3px;background:#454545;border-radius:3px}
+@keyframes float{0%,100%{transform:translateY(0) rotate(-.9deg)}50%{transform:translateY(-8px) rotate(.9deg)}}
+.info{display:flex;justify-content:space-between;gap:15px;margin:20px auto 0;max-width:1030px;font-size:11px;color:#676057;letter-spacing:.1em;font-weight:700}
+.info strong{color:#151515} .note{text-align:center;margin-top:35px;color:#6c655e;font-size:12px}
+.preview{display:none;position:fixed;inset:0;background:rgba(17,17,17,.45);z-index:20;align-items:center;justify-content:center;padding:18px}
+.preview.open{display:flex}
+.panel{position:relative;background:#f5f2eced;backdrop-filter:blur(11px);width:min(920px,95vw);min-height:360px;border-radius:18px;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:32px;box-shadow:0 24px 70px #0003}
+.panel img{width:100%;max-height:430px;object-fit:contain}.panel h2{font-size:clamp(24px,4vw,48px);letter-spacing:-.05em}.panel p{color:#615d58;line-height:1.6}
+.close{position:absolute;right:15px;top:15px;border:0;background:none;font-size:30px;cursor:pointer}.disclaimer{font-size:12px!important}
+@media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:52px;width:23px;height:23px}.end.left{left:calc(5% - 11px)}.end.right{right:calc(5% - 11px)}.end:after{inset:6px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.78)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.piece{animation:none}}
+
+/* Layered garment/hanger composite — experiment only */
+.piece{position:relative}
+.piece img{position:relative;z-index:3}
+.hanger{position:absolute;top:-18px;left:50%;transform:translateX(-50%);height:92px;width:120px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:55px;top:-6px;width:10px;height:62px;border:2.5px solid #77736f;border-bottom:0;border-radius:12px 12px 0 0;transform:rotate(2deg);z-index:4}
+.wood{position:absolute;top:52px;left:0;width:120px;height:40px;background:linear-gradient(#101010,#252525);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%);border-radius:6px;z-index:1}
+.wood:after{content:"";position:absolute;left:9px;right:9px;bottom:6px;height:3px;background:#454545}
+.hanger-inner{position:absolute;left:50%;top:36px;transform:translateX(-50%);width:48px;height:30px;background:linear-gradient(#111,#2a2a2a);clip-path:polygon(50% 0,100% 80%,90% 100%,10% 100%,0 80%);border-radius:4px;z-index:4;pointer-events:none}
+.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:translateY(-10px) scale(1.14);transform-origin:center top}
+@media(max-width:650px){.hanger{transform:translateX(-50%) scale(.78)}}
+
+/* New garment artwork includes its own hanger; never double-render it. */
+.piece.asset-ready .hanger,.piece.asset-ready .hanger-inner{display:none}
+.piece.asset-ready img,.piece.pilgrim.asset-ready img{transform:none;width:100%;height:100%;margin:auto}
+
+/* Both CLOTHE files include their hangers. Add only slender hooks joining the rail. */
+.piece.asset-ready{isolation:isolate;transform-origin:center -27px}
+.piece.asset-ready::before{content:"";position:absolute;z-index:4;left:calc(50% - 5px);top:-28px;width:10px;height:46px;border:3px solid #343434;border-bottom:0;border-right-color:#535353;border-radius:11px 11px 0 0;pointer-events:none}
+.piece.asset-ready img{transform:none!important;width:100%!important;height:100%!important;object-fit:contain;object-position:center top;margin:0!important}
+@keyframes float{0%,100%{transform:rotate(-.45deg)}50%{transform:rotate(.45deg)}}
+@media(max-width:650px){.piece.asset-ready::before{top:-39px;height:54px;width:8px;left:calc(50% - 4px);border-width:2px}}
+
+/* Showroom experiment: delicate overlap, metal hooks physically aligned to rail */
+.showroom{gap:0;align-items:flex-start}
+.showroom>.piece{flex:0 1 300px;min-width:0;z-index:2}
+.showroom>.piece.pilgrim{z-index:3}
+.showroom>.piece.asset-ready{margin-top:92px;transform-origin:center -34px}
+.showroom>.piece.asset-ready:not(.pilgrim){margin-left:-24px;z-index:2}
+/* Rail top 67px, piece top 92px: hook reaches rail at piece-relative -25px */
+.showroom>.piece.asset-ready::before{content:"";position:absolute;z-index:6;left:calc(50% - 4px);top:-25px;width:8px;height:34px;border:3px solid #2f2f2f;border-bottom:0;border-right-color:#4a4a4a;border-radius:11px 11px 0 0;background:transparent;pointer-events:none}
+.showroom>.piece.asset-ready img{transform:none!important;width:100%!important;height:100%!important;margin:0!important;object-fit:contain;object-position:center top}
+@media(max-width:650px){
+ .showroom>.piece{flex:0 1 46%;width:46%}
+ .showroom>.piece.asset-ready{margin-top:94px}
+ .showroom>.piece.asset-ready:not(.pilgrim){margin-left:-12px}
+ /* Mobile rail top 60px; piece top 94px */
+ .showroom>.piece.asset-ready::before{left:calc(50% - 3px);top:-34px;width:6px;height:43px;border-width:2px}
+}
+.normal-product{width:100%;min-width:0}.normal-product img{display:block;width:100%;height:clamp(220px,35vw,425px);object-fit:contain}.face-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}.face-button{padding:10px 20px;border:1px solid #333;background:transparent;cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.13em;border-radius:4px}.face-button.active{background:#171717;color:white}.face-button:focus-visible{outline:2px solid #171717;outline-offset:3px}
+</style></head><body>
+<header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
+<main><div class="overline">SET APART COLLECTION</div><h1>CLOTHES</h1><p class="description">Faith-inspired essentials. A showroom concept.</p>
+<section class="showroom" aria-label="Two hoodie showroom preview">
+<div class="rod"></div><span class="end left"></span><span class="end right"></span>
+<button class="piece pilgrim asset-ready" type="button" data-name="PILGRIM BROWN" data-front="PILGRIM BROWN FRONT.jpeg" data-back="PILGRIM BROWN BACK.jpeg" aria-label="Preview PILGRIM brown"><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT%20CLOTHE.png" alt="Pilgrim brown hoodie"></button>
+<button class="piece asset-ready" type="button" data-name="GOD FIRST WHITE" data-front="GOD FIRST WHITE FRONT.jpeg" data-back="GOD FIRST WHITE BACK.jpeg" aria-label="Preview GOD FIRST white"><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT%20CLOTHE.png" alt="God First white hoodie"></button>
+</section><div class="info"><span><strong>PILGRIM</strong> — WALK BY FAITH</span><span><strong>GOD FIRST</strong> — PUT GOD FIRST</span></div><p class="note">Click either hoodie to preview its look. This experiment does not take orders.</p></main>
+<div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><div class="normal-product"><img id="large" alt=""><div class="face-controls"><button type="button" class="face-button active" data-face="front" aria-pressed="true">FRONT</button><button type="button" class="face-button" data-face="back" aria-pressed="false">BACK</button></div></div><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>View the original product photos from the published collection — front and back.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
+<script>
+const modal=document.getElementById('preview');
+const large=document.getElementById('large');
+let currentProduct=null;
+let face='front';
+const base='https://setapart1804-maker.github.io/Set-Apart/';
+function showFace(nextFace){
+ if(!currentProduct)return;
+ face=nextFace;
+ large.src=base+encodeURIComponent(currentProduct.dataset[face]);
+ large.alt=currentProduct.dataset.name+' — '+face.toUpperCase();
+ document.querySelectorAll('.face-button').forEach(button=>{
+  const active=button.dataset.face===face;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+}
+document.querySelectorAll('.piece').forEach(piece=>piece.addEventListener('click',()=>{
+ currentProduct=piece;
+ document.getElementById('name').textContent=piece.dataset.name;
+ showFace('front');
+ modal.classList.add('open');
+ document.querySelector('.close').focus();
+}));
+document.querySelectorAll('.face-button').forEach(button=>button.addEventListener('click',()=>showFace(button.dataset.face)));
+function closeModal(){modal.classList.remove('open');if(currentProduct)currentProduct.focus()}
+document.querySelector('.close').addEventListener('click',closeModal);
+modal.addEventListener('click',event=>{if(event.target===modal)closeModal()});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&modal.classList.contains('open'))closeModal()});
+</script></body></html>
