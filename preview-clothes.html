@@ -17,10 +17,10 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .piece{border:0;background:transparent;position:relative;margin-top:95px;padding:0;flex:0 1 300px;width:clamp(135px,32vw,300px);height:clamp(215px,34vw,350px);cursor:pointer;transform-origin:center -20px;animation:float 5.7s ease-in-out infinite}
 .piece:nth-of-type(2){animation-delay:-2.85s}
 .piece img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;object-position:center top;filter:drop-shadow(7px 16px 10px #0002)}
-.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:scale(1.07);transform-origin:center top}
-.hanger{position:absolute;top:-20px;left:50%;transform:translateX(-50%);height:63px;width:98px;z-index:1;pointer-events:none}
-.hook{position:absolute;left:45px;top:-23px;width:10px;height:40px;border:2.5px solid #66615b;border-bottom:0;border-radius:13px 13px 0 0;transform:rotate(5deg)}
-.wood{position:absolute;top:15px;left:6px;width:86px;height:29px;background:linear-gradient(150deg,#9c6838,#c89964 50%,#80502b);border-radius:7px;clip-path:polygon(49% 0,54% 0,100% 78%,97% 100%,3% 100%,0 78%);box-shadow:0 2px 2px #0002}
+.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:translateY(-19px) scale(1.23);transform-origin:center top}
+.hanger{position:absolute;top:13px;left:50%;transform:translateX(-50%);height:63px;width:98px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:45px;top:-56px;width:10px;height:77px;border:2.5px solid #66615b;border-bottom:0;border-radius:13px 13px 0 0;transform:rotate(2deg)}
+.wood{position:absolute;top:4px;left:6px;width:86px;height:29px;background:linear-gradient(150deg,#9c6838,#c89964 50%,#80502b);border-radius:7px;clip-path:polygon(49% 0,54% 0,100% 78%,97% 100%,3% 100%,0 78%);box-shadow:0 2px 2px #0002}
 .wood:after{content:"";position:absolute;inset:4px 5px 5px;background:linear-gradient(115deg,#c69b6c,#e0b98b,#a97743);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%)}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-.9deg)}50%{transform:translateY(-8px) rotate(.9deg)}}
 .info{display:flex;justify-content:space-between;gap:15px;margin:20px auto 0;max-width:1030px;font-size:11px;color:#676057;letter-spacing:.1em;font-weight:700}
