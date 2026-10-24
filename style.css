@@ -4587,3 +4587,13 @@ textarea {
   padding:25px 22px!important;
  }
 }
+
+/* CLOTHES ONLY: clean runway showcase, shopping options in DETAILS PRODUCT */
+.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) .reference-product-price,
+.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) .reference-product-option:has(.reference-size-row),
+.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) .reference-quantity-row{
+ display:none!important;
+}
+.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) .reference-add-button{
+ display:block!important;width:min(100%,280px)!important;margin:12px auto 0!important;
+}
