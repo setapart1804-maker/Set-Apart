@@ -4706,3 +4706,10 @@ textarea {
 .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-add-button{
  background:#111!important;color:#fff!important;text-shadow:none!important;
 }
+
+/* COLLECTION PURCHASE — slightly less transparent while retaining glass */
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+ background:rgba(255,255,255,.66)!important;
+ backdrop-filter:blur(6px)!important;
+ -webkit-backdrop-filter:blur(6px)!important;
+}
