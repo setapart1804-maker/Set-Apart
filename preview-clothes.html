@@ -11,17 +11,17 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .description{text-align:center;color:#716b62;font-size:14px;margin:0 0 35px}
 .showroom{position:relative;isolation:isolate;margin:0 auto;background:linear-gradient(115deg,#e7e2d9,#f3efe7 50%,#e6e1d8);width:min(100%,1030px);height:clamp(340px,49vw,540px);box-shadow:inset 0 3px 30px #ffffff77,0 14px 60px #0000000b;overflow:hidden;border-radius:3px;display:flex;justify-content:center;gap:clamp(10px,7vw,115px)}
 .rod{position:absolute;top:67px;left:5%;right:5%;height:9px;background:linear-gradient(#3d3d3d,#080808 70%);border-radius:9px;box-shadow:0 5px 7px #0004}
-.end{position:absolute;top:45px;width:52px;height:52px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#515151,#0d0d0d 75%);box-shadow:0 6px 12px #0004;border:3px solid #171717}
-.end:after{content:"";position:absolute;inset:14px;border-radius:50%;border:2px solid #666;background:#161616}
-.end.left{left:calc(5% - 25px)}.end.right{right:calc(5% - 25px)}
+.end{position:absolute;top:55px;width:27px;height:27px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#515151,#0d0d0d 75%);box-shadow:0 6px 12px #0004;border:3px solid #171717}
+.end:after{content:"";position:absolute;inset:7px;border-radius:50%;border:2px solid #666;background:#161616}
+.end.left{left:calc(5% - 13px)}.end.right{right:calc(5% - 13px)}
 .piece{border:0;background:transparent;position:relative;margin-top:95px;padding:0;flex:0 1 300px;width:clamp(135px,32vw,300px);height:clamp(215px,34vw,350px);cursor:pointer;transform-origin:center -20px;animation:float 5.7s ease-in-out infinite}
 .piece:nth-of-type(2){animation-delay:-2.85s}
 .piece img{position:relative;z-index:2;display:block;width:100%;height:100%;object-fit:contain;object-position:center top;filter:drop-shadow(7px 16px 10px #0002)}
 .piece.pilgrim img{width:93%;height:93%;margin:auto}
-.hanger{position:absolute;top:-40px;left:50%;transform:translateX(-50%);height:75px;width:110px;z-index:1;pointer-events:none}
-.hook{position:absolute;left:52px;top:-17px;width:13px;height:30px;border:3px solid #ab926e;border-bottom:0;border-radius:12px 12px 0 0}
-.wood{position:absolute;top:11px;left:8px;width:93px;height:40px;background:#bc9b70;border-radius:3px;clip-path:polygon(50% 0,100% 72%,95% 95%,5% 95%,0 72%)}
-.wood:after{content:"";position:absolute;inset:6px;background:#e4c395;clip-path:polygon(50% 0,100% 72%,95% 95%,5% 95%,0 72%)}
+.hanger{position:absolute;top:-22px;left:50%;transform:translateX(-50%);height:66px;width:94px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:44px;top:-18px;width:9px;height:35px;border:2px solid #595653;border-bottom:0;border-radius:9px 9px 0 0}
+.wood{position:absolute;top:13px;left:9px;width:77px;height:30px;background:linear-gradient(135deg,#7d4927,#b47b47 55%,#774621);border-radius:5px;clip-path:polygon(48% 0,53% 0,100% 82%,97% 100%,3% 100%,0 82%)}
+.wood:after{content:"";position:absolute;inset:4px;background:linear-gradient(120deg,#ad7743,#d0a471,#966035);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%)}
 @keyframes float{0%,100%{transform:translateY(0) rotate(-.9deg)}50%{transform:translateY(-8px) rotate(.9deg)}}
 .info{display:flex;justify-content:space-between;gap:15px;margin:20px auto 0;max-width:1030px;font-size:11px;color:#676057;letter-spacing:.1em;font-weight:700}
 .info strong{color:#151515} .note{text-align:center;margin-top:35px;color:#6c655e;font-size:12px}
@@ -30,7 +30,7 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .panel{position:relative;background:#f5f2eced;backdrop-filter:blur(11px);width:min(920px,95vw);min-height:360px;border-radius:18px;display:grid;grid-template-columns:1fr 1fr;align-items:center;padding:32px;box-shadow:0 24px 70px #0003}
 .panel img{width:100%;max-height:430px;object-fit:contain}.panel h2{font-size:clamp(24px,4vw,48px);letter-spacing:-.05em}.panel p{color:#615d58;line-height:1.6}
 .close{position:absolute;right:15px;top:15px;border:0;background:none;font-size:30px;cursor:pointer}.disclaimer{font-size:12px!important}
-@media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:43px;width:42px;height:42px}.end.left{left:calc(5% - 19px)}.end.right{right:calc(5% - 19px)}.end:after{inset:11px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.72)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
+@media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:52px;width:23px;height:23px}.end.left{left:calc(5% - 11px)}.end.right{right:calc(5% - 11px)}.end:after{inset:6px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.78)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.piece{animation:none}}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
