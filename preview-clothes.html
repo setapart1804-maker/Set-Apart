@@ -32,13 +32,24 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .close{position:absolute;right:15px;top:15px;border:0;background:none;font-size:30px;cursor:pointer}.disclaimer{font-size:12px!important}
 @media(max-width:650px){header{height:60px}.tag{font-size:8px}.showroom{height:340px;gap:4px}.rod{top:60px;height:7px}.end{top:52px;width:23px;height:23px}.end.left{left:calc(5% - 11px)}.end.right{right:calc(5% - 11px)}.end:after{inset:6px}.piece{flex:0 1 42%;margin-top:99px;height:220px}.hanger{transform:translateX(-50%) scale(.78)}.panel{display:block;text-align:center;padding:35px 22px}.panel img{max-height:290px}.info{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.piece{animation:none}}
+
+/* Layered garment/hanger composite — experiment only */
+.piece{position:relative}
+.piece img{position:relative;z-index:3}
+.hanger{position:absolute;top:-18px;left:50%;transform:translateX(-50%);height:92px;width:120px;z-index:1;pointer-events:none}
+.hook{position:absolute;left:55px;top:-6px;width:10px;height:62px;border:2.5px solid #77736f;border-bottom:0;border-radius:12px 12px 0 0;transform:rotate(2deg);z-index:4}
+.wood{position:absolute;top:52px;left:0;width:120px;height:40px;background:linear-gradient(#101010,#252525);clip-path:polygon(49% 0,51% 0,100% 84%,96% 100%,4% 100%,0 84%);border-radius:6px;z-index:1}
+.wood:after{content:"";position:absolute;left:9px;right:9px;bottom:6px;height:3px;background:#454545}
+.hanger-inner{position:absolute;left:50%;top:36px;transform:translateX(-50%);width:48px;height:30px;background:linear-gradient(#111,#2a2a2a);clip-path:polygon(50% 0,100% 80%,90% 100%,10% 100%,0 80%);border-radius:4px;z-index:4;pointer-events:none}
+.piece.pilgrim img{width:100%;height:100%;margin:auto;transform:translateY(-10px) scale(1.14);transform-origin:center top}
+@media(max-width:650px){.hanger{transform:translateX(-50%) scale(.78)}}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
 <main><div class="overline">SET APART COLLECTION</div><h1>CLOTHES</h1><p class="description">Faith-inspired essentials. A showroom concept.</p>
 <section class="showroom" aria-label="Two hoodie showroom preview">
 <div class="rod"></div><span class="end left"></span><span class="end right"></span>
-<button class="piece pilgrim" type="button" data-name="PILGRIM BROWN" data-photo="PILGRIM BROWN FRONT.jpeg" aria-label="Preview PILGRIM brown"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT.jpeg" alt="Pilgrim brown hoodie"></button>
-<button class="piece" type="button" data-name="GOD FIRST WHITE" data-photo="GOD FIRST WHITE FRONT.jpeg" aria-label="Preview GOD FIRST white"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT.jpeg" alt="God First white hoodie"></button>
+<button class="piece pilgrim" type="button" data-name="PILGRIM BROWN" data-photo="PILGRIM BROWN FRONT.jpeg" aria-label="Preview PILGRIM brown"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT.jpeg" alt="Pilgrim brown hoodie"><span class="hanger-inner" aria-hidden="true"></span></button>
+<button class="piece" type="button" data-name="GOD FIRST WHITE" data-photo="GOD FIRST WHITE FRONT.jpeg" aria-label="Preview GOD FIRST white"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT.jpeg" alt="God First white hoodie"><span class="hanger-inner" aria-hidden="true"></span></button>
 </section><div class="info"><span><strong>PILGRIM</strong> — WALK BY FAITH</span><span><strong>GOD FIRST</strong> — PUT GOD FIRST</span></div><p class="note">Click either hoodie to preview its look. This experiment does not take orders.</p></main>
 <div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><img id="large" alt=""><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>A visual design experiment with a black metal rail and wooden hangers.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
 <script>
