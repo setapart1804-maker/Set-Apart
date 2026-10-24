@@ -54,6 +54,20 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .piece.asset-ready img{transform:none!important;width:100%!important;height:100%!important;object-fit:contain;object-position:center top;margin:0!important}
 @keyframes float{0%,100%{transform:rotate(-.45deg)}50%{transform:rotate(.45deg)}}
 @media(max-width:650px){.piece.asset-ready::before{top:-39px;height:54px;width:8px;left:calc(50% - 4px);border-width:2px}}
+
+/* Reference-inspired display: gentle garment overlap on one shared rail. */
+.showroom{gap:0;align-items:flex-start}
+.showroom>.piece{flex:0 1 300px;min-width:0;z-index:2}
+.showroom>.piece.pilgrim{z-index:3}
+.showroom>.piece.asset-ready:not(.pilgrim){margin-left:-46px;margin-top:108px}
+.showroom>.piece.asset-ready::before{top:-28px;height:46px;left:calc(50% - 5px);z-index:5}
+.showroom>.piece.asset-ready:not(.pilgrim)::before{top:-41px;height:59px}
+@media(max-width:650px){
+ .showroom>.piece{flex:0 1 46%;width:46%}
+ .showroom>.piece.asset-ready:not(.pilgrim){margin-left:-15px;margin-top:107px}
+ .showroom>.piece.asset-ready::before{top:-39px;height:54px}
+ .showroom>.piece.asset-ready:not(.pilgrim)::before{top:-47px;height:62px}
+}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
 <main><div class="overline">SET APART COLLECTION</div><h1>CLOTHES</h1><p class="description">Faith-inspired essentials. A showroom concept.</p>
