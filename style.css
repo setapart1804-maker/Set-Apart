@@ -4589,3 +4589,39 @@ textarea {
 .sa-reference-home #referenceProductLayer .sa-shadow-garment{left:52%!important;top:28%!important;width:45vw!important;filter:blur(9px)!important}
 .sa-reference-home #referenceProductLayer .reference-product-gallery{width:100%!important}
 }
+
+/* CLOTHES ONLY: two balanced hanging garments. COLLECTION remains static. */
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim,
+.sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{
+  flex:0 0 clamp(152px,18vw,230px)!important;
+  width:clamp(152px,18vw,230px)!important;
+  height:clamp(215px,26vw,320px)!important;
+  margin-top:48px!important;
+  padding:0!important;
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim img,
+.sa-reference-home #saClothesRail .reference-hanging-piece-godfirst img{
+  width:100%!important;height:100%!important;
+  max-height:100%!important;
+  object-fit:contain!important;
+  object-position:center top!important;
+  transform:none!important;
+}
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim{margin-top:40px!important;}
+.sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{margin-top:40px!important;}
+.sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim img{width:90%!important;height:90%!important;}
+/* Only rack animates: remove added COLLECTION transitions, transforms and reveal motions */
+.sa-reference-home .reference-collection-card,
+.sa-reference-home .reference-collection-visual,
+.sa-reference-home .reference-collection-visual img,
+.sa-reference-home .reference-collection-card:hover .reference-collection-visual img{
+  animation:none!important;
+  transition:none!important;
+  transform:none!important;
+}
+@media(max-width:700px){
+ .sa-reference-home #saClothesRail .reference-hanging-piece-pilgrim,
+ .sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{
+  flex-basis:38vw!important;width:38vw!important;height:205px!important;margin-top:42px!important;
+ }
+}

@@ -466,10 +466,7 @@ function initHome() {
         tag.onclick = () => {
           const index = findSlide(id, option);
           if (index >= 0) {
-            activeIndex = index;
-            detailSide = "front";
-            renderStage();
-            renderDetail();
+            if (option !== color) transitionGarment(index, 1);
           }
         };
         floatingTags.appendChild(tag);
@@ -565,18 +562,14 @@ function initHome() {
 
     if (detailAdd) {
       const ordering = detailLayer.classList.contains("sa-order-mode");
-      detailAdd.textContent = ordering ? "CONFIRM — ADD TO BAG" : "ADD TO BAG";
+      detailAdd.textContent = ordering ? "CONFIRM — ADD TO BAG" : "GO TO SHOP";
       detailAdd.onclick = () => {
-        if (!detailLayer.classList.contains("sa-order-mode")) {
-          detailLayer.classList.add("sa-order-mode");
-          renderDetail();
-          detailInfo.querySelector(".reference-size-row button")?.focus();
+        if (!ordering) {
+          closeDetail();
+          document.getElementById("collection")?.scrollIntoView({behavior:"smooth",block:"start"});
           return;
         }
-        if (!selectedSize) {
-          alert("Please select a size first.");
-          return;
-        }
+        if (!selectedSize) { alert("Please select a size first."); return; }
         if (addToCart(id, color, selectedSize, selectedQuantity)) {
           closeDetail();
           openBag();
@@ -697,6 +690,8 @@ function initHome() {
       const id = button.dataset.openProduct;
       if (PRODUCTS[id]) {
         openDetail(id, PRODUCTS[id].defaultColor);
+        detailLayer.classList.add("sa-order-mode");
+        renderDetail();
       }
     });
   });
@@ -704,19 +699,38 @@ function initHome() {
   document.getElementById("homeBagButton")
     ?.addEventListener("click", openBag);
 
-  function nextShowcase(direction) {
-    const { id, color } = currentSelection();
-    const options = COLORS.filter((option) => findSlide(id, option) >= 0);
-    if (!options.length) return;
-    const position = options.indexOf(color);
-    const nextColor = options[(position + direction + options.length) % options.length];
-    const next = findSlide(id, nextColor);
-    if (next >= 0) {
-      activeIndex = next;
+  let changingGarment = false;
+  async function transitionGarment(index, direction = 1) {
+    if (index < 0 || changingGarment || index === activeIndex) return;
+    changingGarment = true;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    try {
+      if (!reduced) {
+        const out = detailImage.animate([
+          {opacity:1, filter:"blur(0px)", transform:"translateX(0) scale(1)"},
+          {opacity:0, filter:"blur(12px)", transform:"translateX(" + (-direction * 32) + "px) scale(.96)"}
+        ], {duration:230,easing:"ease-in",fill:"forwards"});
+        await out.finished.catch(() => {});
+        out.cancel();
+      }
+      activeIndex = index;
       detailSide = "front";
+      renderStage();
       renderDetail();
-      detailImage.animate([{opacity:.25,filter:"blur(12px)",transform:"translateX(" + (-direction*45) + "px)"},{opacity:1,filter:"blur(0)",transform:"translateX(0)"}],{duration:600,easing:"ease-out"});
-    }
+      if (!reduced) {
+        const incoming = detailImage.animate([
+          {opacity:0, filter:"blur(12px)",transform:"translateX(" + (direction * 32) + "px) scale(1.04)"},
+          {opacity:1,filter:"blur(0px)",transform:"translateX(0) scale(1)"}
+        ],{duration:390,easing:"cubic-bezier(.2,.75,.3,1)"});
+        await incoming.finished.catch(() => {});
+      }
+    } finally { changingGarment = false; }
+  }
+  function nextShowcase(direction) {
+    const id = currentSelection().id;
+    const nextId = id === "pilgrim" ? "godfirst" : "pilgrim";
+    const nextColor = nextId === "pilgrim" ? "brown" : "white";
+    transitionGarment(findSlide(nextId,nextColor),direction);
   }
   detailLayer.querySelector(".sa-showcase-previous")?.addEventListener("click", () => nextShowcase(-1));
   detailLayer.querySelector(".sa-showcase-next")?.addEventListener("click", () => nextShowcase(1));
