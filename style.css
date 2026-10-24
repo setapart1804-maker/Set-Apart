@@ -4500,3 +4500,90 @@ textarea {
   animation:none!important;
  }
 }
+
+/* RESTORED ORIGINAL COLLECTION SHOP VIEW — ONLY WHEN COLLECTION CARD CLICKED */
+.sa-reference-home #referenceProductLayer.sa-collection-purchase{
+ background:rgba(20,20,20,.48)!important;
+ align-items:center!important;justify-content:center!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-overlay{
+ background:rgba(20,20,20,.43)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+ position:relative!important;inset:auto!important;
+ width:min(90vw,1090px)!important;height:min(88dvh,760px)!important;
+ min-height:0!important;max-height:88dvh!important;
+ display:grid!important;grid-template-columns:1.08fr .92fr!important;
+ align-items:stretch!important;gap:0!important;
+ padding:0!important;overflow-y:auto!important;
+ background:#fff!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+ width:100%!important;min-height:550px!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ background:#f1f0ec!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
+ width:88%!important;height:480px!important;object-fit:contain!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+ width:100%!important;max-width:none!important;
+ text-align:left!important;align-self:center!important;padding:50px 36px!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info h2{
+ font-size:32px!important;text-align:left!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-message{
+ display:block!important;margin:12px 0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-price{
+ margin:14px 0!important;text-align:left!important;font-size:16px!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-option:has(.reference-color-row){
+ display:block!important;margin-top:16px!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-color-row{
+ display:flex!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-option:has(.reference-size-row){
+ width:100%!important;max-width:none!important;margin:19px 0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-quantity-row{
+ width:100%!important;max-width:none!important;margin:18px 0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-add-button{
+ width:100%!important;margin:18px 0 0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .sa-floating-color-tags,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .sa-shadow-garment,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .sa-showcase-title,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .sa-showcase-previous,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .sa-showcase-next{
+ display:none!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-close{
+ position:absolute!important;right:14px!important;top:10px!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-gallery-switch{
+ position:static!important;margin-top:4px!important;
+}
+.sa-reference-home #collection .reference-collection-card,
+.sa-reference-home #collection .reference-collection-visual,
+.sa-reference-home #collection .reference-collection-visual img{
+ animation:none!important;transition:none!important;transform:none!important;
+}
+@media(max-width:700px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+  width:94vw!important;height:90dvh!important;max-height:90dvh!important;
+  display:flex!important;flex-direction:column!important;overflow-y:auto!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+  min-height:300px!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
+  width:88%!important;height:260px!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+  padding:25px 22px!important;
+ }
+}
