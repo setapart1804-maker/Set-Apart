@@ -71,24 +71,43 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
  /* Mobile rail top 60px; piece top 94px */
  .showroom>.piece.asset-ready::before{left:calc(50% - 3px);top:-34px;width:6px;height:43px;border-width:2px}
 }
+.normal-product{width:100%;min-width:0}.normal-product img{display:block;width:100%;height:clamp(220px,35vw,425px);object-fit:contain}.face-controls{display:flex;justify-content:center;gap:10px;margin-top:8px}.face-button{padding:10px 20px;border:1px solid #333;background:transparent;cursor:pointer;font-size:11px;font-weight:800;letter-spacing:.13em;border-radius:4px}.face-button.active{background:#171717;color:white}.face-button:focus-visible{outline:2px solid #171717;outline-offset:3px}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
 <main><div class="overline">SET APART COLLECTION</div><h1>CLOTHES</h1><p class="description">Faith-inspired essentials. A showroom concept.</p>
 <section class="showroom" aria-label="Two hoodie showroom preview">
 <div class="rod"></div><span class="end left"></span><span class="end right"></span>
-<button class="piece pilgrim asset-ready" type="button" data-name="PILGRIM BROWN" aria-label="Preview PILGRIM brown"><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT%20CLOTHE.png" alt="Pilgrim brown hoodie"></button>
-<button class="piece asset-ready" type="button" data-name="GOD FIRST WHITE" aria-label="Preview GOD FIRST white"><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT%20CLOTHE.png" alt="God First white hoodie"></button>
+<button class="piece pilgrim asset-ready" type="button" data-name="PILGRIM BROWN" data-front="PILGRIM BROWN FRONT.jpeg" data-back="PILGRIM BROWN BACK.jpeg" aria-label="Preview PILGRIM brown"><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT%20CLOTHE.png" alt="Pilgrim brown hoodie"></button>
+<button class="piece asset-ready" type="button" data-name="GOD FIRST WHITE" data-front="GOD FIRST WHITE FRONT.jpeg" data-back="GOD FIRST WHITE BACK.jpeg" aria-label="Preview GOD FIRST white"><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT%20CLOTHE.png" alt="God First white hoodie"></button>
 </section><div class="info"><span><strong>PILGRIM</strong> — WALK BY FAITH</span><span><strong>GOD FIRST</strong> — PUT GOD FIRST</span></div><p class="note">Click either hoodie to preview its look. This experiment does not take orders.</p></main>
-<div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><img id="large" alt=""><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>A visual design experiment with a black metal rail and garment artwork.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
+<div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><div class="normal-product"><img id="large" alt=""><div class="face-controls"><button type="button" class="face-button active" data-face="front" aria-pressed="true">FRONT</button><button type="button" class="face-button" data-face="back" aria-pressed="false">BACK</button></div></div><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>View the original product photos from the published collection — front and back.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
 <script>
 const modal=document.getElementById('preview');
-
-document.querySelectorAll('.piece').forEach(p=>p.addEventListener('click',()=>{
- document.getElementById('large').src=p.querySelector('img').src;
- document.getElementById('name').textContent=p.dataset.name;
+const large=document.getElementById('large');
+let currentProduct=null;
+let face='front';
+const base='https://setapart1804-maker.github.io/Set-Apart/';
+function showFace(nextFace){
+ if(!currentProduct)return;
+ face=nextFace;
+ large.src=base+encodeURIComponent(currentProduct.dataset[face]);
+ large.alt=currentProduct.dataset.name+' — '+face.toUpperCase();
+ document.querySelectorAll('.face-button').forEach(button=>{
+  const active=button.dataset.face===face;
+  button.classList.toggle('active',active);
+  button.setAttribute('aria-pressed',String(active));
+ });
+}
+document.querySelectorAll('.piece').forEach(piece=>piece.addEventListener('click',()=>{
+ currentProduct=piece;
+ document.getElementById('name').textContent=piece.dataset.name;
+ showFace('front');
  modal.classList.add('open');
+ document.querySelector('.close').focus();
 }));
-document.querySelector('.close').addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+document.querySelectorAll('.face-button').forEach(button=>button.addEventListener('click',()=>showFace(button.dataset.face)));
+function closeModal(){modal.classList.remove('open');if(currentProduct)currentProduct.focus()}
+document.querySelector('.close').addEventListener('click',closeModal);
+modal.addEventListener('click',event=>{if(event.target===modal)closeModal()});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&modal.classList.contains('open'))closeModal()});
 </script></body></html>
