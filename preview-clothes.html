@@ -43,17 +43,25 @@ h1{text-align:center;font-size:clamp(28px,6vw,76px);letter-spacing:-.07em;margin
 .hanger-inner{position:absolute;left:50%;top:36px;transform:translateX(-50%);width:48px;height:30px;background:linear-gradient(#111,#2a2a2a);clip-path:polygon(50% 0,100% 80%,90% 100%,10% 100%,0 80%);border-radius:4px;z-index:4;pointer-events:none}
 .piece.pilgrim img{width:100%;height:100%;margin:auto;transform:translateY(-10px) scale(1.14);transform-origin:center top}
 @media(max-width:650px){.hanger{transform:translateX(-50%) scale(.78)}}
+
+/* New garment artwork includes its own hanger; never double-render it. */
+.piece.asset-ready .hanger,.piece.asset-ready .hanger-inner{display:none}
+.piece.asset-ready img,.piece.pilgrim.asset-ready img{transform:none;width:100%;height:100%;margin:auto}
 </style></head><body>
 <header><span class="brand">SET APART</span><span class="tag">PRIVATE DESIGN EXPERIMENT — NOT LIVE</span></header>
 <main><div class="overline">SET APART COLLECTION</div><h1>CLOTHES</h1><p class="description">Faith-inspired essentials. A showroom concept.</p>
 <section class="showroom" aria-label="Two hoodie showroom preview">
 <div class="rod"></div><span class="end left"></span><span class="end right"></span>
-<button class="piece pilgrim" type="button" data-name="PILGRIM BROWN" data-photo="PILGRIM BROWN FRONT.jpeg" aria-label="Preview PILGRIM brown"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT.jpeg" alt="Pilgrim brown hoodie"><span class="hanger-inner" aria-hidden="true"></span></button>
-<button class="piece" type="button" data-name="GOD FIRST WHITE" data-photo="GOD FIRST WHITE FRONT.jpeg" aria-label="Preview GOD FIRST white"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT.jpeg" alt="God First white hoodie"><span class="hanger-inner" aria-hidden="true"></span></button>
+<button class="piece pilgrim" type="button" data-name="PILGRIM BROWN" aria-label="Preview PILGRIM brown"><span class="hanger"><span class="hook"></span><span class="wood"></span></span><img src="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT%20CLOTHE.png" data-fallback="https://setapart1804-maker.github.io/Set-Apart/PILGRIM%20BROWN%20FRONT.jpeg" alt="Pilgrim brown hoodie"><span class="hanger-inner" aria-hidden="true"></span></button>
+<button class="piece asset-ready" type="button" data-name="GOD FIRST WHITE" aria-label="Preview GOD FIRST white"><img src="https://setapart1804-maker.github.io/Set-Apart/GOD%20FIRST%20WHITE%20FRONT%20CLOTHE.png" alt="God First white hoodie"></button>
 </section><div class="info"><span><strong>PILGRIM</strong> — WALK BY FAITH</span><span><strong>GOD FIRST</strong> — PUT GOD FIRST</span></div><p class="note">Click either hoodie to preview its look. This experiment does not take orders.</p></main>
-<div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><img id="large" alt=""><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>A visual design experiment with a black metal rail and wooden hangers.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
+<div class="preview" id="preview" role="dialog" aria-modal="true" aria-label="Garment preview"><div class="panel"><button class="close" type="button" aria-label="Close preview">×</button><img id="large" alt=""><div><span class="overline">SET APART / SHOWROOM</span><h2 id="name"></h2><p>A visual design experiment with a black metal rail and garment artwork.</p><p class="disclaimer">This is a standalone preview. No purchasing functions are active here.</p></div></div></div>
 <script>
 const modal=document.getElementById('preview');
+const brownImg=document.querySelector('.piece.pilgrim img');
+brownImg.addEventListener('load',()=>{if(!brownImg.dataset.usingFallback)brownImg.closest('.piece').classList.add('asset-ready')});
+brownImg.addEventListener('error',()=>{if(!brownImg.dataset.usingFallback){brownImg.dataset.usingFallback='1';brownImg.src=brownImg.dataset.fallback}});
+if(brownImg.complete&&brownImg.naturalWidth)brownImg.closest('.piece').classList.add('asset-ready');
 document.querySelectorAll('.piece').forEach(p=>p.addEventListener('click',()=>{
  document.getElementById('large').src=p.querySelector('img').src;
  document.getElementById('name').textContent=p.dataset.name;
