@@ -4625,3 +4625,28 @@ textarea {
   flex-basis:38vw!important;width:38vw!important;height:205px!important;margin-top:42px!important;
  }
 }
+
+/* OCT24 purchase view restored; animated hanging labels */
+.sa-reference-home #referenceProductLayer .reference-product-price{display:block!important;font-size:13px!important;margin:5px auto!important}
+.sa-reference-home #referenceProductLayer .reference-product-option:has(.reference-size-row){display:block!important;max-width:300px!important;margin:9px auto!important}
+.sa-reference-home #referenceProductLayer .reference-size-row{display:grid!important;grid-template-columns:repeat(4,1fr)!important;margin-top:6px!important}
+.sa-reference-home #referenceProductLayer .reference-size-row button{height:32px!important}
+.sa-reference-home #referenceProductLayer .reference-quantity-row{display:flex!important;max-width:300px;margin:8px auto!important}
+.sa-reference-home #referenceProductLayer .reference-product-message{display:none!important}
+.sa-reference-home #referenceProductLayer .reference-add-button{margin:8px auto 0!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag{transform-origin:50% -20px!important;animation:saTagSwing 4.2s ease-in-out infinite!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:nth-child(2){animation-delay:-1.1s!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:nth-child(3){animation-delay:-2.2s!important}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag:nth-child(4){animation-delay:-3.3s!important}
+@keyframes saTagSwing{0%,100%{transform:rotate(-1.5deg)}50%{transform:rotate(1.5deg)}}
+.sa-reference-home #referenceProductLayer .sa-color-hang-tag.is-active{outline:2px solid #2a2927!important;outline-offset:3px!important;box-shadow:0 5px 0 rgba(0,0,0,.16)!important;animation:saActiveTag 2s ease-in-out infinite!important}
+@keyframes saActiveTag{0%,100%{transform:translateY(-4px) rotate(-3deg)}50%{transform:translateY(-8px) rotate(3deg)}}
+.sa-reference-home #referenceProductLayer .sa-shadow-garment{z-index:2!important;width:min(38vw,410px)!important;top:24%!important;left:61%!important;opacity:.51!important;filter:blur(11px)!important}
+.sa-reference-home #referenceProductLayer .sa-shadow-garment[data-other=pilgrim]{left:62%!important;opacity:.56!important}
+.sa-reference-home #referenceProductLayer .sa-shadow-garment[data-other=godfirst]{left:60%!important;opacity:.47!important}
+.sa-reference-home #referenceProductLayer .reference-product-gallery{z-index:4!important}
+@media(max-width:700px){
+ .sa-reference-home #referenceProductLayer .sa-shadow-garment{left:57%!important;top:30%!important;width:45vw!important;filter:blur(8px)!important}
+ .sa-reference-home #referenceProductLayer #referenceDetailImage{height:42dvh!important}
+}
+@media(prefers-reduced-motion:reduce){.sa-reference-home #referenceProductLayer .sa-color-hang-tag{animation:none!important}}
