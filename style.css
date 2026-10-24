@@ -4665,3 +4665,44 @@ textarea {
 .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-size-row button.is-active {
   background:#111!important;color:#fff!important;
 }
+
+/* COLLECTION: clearer see-through glass with legible foreground (release 12) */
+.sa-reference-home #referenceProductLayer.sa-collection-purchase{
+ background:rgba(12,12,12,.16)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-overlay{
+ background:rgba(12,12,12,.12)!important;
+ backdrop-filter:blur(1px)!important;
+ -webkit-backdrop-filter:blur(1px)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+ background:rgba(255,255,255,.46)!important;
+ backdrop-filter:blur(5px)!important;
+ -webkit-backdrop-filter:blur(5px)!important;
+ border:1px solid rgba(255,255,255,.55)!important;
+ box-shadow:0 12px 38px rgba(0,0,0,.12)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+ background:transparent!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info h2,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-price,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-option-heading,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info strong{
+ color:#090909!important;
+ text-shadow:0 1px 1px rgba(255,255,255,.85)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info p,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info span{
+ color:#151515!important;
+ text-shadow:0 1px 1px rgba(255,255,255,.75)!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-size-row button{
+ background:rgba(255,255,255,.42)!important;
+ color:#111!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-size-row button.is-active,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-add-button{
+ background:#111!important;color:#fff!important;text-shadow:none!important;
+}
