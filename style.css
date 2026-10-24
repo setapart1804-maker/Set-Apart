@@ -4848,3 +4848,7 @@ textarea {
  .sa-reference-home #saClothesRail .reference-hanging-piece-godfirst{margin-left:-12px!important}
  .sa-reference-home #saClothesRail .reference-hanging-piece::before{top:-35px;height:47px;width:8px;left:calc(50% - 4px)}
 }
+
+/* CLOTHES: transparent showroom backdrop; preserve rail, garments, and interactions. */
+.sa-reference-home #saClothesRail{background:transparent!important;box-shadow:none!important}
+.sa-reference-home #saClothesRail .sa-showroom-wall{display:none!important}
