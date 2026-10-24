@@ -398,6 +398,7 @@ function initHome() {
   }
 
   function openDetail(id, color) {
+    detailLayer.classList.remove("sa-collection-purchase");
     const index = findSlide(id, color);
 
     if (index >= 0) activeIndex = index;
@@ -575,6 +576,7 @@ function initHome() {
   }
 
   function closeDetail() {
+    detailLayer.classList.remove("sa-collection-purchase");
     detailLayer.classList.remove("sa-order-mode");
     detailLayer.classList.remove("is-active");
     detailLayer.setAttribute("aria-hidden", "true");
@@ -686,6 +688,7 @@ function initHome() {
       const id = button.dataset.openProduct;
       if (PRODUCTS[id]) {
         openDetail(id, PRODUCTS[id].defaultColor);
+        detailLayer.classList.add("sa-collection-purchase");
         detailLayer.classList.add("sa-order-mode");
         renderDetail();
       }
