@@ -5084,3 +5084,21 @@ textarea {
  .sa-unified-checkout .reference-nav-right{gap:0!important}
  .sa-unified-checkout .reference-wordmark{font-size:14px!important}
 }
+
+/* Accessibility: keep skip navigation hidden until keyboard focus (checkout fix). */
+.sa-unified-checkout > .skip-link:not(:focus):not(:focus-visible){
+ position:absolute!important;width:1px!important;height:1px!important;
+ padding:0!important;margin:-1px!important;overflow:hidden!important;
+ clip:rect(0,0,0,0)!important;clip-path:inset(50%)!important;
+ white-space:nowrap!important;border:0!important;
+ transform:none!important;
+}
+.sa-unified-checkout > .skip-link:focus,
+.sa-unified-checkout > .skip-link:focus-visible{
+ position:fixed!important;top:10px!important;left:10px!important;
+ width:auto!important;height:auto!important;padding:10px 14px!important;
+ margin:0!important;overflow:visible!important;clip:auto!important;
+ clip-path:none!important;white-space:normal!important;
+ background:#111!important;color:#fff!important;z-index:99999!important;
+ transform:none!important;
+}
