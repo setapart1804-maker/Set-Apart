@@ -5582,3 +5582,21 @@ html body a.skip-link:focus-visible{
   width:15px!important;height:15px!important;min-width:15px!important;
  }
 }
+
+/* Mobile dropdown: translucent glass, crisp navigation labels. */
+@media (max-width:900px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
+  background:rgba(246,245,240,.73)!important;
+  -webkit-backdrop-filter:blur(18px) saturate(125%)!important;
+  backdrop-filter:blur(18px) saturate(125%)!important;
+  border-top:1px solid rgba(255,255,255,.72)!important;
+  border-bottom:1px solid rgba(17,17,17,.13)!important;
+  box-shadow:0 18px 36px rgba(12,12,12,.13)!important;
+ }
+ .sa-mobile-navigation nav a{
+  color:#101010!important;opacity:1!important;
+  filter:none!important;text-shadow:none!important;
+  -webkit-font-smoothing:antialiased;
+  font-weight:800!important;
+ }
+}
