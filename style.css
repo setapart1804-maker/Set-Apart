@@ -5121,3 +5121,84 @@ html body a.skip-link:focus-visible{
  opacity:1!important;pointer-events:auto!important;
  background:#111!important;color:#fff!important;z-index:999999!important;
 }
+
+/* UNIFIED HOME SHELL / CART + POLICIES + ORDER SUCCESS, October 2026 */
+.sa-unified-shell{background:#f6f5f0;color:#111}
+.sa-unified-shell .announcement-bar{display:none!important}
+.sa-unified-shell .reference-header{
+ width:100%;height:68px;position:sticky;top:0;z-index:5000;
+ display:flex;align-items:center;background:rgba(246,245,240,.97);
+ backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+ border-bottom:1px solid rgba(17,17,17,.08)
+}
+.sa-unified-shell .reference-header-inner{
+ width:min(calc(100% - 56px),1460px);height:100%;margin-inline:auto;
+ display:grid;grid-template-columns:1fr auto 1fr;align-items:center
+}
+.sa-unified-shell .reference-nav{display:flex;align-items:center;gap:27px}
+.sa-unified-shell .reference-nav-left{justify-self:start}
+.sa-unified-shell .reference-nav-right{justify-self:end}
+.sa-unified-shell .reference-nav a,.sa-unified-shell .reference-bag-button{
+ position:relative;font-size:11px;font-weight:800;letter-spacing:1.2px;
+ text-transform:uppercase;white-space:nowrap;color:#111;text-decoration:none
+}
+.sa-unified-shell .reference-nav a::after{content:"";width:0;height:1px;position:absolute;left:0;bottom:-7px;background:#111;transition:width .2s ease}
+.sa-unified-shell .reference-nav a:hover::after{width:100%}
+.sa-unified-shell .reference-wordmark{
+ grid-column:2;justify-self:center;font-size:15px;font-weight:900;
+ letter-spacing:-.2px;white-space:nowrap;color:#111;text-decoration:none
+}
+.sa-unified-shell .reference-bag-button{display:flex;align-items:center;gap:7px}
+.sa-unified-shell .reference-bag-button span{
+ min-width:21px;height:21px;padding:0 5px;display:inline-flex;
+ align-items:center;justify-content:center;border:1px solid #111;
+ border-radius:50%;font-size:9px
+}
+.sa-unified-shell .sa-shell-menu-toggle{display:none}
+.sa-unified-shell .reference-footer{
+ background:#111;color:#f6f5f0;padding:clamp(40px,6vw,92px) clamp(20px,4vw,60px) 22px
+}
+.sa-unified-shell .reference-footer-inner{
+ width:min(100%,1460px);margin:auto;display:flex;justify-content:space-between;
+ align-items:flex-start;gap:50px;padding-bottom:60px
+}
+.sa-unified-shell .reference-footer-brand strong{font-size:clamp(24px,3.1vw,46px);letter-spacing:-.055em}
+.sa-unified-shell .reference-footer-brand p{margin-top:12px;font-size:13px;opacity:.75}
+.sa-unified-shell .reference-footer-links{display:flex;gap:clamp(30px,6vw,110px)}
+.sa-unified-shell .reference-footer-links>div{display:flex;flex-direction:column;gap:13px}
+.sa-unified-shell .reference-footer-links span{font-size:10px;font-weight:800;letter-spacing:.14em;opacity:.55;margin-bottom:9px}
+.sa-unified-shell .reference-footer a{color:#f6f5f0;text-decoration:none;font-size:13px}
+.sa-unified-shell .reference-footer-bottom{
+ width:min(100%,1460px);margin:auto;border-top:1px solid rgba(255,255,255,.2);
+ padding-top:22px;display:flex;align-items:center;justify-content:space-between;
+ gap:20px;font-size:11px;letter-spacing:.08em
+}
+.sa-unified-shell .reference-footer-bottom>div{display:flex;gap:24px;flex-wrap:wrap}
+.sa-unified-shell .reference-footer-bottom a{font-size:11px}
+.sa-unified-shell .cart-page,.sa-unified-shell .legal-page,
+.sa-unified-shell .order-success-page{background:#f6f5f0!important;color:#111!important}
+.sa-unified-shell .policy-page{background:#f6f5f0;color:#111}
+.sa-unified-shell .legal-header h1,.sa-unified-shell .policy-title,
+.sa-unified-shell .cart-page-header h1{font-size:clamp(42px,6vw,92px);letter-spacing:-.055em;line-height:1.02}
+.sa-unified-shell .legal-header,.sa-unified-shell .policy-header{border-bottom:1px solid rgba(17,17,17,.16);padding-bottom:32px}
+.sa-unified-shell .order-success-card{background:#f6f5f0!important}
+@media(max-width:900px){
+ .sa-unified-shell .reference-header{height:64px}
+ .sa-unified-shell .reference-header-inner{width:calc(100% - 34px)}
+ .sa-unified-shell .reference-nav-left{display:none}
+ .sa-unified-shell .sa-shell-menu-toggle{
+  display:flex;grid-column:1;grid-row:1;justify-self:start
+ }
+ .sa-unified-shell .reference-nav-right{grid-column:3;grid-row:1}
+ .sa-unified-shell .reference-nav-right>a:first-child{display:none}
+ .sa-unified-shell .reference-footer-inner{flex-direction:column;gap:35px}
+}
+@media(max-width:600px){
+ .sa-unified-shell .reference-header{height:58px}
+ .sa-unified-shell .reference-header-inner{width:calc(100% - 26px)}
+ .sa-unified-shell .reference-wordmark{font-size:14px}
+ .sa-unified-shell .reference-footer-links{gap:22px;flex-wrap:wrap}
+ .sa-unified-shell .reference-footer-bottom{align-items:flex-start;flex-direction:column}
+ .sa-unified-shell .legal-header h1,.sa-unified-shell .policy-title,
+ .sa-unified-shell .cart-page-header h1{font-size:clamp(38px,10vw,60px)}
+}
