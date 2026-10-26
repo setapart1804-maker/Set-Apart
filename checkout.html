@@ -92,7 +92,7 @@
 
     <link
         rel="stylesheet"
-        href="style.css?v=unified-checkout-hero-20261026">
+        href="style.css?v=checkout-home-header-20261026">
 
 </head>
 
@@ -123,170 +123,31 @@
      HEADER
 ===================================================== -->
 
-<header class="site-header">
-
-    <div class="navbar">
-
-
-        <!-- MOBILE MENU -->
-
-        <button
-            type="button"
-            class="menu-toggle"
-            id="menuToggle"
-            aria-label="Open menu"
-            aria-expanded="false">
-
-            <span></span>
-            <span></span>
-            <span></span>
-
-        </button>
-
-
-
-        <!-- LOGO -->
-
-        <a
-            href="index.html"
-            class="site-logo">
-
-            <img
-                src="LOGO (2).png"
-                alt="SET APART Logo">
-
-        </a>
-
-
-
-        <!-- DESKTOP NAV -->
-
-        <nav
-            class="main-nav"
-            id="mainNav">
-
-            <a href="index.html">
-                HOME
-            </a>
-
-            <a href="index.html#collection">COLLECTION</a>
-            <a href="index.html#purpose">OUR PURPOSE</a>
-
-            <a href="about.html">
-                ABOUT
-            </a>
-
-            <a href="contact.html">
-                CONTACT
-            </a>
-
-        </nav>
-
-
-
-        <!-- NAV ACTIONS -->
-
-        <div class="nav-actions">
-
-
-            <!-- SEARCH -->
-
-            <button
-                type="button"
-                class="nav-icon-button"
-                id="searchButton"
-                aria-label="Search">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
-
-                    <circle
-                        cx="11"
-                        cy="11"
-                        r="6.5">
-                    </circle>
-
-                    <path
-                        d="M16 16L21 21">
-                    </path>
-
-                </svg>
-
-            </button>
-
-
-
-            <!-- CART -->
-
-            <a
-                href="cart.html"
-                class="nav-icon-button cart-link"
-                aria-label="Shopping cart">
-
-                <svg
-                    viewBox="0 0 24 24"
-                    aria-hidden="true">
-
-                    <path
-                        d="M3 4H5L7.2 15H18.5L21 7H6">
-                    </path>
-
-                    <circle
-                        cx="9"
-                        cy="20"
-                        r="1">
-                    </circle>
-
-                    <circle
-                        cx="18"
-                        cy="20"
-                        r="1">
-                    </circle>
-
-                </svg>
-
-                <span
-                    class="cart-count"
-                    id="cartCount">
-                    0
-                </span>
-
-            </a>
-
-        </div>
-
-    </div>
-
-
-
-    <!-- MOBILE MENU -->
-
-    <div
-        class="mobile-menu"
-        id="mobileMenu">
-
-        <nav>
-
-            <a href="index.html">
-                HOME
-            </a>
-
-            <a href="index.html#collection">COLLECTION</a>
-            <a href="index.html#purpose">OUR PURPOSE</a>
-
-            <a href="about.html">
-                ABOUT
-            </a>
-
-            <a href="contact.html">
-                CONTACT
-            </a>
-
-        </nav>
-
-    </div>
-
+<header class="reference-header" aria-label="Site header">
+  <div class="reference-header-inner">
+    <nav class="reference-nav reference-nav-left" aria-label="Primary">
+      <a href="index.html">HOME</a>
+      <a href="index.html#collection">COLLECTION</a>
+      <a href="index.html#purpose">OUR PURPOSE</a>
+      <a href="about.html">ABOUT</a>
+    </nav>
+    <a href="index.html" class="reference-wordmark" aria-label="SET APART Home">SET APART</a>
+    <nav class="reference-nav reference-nav-right" aria-label="Account navigation">
+      <a href="contact.html">CONTACT</a>
+      <a href="cart.html" class="reference-bag-button" aria-label="View shopping bag">BAG <span id="cartCount">0</span></a>
+    </nav>
+    <button type="button" class="menu-toggle sa-checkout-menu-toggle" id="menuToggle" aria-label="Open menu" aria-expanded="false"><span></span><span></span><span></span></button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <nav aria-label="Mobile navigation">
+      <a href="index.html">HOME</a>
+      <a href="index.html#collection">COLLECTION</a>
+      <a href="index.html#purpose">OUR PURPOSE</a>
+      <a href="about.html">ABOUT</a>
+      <a href="contact.html">CONTACT</a>
+      <a href="cart.html">BAG</a>
+    </nav>
+  </div>
 </header>
 
 
