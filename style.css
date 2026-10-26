@@ -5474,3 +5474,66 @@ html body a.skip-link:focus-visible{
  .sa-mobile-menu-button,.sa-mobile-navigation{display:none!important}
 }
 @media(prefers-reduced-motion:reduce){.sa-mobile-menu-button span{transition:none!important}}
+
+/* CART / WhatsApp secondary CTA — intentional premium spacing on every viewport. */
+.sa-unified-shell .cart-summary .sa-cart-alternative-order{
+ display:flex;flex-direction:column;align-items:stretch;
+ gap:14px;margin-top:24px;padding-top:24px;
+ border-top:1px solid rgba(17,17,17,.16);
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-note{
+ display:flex;flex-direction:column;gap:9px;
+ margin:0!important;padding:0!important;color:#3a3936;
+ font-size:14px;line-height:1.55;letter-spacing:0;
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-note strong{
+ display:block;color:#111;font-size:12px;line-height:1.4;
+ font-weight:800;letter-spacing:.08em;
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-note span{
+ display:block;max-width:33ch;
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-button{
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ width:100%!important;min-height:52px!important;margin:2px 0 0!important;
+ padding:13px 16px!important;background:#111!important;color:#fff!important;
+ text-align:center!important;text-decoration:none!important;
+ font-size:12px!important;font-weight:800!important;line-height:1.4!important;
+ letter-spacing:.09em!important;border:1px solid #111!important;
+ border-radius:3px!important;transition:background .2s ease,transform .2s ease!important;
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-button:hover{
+ background:#303030!important;transform:translateY(-2px);
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .continue-shopping{
+ display:inline-flex!important;align-self:center;justify-content:center;
+ margin:4px 0 0!important;padding:7px 5px!important;
+ color:#333!important;font-size:11px!important;font-weight:750!important;
+ line-height:1.4!important;letter-spacing:.08em!important;
+ text-decoration:none!important;text-align:center!important;
+ transition:color .2s ease!important;
+}
+.sa-unified-shell .cart-summary .sa-cart-alternative-order .continue-shopping:hover{
+ color:#000!important;text-decoration:underline!important;text-underline-offset:5px!important;
+}
+@media(max-width:700px){
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order{
+  gap:15px!important;margin-top:22px!important;padding-top:22px!important;
+ }
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-note{
+  font-size:15px!important;line-height:1.6!important;gap:10px!important;
+ }
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-note strong{
+  font-size:12px!important;letter-spacing:.06em!important;
+ }
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-button{
+  min-height:54px!important;
+ }
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order .continue-shopping{
+  margin-top:2px!important;min-height:36px!important;
+ }
+}
+@media(prefers-reduced-motion:reduce){
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order a{transition:none!important}
+ .sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-button:hover{transform:none!important}
+}
