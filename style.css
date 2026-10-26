@@ -5244,3 +5244,59 @@ html body a.skip-link:focus-visible{
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button{font-size:11px!important}
 }
+
+/* UNIVERSAL FOOTER: identical font scale, spacing and grid to HOME. */
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
+ padding:64px max(28px,calc((100vw - 1400px)/2)) 22px!important;
+ background:#111!important;color:#fff!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-inner{
+ width:auto!important;margin:0!important;padding:0!important;
+ display:grid!important;grid-template-columns:1fr 1fr!important;
+ gap:70px!important;align-items:start!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand strong{
+ font-size:22px!important;font-weight:700!important;letter-spacing:normal!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand p{
+ margin-top:11px!important;color:#9a9a9a!important;font-family:Georgia,serif!important;
+ font-size:14px!important;font-style:italic!important;opacity:1!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links{
+ display:grid!important;grid-template-columns:repeat(3,1fr)!important;gap:28px!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links>div{
+ display:flex!important;flex-direction:column!important;gap:10px!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links span{
+ margin-bottom:5px!important;color:#777!important;font-size:9px!important;
+ font-weight:800!important;letter-spacing:normal!important;opacity:1!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links a{
+ color:#ccc!important;font-size:12px!important;line-height:normal!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{
+ width:auto!important;margin:58px 0 0!important;padding-top:20px!important;
+ display:flex!important;justify-content:space-between!important;align-items:center!important;
+ flex-direction:row!important;gap:20px!important;
+ border-top:1px solid rgba(255,255,255,.12)!important;color:#888!important;
+ font-size:9px!important;letter-spacing:normal!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom>div{
+ display:flex!important;gap:20px!important;flex-wrap:wrap!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom a{
+ color:#888!important;font-size:9px!important
+}
+@media(max-width:700px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
+  padding:48px 19px 20px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-inner{
+  grid-template-columns:1fr!important;gap:42px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links{gap:16px!important}
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links span{font-size:8px!important}
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links a{font-size:11px!important}
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{font-size:8px!important}
+}
