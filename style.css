@@ -4852,3 +4852,55 @@ textarea {
 /* CLOTHES: transparent showroom backdrop; preserve rail, garments, and interactions. */
 .sa-reference-home #saClothesRail{background:transparent!important;box-shadow:none!important}
 .sa-reference-home #saClothesRail .sa-showroom-wall{display:none!important}
+
+/* SET APART / UNIFIED PAGE SHELL — 2026-10-26
+   Scoped to secondary editorial pages and checkout. HOME, products,
+   contact form backend and PayPal checkout logic are unaffected. */
+.sa-inner-page,.sa-unified-checkout{background:#f6f5f0;color:#151515}
+.sa-inner-page .reference-header,.sa-unified-checkout .site-header{
+ background:#f6f5f0!important;color:#151515!important;
+ border-bottom:1px solid rgba(0,0,0,.12)!important;
+ box-shadow:none!important
+}
+.sa-inner-page .reference-header-inner{max-width:1500px}
+.sa-inner-page .reference-nav a,.sa-inner-page .reference-bag-button{
+ font-size:clamp(11px,1vw,14px)!important;letter-spacing:.1em!important
+}
+.sa-inner-page .reference-wordmark{font-size:clamp(22px,2.7vw,39px)!important;letter-spacing:-.065em!important}
+.sa-inner-page .sa-page-footer{background:#111!important;color:#f6f5f0!important}
+.sa-inner-page .sa-page-footer a{color:inherit}
+.sa-inner-page .sa-editorial-hero{min-height:clamp(420px,65vh,690px)}
+.sa-inner-page .sa-editorial-hero h1{font-size:clamp(55px,10vw,148px)}
+.sa-inner-page .sa-shell{width:min(92%,1380px)}
+.sa-unified-checkout .announcement-bar{background:#111;color:#fff}
+.sa-unified-checkout .site-header{position:relative;z-index:20}
+.sa-unified-checkout .site-header .navbar{
+ max-width:1500px!important;width:100%!important;margin:0 auto!important;
+ min-height:80px!important;padding:12px clamp(16px,4vw,60px)!important;
+ display:flex!important;align-items:center!important;justify-content:space-between!important;
+ gap:clamp(10px,2vw,28px)!important
+}
+.sa-unified-checkout .site-logo{order:2;flex:0 0 auto}
+.sa-unified-checkout .site-logo img{max-height:54px!important;width:auto!important}
+.sa-unified-checkout .main-nav{order:1;display:flex;align-items:center;gap:clamp(12px,2vw,28px)}
+.sa-unified-checkout .main-nav a{
+ color:#151515!important;font-size:clamp(11px,.95vw,14px)!important;
+ font-weight:650!important;letter-spacing:.08em!important;text-decoration:none!important
+}
+.sa-unified-checkout .nav-actions{order:3;display:flex;align-items:center;gap:12px}
+.sa-unified-checkout .nav-icon-button{color:#151515}
+.sa-unified-checkout .checkout-page{background:#f6f5f0}
+.sa-unified-checkout .checkout-page-header h1{font-size:clamp(42px,6.5vw,92px);letter-spacing:-.055em}
+.sa-unified-checkout .site-footer{background:#111;color:#f6f5f0}
+@media(max-width:900px){
+ .sa-unified-checkout .site-header .navbar{min-height:68px!important}
+ .sa-unified-checkout .main-nav{display:none!important}
+ .sa-unified-checkout .menu-toggle{display:flex!important;order:1}
+ .sa-unified-checkout .site-logo{order:2}
+ .sa-unified-checkout .nav-actions{order:3}
+}
+@media(max-width:700px){
+ .sa-inner-page .sa-shell{width:min(92%,1380px)}
+ .sa-inner-page .sa-editorial-hero{min-height:420px}
+ .sa-unified-checkout .site-logo img{max-height:43px!important}
+}
