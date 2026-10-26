@@ -1390,3 +1390,25 @@ document.addEventListener("DOMContentLoaded", () => {
     if (event.key === CART_KEY) updateCartCount();
   });
 });
+
+/* SET APART MOBILE NAVIGATION 20261026: tablet + phone only. */
+(function(){
+  function init(){
+    const button=document.getElementById("saMobileMenuButton");
+    const panel=document.getElementById("saMobileNav");
+    if(!button||!panel)return;
+    function close(){button.setAttribute("aria-expanded","false");button.setAttribute("aria-label","Open menu");panel.hidden=true;document.body.classList.remove("sa-mobile-nav-open")}
+    button.addEventListener("click",function(){
+      const open=button.getAttribute("aria-expanded")!=="true";
+      button.setAttribute("aria-expanded",String(open));
+      button.setAttribute("aria-label",open?"Close menu":"Open menu");
+      panel.hidden=!open;
+      document.body.classList.toggle("sa-mobile-nav-open",open);
+    });
+    panel.addEventListener("click",function(event){if(event.target.closest("a"))close()});
+    document.addEventListener("keydown",function(event){if(event.key==="Escape")close()});
+    document.addEventListener("click",function(event){if(!panel.hidden&&!panel.contains(event.target)&&!button.contains(event.target))close()});
+    window.addEventListener("resize",function(){if(window.innerWidth>900)close()});
+  }
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init();
+})();
