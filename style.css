@@ -5222,3 +5222,25 @@ html body a.skip-link:focus-visible{
  .sa-unified-checkout .reference-nav-right,
  .sa-unified-shell .reference-nav-right{gap:8px!important}
 }
+
+/* 2026-10-26 / SINGLE HOME HEADER TYPOGRAPHY SCALE, ALL PAGES.
+   Match actual HOME desktop values (11px navigation, 15px wordmark). */
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-nav a,
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button{
+ font-size:11px!important;font-weight:800!important;letter-spacing:1.2px!important;
+ line-height:1.25!important;text-transform:uppercase!important;
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark{
+ font-size:15px!important;font-weight:900!important;letter-spacing:-.2px!important;
+ line-height:1.1!important;white-space:nowrap!important;
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-nav{gap:27px!important}
+@media(max-width:900px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark{font-size:14px!important}
+}
+@media(max-width:600px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark{
+  font-size:clamp(12px,3.25vw,14px)!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button{font-size:11px!important}
+}
