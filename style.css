@@ -5583,20 +5583,32 @@ html body a.skip-link:focus-visible{
  }
 }
 
-/* Mobile dropdown: translucent glass, crisp navigation labels. */
+/* Mobile menu: same refined card language as COLLECTION purchase modal. */
 @media (max-width:900px){
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
-  background:rgba(246,245,240,.73)!important;
-  -webkit-backdrop-filter:blur(18px) saturate(125%)!important;
-  backdrop-filter:blur(18px) saturate(125%)!important;
-  border-top:1px solid rgba(255,255,255,.72)!important;
-  border-bottom:1px solid rgba(17,17,17,.13)!important;
-  box-shadow:0 18px 36px rgba(12,12,12,.13)!important;
+  left:12px!important;right:12px!important;top:calc(100% + 7px)!important;
+  width:calc(100% - 24px)!important;
+  max-height:calc(100dvh - 86px)!important;
+  padding:14px 21px 18px!important;
+  background:rgba(255,255,255,.89)!important;
+  -webkit-backdrop-filter:blur(6px)!important;
+  backdrop-filter:blur(6px)!important;
+  border:1px solid rgba(255,255,255,.67)!important;
+  border-radius:14px!important;
+  box-shadow:0 12px 38px rgba(0,0,0,.12)!important;
+  overflow-x:hidden!important;
  }
- .sa-mobile-navigation nav a{
-  color:#101010!important;opacity:1!important;
-  filter:none!important;text-shadow:none!important;
-  -webkit-font-smoothing:antialiased;
-  font-weight:800!important;
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav{
+  background:transparent!important;
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav a{
+  color:#151515!important;opacity:1!important;filter:none!important;
+  text-shadow:none!important;letter-spacing:1px!important;
+  font-size:13px!important;font-weight:800!important;
+ }
+}
+@media(max-width:600px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
+  max-height:calc(100dvh - 80px)!important;
  }
 }
