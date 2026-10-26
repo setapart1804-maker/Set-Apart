@@ -5300,3 +5300,70 @@ html body a.skip-link:focus-visible{
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links a{font-size:11px!important}
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{font-size:8px!important}
 }
+
+/* Exact HOME footer proportions across every SET APART 1804 page. */
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
+ padding:64px max(28px,calc((100vw - 1400px)/2)) 22px!important;
+ background:#111!important;color:#fff!important;
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-inner{
+ display:grid!important;grid-template-columns:1fr 1fr!important;gap:70px!important;
+ width:auto!important;max-width:none!important;margin:0!important;
+ padding:0!important;align-items:start!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand strong{
+ font-size:22px!important;font-weight:700!important;letter-spacing:normal!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand p{
+ margin-top:11px!important;color:#9a9a9a!important;font-family:Georgia,serif!important;
+ font-size:14px!important;font-style:italic!important;opacity:1!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links{
+ display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;
+ gap:28px!important;width:auto!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links>div{
+ display:flex!important;flex-direction:column!important;gap:10px!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links span{
+ margin-bottom:5px!important;color:#777!important;font-size:9px!important;
+ font-weight:800!important;letter-spacing:normal!important;opacity:1!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links a{
+ color:#ccc!important;font-size:12px!important;font-weight:400!important;
+ text-decoration:none!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{
+ margin:58px 0 0!important;padding:20px 0 0!important;width:auto!important;
+ border-top:1px solid rgba(255,255,255,.12)!important;
+ display:flex!important;justify-content:space-between!important;
+ color:#888!important;font-size:9px!important;letter-spacing:normal!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom>div{
+ display:flex!important;gap:20px!important
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom a{
+ font-size:9px!important;color:#888!important
+}
+@media(max-width:800px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
+  padding:48px 24px 22px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-inner{
+  grid-template-columns:1fr!important;gap:36px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:16px!important
+ }
+}
+@media(max-width:480px){
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
+  padding:40px 18px 20px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-links{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:10px!important
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{
+  flex-wrap:wrap!important;gap:15px!important
+ }
+}
