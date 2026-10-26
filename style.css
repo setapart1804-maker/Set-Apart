@@ -4944,3 +4944,143 @@ textarea {
  .sa-unified-checkout .sa-checkout-hero .sa-section-label{gap:12px}
  .sa-unified-checkout .sa-checkout-hero .sa-section-label span:last-child{text-align:right}
 }
+
+/* CHECKOUT header: same exact desktop layout as HOME (2026-10-26). */
+.sa-unified-checkout .announcement-bar{display:none!important}
+.sa-unified-checkout .reference-header {
+    width: 100%;
+    height: 68px;
+    position: sticky;
+    top: 0;
+    z-index: 5000;
+    display: flex;
+    align-items: center;
+    background: rgba(246, 245, 240, .97);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(17, 17, 17, .08);
+}
+
+.sa-unified-checkout .reference-header-inner {
+    width: min(calc(100% - 56px), 1460px);
+    height: 100%;
+    margin-inline: auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+}
+
+.sa-unified-checkout .reference-nav {
+    display: flex;
+    align-items: center;
+    gap: 27px;
+}
+
+.sa-unified-checkout .reference-nav-left {
+    justify-self: start;
+}
+
+.sa-unified-checkout .reference-nav-right {
+    justify-self: end;
+}
+
+.sa-unified-checkout .reference-nav a,
+.sa-unified-checkout .reference-bag-button {
+    position: relative;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.sa-unified-checkout .reference-nav a::after {
+    content: "";
+    width: 0;
+    height: 1px;
+    position: absolute;
+    left: 0;
+    bottom: -7px;
+    background: #111;
+    transition: width .2s ease;
+}
+
+.sa-unified-checkout .reference-nav a:hover::after,
+.sa-unified-checkout .reference-nav a[aria-current="page"]::after {
+    width: 100%;
+}
+
+.sa-unified-checkout .reference-wordmark {
+    grid-column: 2;
+    justify-self: center;
+    font-size: 15px;
+    font-weight: 900;
+    letter-spacing: -.2px;
+    white-space: nowrap;
+}
+
+.sa-unified-checkout .reference-bag-button {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
+
+.sa-unified-checkout .reference-bag-button span {
+    min-width: 21px;
+    height: 21px;
+    padding: 0 5px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #111;
+    border-radius: 50%;
+    font-size: 9px;
+}
+
+
+
+.sa-unified-checkout .reference-header{
+ position:sticky!important;top:0!important;z-index:5000!important;
+ background:rgba(246,245,240,.97)!important;height:68px!important;
+ border-bottom:1px solid rgba(17,17,17,.08)!important;
+}
+.sa-unified-checkout .reference-header-inner{
+ width:min(calc(100% - 56px),1460px)!important;height:100%!important;
+ margin-inline:auto!important;display:grid!important;
+ grid-template-columns:1fr auto 1fr!important;align-items:center!important
+}
+.sa-unified-checkout .reference-nav{display:flex!important;align-items:center!important;gap:27px!important}
+.sa-unified-checkout .reference-nav-left{justify-self:start!important}
+.sa-unified-checkout .reference-nav-right{justify-self:end!important}
+.sa-unified-checkout .reference-nav a,.sa-unified-checkout .reference-bag-button{
+ font-size:11px!important;font-weight:800!important;letter-spacing:1.2px!important;
+ text-transform:uppercase!important;color:#111!important;text-decoration:none!important
+}
+.sa-unified-checkout .reference-wordmark{
+ grid-column:2!important;justify-self:center!important;color:#111!important;
+ font-size:15px!important;font-weight:900!important;letter-spacing:-.2px!important;
+ text-decoration:none!important;white-space:nowrap!important
+}
+.sa-unified-checkout .reference-bag-button{display:flex!important;align-items:center!important;gap:7px!important}
+.sa-unified-checkout .reference-bag-button span{
+ min-width:21px!important;height:21px!important;padding:0 5px!important;
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ border:1px solid #111!important;border-radius:50%!important;font-size:9px!important
+}
+.sa-unified-checkout .sa-checkout-menu-toggle{display:none!important}
+@media(max-width:900px){
+ .sa-unified-checkout .reference-header{height:64px!important}
+ .sa-unified-checkout .reference-header-inner{width:calc(100% - 34px)!important}
+ .sa-unified-checkout .reference-nav-left{display:none!important}
+ .sa-unified-checkout .reference-header-inner{grid-template-columns:1fr auto 1fr!important}
+ .sa-unified-checkout .reference-wordmark{grid-column:2!important}
+ .sa-unified-checkout .sa-checkout-menu-toggle{display:flex!important;grid-column:1!important;grid-row:1!important;justify-self:start!important;order:unset!important}
+ .sa-unified-checkout .reference-nav-right{grid-column:3!important;grid-row:1!important}
+ .sa-unified-checkout .reference-nav-right>a:first-child{display:none!important}
+}
+@media(max-width:600px){
+ .sa-unified-checkout .reference-header{height:58px!important}
+ .sa-unified-checkout .reference-header-inner{width:calc(100% - 26px)!important}
+ .sa-unified-checkout .reference-nav-right{gap:0!important}
+ .sa-unified-checkout .reference-wordmark{font-size:14px!important}
+}
