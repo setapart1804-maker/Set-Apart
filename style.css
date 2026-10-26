@@ -5202,3 +5202,23 @@ html body a.skip-link:focus-visible{
  .sa-unified-shell .legal-header h1,.sa-unified-shell .policy-title,
  .sa-unified-shell .cart-page-header h1{font-size:clamp(38px,10vw,60px)}
 }
+
+/* Keep expanded SET APART 1804 wordmark centered and readable on small screens. */
+.sa-reference-home .reference-wordmark,
+.sa-inner-page .reference-wordmark,
+.sa-unified-checkout .reference-wordmark,
+.sa-unified-shell .reference-wordmark{
+ white-space:nowrap;line-height:1.1;letter-spacing:-.035em!important
+}
+@media(max-width:600px){
+ .sa-reference-home .reference-wordmark,
+ .sa-inner-page .reference-wordmark,
+ .sa-unified-checkout .reference-wordmark,
+ .sa-unified-shell .reference-wordmark{
+  font-size:clamp(12px,3.25vw,15px)!important;
+ }
+ .sa-reference-home .reference-nav-right,
+ .sa-inner-page .reference-nav-right,
+ .sa-unified-checkout .reference-nav-right,
+ .sa-unified-shell .reference-nav-right{gap:8px!important}
+}
