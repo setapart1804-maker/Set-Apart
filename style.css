@@ -5537,3 +5537,48 @@ html body a.skip-link:focus-visible{
  .sa-unified-shell .cart-summary .sa-cart-alternative-order a{transition:none!important}
  .sa-unified-shell .cart-summary .sa-cart-alternative-order .whatsapp-order-button:hover{transform:none!important}
 }
+
+/* Checkout: compact readable legal consent on desktop, tablet and phone. */
+.sa-unified-checkout .checkout-legal-agreement{
+ display:grid!important;grid-template-columns:16px minmax(0,1fr)!important;
+ align-items:start!important;column-gap:11px!important;
+ width:100%!important;max-width:100%!important;
+ margin:22px 0 18px!important;padding:15px 0!important;
+ border-top:1px solid rgba(17,17,17,.12)!important;
+ color:#444!important;font-size:12px!important;font-weight:400!important;
+ line-height:1.65!important;letter-spacing:0!important;text-transform:none!important;
+ cursor:pointer!important;
+}
+.sa-unified-checkout .checkout-legal-agreement input[type="checkbox"]{
+ display:block!important;position:static!important;flex:none!important;
+ width:16px!important;height:16px!important;min-width:16px!important;
+ margin:2px 0 0!important;padding:0!important;
+ accent-color:#111!important;cursor:pointer!important;
+}
+.sa-unified-checkout .checkout-legal-agreement span{
+ display:block!important;min-width:0!important;
+ font-size:inherit!important;line-height:inherit!important;font-weight:400!important;
+ letter-spacing:0!important;overflow-wrap:normal!important;
+}
+.sa-unified-checkout .checkout-legal-agreement a{
+ color:#111!important;font-size:inherit!important;
+ font-weight:650!important;line-height:inherit!important;
+ text-decoration:underline!important;text-decoration-thickness:1px!important;
+ text-underline-offset:3px!important;
+}
+@media(max-width:900px){
+ .sa-unified-checkout .checkout-legal-agreement{
+  font-size:11.5px!important;line-height:1.6!important;
+  column-gap:10px!important;margin:18px 0 16px!important;
+ }
+}
+@media(max-width:600px){
+ .sa-unified-checkout .checkout-legal-agreement{
+  font-size:11px!important;line-height:1.65!important;
+  padding:13px 0!important;grid-template-columns:15px minmax(0,1fr)!important;
+  column-gap:9px!important;
+ }
+ .sa-unified-checkout .checkout-legal-agreement input[type="checkbox"]{
+  width:15px!important;height:15px!important;min-width:15px!important;
+ }
+}
