@@ -5367,3 +5367,50 @@ html body a.skip-link:focus-visible{
   flex-wrap:wrap!important;gap:15px!important
  }
 }
+
+/* HOME / COLLECTION: visual garment size parity + premium hover lift.
+   PILGRIM source photo includes more empty space; adjust image only. */
+.sa-reference-home #collection .reference-collection-card{
+ position:relative!important;isolation:isolate;
+ transform:translate3d(0,0,0)!important;
+ transition:transform .38s cubic-bezier(.2,.8,.2,1),filter .38s ease!important;
+ will-change:transform;
+}
+.sa-reference-home #collection .reference-collection-visual{
+ position:relative!important;overflow:hidden!important;
+ transition:box-shadow .38s ease,background-color .38s ease!important;
+}
+.sa-reference-home #collection .reference-collection-visual img{
+ width:80%!important;height:88%!important;object-fit:contain!important;
+ transform:scale(1)!important;
+ transform-origin:center center!important;
+ transition:transform .45s cubic-bezier(.2,.8,.2,1),filter .45s ease!important;
+ animation:none!important;will-change:transform;
+}
+.sa-reference-home #collection .reference-collection-card[data-open-product="pilgrim"] .reference-collection-visual img{
+ transform:scale(1.22)!important;
+}
+@media(hover:hover) and (pointer:fine){
+ .sa-reference-home #collection .reference-collection-card:hover{
+  z-index:4!important;transform:translate3d(0,-9px,0)!important;
+ }
+ .sa-reference-home #collection .reference-collection-card:hover .reference-collection-visual{
+  box-shadow:0 20px 36px rgba(17,17,17,.16)!important;
+ }
+ .sa-reference-home #collection .reference-collection-card[data-open-product="pilgrim"]:hover .reference-collection-visual img{
+  transform:scale(1.34)!important;
+ }
+ .sa-reference-home #collection .reference-collection-card[data-open-product="godfirst"]:hover .reference-collection-visual img{
+  transform:scale(1.10)!important;
+ }
+}
+.sa-reference-home #collection .reference-collection-card:focus-visible{
+ outline:2px solid #111!important;outline-offset:5px!important;z-index:4!important;
+}
+@media(prefers-reduced-motion:reduce){
+ .sa-reference-home #collection .reference-collection-card,
+ .sa-reference-home #collection .reference-collection-visual,
+ .sa-reference-home #collection .reference-collection-visual img{
+  transition:none!important;animation:none!important;
+ }
+}
