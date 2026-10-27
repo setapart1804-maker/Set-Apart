@@ -5633,14 +5633,14 @@ html body a.skip-link:focus-visible{
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
    flex:0 0 auto!important;width:100%!important;
-   height:clamp(150px,28dvh,255px)!important;min-height:0!important;
+   height:clamp(210px,38dvh,350px)!important;min-height:0!important;
    padding:8px 12px 34px!important;display:flex!important;flex-direction:column!important;
    align-items:center!important;justify-content:center!important;
    position:relative!important;border-radius:16px 16px 0 0!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
-   display:block!important;width:75%!important;max-width:280px!important;
-   height:calc(100% - 10px)!important;max-height:205px!important;
+   display:block!important;width:90%!important;max-width:380px!important;
+   height:calc(100% - 10px)!important;max-height:300px!important;
    object-fit:contain!important;object-position:center!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-gallery-switch{
@@ -5715,11 +5715,11 @@ html body a.skip-link:focus-visible{
    width:94vw!important;height:94dvh!important;max-height:94dvh!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
-   height:clamp(135px,25dvh,205px)!important;min-height:0!important;
+   height:clamp(190px,36dvh,290px)!important;min-height:0!important;
    padding:6px 10px 30px!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
-   width:72%!important;max-width:225px!important;max-height:165px!important;
+   width:92%!important;max-width:320px!important;max-height:250px!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
    padding:10px 15px 63px!important;
@@ -5733,9 +5733,9 @@ html body a.skip-link:focus-visible{
 }
 @media(max-width:900px) and (max-height:680px){
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
-   height:clamp(114px,20dvh,156px)!important;
+   height:clamp(160px,32dvh,220px)!important;
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
-   max-height:115px!important;
+   max-height:180px!important;
  }
 }
