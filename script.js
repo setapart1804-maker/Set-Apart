@@ -17,23 +17,23 @@ const PRODUCTS = {
     price: 34.99,
     message: "Walk by faith.",
     defaultColor: "brown",
-    sideImage: "PILGRIM BROWN FRONT.jpeg",
+    sideImage: "assets/optimized/pilgrim-brown-front.webp",
     images: {
       brown: {
-        front: "PILGRIM BROWN FRONT.jpeg",
-        back: "PILGRIM BROWN BACK.jpeg"
+        front: "assets/optimized/pilgrim-brown-front.webp",
+        back: "assets/optimized/pilgrim-brown-back.webp"
       },
       black: {
-        front: "PILGRIM BLACK FRONT.jpeg",
-        back: "PILGRIM BLACK BACK.jpeg"
+        front: "assets/optimized/pilgrim-black-front.webp",
+        back: "assets/optimized/pilgrim-black-back.webp"
       },
       beige: {
-        front: "PILGRIM BEIGE FRONT.jpeg",
-        back: "PILGRIM BEIGE BACK.jpeg"
+        front: "assets/optimized/pilgrim-beige-front.webp",
+        back: "assets/optimized/pilgrim-beige-back.webp"
       },
       white: {
-        front: "PILGRIM WHITE FRONT.jpeg",
-        back: "PILGRIM WHITE BACK.jpeg"
+        front: "assets/optimized/pilgrim-white-front.webp",
+        back: "assets/optimized/pilgrim-white-back.webp"
       }
     }
   },
@@ -44,23 +44,23 @@ const PRODUCTS = {
     price: 34.99,
     message: "Every day, the choice is simple: God first.",
     defaultColor: "black",
-    sideImage: "GOD FIRST WHITE FRONT.jpeg",
+    sideImage: "assets/optimized/god-first-white-front.webp",
     images: {
       black: {
-        front: "GOD FIRST BLACK FRONT.jpeg",
-        back: "GOD FIRST BLACK BACK.jpeg"
+        front: "assets/optimized/god-first-black-front.webp",
+        back: "assets/optimized/god-first-black-back.webp"
       },
       brown: {
-        front: "GOD FIRST BROWN FRONT.jpeg",
-        back: "GOD FIRST BROWN BACK.jpeg"
+        front: "assets/optimized/god-first-brown-front.webp",
+        back: "assets/optimized/god-first-brown-back.webp"
       },
       beige: {
-        front: "GOD FIRST BEIGE FRONT.jpeg",
-        back: "GOD FIRST BEIGE BACK.jpeg"
+        front: "assets/optimized/god-first-beige-front.webp",
+        back: "assets/optimized/god-first-beige-back.webp"
       },
       white: {
-        front: "GOD FIRST WHITE FRONT.jpeg",
-        back: "GOD FIRST WHITE BACK.jpeg"
+        front: "assets/optimized/god-first-white-front.webp",
+        back: "assets/optimized/god-first-white-back.webp"
       }
     }
   }
