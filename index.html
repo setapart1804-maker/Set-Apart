@@ -5,15 +5,15 @@
 
     <meta charset="UTF-8">
 
-    <!-- Start fresh home visits at the top; preserve section links and Back. -->
+    <!-- Start fresh home visits and refreshes at the top; preserve Back. -->
     <script>
 (() => {
   const navigation = performance.getEntriesByType("navigation")[0];
-  const isReload = navigation?.type === "reload" ||
-    (!navigation && performance.navigation?.type === 1);
-  if (navigation?.type === "back_forward") return;
-  // A refresh starts at the top, even when the previous URL had a section hash.
-  if (isReload && location.hash) {
+  const isHistoryVisit = navigation?.type === "back_forward" ||
+    (!navigation && performance.navigation?.type === 2);
+  if (isHistoryVisit) return;
+  // Both fresh visits and refreshes start at the top.
+  if (location.hash) {
     history.replaceState(history.state, "", location.pathname + location.search);
   }
   if (location.hash) return;
