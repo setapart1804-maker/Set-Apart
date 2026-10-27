@@ -5590,8 +5590,8 @@ html body a.skip-link:focus-visible{
   left:12px!important;right:12px!important;width:calc(100% - 24px)!important;
   max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;overflow-x:hidden!important;
   padding:16px 18px 18px!important;
-  background:rgba(206,206,206,.88)!important;
-  -webkit-backdrop-filter:blur(20px) saturate(85%)!important;backdrop-filter:blur(20px) saturate(85%)!important;
+  background:rgba(219,219,219,.965)!important;
+  -webkit-backdrop-filter:blur(28px) saturate(75%)!important;backdrop-filter:blur(28px) saturate(75%)!important;
   border:1px solid rgba(255,255,255,.65)!important;border-radius:18px!important;
   box-shadow:0 16px 44px rgba(0,0,0,.20)!important;
  }
