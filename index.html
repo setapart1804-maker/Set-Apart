@@ -9,7 +9,14 @@
     <script>
 (() => {
   const navigation = performance.getEntriesByType("navigation")[0];
-  if (location.hash || navigation?.type === "back_forward") return;
+  const isReload = navigation?.type === "reload" ||
+    (!navigation && performance.navigation?.type === 1);
+  if (navigation?.type === "back_forward") return;
+  // A refresh starts at the top, even when the previous URL had a section hash.
+  if (isReload && location.hash) {
+    history.replaceState(history.state, "", location.pathname + location.search);
+  }
+  if (location.hash) return;
   if ("scrollRestoration" in history) history.scrollRestoration = "manual";
   let interacted = false;
   const markInteraction = () => { interacted = true; };
@@ -21,9 +28,13 @@
       window.scrollTo({ top: 0, left: 0, behavior: "instant" });
     }
   };
+  startAtTop();
   document.addEventListener("DOMContentLoaded", startAtTop, { once: true });
+  window.addEventListener("load", startAtTop, { once: true });
   window.addEventListener("pageshow", event => {
-    if (!event.persisted) startAtTop();
+    if (event.persisted) return;
+    startAtTop();
+    requestAnimationFrame(startAtTop);
   }, { once: true });
 })();
     </script>
