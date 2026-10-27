@@ -5775,3 +5775,14 @@ html body a.skip-link:focus-visible{
   z-index:10!important;
  }
 }
+
+/* A little breathing room between purchase information on phones and tablets. */
+@media (max-width:900px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+  row-gap:4px!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-color-row,
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-size-row{
+  margin-top:8px!important;
+ }
+}
