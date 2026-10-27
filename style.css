@@ -5624,7 +5624,7 @@ html body a.skip-link:focus-visible{
 
 /* COLLECTION mobile/tablet: compact product modal, always-visible purchase action.
    Scoped to collection purchase: showroom detail and checkout are unaffected. */
-@media (max-width:900px){
+@media (max-width:1180px){
  .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
    width:min(96vw,720px)!important;height:min(92dvh,850px)!important;max-height:92dvh!important;
    min-height:0!important;display:flex!important;flex-direction:column!important;
@@ -5737,5 +5737,50 @@ html body a.skip-link:focus-visible{
  }
  .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
    max-height:115px!important;
+ }
+}
+
+/* Purchase layout: reserve the action outside the scrollable information area.
+   dvh follows mobile browser chrome; scrolling remains available for zoom. */
+@media (max-width:1180px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+  padding-bottom:66px!important;
+  height:calc(100dvh - 24px)!important;max-height:calc(100dvh - 24px)!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+  position:static!important;margin:0!important;padding:8px 16px!important;
+  flex-shrink:1!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info > *{
+  flex-shrink:0!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+  height:clamp(110px,22dvh,210px)!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-label{
+  margin:0!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-add-button{
+  left:16px!important;bottom:12px!important;width:calc(100% - 32px)!important;
+  height:44px!important;min-height:44px!important;
+ }
+}
+@media (min-width:701px) and (max-width:1180px), (max-width:700px) and (orientation:landscape){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-detail{
+  display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr)!important;width:min(96vw,1000px)!important;
+  height:min(90dvh,640px)!important;max-height:calc(100dvh - 24px)!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+  height:100%!important;min-height:0!important;padding:40px 12px 48px!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
+  width:100%!important;height:100%!important;max-height:420px!important;max-width:400px!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-info{
+  padding:42px 18px 10px!important;justify-content:safe center!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-gallery-switch{
+  bottom:10px!important;
  }
 }
