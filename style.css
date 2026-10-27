@@ -5590,7 +5590,7 @@ html body a.skip-link:focus-visible{
   left:12px!important;right:12px!important;width:calc(100% - 24px)!important;
   max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;overflow-x:hidden!important;
   padding:16px 18px 18px!important;
-  background:linear-gradient(180deg,rgba(171,171,171,.99) 0%,rgba(196,196,196,.99) 44%,rgba(238,238,238,.99) 100%)!important;
+  background:linear-gradient(180deg,rgba(171,171,171,.90) 0%,rgba(196,196,196,.90) 44%,rgba(238,238,238,.90) 100%)!important;
   -webkit-backdrop-filter:blur(4px) saturate(90%)!important;backdrop-filter:blur(4px) saturate(90%)!important;
   border:1px solid rgba(255,255,255,.86)!important;border-radius:18px!important;
   box-shadow:0 16px 44px rgba(0,0,0,.20)!important;
