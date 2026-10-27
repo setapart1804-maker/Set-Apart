@@ -5763,3 +5763,15 @@ html body a.skip-link:focus-visible{
   flex:0 0 44px!important;margin:8px 0 0!important;
  }
 }
+
+/* Larger hoodie preview in the mobile/tablet purchase gallery. */
+@media (max-width:900px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{
+  max-width:560px!important;
+  transform:scale(1.18)!important;
+  transform-origin:center center!important;
+ }
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-gallery-switch{
+  z-index:10!important;
+ }
+}
