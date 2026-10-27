@@ -5,6 +5,29 @@
 
     <meta charset="UTF-8">
 
+    <!-- Start fresh home visits at the top; preserve section links and Back. -->
+    <script>
+(() => {
+  const navigation = performance.getEntriesByType("navigation")[0];
+  if (location.hash || navigation?.type === "back_forward") return;
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  let interacted = false;
+  const markInteraction = () => { interacted = true; };
+  ["pointerdown", "touchstart", "wheel", "keydown"].forEach(type => {
+    window.addEventListener(type, markInteraction, { once: true, passive: true });
+  });
+  const startAtTop = () => {
+    if (!interacted && !location.hash) {
+      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
+    }
+  };
+  document.addEventListener("DOMContentLoaded", startAtTop, { once: true });
+  window.addEventListener("pageshow", event => {
+    if (!event.persisted) startAtTop();
+  }, { once: true });
+})();
+    </script>
+
     <meta
         name="viewport"
         content="width=device-width, initial-scale=1.0">
