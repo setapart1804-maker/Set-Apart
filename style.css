@@ -5583,32 +5583,41 @@ html body a.skip-link:focus-visible{
  }
 }
 
-/* Mobile menu: same refined card language as COLLECTION purchase modal. */
+/* Mobile navigation — COLLECTION purchase modal glass treatment. */
 @media (max-width:900px){
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
-  left:12px!important;right:12px!important;top:calc(100% + 7px)!important;
-  width:calc(100% - 24px)!important;
-  max-height:calc(100dvh - 86px)!important;
-  padding:14px 21px 18px!important;
-  background:rgba(255,255,255,.89)!important;
-  -webkit-backdrop-filter:blur(6px)!important;
-  backdrop-filter:blur(6px)!important;
-  border:1px solid rgba(255,255,255,.67)!important;
-  border-radius:14px!important;
+  position:absolute!important;top:calc(100% + 8px)!important;
+  left:12px!important;right:12px!important;width:calc(100% - 24px)!important;
+  max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;overflow-x:hidden!important;
+  padding:16px 18px 18px!important;
+  background:rgba(245,245,245,.82)!important;
+  -webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;
+  border:1px solid rgba(255,255,255,.65)!important;border-radius:18px!important;
   box-shadow:0 12px 38px rgba(0,0,0,.12)!important;
-  overflow-x:hidden!important;
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav{
-  background:transparent!important;
+  display:flex!important;flex-direction:column!important;gap:0!important;background:transparent!important;
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav a{
-  color:#151515!important;opacity:1!important;filter:none!important;
-  text-shadow:none!important;letter-spacing:1px!important;
-  font-size:13px!important;font-weight:800!important;
+  display:block!important;padding:14px 6px!important;
+  border-bottom:1px solid rgba(17,17,17,.08)!important;
+  color:#111!important;text-decoration:none!important;
+  font-size:13px!important;font-weight:800!important;letter-spacing:.08em!important;
+  text-transform:uppercase!important;background:transparent!important;
+  opacity:1!important;filter:none!important;text-shadow:none!important;
+  -webkit-font-smoothing:antialiased!important;
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav a:last-child{
+  border-bottom:0!important;
  }
 }
 @media(max-width:600px){
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
+  left:10px!important;right:10px!important;width:calc(100% - 20px)!important;
+  padding:14px 16px 16px!important;border-radius:16px!important;
   max-height:calc(100dvh - 80px)!important;
+ }
+ :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav a{
+  font-size:12px!important;padding:13px 4px!important;
  }
 }
