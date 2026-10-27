@@ -5590,10 +5590,10 @@ html body a.skip-link:focus-visible{
   left:12px!important;right:12px!important;width:calc(100% - 24px)!important;
   max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;overflow-x:hidden!important;
   padding:16px 18px 18px!important;
-  background:rgba(245,245,245,.82)!important;
-  -webkit-backdrop-filter:blur(10px)!important;backdrop-filter:blur(10px)!important;
+  background:rgba(206,206,206,.88)!important;
+  -webkit-backdrop-filter:blur(20px) saturate(85%)!important;backdrop-filter:blur(20px) saturate(85%)!important;
   border:1px solid rgba(255,255,255,.65)!important;border-radius:18px!important;
-  box-shadow:0 12px 38px rgba(0,0,0,.12)!important;
+  box-shadow:0 16px 44px rgba(0,0,0,.20)!important;
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav{
   display:flex!important;flex-direction:column!important;gap:0!important;background:transparent!important;
