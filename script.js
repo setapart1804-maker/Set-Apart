@@ -15,7 +15,7 @@ const PRODUCTS = {
     id: "pilgrim",
     name: "PILGRIM HOODIE",
     price: 34.99,
-    message: "Walk by faith.",
+    message: "Walk by faith. Oversized fit.",
     defaultColor: "brown",
     sideImage: "assets/optimized/pilgrim-brown-front.webp",
     images: {
@@ -42,7 +42,7 @@ const PRODUCTS = {
     id: "godfirst",
     name: "GOD FIRST HOODIE",
     price: 34.99,
-    message: "Every day, the choice is simple: God first.",
+    message: "Every day, the choice is simple: God first. Oversized fit.",
     defaultColor: "black",
     sideImage: "assets/optimized/god-first-white-front.webp",
     images: {
@@ -67,8 +67,8 @@ const PRODUCTS = {
 };
 
 Object.assign(PRODUCTS, {
-teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:24.99, message:"WALK BY FAITH", defaultColor:"white", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}},
-teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:24.99, message:"PUT GOD FIRST", defaultColor:"beige", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}
+teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:24.99, message:"WALK BY FAITH — OVERSIZED FIT", defaultColor:"white", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}},
+teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:24.99, message:"PUT GOD FIRST — OVERSIZED FIT", defaultColor:"beige", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}
 });
 
 const COLORS = ["beige", "brown", "black", "white"];
@@ -707,16 +707,21 @@ function initHome() {
   stage.querySelector(".reference-stage-arrow-right")
     ?.addEventListener("click", () => changeSlide(1));
 
-  document.querySelectorAll(".reference-collection-card").forEach((button) => {
-    button.addEventListener("click", () => {
-      const id = button.dataset.openProduct;
-      if (PRODUCTS[id]) {
-        openDetail(id, PRODUCTS[id].defaultColor);
-        detailLayer.classList.add("sa-collection-purchase");
-        detailLayer.classList.add("sa-order-mode");
-        renderDetail();
-      }
-    });
+  // Delegate collection clicks for all categories, including dynamically-added tees.
+  document.getElementById("collection")?.addEventListener("click", (event) => {
+    const button = event.target.closest(".reference-collection-card[data-open-product]");
+    if (!button) return;
+    const id = button.dataset.openProduct;
+    const product = PRODUCTS[id];
+    if (!product) return;
+    const index = findSlide(id, product.defaultColor);
+    if (index < 0) {
+      console.error("Missing product variant:", id);
+      return;
+    }
+    openDetail(id, product.defaultColor);
+    detailLayer.classList.add("sa-collection-purchase", "sa-order-mode");
+    renderDetail();
   });
 
   document.getElementById("homeBagButton")
