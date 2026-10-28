@@ -627,7 +627,7 @@ function initHome() {
       const img = makeElement("img");
 
       img.src = getImage(item.id, item.color) || item.image || "";
-      img.alt = item.name || "SET APART 1804";
+      img.alt = item.name || "SET APART-ht";
       imageWrap.appendChild(img);
 
       const copy = makeElement("div");
