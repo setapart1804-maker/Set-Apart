@@ -440,6 +440,8 @@ function initHome() {
     if (!product) return;
 
     detailImage.src = getImage(id, color, detailSide);
+    const backImage = document.getElementById("referenceDetailBackImage");
+    if (backImage) { backImage.src = getImage(id, color, "back"); backImage.alt = `${product.name} ${color} back`; }
     updateShadow();
     detailImage.alt = `${product.name} ${color} ${detailSide}`;
 
