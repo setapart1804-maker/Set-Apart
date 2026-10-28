@@ -5793,3 +5793,9 @@ html body a.skip-link:focus-visible{
 .sa-reference-home .sa-tee-category>p{font-size:clamp(11px,1.3vw,14px);letter-spacing:.14em;margin:0 0 24px}
 .sa-reference-home .sa-tee-category .reference-collection-meta span{font-size:clamp(10px,1vw,12px);text-align:right}
 .sa-reference-home .reference-add-button:disabled{opacity:.55;cursor:not-allowed}
+
+/* Oversized category labels and tee click targets */
+.sa-reference-home .sa-category-heading{font-size:clamp(24px,3vw,38px);font-weight:700;letter-spacing:.09em;margin:0 0 24px}
+.sa-reference-home .sa-category-heading span,.sa-reference-home .sa-tee-category>h2 span{font-size:clamp(10px,1.2vw,13px);font-weight:600;letter-spacing:.12em;vertical-align:middle;margin-left:12px}
+.sa-reference-home .sa-tee-category .reference-collection-card{position:relative;z-index:1;cursor:pointer;pointer-events:auto}
+.sa-reference-home .sa-tee-category .reference-collection-card>*{pointer-events:none}
