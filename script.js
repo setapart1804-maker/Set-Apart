@@ -463,8 +463,8 @@ function initHome() {
         button.type = "button";
 
         button.onclick = () => {
-          detailSide = side;
-          renderDetail();
+          if (detailSide === side || changingGarment) return;
+          transitionProductView(() => { detailSide = side; renderDetail(); });
         };
 
         gallery.appendChild(button);
@@ -508,10 +508,7 @@ function initHome() {
         button.onclick = () => {
           const index = findSlide(id, option);
           if (index >= 0) {
-            activeIndex = index;
-            detailSide = "front";
-            renderStage();
-            renderDetail();
+            transitionGarment(index, 1);
           }
         };
 
@@ -730,31 +727,37 @@ function initHome() {
     ?.addEventListener("click", openBag);
 
   let changingGarment = false;
-  async function transitionGarment(index, direction = 1) {
-    if (index < 0 || changingGarment || index === activeIndex) return;
+  async function transitionProductView(update) {
+    if (changingGarment) return;
     changingGarment = true;
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     try {
       if (!reduced) {
-        const out = detailImage.animate([
-          {opacity:1, filter:"blur(0px)", transform:"translateX(0) scale(1)"},
-          {opacity:0, filter:"blur(12px)", transform:"translateX(" + (-direction * 32) + "px) scale(.96)"}
-        ], {duration:230,easing:"ease-in",fill:"forwards"});
-        await out.finished.catch(() => {});
-        out.cancel();
+        const outgoing = detailImage.animate([
+          { opacity: 1, filter: "blur(0px)", translate: "0 0" },
+          { opacity: 0, filter: "blur(5px)", translate: "0 9px" }
+        ], { duration: 150, easing: "ease-in", fill: "forwards" });
+        await outgoing.finished.catch(() => {});
+        outgoing.cancel();
       }
+      update();
+      if (!reduced) {
+        const incoming = detailImage.animate([
+          { opacity: 0, filter: "blur(5px)", translate: "0 -9px" },
+          { opacity: 1, filter: "blur(0px)", translate: "0 0" }
+        ], { duration: 320, easing: "cubic-bezier(.2,.75,.2,1)" });
+        await incoming.finished.catch(() => {});
+      }
+    } finally { changingGarment = false; }
+  }
+  function transitionGarment(index) {
+    if (index < 0 || index === activeIndex) return;
+    return transitionProductView(() => {
       activeIndex = index;
       detailSide = "front";
       renderStage();
       renderDetail();
-      if (!reduced) {
-        const incoming = detailImage.animate([
-          {opacity:0, filter:"blur(12px)",transform:"translateX(" + (direction * 32) + "px) scale(1.04)"},
-          {opacity:1,filter:"blur(0px)",transform:"translateX(0) scale(1)"}
-        ],{duration:390,easing:"cubic-bezier(.2,.75,.3,1)"});
-        await incoming.finished.catch(() => {});
-      }
-    } finally { changingGarment = false; }
+    });
   }
   function nextShowcase(direction) {
     const id = currentSelection().id;
