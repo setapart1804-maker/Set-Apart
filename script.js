@@ -66,6 +66,11 @@ const PRODUCTS = {
   }
 };
 
+Object.assign(PRODUCTS, {
+teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:null, message:"WALK BY FAITH", defaultColor:"brown", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}},
+teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:null, message:"PUT GOD FIRST", defaultColor:"black", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}
+});
+
 const COLORS = ["beige", "brown", "black", "white"];
 const SIZES = ["S", "M", "L", "XL"];
 
@@ -184,6 +189,16 @@ function initHome() {
 
   if (!rack || !stage || !detailLayer || !bagLayer) return;
 
+  // Tee variants use the existing detail/gallery system; no new checkout logic.
+  for (const id of ["teepilgrim","teegodfirst"]) {
+    const p=PRODUCTS[id];
+    for (const color of COLORS) {
+      const slide=document.createElement("article");
+      slide.className="reference-look"; slide.dataset.product=id; slide.dataset.color=color;
+      slide.innerHTML='<div class="reference-look-visual"><img class="reference-main-garment" loading="lazy" alt=""></div><div class="reference-look-info"><h2></h2><p></p></div>';
+      stage.appendChild(slide);
+    }
+  }
   const slides = Array.from(
     stage.querySelectorAll(".reference-look")
   );
@@ -275,10 +290,10 @@ function initHome() {
       }
 
       if (title) {
-        title.textContent = `${id === "godfirst" ? "GOD FIRST" : "PILGRIM"} — ${color.toUpperCase()}`;
+        title.textContent = `${product.name} — ${color.toUpperCase()}`;
       }
 
-      if (price) price.textContent = money(product.price) + " USD";
+      if (price) price.textContent = product.price == null ? "PRICE COMING SOON" : money(product.price) + " USD";
 
       const info = slide.querySelector(".reference-look-info");
       if (!info) return;
@@ -427,11 +442,11 @@ function initHome() {
     detailImage.alt = `${product.name} ${color} ${detailSide}`;
 
     if (detailTitle) {
-      detailTitle.textContent = id === "godfirst" ? "GOD FIRST" : "PILGRIM";
+      detailTitle.textContent = product.name;
     }
 
     if (detailMessage) detailMessage.textContent = product.message;
-    if (detailPrice) detailPrice.textContent = money(product.price) + " USD";
+    if (detailPrice) detailPrice.textContent = product.price == null ? "PRICE COMING SOON" : money(product.price) + " USD";
 
     if (gallery) {
       gallery.replaceChildren();
@@ -564,7 +579,8 @@ function initHome() {
 
     if (detailAdd) {
       const inCollection = detailLayer.classList.contains("sa-collection-purchase");
-      detailAdd.textContent = inCollection ? "ADD TO BAG" : "DETAILS PRODUCT";
+      detailAdd.textContent = product.price == null ? "COMING SOON" : (inCollection ? "ADD TO BAG" : "DETAILS PRODUCT");
+      detailAdd.disabled = product.price == null;
       detailAdd.onclick = () => {
         if (!inCollection) {
           detailLayer.classList.add("sa-collection-purchase", "sa-order-mode");
