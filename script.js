@@ -67,8 +67,8 @@ const PRODUCTS = {
 };
 
 Object.assign(PRODUCTS, {
-teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:24.99, message:"WALK BY FAITH — OVERSIZED FIT", defaultColor:"white", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}}},
-teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:24.99, message:"PUT GOD FIRST — OVERSIZED FIT", defaultColor:"beige", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}}
+teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:24.99, message:"WALK BY FAITH — OVERSIZED FIT", defaultColor:"brown", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}}},
+teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:24.99, message:"PUT GOD FIRST — OVERSIZED FIT", defaultColor:"white", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}}
 });
 
 const COLORS = ["beige", "brown", "black", "white"];
