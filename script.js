@@ -415,18 +415,20 @@ function initHome() {
   function openDetail(id, color) {
     detailLayer.classList.remove("sa-collection-purchase");
     const index = findSlide(id, color);
-
-    if (index >= 0) activeIndex = index;
+    if (index < 0) {
+      console.error("Product variant not found:", id, color);
+      return;
+    }
+    activeIndex = index;
 
     showcaseSource = sourceForProduct(id);
     selectedSize = null;
     selectedQuantity = 1;
     detailSide = "front";
 
-    renderDetail();
-
-    detailLayer.classList.add("sa-order-mode");
+    detailLayer.classList.add("sa-order-mode", "sa-collection-purchase");
     detailLayer.classList.add("is-active");
+    renderDetail();
     detailLayer.setAttribute("aria-hidden", "false");
     document.body.classList.add("sa-lock");
     requestAnimationFrame(animateOpen);
@@ -709,7 +711,7 @@ function initHome() {
 
   // Delegate collection clicks for all categories, including dynamically-added tees.
   document.getElementById("collection")?.addEventListener("click", (event) => {
-    const button = event.target.closest(".reference-collection-card[data-open-product]");
+    const button = event.target instanceof Element ? event.target.closest(".reference-collection-card[data-open-product]") : null;
     if (!button) return;
     const id = button.dataset.openProduct;
     const product = PRODUCTS[id];
