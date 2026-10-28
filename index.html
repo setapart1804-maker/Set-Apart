@@ -202,6 +202,49 @@
 
     <main id="main-content">
 
+<!-- Faith & Purpose HERO: isolated styles; all existing home content retained -->
+<style>
+#sa-faith-hero{--cream:#e8dac4;position:relative;isolation:isolate;display:grid;grid-template-columns:1fr 1fr;min-height:620px;overflow:hidden;background:radial-gradient(ellipse at 80% 32%,#303030 0%,#141414 38%,#080808 76%);color:var(--cream);font-family:Arial,Helvetica,sans-serif}
+#sa-faith-hero *{box-sizing:border-box}
+#sa-faith-hero:before{content:"";position:absolute;inset:0;opacity:.12;background-image:radial-gradient(#b8afa4 .5px,transparent .8px);background-size:5px 5px;pointer-events:none}
+#sa-faith-hero .sf-copy{position:relative;z-index:2;padding:clamp(50px,7vw,110px) 20px 70px clamp(24px,5vw,85px);align-self:center}
+#sa-faith-hero .sf-eyebrow{font-size:11px;letter-spacing:.25em;font-weight:700;margin:0 0 39px}
+#sa-faith-hero h1{font-size:clamp(56px,6.3vw,104px);font-weight:900;letter-spacing:-.075em;line-height:.94;margin:0}
+#sa-faith-hero h1 span{display:block}
+#sa-faith-hero h1 .sf-outline{color:transparent;-webkit-text-stroke:1.5px var(--cream)}
+#sa-faith-hero .sf-description{font-size:clamp(13px,1.15vw,16px);line-height:1.7;max-width:410px;margin:32px 0;color:#d4c9b9}
+#sa-faith-hero .sf-actions{display:flex;flex-direction:column;gap:12px;align-items:flex-start}
+#sa-faith-hero .sf-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:16px 22px;font-size:11px;font-weight:800;letter-spacing:.08em;text-decoration:none;border:1px solid #e8dac4;color:#e8dac4;transition:background .2s,color .2s}
+#sa-faith-hero .sf-actions a:first-child{background:#e8dac4;color:#0b0b0b}
+#sa-faith-hero .sf-actions a:hover{background:#c7b69a;color:#090909}
+#sa-faith-hero .sf-art{position:relative;min-width:0;min-height:560px;display:flex;align-items:end;justify-content:center}
+#sa-faith-hero .sf-arch{position:absolute;inset:4% 8% 0;border-radius:48% 48% 0 0;border:1px solid rgba(235,218,196,.14);background:radial-gradient(ellipse at 50% 25%,#474747,#1b1b1b 51%,#0b0b0b 80%)}
+#sa-faith-hero .sf-models{position:relative;z-index:1;display:block;width:100%;height:100%;max-height:660px;object-fit:contain;object-position:center bottom}
+#sa-faith-hero .sf-fallback{position:absolute;z-index:1;inset:17% 4% 8%;display:flex;align-items:center;justify-content:center;gap:2%}
+#sa-faith-hero .sf-fallback img{width:49%;height:100%;object-fit:contain;filter:drop-shadow(0 20px 28px #050505)}
+#sa-faith-hero .sf-models:not([hidden])+.sf-fallback{display:none}
+#sa-faith-hero .sf-vertical{position:absolute;right:16px;top:16%;z-index:3;writing-mode:vertical-rl;font-size:10px;letter-spacing:.35em}
+#sa-faith-hero .sf-watermark{position:absolute;bottom:-.12em;left:3%;font-weight:900;letter-spacing:-.09em;font-size:clamp(100px,14vw,245px);line-height:1;color:rgba(234,218,197,.055);pointer-events:none;white-space:nowrap}
+@media(max-width:760px){#sa-faith-hero{grid-template-columns:1fr;min-height:0}#sa-faith-hero .sf-copy{padding:52px 22px 15px}#sa-faith-hero h1{font-size:clamp(52px,12vw,85px)}#sa-faith-hero .sf-eyebrow{margin-bottom:24px}#sa-faith-hero .sf-description{margin:22px 0}#sa-faith-hero .sf-actions{flex-direction:row;flex-wrap:wrap}#sa-faith-hero .sf-actions a{min-height:44px;padding:12px;font-size:10px}#sa-faith-hero .sf-art{min-height:320px;height:390px}#sa-faith-hero .sf-arch{inset:4% 12% 0}#sa-faith-hero .sf-watermark{bottom:0;font-size:19vw}}
+@media(prefers-reduced-motion:no-preference){#sa-faith-hero .sf-copy{animation:sf-rise .65s ease-out both}#sa-faith-hero .sf-art{animation:sf-rise .85s ease-out both}@keyframes sf-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}}
+</style>
+<section id="sa-faith-hero" aria-labelledby="sa-faith-title">
+ <div class="sf-copy">
+  <p class="sf-eyebrow">MORE THAN CLOTHING — A DECLARATION</p>
+  <h1 id="sa-faith-title"><span>CALLED</span><span>TO BE</span><span class="sf-outline">DIFFERENT.</span></h1>
+  <p class="sf-description">More than clothing. A declaration of faith. Made for those who choose purpose over conformity.</p>
+  <div class="sf-actions"><a href="about.html">DISCOVER OUR STORY ↗</a><a href="#collection">SHOP THE COLLECTION ↗</a></div>
+ </div>
+ <div class="sf-art" aria-label="GOD FIRST faith-inspired streetwear collection">
+  <div class="sf-arch" aria-hidden="true"></div>
+  <img class="sf-models" src="assets/hero-god-first-duo.webp" alt="Two models wearing white GOD FIRST oversized T-shirts, front and back" hidden onload="this.hidden=false" onerror="this.hidden=true">
+  <div class="sf-fallback" aria-label="GOD FIRST white T-shirt front and back"><img loading="eager" src="t-shirt god first white front.png" alt="GOD FIRST white T-shirt front"><img loading="eager" src="t-shirt god first white back.png" alt="GOD FIRST white T-shirt back"></div>
+  <span class="sf-vertical">SET APART — 1804</span>
+ </div>
+ <span class="sf-watermark" aria-hidden="true">SET APART</span>
+</section>
+
+
 
 
         <!-- =================================================
