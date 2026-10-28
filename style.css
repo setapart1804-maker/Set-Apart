@@ -5821,3 +5821,7 @@ html body a.skip-link:focus-visible{
     animation: none !important;
   }
 }
+
+/* Hoodie subtitle */
+.sa-reference-home .sa-category-heading{margin-bottom:8px}
+.sa-reference-home .sa-hoodie-caption{margin:0 0 24px;font-size:clamp(11px,1.3vw,14px);letter-spacing:.14em;font-weight:400}
