@@ -440,12 +440,6 @@ function initHome() {
     if (!product) return;
 
     detailImage.src = getImage(id, color, detailSide);
-    const secondView = document.getElementById("referenceDetailBackImage");
-    if (secondView) {
-      const oppositeSide = detailSide === "front" ? "back" : "front";
-      secondView.src = getImage(id, color, oppositeSide);
-      secondView.alt = `${product.name} ${color} ${oppositeSide}`;
-    }
     updateShadow();
     detailImage.alt = `${product.name} ${color} ${detailSide}`;
 
