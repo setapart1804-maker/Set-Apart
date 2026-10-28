@@ -5821,17 +5821,3 @@ html body a.skip-link:focus-visible{
     animation: none !important;
   }
 }
-
-/* Second garment view inside the existing purchase-gallery only */
-.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{position:relative!important;}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage,
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{
-  position:absolute!important;top:10%!important;height:75%!important;width:49%!important;max-width:49%!important;
-  object-fit:contain!important;transform:none!important;filter:none!important;
-}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{left:1%!important;right:auto!important;}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{left:50%!important;right:auto!important;display:block!important;}
-@media(max-width:700px){
- .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage,
- .sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{top:6%!important;height:78%!important;}
-}
