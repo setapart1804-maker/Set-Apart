@@ -5799,3 +5799,25 @@ html body a.skip-link:focus-visible{
 .sa-reference-home .sa-category-heading span,.sa-reference-home .sa-tee-category>h2 span{font-size:clamp(10px,1.2vw,13px);font-weight:600;letter-spacing:.12em;vertical-align:middle;margin-left:12px}
 .sa-reference-home .sa-tee-category .reference-collection-card{position:relative;z-index:1;cursor:pointer;pointer-events:auto}
 .sa-reference-home .sa-tee-category .reference-collection-card>*{pointer-events:none}
+
+/* Lightweight entrance motion for hoodie and T-shirt shopping preview. */
+@keyframes saPurchaseGarmentEnter {
+  from { opacity: 0; translate: 0 16px; scale: .94; filter: blur(5px); }
+  to   { opacity: 1; translate: 0 0; scale: 1; filter: blur(0); }
+}
+@keyframes saPurchasePanelEnter {
+  from { opacity: 0; translate: 0 12px; }
+  to   { opacity: 1; translate: 0 0; }
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase.is-active .reference-product-detail {
+  animation: saPurchasePanelEnter .32s cubic-bezier(.2,.75,.25,1) both;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase.is-active #referenceDetailImage {
+  animation: saPurchaseGarmentEnter .52s cubic-bezier(.2,.75,.2,1) both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .sa-reference-home #referenceProductLayer.sa-collection-purchase.is-active .reference-product-detail,
+  .sa-reference-home #referenceProductLayer.sa-collection-purchase.is-active #referenceDetailImage {
+    animation: none !important;
+  }
+}
