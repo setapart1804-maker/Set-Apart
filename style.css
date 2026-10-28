@@ -5203,7 +5203,7 @@ html body a.skip-link:focus-visible{
  .sa-unified-shell .cart-page-header h1{font-size:clamp(38px,10vw,60px)}
 }
 
-/* Keep expanded SET APART-ht wordmark centered and readable on small screens. */
+/* Keep expanded setapart-ht wordmark centered and readable on small screens. */
 .sa-reference-home .reference-wordmark,
 .sa-inner-page .reference-wordmark,
 .sa-unified-checkout .reference-wordmark,
@@ -5301,7 +5301,7 @@ html body a.skip-link:focus-visible{
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-bottom{font-size:8px!important}
 }
 
-/* Exact HOME footer proportions across every SET APART-ht page. */
+/* Exact HOME footer proportions across every setapart-ht page. */
 :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer{
  padding:64px max(28px,calc((100vw - 1400px)/2)) 22px!important;
  background:#111!important;color:#fff!important;
