@@ -5821,15 +5821,3 @@ html body a.skip-link:focus-visible{
     animation: none !important;
   }
 }
-
-/* Only the image area of the original product purchase window */
-.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{position:relative!important;}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage,
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{
- position:absolute!important;top:10%!important;height:76%!important;width:49%!important;max-width:49%!important;object-fit:contain!important;
- transform:none!important;transform-origin:center!important;filter:none!important;
-}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage{left:1%!important;right:auto!important;}
-.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{left:50%!important;right:auto!important;display:block!important;}
-.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) #referenceDetailBackImage{display:none!important;}
-@media(max-width:700px){.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailImage,.sa-reference-home #referenceProductLayer.sa-collection-purchase #referenceDetailBackImage{top:5%!important;height:79%!important;}}
