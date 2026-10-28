@@ -5821,3 +5821,21 @@ html body a.skip-link:focus-visible{
     animation: none !important;
   }
 }
+
+/* SET APART: front and back previews inside the EXISTING purchase modal, no gallery switch */
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery{
+ display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:center!important;gap:0!important;
+}
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery #referenceDetailImage,
+.sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery #referenceDetailBackImage{
+ position:relative!important;inset:auto!important;display:block!important;flex:0 0 49%!important;
+ width:49%!important;max-width:49%!important;height:85%!important;max-height:85%!important;
+ min-width:0!important;min-height:0!important;object-fit:contain!important;margin:0!important;
+ transform:none!important;filter:none!important;
+}
+.sa-reference-home #referenceProductLayer .reference-gallery-switch{display:none!important;}
+.sa-reference-home #referenceProductLayer:not(.sa-collection-purchase) #referenceDetailBackImage{display:none!important;}
+@media(max-width:900px){
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery #referenceDetailImage,
+ .sa-reference-home #referenceProductLayer.sa-collection-purchase .reference-product-gallery #referenceDetailBackImage{height:90%!important;max-height:90%!important;}
+}
