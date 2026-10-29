@@ -615,7 +615,21 @@
      FOOTER
 ===================================================== -->
 
-<footer class="reference-footer">
+<style>
+/* Product footers use the same layout as HOME; no product content changes. */
+.sa-product-footer{background:#111;color:#fff;padding:64px max(28px,calc((100vw - 1400px)/2)) 22px;font-family:Arial,Helvetica,sans-serif}
+.sa-product-footer .reference-footer-inner{display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:start}
+.sa-product-footer .reference-footer-brand p{color:#9a9a9a;font-family:Georgia,serif;font-size:14px;font-style:italic}
+.sa-product-footer .reference-footer-links{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.sa-product-footer .reference-footer-links>div{display:flex;flex-direction:column;gap:10px}
+.sa-product-footer .reference-footer-links span{color:#777;font-size:9px;font-weight:800;margin-bottom:5px}
+.sa-product-footer .reference-footer-links a{color:#ccc;text-decoration:none;font-size:12px;font-weight:400}
+.sa-product-footer .reference-footer-bottom{margin-top:58px;padding-top:20px;border-top:1px solid #333;display:flex;justify-content:space-between;gap:20px;font-size:9px;color:#888}
+.sa-product-footer .reference-footer-bottom>div{display:flex;gap:20px;flex-wrap:wrap}
+.sa-product-footer .reference-footer-bottom a{color:#888;text-decoration:none;font-size:9px}
+@media(max-width:800px){.sa-product-footer{padding:48px 24px 22px}.sa-product-footer .reference-footer-inner{grid-template-columns:1fr;gap:42px}.sa-product-footer .reference-footer-links{gap:16px}.sa-product-footer .reference-footer-brand .sa-footer-logo{transform:translateX(-64px)}}
+</style>
+<footer class="reference-footer sa-product-footer">
 
 
         <div class="reference-footer-inner">
