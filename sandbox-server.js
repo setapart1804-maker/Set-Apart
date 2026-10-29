@@ -67,5 +67,5 @@ app.post("/sandbox/capture/:id",async(req,res)=>{
     res.json({id:captured.id,status:captured.status,environment:"sandbox"});
   } catch(e){res.status(502).json({error:e.message});}
 });
-app.use(express.static(__dirname,{index:false}));
+app.get("/sandbox-checkout.html",(_req,res)=>res.sendFile(require("path").join(__dirname,"sandbox-checkout.html")));
 app.listen(PORT,()=>console.log("SET APART sandbox only: http://localhost:"+PORT+"/sandbox-checkout.html"));
