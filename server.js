@@ -7072,6 +7072,20 @@ ${productsHtml}
 <div class="actions">
 
 
+${isPaid ? [
+  '<div class="print-actions">',
+  '<a class="print-action" target="_blank" rel="noopener noreferrer" href="/admin/orders/',
+  encodeURIComponent(order.paypal_order_id),
+  '/print/label">PRINT LABEL</a>',
+  '<a class="print-action" target="_blank" rel="noopener noreferrer" href="/admin/orders/',
+  encodeURIComponent(order.paypal_order_id),
+  '/print/card">PRINT THANK YOU CARD</a>',
+  '<a class="print-action" target="_blank" rel="noopener noreferrer" href="/admin/orders/',
+  encodeURIComponent(order.paypal_order_id),
+  '/print/qr">PRINT QR STICKERS</a>',
+  '</div>'
+].join("") : ""}
+
 ${
 canProcess
 
@@ -8261,6 +8275,14 @@ width:
 }
 
 
+
+.print-actions{display:flex;flex-wrap:wrap;gap:9px;width:100%;margin-bottom:8px}
+.print-action{display:inline-flex;align-items:center;justify-content:center;
+text-decoration:none;background:#111;color:#fff;border:1px solid #111;
+padding:11px 16px;font-size:11px;font-weight:800;letter-spacing:.03em}
+.print-action:hover{background:#333;color:#fff}
+@media(max-width:700px){.print-actions{flex-direction:column}.print-action{width:100%}}
+
 </style>
 
 </head>
@@ -8588,6 +8610,39 @@ app.get(
             `);
     }
 );
+
+
+/* =========================================================
+PACKAGING PRINT: AUTHENTICATED, PAID ORDERS ONLY
+========================================================= */
+app.get("/admin/orders/:orderID/print/:kind",adminLimiter,adminBasicAuth,async function(req,res){
+  const kind=String(req.params.kind||"");
+  const orderID=String(req.params.orderID||"");
+  if(!["label","card","qr"].includes(kind)|| !/^[A-Za-z0-9_-]{5,64}$/.test(orderID)){
+    return res.status(400).send("Invalid print request.");
+  }
+  try{
+    const result=await db("SELECT * FROM orders WHERE paypal_order_id=$1 LIMIT 1",[orderID]);
+    const order=result.rows[0];
+    if(!order)return res.status(404).send("Order not found.");
+    if(String(order.payment_status||"").toUpperCase()!=="COMPLETED"){
+      return res.status(403).send("Only confirmed paid orders can be printed.");
+    }
+    const items=await db("SELECT product_name,color,size,quantity FROM order_items "+
+      "WHERE order_id=$1 ORDER BY id ASC",[order.id]);
+    const {renderPackaging}=require("./packaging-print");
+    const html=await renderPackaging(order,items.rows,kind);
+    res.set("Cache-Control","no-store");
+    res.set("X-Robots-Tag","noindex, nofollow");
+    res.set("Content-Security-Policy",
+      "default-src 'none'; img-src https://setapart1804-maker.github.io data:; "+
+      "style-src 'unsafe-inline'; script-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'");
+    return res.type("html").send(html);
+  }catch(error){
+    console.error("Packaging print error:",error.message);
+    return res.status(500).send("Unable to prepare print document.");
+  }
+});
 
 /* =========================================================
 ADMIN PAGE
