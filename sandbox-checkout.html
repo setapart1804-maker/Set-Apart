@@ -72,7 +72,7 @@ footer{font-size:12px;text-align:center;padding:10px}
       <div class="price"><span>Shipping (demo)</span><b>$0.00</b></div>
       <hr>
       <div class="price"><strong>Total, fictitious</strong><strong>USD $1.00</strong></div>
-      <p class="muted">Amount is fictional. This screen does not test the real live checkout, Neon database, shipping fee rules, or confirmation emails.</p>
+      <p class="muted">Amount is fictional. The test record is saved only in Admin → TEST ORDERS, not in the real customer orders table. Live checkout, shipping fee rules, and customer emails are not tested.</p>
       <div id="paypal-section">
         <hr>
         <div class="label">Optional PayPal Sandbox</div>
@@ -92,7 +92,7 @@ footer{font-size:12px;text-align:center;padding:10px}
     <div class="price"><span>Product</span><b id="result-product"></b></div>
     <div class="price"><span>Color / Size</span><b id="result-variant"></b></div>
     <div class="price"><span>Payment status</span><b>NOT CHARGED</b></div>
-    <p class="muted">This temporary test number is not stored in the live database. A real payment in the existing shop uses a different PayPal order ID.</p>
+    <p class="muted">The test record is stored separately in Admin → TEST ORDERS. It is never counted as a real sale or a paid customer order.</p><p><a href="https://set-apart.onrender.com/admin" target="_blank" rel="noopener noreferrer" style="color:#111;font-weight:700;text-decoration:underline">VIEW TEST ORDERS IN ADMIN →</a></p>
   </section>
 </main>
 <footer>SET APART-ht · CALLED TO LIVE DIFFERENTLY · SANDBOX ONLY</footer>
