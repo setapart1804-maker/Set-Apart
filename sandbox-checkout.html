@@ -87,6 +87,7 @@ footer{font-size:12px;text-align:center;padding:10px}
     <div class="ok">✓ SIMULATED ORDER CREATED</div>
     <p><b>Order number (demo):</b></p>
     <div id="order-number"></div>
+    <p><a href="/sandbox-admin.html" style="display:inline-block;background:#111;color:#fff;text-decoration:none;padding:14px 18px;font-size:12px;font-weight:bold;letter-spacing:.06em">VIEW IN TEST ADMIN / WÈ NAN ADMIN TÈS</a></p>
     <hr>
     <div class="price"><span>Product</span><b id="result-product"></b></div>
     <div class="price"><span>Color / Size</span><b id="result-variant"></b></div>
@@ -113,6 +114,18 @@ footer{font-size:12px;text-align:center;padding:10px}
       $("order-number").textContent=d.id;
       $("result-product").textContent=d.product+" × "+d.quantity;
       $("result-variant").textContent=d.color+" / "+d.size;
+      // Keep fictional order details only in this browser, isolated from real orders.
+      try {
+        const key="setApartDemoOrdersV1";
+        const prev=JSON.parse(localStorage.getItem(key)||"[]");
+        const orders=Array.isArray(prev)?prev:[];
+        orders.unshift({id:d.id,product:d.product,color:d.color,size:d.size,
+          quantity:d.quantity,amount:d.amount,createdAt:new Date().toISOString(),
+          status:"SIMULATED — NO PAYMENT"});
+        localStorage.setItem(key,JSON.stringify(orders.slice(0,50)));
+      } catch(storageError) {
+        console.warn("Sandbox demo order could not be saved in this browser.",storageError);
+      }
       $("result").classList.add("show");
       $("result").scrollIntoView({behavior:"smooth",block:"start"});
       status.textContent="Test order created successfully. No payment made.";
