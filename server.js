@@ -7072,7 +7072,7 @@ ${productsHtml}
 <div class="actions">
 
 ${isPaid ? `
-<a class="print-action" href="/admin/orders/${encodeURIComponent(order.paypal_order_id)}/print/label" target="_blank" rel="noopener">PRINT LABEL + QR</a>
+<a class="print-action" href="/admin/orders/${encodeURIComponent(order.paypal_order_id)}/print/label" target="_blank" rel="noopener">PRINT LABEL + BARCODE</a>
 <a class="print-action" href="/admin/orders/${encodeURIComponent(order.paypal_order_id)}/print/card" target="_blank" rel="noopener">PRINT THANK YOU CARD + QR</a>
 ` : ""}
 
