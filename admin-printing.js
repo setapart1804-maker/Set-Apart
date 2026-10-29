@@ -148,8 +148,8 @@ module.exports = function registerAdminPrinting(app, deps) {
       const duplexCss=[
         '.duplex-page{width:210mm;min-height:297mm;margin:22px auto;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px #ccc}',
         '.duplex-page .sheet.card{position:relative;width:110mm;height:137.5mm;min-height:137.5mm;margin:0;padding:5mm 7mm;background:white;border:1px solid #111;outline:1px solid #111;outline-offset:-2mm;overflow:hidden}',
-        '.card .logo-wrap{min-height:27mm;height:27mm;margin:0 auto 1mm}',
-        '.card .logo-wrap img{height:27mm;max-width:100%}',
+        '.card .logo-wrap{min-height:33mm;height:33mm;margin:0 auto 1mm}',
+        '.card .logo-wrap img{height:33mm;max-width:100%}',
         '.card .brand{font:normal 21pt Georgia,"Times New Roman",serif;letter-spacing:0}',
         '.card .tagline{font-size:7px;letter-spacing:2px;margin:1.5mm 0 2mm}',
         '.card .rule-short{width:32mm;border-top:1px solid #222;margin:2mm auto 3mm}',
