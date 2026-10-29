@@ -4,7 +4,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json({limit:"20kb"}));
-const PORT = Number(process.env.SANDBOX_PORT || 3101);
+const PORT = Number(process.env.PORT || process.env.SANDBOX_PORT || 3101);
 const CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
 const SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
 const API = "https://api-m.sandbox.paypal.com";
