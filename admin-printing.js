@@ -1,5 +1,6 @@
 "use strict";
 const path = require("path");
+const QRCode = require("qrcode");
 
 /**
  * Private print pages for genuine paid SET APART orders only.
@@ -10,6 +11,27 @@ module.exports = function registerAdminPrinting(app, deps) {
   const esc = value => escapeHtml(String(value == null ? "" : value));
   const safeOrder = value => /^[A-Z0-9]{10,40}$/.test(String(value || ""));
   const row = (name,value) => '<div class="detail"><strong>'+esc(name)+'</strong><span>'+esc(value)+'</span></div>';
+
+  // Public targets are intentionally hard-coded. No user-supplied redirect or QR URL.
+  const destinations = Object.freeze({
+    website: "https://setapart1804-maker.github.io/Set-Apart/index.html",
+    instagram: "https://www.instagram.com/setapartht/"
+  });
+  app.get("/admin/print-qr/:target",adminLimiter,adminBasicAuth,async(req,res)=>{
+    setAdminSecurityHeaders(res);
+    const url = destinations[String(req.params.target||"")];
+    if(!url)return res.status(404).type("text/plain").send("QR target unavailable");
+    try{
+      const svg=await QRCode.toString(url,{
+        type:"svg",errorCorrectionLevel:"Q",margin:4,width:300,
+        color:{dark:"#000000",light:"#FFFFFF"}
+      });
+      res.type("image/svg+xml").send(svg);
+    }catch(e){
+      console.error("Admin QR creation failed:",e.message);
+      res.status(500).type("text/plain").send("Could not generate QR");
+    }
+  });
 
   app.get("/admin/print-logo.png",adminLimiter,adminBasicAuth,(req,res)=>{
     setAdminSecurityHeaders(res);
@@ -56,6 +78,15 @@ module.exports = function registerAdminPrinting(app, deps) {
         : '<div class="address"><div class="meta">SHIP TO</div><b>'+esc(customer)+'</b><br>'+
           destination+'<br>'+esc(order.phone||"")+'</div>';
 
+      const scannableLinks =
+        '<div class="qr-section"><div class="qr-heading">SCAN & CONNECT WITH US</div>'+
+        '<div class="qr-grid">'+
+        '<div class="qr-cell"><img src="/admin/print-qr/website" alt="QR code: shop SET APART website">'+
+        '<strong>SHOP WEBSITE</strong></div>'+
+        '<div class="qr-cell"><img src="/admin/print-qr/instagram" alt="QR code: SET APART Instagram">'+
+        '<strong>INSTAGRAM</strong></div>'+
+        '</div></div>';
+
       const labelContent=
         '<div class="logo-wrap"><img alt="SET APART original cross and hands logo" src="/admin/print-logo.png"></div>'+
         '<div class="brand">SET APART-ht<sup>™</sup></div>'+
@@ -65,6 +96,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '<div class="meta block-title">ITEMS</div><ul class="items">'+productLines+'</ul>'+
         '<div class="rule"></div>'+
         recipient+
+        scannableLinks+
         '<div class="footer-line">PACKED WITH PURPOSE.</div>';
 
       const cardContent=
@@ -77,6 +109,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '<div class="rule"></div>'+
         row("ORDER #",order.paypal_order_id)+
         '<div class="meta block-title">YOUR ITEMS</div><ul class="items">'+productLines+'</ul>'+
+        scannableLinks+
         '<div class="footer-line">PACKED WITH PURPOSE.</div>';
 
       const pageKind=kind==="label"?"PACKAGE LABEL":"THANK YOU CARD";
@@ -90,8 +123,8 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.screen-controls{padding:16px;text-align:center;background:#151515;color:#fff;display:flex;gap:12px;align-items:center;justify-content:center;flex-wrap:wrap}'+
         '.screen-controls button,.screen-controls a{background:#fff;color:#111;padding:12px 18px;border:1px solid #fff;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}'+
         '.screen-controls small{width:100%;font-size:11px;opacity:.9}'+
-        '.sheet{background:white;width:100mm;min-height:140mm;margin:25px auto 50px;padding:7mm 7mm 9mm;border:1px solid #111;display:flex;flex-direction:column;text-align:center;overflow:hidden}'+
-        '.sheet.card{width:105mm;min-height:148mm;padding:8mm 9mm}'+
+        '.sheet{background:white;width:100mm;min-height:165mm;margin:25px auto 50px;padding:7mm 7mm 9mm;border:1px solid #111;display:flex;flex-direction:column;text-align:center;overflow:hidden}'+
+        '.sheet.card{width:105mm;min-height:172mm;padding:8mm 9mm}'+
         '.logo-wrap{margin:0 auto 3mm;min-height:48mm;display:flex;align-items:center;justify-content:center}'+
         '.logo-wrap img{height:47mm;width:auto;object-fit:contain;max-width:100%}'+
         '.card .logo-wrap{min-height:42mm}.card .logo-wrap img{height:41mm}'+
@@ -106,6 +139,12 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.items{padding:0;margin:2mm 0 3mm;list-style:none;text-align:left;font-size:11px}'+
         '.items li{margin-bottom:2mm;line-height:1.4}.items small{font-size:9px}'+
         '.address{font-size:10px;line-height:1.55;text-align:left;overflow-wrap:anywhere}.address .meta{margin-bottom:1mm}'+
+        '.qr-section{border-top:1px solid #bbb;margin-top:3mm;padding-top:2.5mm;break-inside:avoid;page-break-inside:avoid}'+
+        '.qr-heading{font-size:8px;letter-spacing:1.3px;font-weight:800;margin-bottom:2mm}'+
+        '.qr-grid{display:flex;justify-content:center;gap:10mm;text-align:center}'+
+        '.qr-cell{display:flex;flex-direction:column;align-items:center;gap:1mm}'+
+        '.qr-cell img{width:24mm;height:24mm;object-fit:contain}'+
+        '.qr-cell strong{font-size:8px;letter-spacing:.7px}'+
         '.footer-line{font-size:9px;letter-spacing:2.1px;margin-top:auto;padding-top:4mm}'+
         '.thanks{font:normal 27pt Georgia,"Times New Roman",serif;letter-spacing:-1px;margin-top:1.8mm}'+
         '.thanks-small{font:normal 15pt Georgia,"Times New Roman",serif;letter-spacing:1px}'+
