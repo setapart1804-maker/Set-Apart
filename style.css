@@ -5590,10 +5590,10 @@ html body a.skip-link:focus-visible{
   left:12px!important;right:12px!important;width:calc(100% - 24px)!important;
   max-height:calc(100dvh - 88px)!important;overflow-y:auto!important;overflow-x:hidden!important;
   padding:16px 18px 18px!important;
-  background:linear-gradient(180deg,rgba(171,171,171,.90) 0%,rgba(196,196,196,.90) 44%,rgba(238,238,238,.90) 100%)!important;
-  -webkit-backdrop-filter:blur(10px) saturate(90%)!important;backdrop-filter:blur(10px) saturate(90%)!important;
-  border:1px solid rgba(255,255,255,.86)!important;border-radius:18px!important;
-  box-shadow:0 16px 44px rgba(0,0,0,.20)!important;
+  background:rgba(255,255,255,.86)!important;
+  -webkit-backdrop-filter:blur(16px)!important;backdrop-filter:blur(16px)!important;
+  border:1px solid rgba(255,255,255,.52)!important;border-radius:22px!important;
+  box-shadow:0 18px 45px rgba(0,0,0,.18)!important;
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav{
   display:flex!important;flex-direction:column!important;gap:0!important;background:transparent!important;
@@ -5614,7 +5614,7 @@ html body a.skip-link:focus-visible{
 @media(max-width:600px){
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation:not([hidden]){
   left:10px!important;right:10px!important;width:calc(100% - 20px)!important;
-  padding:14px 16px 16px!important;border-radius:16px!important;
+  padding:14px 16px 16px!important;border-radius:20px!important;
   max-height:calc(100dvh - 80px)!important;
  }
  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-navigation nav a{
