@@ -6477,6 +6477,13 @@ data.orders
 
 : [];
 
+// New paid orders remain visible until marked PROCESSING.
+const newPaidOrders = orders.filter(function (order) {
+  return String(order.payment_status || "").trim().toUpperCase() === "COMPLETED" &&
+    String(order.order_status || "").trim().toUpperCase() === "PAID";
+});
+const newestPaidOrder = newPaidOrders[0] || null;
+
 
 const failedEmails =
 Array.isArray(
@@ -7694,6 +7701,15 @@ margin-bottom:
 }
 
 
+/* Private admin: newly paid orders waiting to be processed */
+.new-order-alert {display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;background:#111;color:#fff;padding:20px 22px;margin:0 0 22px;border:2px solid #111}
+.new-order-alert strong {font-size:16px;letter-spacing:.025em}
+.new-order-alert p {margin:8px 0 0;font-size:12px;line-height:1.5}
+.new-order-alert a {display:inline-block;background:#fff;color:#111;padding:12px 14px;font-size:11px;font-weight:900;text-decoration:none;letter-spacing:.04em}
+.new-order-alert.none {background:#fff;color:#111;border-color:#d5d5d5}
+.new-order-alert.none strong {font-size:13px}
+.new-order-alert.none a {background:#111;color:#fff}
+
 .section-title {
 
 display:
@@ -8297,6 +8313,26 @@ notice
 : ""
 }
 
+
+${
+newPaidOrders.length && newestPaidOrder
+? `
+<div class="new-order-alert" role="status" aria-live="polite">
+  <div>
+    <strong>NEW PAID ORDERS: ${newPaidOrders.length}</strong>
+    <p>New orders waiting to be prepared. Most recent: ${escapeHtml(newestPaidOrder.paypal_order_id)}</p>
+  </div>
+  <a href="#order-${encodeURIComponent(newestPaidOrder.paypal_order_id)}">VIEW NEW ORDER</a>
+</div>
+`
+: `
+<div class="new-order-alert none">
+  <div><strong>ORDER NOTIFICATIONS</strong>
+    <p>No new paid orders waiting to be prepared.</p></div>
+  <a href="/admin">REFRESH ORDERS</a>
+</div>
+`
+}
 
 <section class="stats">
 
