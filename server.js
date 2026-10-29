@@ -52,6 +52,7 @@ process.env.ADMIN_USERNAME;
 
 const ADMIN_PASSWORD =
 process.env.ADMIN_PASSWORD;
+const SANDBOX_SYNC_SECRET = process.env.SANDBOX_SYNC_SECRET;
 
 
 const PAYPAL_BASE_URL =
@@ -5911,6 +5912,43 @@ NOW() - INTERVAL '24 hours'
 }
 
 
+
+/* SANDBOX TEST ORDERS: independent table, not included in live sales */
+async function ensureSandboxTestOrdersTable() {
+  await db("CREATE TABLE IF NOT EXISTS admin_test_orders ("+
+    "test_order_id TEXT PRIMARY KEY, product_name TEXT NOT NULL,"+
+    "color TEXT NOT NULL, size TEXT NOT NULL,"+
+    "quantity INTEGER NOT NULL DEFAULT 1,"+
+    "test_total_usd NUMERIC(10,2) NOT NULL DEFAULT 1.00,"+
+    "created_at TIMESTAMPTZ NOT NULL DEFAULT NOW())");
+}
+app.post("/internal/sandbox/test-orders", adminLimiter, async (req,res)=>{
+  res.set("Cache-Control","no-store");
+  if(!SANDBOX_SYNC_SECRET || SANDBOX_SYNC_SECRET.length < 32)
+    return res.status(503).json({success:false,error:"Sandbox sync is not configured"});
+  if(!secureTextEqual(req.headers["x-sandbox-sync-key"],SANDBOX_SYNC_SECRET))
+    return res.status(401).json({success:false,error:"Unauthorized"});
+  const id=String(req.body?.id||"");
+  const color=String(req.body?.color||"");
+  const size=String(req.body?.size||"");
+  if(!/^SA-TEST-[A-F0-9]{10}$/.test(id) ||
+     !["Brown","Black","White"].includes(color) ||
+     !["S","M","L","XL"].includes(size))
+    return res.status(400).json({success:false,error:"Invalid test order"});
+  try{
+    await ensureSandboxTestOrdersTable();
+    await db(
+      "INSERT INTO admin_test_orders (test_order_id,product_name,color,size,quantity,test_total_usd) "+
+      "VALUES ($1,'PILGRIM HOODIE',$2,$3,1,1.00) ON CONFLICT (test_order_id) DO NOTHING",
+      [id,color,size]
+    );
+    return res.json({success:true,testOrderID:id});
+  }catch(e){
+    console.error("Saving test order failed:",e.message);
+    return res.status(500).json({success:false,error:"Could not save test order"});
+  }
+});
+
 /* =========================================================
 GET ADMIN DASHBOARD DATA
 ========================================================= */
@@ -5921,8 +5959,9 @@ await expireOldPendingOrders();
 
 
 await ensureEmailFailuresTable();
-
-
+await ensureSandboxTestOrdersTable();
+const testOrdersResult = await db("SELECT test_order_id,product_name,color,size,quantity,test_total_usd,created_at "+
+  "FROM admin_test_orders ORDER BY created_at DESC LIMIT 60");
 const summaryResult =
 await db(`
 
@@ -6158,8 +6197,7 @@ failedEmailsResult
 
 orders:
 ordersResult.rows,
-
-
+testOrders:testOrdersResult.rows,
 failedEmails:
 failedEmailsResult.rows
 
@@ -6462,6 +6500,22 @@ function renderAdminDashboard(
 data,
 notice = ""
 ) {
+
+
+const testOrders=Array.isArray(data.testOrders)?data.testOrders:[];
+const testOrdersHtml=testOrders.length?testOrders.map(function(order){
+  const when=new Date(order.created_at).toLocaleString("en-US",{timeZone:"America/Santo_Domingo"});
+  return '<article class="order-card sandbox-test-order">'+
+    '<div class="order-top"><div><div class="order-id">'+escapeHtml(order.test_order_id)+
+    '</div><div class="order-date">'+escapeHtml(when)+'</div></div>'+
+    '<div class="badges"><span class="badge">TEST — NO REAL PAYMENT</span></div></div>'+
+    '<div class="order-grid"><div><strong>PRODUCT</strong><p>'+escapeHtml(order.product_name)+'</p></div>'+
+    '<div><strong>VARIANT</strong><p>'+escapeHtml(order.color)+' / '+escapeHtml(order.size)+
+    ' · Qty '+Number(order.quantity)+'</p></div>'+
+    '<div><strong>TEST TOTAL</strong><p>'+adminMoney(order.test_total_usd)+
+    ' USD (fictional)</p></div></div>'+
+    '<p class="sandbox-disclaimer">Simulated only: no real payment, stock change, email, or shipment.</p></article>';
+}).join(""):'<div class="empty compact-empty">No sandbox test orders yet. Create a new sample order on the Sandbox test page.</div>';
 
 const summary =
 data.summary ||
@@ -8262,6 +8316,10 @@ width:
 
 }
 
+
+.sandbox-test-order { border: 2px dashed #777; }
+.sandbox-test-order .badge { background: #242424; color: #fff; }
+.sandbox-disclaimer { font-size:12px; font-weight:700; color:#555;line-height:1.5; }
 </style>
 
 </head>
@@ -8505,6 +8563,19 @@ REFRESH
 
 ${failedEmailsHtml}
 
+
+
+<div class="section-title">
+<h1>TEST ORDERS <small style="font-size:13px;font-weight:normal">(${testOrders.length})</small></h1>
+<a href="/admin">REFRESH</a>
+</div>
+<div class="notice" style="border-left:4px solid #111">
+<strong>SANDBOX — NO REAL PAYMENT</strong>
+<div style="font-size:12px;margin-top:6px">Test orders are stored separately. Not included in total orders, paid sales, shipping, or customer emails.</div>
+<a href="https://set-apart-sandbox.onrender.com/sandbox-checkout.html" rel="noopener noreferrer" target="_blank"
+style="display:inline-block;margin-top:9px">CREATE TEST ORDER</a>
+</div>
+${testOrdersHtml}
 
 <div class="section-title">
 
