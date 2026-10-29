@@ -5528,7 +5528,7 @@ right
 ADMIN PHONE SHORTCUT: REMEMBER VERIFIED LOGIN FOR 14 DAYS
 ========================================================= */
 
-// HttpOnly, Secure and SameSite=Strict avoid exposing the session to page JS.
+// HttpOnly and Secure keep the session out of page JS; SameSite=Lax lets a home-screen shortcut reopen using its cookie.
 // The cookie is signed and bound to the current admin credentials: changing
 // the admin username or password immediately invalidates saved sessions.
 const ADMIN_SESSION_COOKIE = "__Secure-setapart_admin";
@@ -5556,7 +5556,7 @@ function issueAdminSessionCookie(res) {
   res.cookie(ADMIN_SESSION_COOKIE, value, {
     httpOnly: true,
     secure: true,
-    sameSite: "strict",
+    sameSite: "lax",
     path: "/admin",
     maxAge: ADMIN_SESSION_MS
   });
