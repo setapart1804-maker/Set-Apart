@@ -5959,9 +5959,15 @@ await expireOldPendingOrders();
 
 
 await ensureEmailFailuresTable();
-await ensureSandboxTestOrdersTable();
-const testOrdersResult = await db("SELECT test_order_id,product_name,color,size,quantity,test_total_usd,created_at "+
-  "FROM admin_test_orders ORDER BY created_at DESC LIMIT 60");
+let testOrdersResult = {rows:[]};
+try {
+  await ensureSandboxTestOrdersTable();
+  testOrdersResult = await db("SELECT test_order_id,product_name,color,size,quantity,test_total_usd,created_at "+
+    "FROM admin_test_orders ORDER BY created_at DESC LIMIT 60");
+} catch (error) {
+  // Never take the live admin dashboard down if optional test-order storage fails.
+  console.error("Optional test orders unavailable:",error.message);
+}
 const summaryResult =
 await db(`
 
