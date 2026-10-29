@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SET APART-ht | PayPal Sandbox Test</title>
+<style>
+*{box-sizing:border-box}body{font-family:Arial,Helvetica,sans-serif;background:#f5f5f5;color:#111;margin:0;padding:28px}
+main{max-width:560px;margin:40px auto;padding:32px;background:white;border:1px solid #222}
+h1{font-size:24px;letter-spacing:.04em}p{line-height:1.6}.tag{background:#111;color:#fff;display:inline-block;padding:8px 12px;font-size:12px;letter-spacing:.1em}
+.summary{border-top:1px solid #ccc;border-bottom:1px solid #ccc;padding:16px 0;margin:22px 0}
+small{color:#555}.result{padding:12px;overflow-wrap:anywhere}#paypal-buttons{min-height:50px}
+</style></head><body><main>
+<div class="tag">SANDBOX — NO REAL MONEY</div>
+<h1>SET APART-ht</h1><p>Checkout simulation · separate from the live shop</p>
+<div class="summary"><b>Sample TEST order</b><p>1 × Sample hoodie (test item)<br>Total: <b>USD $1.00 (fictitious)</b></p></div>
+<p>Use a PayPal <b>Sandbox Personal</b> test account to approve the order. Do not use your real PayPal account.</p>
+<div id="paypal-buttons"></div><p id="status" class="result" role="status">Loading sandbox…</p>
+<small>This page does not send order emails, change stock, or write to the live database.</small>
+</main><script>
+(async function(){
+ const status=document.getElementById("status");
+ try{
+  const cfgResponse=await fetch("/sandbox/config");
+  if(!cfgResponse.ok)throw Error("Start the sandbox server first.");
+  const cfg=await cfgResponse.json();
+  if(cfg.environment!=="sandbox")throw Error("Not in sandbox mode.");
+  const sdk=document.createElement("script");
+  sdk.src="https://www.paypal.com/sdk/js?client-id="+encodeURIComponent(cfg.clientId)+"&currency=USD&intent=capture";
+  sdk.onload=function(){
+   paypal.Buttons({
+    createOrder:async function(){
+     const r=await fetch("/sandbox/create",{method:"POST"});
+     const d=await r.json();if(!r.ok)throw Error(d.error||"Could not create sandbox order");
+     status.textContent="Sandbox order created: "+d.id;return d.id;
+    },
+    onApprove:async function(data){
+     const r=await fetch("/sandbox/capture/"+encodeURIComponent(data.orderID),{method:"POST"});
+     const d=await r.json();if(!r.ok)throw Error(d.error||"Capture failed");
+     status.textContent="TEST PAYMENT "+d.status+" | Sandbox Order ID: "+d.id+" | No real payment.";
+    },
+    onError:function(e){status.textContent="Sandbox error: "+e.message},
+    onCancel:function(){status.textContent="Test canceled. No payment."}
+   }).render("#paypal-buttons");
+   status.textContent="Ready for PayPal Sandbox testing.";
+  };
+  sdk.onerror=function(){status.textContent="Could not load PayPal SDK."};
+  document.head.appendChild(sdk);
+ }catch(e){status.textContent=e.message}
+})();
+</script></body></html>
