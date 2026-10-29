@@ -3,11 +3,15 @@
 "use strict";
 const express = require("express");
 const app = express();
+app.set("trust proxy",1);
+const rateLimit = require("express-rate-limit");
+const demoLimiter = rateLimit({windowMs:15*60*1000,limit:25,standardHeaders:true,legacyHeaders:false});
 app.use(express.json({limit:"20kb"}));
 const PORT = Number(process.env.PORT || process.env.SANDBOX_PORT || 3101);
 const CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
 const SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
 const API = "https://api-m.sandbox.paypal.com";
+const SYNC_SECRET = process.env.SANDBOX_SYNC_SECRET;
 const PAYPAL_READY = Boolean(CLIENT_ID && SECRET);
 const auth = PAYPAL_READY ? Buffer.from(CLIENT_ID + ":" + SECRET).toString("base64") : null;
 app.disable("x-powered-by");
@@ -41,15 +45,32 @@ app.get("/sandbox/config",(_req,res)=>res.json({
   currency:"USD", environment:"sandbox",
   mode:PAYPAL_READY ? "paypal-sandbox" : "simulation-only"
 }));
-app.post("/sandbox/demo", (req,res)=>{
+app.post("/sandbox/demo",demoLimiter, async (req,res)=>{
   const color=String(req.body?.color||"Brown");
   const size=String(req.body?.size||"M");
   if (!["Brown","Black","White"].includes(color)||!["S","M","L","XL"].includes(size)) {
     return res.status(400).json({error:"Invalid sample variant"});
   }
+  if (!SYNC_SECRET || SYNC_SECRET.length<32) {
+    return res.status(503).json({error:"Test order sync is not configured"});
+  }
   const id="SA-TEST-"+require("crypto").randomBytes(5).toString("hex").toUpperCase();
-  res.json({id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
-    amount:"1.00",currency:"USD",persisted:false,paymentCaptured:false});
+  try {
+    const saved=await fetch("https://set-apart.onrender.com/internal/sandbox/test-orders",{
+      method:"POST",
+      headers:{"Content-Type":"application/json","x-sandbox-sync-key":SYNC_SECRET},
+      body:JSON.stringify({id,color,size}),
+      signal:AbortSignal.timeout(12000)
+    });
+    if(!saved.ok)throw Error("Admin sync returned "+saved.status);
+    const result=await saved.json();
+    if(result.success!==true || result.testOrderID!==id)throw Error("Admin sync not confirmed");
+    return res.json({id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
+      amount:"1.00",currency:"USD",persisted:true,paymentCaptured:false});
+  }catch(error){
+    console.error("Sandbox order was not synced:",error.message);
+    return res.status(502).json({error:"Could not save the test order in Admin; retry later."});
+  }
 });
 app.get("/",(_req,res)=>res.redirect("/sandbox-checkout.html"));
 app.post("/sandbox/create",async(_req,res)=>{
