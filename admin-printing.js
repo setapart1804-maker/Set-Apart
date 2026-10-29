@@ -1,6 +1,7 @@
 "use strict";
 const path = require("path");
 const QRCode = require("qrcode");
+const bwipjs = require("bwip-js");
 
 /**
  * Private print pages for genuine paid SET APART orders only.
@@ -30,6 +31,39 @@ module.exports = function registerAdminPrinting(app, deps) {
     }catch(e){
       console.error("Admin QR creation failed:",e.message);
       res.status(500).type("text/plain").send("Could not generate QR");
+    }
+  });
+
+  // Code 128 barcode encodes exactly the PayPal order ID, without changing order data.
+  // Only the signed-in store administrator can retrieve this printable barcode.
+  app.get("/admin/print-barcode/:orderID",adminLimiter,adminBasicAuth,async(req,res)=>{
+    setAdminSecurityHeaders(res);
+    const orderID=String(req.params.orderID||"");
+    if(!safeOrder(orderID)){
+      return res.status(400).type("text/plain").send("Invalid order barcode");
+    }
+    try{
+      const stored=await getStoredOrder(orderID);
+      if(!stored)return res.status(404).type("text/plain").send("Order not found");
+      if(String(stored.order.payment_status)!=="COMPLETED"){
+        return res.status(403).type("text/plain").send("Only paid orders can have package barcodes");
+      }
+      const svg=bwipjs.toSVG({
+        bcid:"code128",
+        text:orderID,
+        height:14,
+        scale:3,
+        includetext:false,
+        paddingwidth:7,
+        paddingheight:3,
+        backgroundcolor:"FFFFFF"
+      });
+      return res.set("Cache-Control","no-store")
+        .set("X-Content-Type-Options","nosniff")
+        .type("image/svg+xml").send(svg);
+    }catch(e){
+      console.error("Admin barcode creation failed:",e.message);
+      return res.status(500).type("text/plain").send("Could not create package barcode");
     }
   });
 
@@ -87,6 +121,15 @@ module.exports = function registerAdminPrinting(app, deps) {
         '<strong>INSTAGRAM</strong></div>'+
         '</div></div>';
 
+
+      const barcodeLabel =
+        '<div class="barcode-section">'+
+        '<div class="barcode-heading">SCAN ORDER BARCODE</div>'+
+        '<img class="barcode-image" src="/admin/print-barcode/'+
+        encodeURIComponent(orderID)+'" alt="Code 128 barcode for order '+esc(orderID)+'">'+
+        '<div class="barcode-number">'+esc(orderID)+'</div>'+
+        '</div>';
+
       const labelContent=
         '<div class="logo-wrap"><img alt="SET APART original cross and hands logo" src="/admin/print-logo.png"></div>'+
         '<div class="brand">SET APART-ht<sup>™</sup></div>'+
@@ -96,7 +139,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '<div class="meta block-title">ITEMS</div><ul class="items">'+productLines+'</ul>'+
         '<div class="rule"></div>'+
         recipient+
-        scannableLinks+
+        barcodeLabel+
         '<div class="footer-line">PACKED WITH PURPOSE.</div>';
 
       // The approved THANK YOU card is the FRONT only. No QR codes on the front.
@@ -202,6 +245,10 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.items{padding:0;margin:2mm 0 3mm;list-style:none;text-align:left;font-size:11px}'+
         '.items li{margin-bottom:2mm;line-height:1.4}.items small{font-size:9px}'+
         '.address{font-size:10px;line-height:1.55;text-align:left;overflow-wrap:anywhere}.address .meta{margin-bottom:1mm}'+
+        '.barcode-section{border-top:1px solid #bbb;margin-top:3mm;padding-top:3mm;break-inside:avoid;page-break-inside:avoid;text-align:center}'+
+        '.barcode-heading{font-size:8px;letter-spacing:1.3px;font-weight:800;margin-bottom:2mm}'+
+        '.barcode-image{display:block;width:100%;max-width:84mm;height:22mm;object-fit:contain;margin:0 auto}'+
+        '.barcode-number{font:10px Consolas,monospace;letter-spacing:1px;margin-top:1mm;overflow-wrap:anywhere}'+
         '.qr-section{border-top:1px solid #bbb;margin-top:3mm;padding-top:2.5mm;break-inside:avoid;page-break-inside:avoid}'+
         '.qr-heading{font-size:8px;letter-spacing:1.3px;font-weight:800;margin-bottom:2mm}'+
         '.qr-grid{display:flex;justify-content:center;gap:10mm;text-align:center}'+
