@@ -53,6 +53,9 @@ process.env.ADMIN_USERNAME;
 const ADMIN_PASSWORD =
 process.env.ADMIN_PASSWORD;
 
+// Separate secret for persistent, signed admin sessions on personal devices.
+const ADMIN_SESSION_SECRET = process.env.ADMIN_SESSION_SECRET;
+
 
 const PAYPAL_BASE_URL =
 "https://api-m.paypal.com";
@@ -5520,6 +5523,70 @@ right
 }
 
 
+
+/* =========================================================
+ADMIN PHONE SHORTCUT: REMEMBER VERIFIED LOGIN FOR 14 DAYS
+========================================================= */
+
+// HttpOnly, Secure and SameSite=Strict avoid exposing the session to page JS.
+// The cookie is signed and bound to the current admin credentials: changing
+// the admin username or password immediately invalidates saved sessions.
+const ADMIN_SESSION_COOKIE = "__Secure-setapart_admin";
+const ADMIN_SESSION_MS = 14 * 24 * 60 * 60 * 1000;
+
+function adminSessionEnabled() {
+  return typeof ADMIN_SESSION_SECRET === "string" &&
+    ADMIN_SESSION_SECRET.length >= 32;
+}
+
+function adminSessionSignature(payload) {
+  return crypto.createHmac("sha256", ADMIN_SESSION_SECRET)
+    .update("set-apart-admin-session-v1\0" + ADMIN_USERNAME + "\0" +
+      ADMIN_PASSWORD + "\0" + payload)
+    .digest("hex");
+}
+
+function issueAdminSessionCookie(res) {
+  if (!adminSessionEnabled()) return;
+  const expires = Date.now() + ADMIN_SESSION_MS;
+  const nonce = crypto.randomBytes(16).toString("hex");
+  const payload = "v1." + expires + "." + nonce;
+  const value = payload + "." + adminSessionSignature(payload);
+
+  res.cookie(ADMIN_SESSION_COOKIE, value, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "strict",
+    path: "/admin",
+    maxAge: ADMIN_SESSION_MS
+  });
+}
+
+function validAdminSessionExpires(req) {
+  if (!adminSessionEnabled()) return null;
+  const header = String(req.headers.cookie || "");
+  if (!header || header.length > 8192) return null;
+
+  for (const part of header.split(";")) {
+    const entry = part.trim();
+    if (!entry.startsWith(ADMIN_SESSION_COOKIE + "=")) continue;
+
+    const value = entry.slice(ADMIN_SESSION_COOKIE.length + 1);
+    const match = /^v1\.(\d{13})\.([a-f0-9]{32})\.([a-f0-9]{64})$/.exec(value);
+    if (!match) return null;
+
+    const expiry = Number(match[1]);
+    const now = Date.now();
+    if (!Number.isSafeInteger(expiry) || expiry <= now ||
+        expiry > now + ADMIN_SESSION_MS) return null;
+
+    const payload = "v1." + match[1] + "." + match[2];
+    if (!secureTextEqual(match[3], adminSessionSignature(payload))) return null;
+    return expiry;
+  }
+  return null;
+}
+
 /* =========================================================
 ADMIN LOGIN
 ========================================================= */
@@ -5548,6 +5615,16 @@ return res
 
 }
 
+
+// Previously authenticated installed-home-screen sessions stay signed in.
+const sessionExpires = validAdminSessionExpires(req);
+if (sessionExpires !== null) {
+  // Renew at most once per week for devices used regularly.
+  if (sessionExpires - Date.now() < ADMIN_SESSION_MS / 2) {
+    issueAdminSessionCookie(res);
+  }
+  return next();
+}
 
 const authorization =
 String(
@@ -5713,6 +5790,9 @@ return res
 }
 
 
+// Browsers may forget HTTP Basic Auth when the home-screen app closes.
+// The signed cookie provides a separate, persistent login on this device.
+issueAdminSessionCookie(res);
 next();
 
 }
