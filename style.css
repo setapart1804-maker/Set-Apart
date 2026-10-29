@@ -5830,3 +5830,13 @@ html body a.skip-link:focus-visible{
 @media (max-width:600px){
  .reference-footer-brand .sa-footer-logo{transform:translateX(-64px);}
 }
+
+/* Consistent left-aligned footer brand on mobile, all site pages */
+@media(max-width:600px){
+ .reference-footer-brand{align-items:flex-start!important;text-align:left!important}
+ .reference-footer-brand>strong{justify-content:flex-start!important}
+ .reference-footer-brand .sa-footer-logo{transform:translateX(-64px);object-position:left center!important}
+ .reference-footer-brand>p{text-align:left!important}
+ .footer-brand>a{display:block;text-align:left!important}
+ .footer-brand>a img{display:block;margin-left:0!important;margin-right:auto!important;transform:translateX(-32px)}
+}
