@@ -7071,6 +7071,10 @@ ${productsHtml}
 
 <div class="actions">
 
+${isPaid ? `
+<a class="print-action" href="/admin/orders/${encodeURIComponent(order.paypal_order_id)}/print/label" target="_blank" rel="noopener">PRINT LABEL + QR</a>
+<a class="print-action" href="/admin/orders/${encodeURIComponent(order.paypal_order_id)}/print/card" target="_blank" rel="noopener">PRINT THANK YOU CARD + QR</a>
+` : ""}
 
 ${
 canProcess
@@ -8261,6 +8265,14 @@ width:
 }
 
 
+.actions .print-action {
+  min-height:42px;padding:0 15px;display:inline-flex;align-items:center;justify-content:center;
+  color:#111;background:#fff;border:1px solid #111;text-decoration:none;
+  font-size:10px;font-weight:900;letter-spacing:.025em;
+}
+.actions .print-action:hover {background:#111;color:#fff}
+@media(max-width:700px){.actions .print-action{width:100%}}
+
 </style>
 
 </head>
@@ -8588,6 +8600,11 @@ app.get(
             `);
     }
 );
+
+/* Read-only, private printing; never changes orders or shipping status. */
+require("./admin-printing")(app, {
+  adminLimiter,adminBasicAuth,getStoredOrder,escapeHtml,setAdminSecurityHeaders
+});
 
 /* =========================================================
 ADMIN PAGE
