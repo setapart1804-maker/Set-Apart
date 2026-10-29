@@ -3,6 +3,28 @@
 "use strict";
 const express = require("express");
 const app = express();
+const TESTING_PAUSED = true;
+// Explicitly pause the old demo endpoint without touching production checkout.
+app.use(function (req,res,next) {
+  if (!TESTING_PAUSED) return next();
+  res.set("Cache-Control","no-store");
+  res.set("X-Robots-Tag","noindex, nofollow");
+  if (req.path === "/" || req.path === "/sandbox-checkout.html") {
+    return res.status(200).type("html").send(
+      '<!doctype html><html lang="ht"><meta charset="utf-8">'+
+      '<meta name="viewport" content="width=device-width,initial-scale=1">'+
+      '<title>SET APART-ht | Tests paused</title>'+
+      '<body style="font-family:Arial,sans-serif;background:#111;color:#fff;'+
+      'max-width:560px;margin:10vh auto;padding:32px;text-align:center">'+
+      '<h1>SET APART-ht&#8482;</h1><p>Tès kòmand yo fèmen.</p>'+
+      '<p>Magazen ak Admin kòmand reyèl yo fonksyone nòmalman.</p>'+
+      '<a style="color:#fff" href="https://setapart1804-maker.github.io/Set-Apart/index.html">'+
+      'RETURN TO STORE</a></body></html>'
+    );
+  }
+  return res.status(410).json({error:"Sandbox testing paused"});
+});
+
 app.set("trust proxy",1);
 const rateLimit = require("express-rate-limit");
 const demoLimiter = rateLimit({windowMs:15*60*1000,limit:25,standardHeaders:true,legacyHeaders:false});
