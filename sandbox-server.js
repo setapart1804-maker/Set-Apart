@@ -8,11 +8,10 @@ const PORT = Number(process.env.PORT || process.env.SANDBOX_PORT || 3101);
 const CLIENT_ID = process.env.PAYPAL_SANDBOX_CLIENT_ID;
 const SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
 const API = "https://api-m.sandbox.paypal.com";
-if (!CLIENT_ID || !SECRET) {
-  console.error("Set PAYPAL_SANDBOX_CLIENT_ID and PAYPAL_SANDBOX_CLIENT_SECRET.");
-  process.exit(1);
-}
-const auth = Buffer.from(CLIENT_ID + ":" + SECRET).toString("base64");
+const PAYPAL_READY = Boolean(CLIENT_ID && SECRET);
+const auth = PAYPAL_READY ? Buffer.from(CLIENT_ID + ":" + SECRET).toString("base64") : null;
+app.disable("x-powered-by");
+app.use((_req,res,next)=>{ res.set("Cache-Control","no-store"); res.set("X-Robots-Tag","noindex, nofollow");next(); });
 async function accessToken() {
   const response = await fetch(API + "/v1/oauth2/token", {
     method:"POST",
@@ -37,8 +36,24 @@ async function paypal(path, token, method, body, requestId) {
   if (!response.ok) throw new Error("PayPal sandbox operation failed: "+(data.name||response.status));
   return data;
 }
-app.get("/sandbox/config",(_req,res)=>res.json({clientId:CLIENT_ID,currency:"USD",environment:"sandbox"}));
+app.get("/sandbox/config",(_req,res)=>res.json({
+  clientId:PAYPAL_READY ? CLIENT_ID : null,
+  currency:"USD", environment:"sandbox",
+  mode:PAYPAL_READY ? "paypal-sandbox" : "simulation-only"
+}));
+app.post("/sandbox/demo", (req,res)=>{
+  const color=String(req.body?.color||"Brown");
+  const size=String(req.body?.size||"M");
+  if (!["Brown","Black","White"].includes(color)||!["S","M","L","XL"].includes(size)) {
+    return res.status(400).json({error:"Invalid sample variant"});
+  }
+  const id="SA-TEST-"+require("crypto").randomBytes(5).toString("hex").toUpperCase();
+  res.json({id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
+    amount:"1.00",currency:"USD",persisted:false,paymentCaptured:false});
+});
+app.get("/",(_req,res)=>res.redirect("/sandbox-checkout.html"));
 app.post("/sandbox/create",async(_req,res)=>{
+  if (!PAYPAL_READY) return res.status(503).json({error:"PayPal sandbox credentials not yet configured"});
   try {
     const token=await accessToken();
     const data=await paypal("/v2/checkout/orders",token,"POST",{
@@ -53,6 +68,7 @@ app.post("/sandbox/create",async(_req,res)=>{
   } catch(e){res.status(502).json({error:e.message});}
 });
 app.post("/sandbox/capture/:id",async(req,res)=>{
+  if (!PAYPAL_READY) return res.status(503).json({error:"PayPal sandbox credentials not yet configured"});
   try {
     const id=String(req.params.id||"");
     if (!/^[A-Z0-9]{10,30}$/.test(id)) return res.status(400).json({error:"Invalid order ID"});
