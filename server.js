@@ -2744,7 +2744,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <onboarding@resend.dev>",
+"SET APART Orders <support@setapart-ht.com>",
 
 to: [
 ORDER_NOTIFICATION_EMAIL
@@ -3030,7 +3030,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <onboarding@resend.dev>",
+"SET APART Orders <support@setapart-ht.com>",
 
 to: [
 customer.email
@@ -3217,7 +3217,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <onboarding@resend.dev>",
+"SET APART Orders <support@setapart-ht.com>",
 
 to: [
 customerEmail
@@ -3406,7 +3406,7 @@ app.post(
                 await resend.emails.send({
 
                     from:
-                        "SET APART Contact <onboarding@resend.dev>",
+                        "SET APART Support <support@setapart-ht.com>",
 
                     to: [
                         ORDER_NOTIFICATION_EMAIL
@@ -3482,6 +3482,28 @@ app.post(
 
             }
 
+
+            // Acknowledgement is best-effort: the contact notification already succeeded.
+            try {
+                const acknowledgement = await resend.emails.send({
+                    from: "SET APART Support <support@setapart-ht.com>",
+                    to: [cleanEmail],
+                    replyTo: "setapart1804@gmail.com",
+                    subject: "WE RECEIVED YOUR MESSAGE — SET APART",
+                    html: `<div style="font-family:Arial,sans-serif;max-width:600px;margin:auto;color:#111;padding:24px">
+                        <h1 style="letter-spacing:2px">SET APART</h1>
+                        <p>Hi ${escapeHtml(cleanFirstName)},</p>
+                        <p>Thank you for contacting SET APART. We have received your message and our team will review it.</p>
+                        <p>We appreciate your patience and will get back to you as soon as we can.</p>
+                        <p style="margin-top:30px"><strong>Called to Live Differently.</strong></p>
+                        <hr style="border:0;border-top:1px solid #ddd;margin-top:28px">
+                        <p style="font-size:12px;color:#666">This is an automatic acknowledgement. For a reply, contact setapart1804@gmail.com.</p>
+                    </div>`
+                });
+                if (acknowledgement.error) console.error("Contact acknowledgement error:", acknowledgement.error);
+            } catch (acknowledgementError) {
+                console.error("Contact acknowledgement error:", acknowledgementError);
+            }
 
             return res.json({
 
