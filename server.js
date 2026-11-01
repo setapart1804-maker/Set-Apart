@@ -2748,7 +2748,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <support@setapart-ht.com>",
+"SET APART-ht™ <support@setapart-ht.com>",
 
 to: [
 ORDER_NOTIFICATION_EMAIL
@@ -3034,7 +3034,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <support@setapart-ht.com>",
+"SET APART-ht™ <support@setapart-ht.com>",
 
 to: [
 customer.email
@@ -3221,7 +3221,7 @@ const result =
 await resend.emails.send({
 
 from:
-"SET APART Orders <support@setapart-ht.com>",
+"SET APART-ht™ <support@setapart-ht.com>",
 
 to: [
 customerEmail
@@ -3410,7 +3410,7 @@ app.post(
                 await resend.emails.send({
 
                     from:
-                        "SET APART Support <support@setapart-ht.com>",
+                        "SET APART-ht™ <support@setapart-ht.com>",
 
                     to: [
                         ORDER_NOTIFICATION_EMAIL
@@ -3490,7 +3490,7 @@ app.post(
             // Acknowledgement is best-effort: the contact notification already succeeded.
             try {
                 const acknowledgement = await resend.emails.send({
-                    from: "SET APART Support <support@setapart-ht.com>",
+                    from: "SET APART-ht™ <support@setapart-ht.com>",
                     to: [cleanEmail],
                     replyTo: "setapart1804@gmail.com",
                     subject: "WE RECEIVED YOUR MESSAGE — SET APART",
