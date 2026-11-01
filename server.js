@@ -141,6 +141,10 @@ origin: [
 
 "https://setapart1804-maker.github.io",
 
+"https://setapart-ht.com",
+
+"https://www.setapart-ht.com",
+
 "http://localhost:3000",
 
 "http://127.0.0.1:3000"
