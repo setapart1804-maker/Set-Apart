@@ -6,38 +6,23 @@
     <meta charset="UTF-8">
     <meta name="color-scheme" content="light">
 
-    <!-- Start fresh home visits and refreshes at the top; preserve Back. -->
+    <!-- Respect Google deep links and browser Back; reset only direct fresh visits. -->
     <script>
-(() => {
-  const navigation = performance.getEntriesByType("navigation")[0];
-  const isHistoryVisit = navigation?.type === "back_forward" ||
-    (!navigation && performance.navigation?.type === 2);
-  if (isHistoryVisit) return;
-  // Both fresh visits and refreshes start at the top.
-  if (location.hash) {
-    history.replaceState(history.state, "", location.pathname + location.search);
-  }
-  if (location.hash) return;
-  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
-  let interacted = false;
-  const markInteraction = () => { interacted = true; };
-  ["pointerdown", "touchstart", "wheel", "keydown"].forEach(type => {
-    window.addEventListener(type, markInteraction, { once: true, passive: true });
-  });
-  const startAtTop = () => {
-    if (!interacted && !location.hash) {
-      window.scrollTo({ top: 0, left: 0, behavior: "instant" });
-    }
-  };
-  startAtTop();
-  document.addEventListener("DOMContentLoaded", startAtTop, { once: true });
-  window.addEventListener("load", startAtTop, { once: true });
-  window.addEventListener("pageshow", event => {
-    if (event.persisted) return;
-    startAtTop();
-    requestAnimationFrame(startAtTop);
-  }, { once: true });
-})();
+    (() => {
+      const nav = performance.getEntriesByType("navigation")[0];
+      const historyVisit = nav?.type === "back_forward";
+      if (historyVisit || location.hash) return;
+      if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+      let userScrolled = false;
+      ["touchstart", "pointerdown", "wheel", "keydown"].forEach(eventName => {
+        window.addEventListener(eventName, () => { userScrolled = true; }, { once: true, passive: true });
+      });
+      const resetFreshVisit = () => {
+        if (!userScrolled && !location.hash) window.scrollTo(0, 0);
+      };
+      document.addEventListener("DOMContentLoaded", resetFreshVisit, { once: true });
+      window.addEventListener("load", resetFreshVisit, { once: true });
+    })();
     </script>
 
     <meta
