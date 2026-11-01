@@ -999,6 +999,9 @@ function initCheckout() {
   }
 
   function paymentItems() {
+    if (getCart().some((item) => item.id === "godfirst" || item.id === "pilgrim")) {
+      throw new Error("GOD FIRST and PILGRIM hoodies are SOLD OUT. Please remove them from your bag before checkout.");
+    }
     return getCart().map((item) => ({
       id: item.id,
       color: item.color,
@@ -1272,6 +1275,11 @@ function initCheckout() {
     }
 
     if (!getCart().length) return;
+
+    if (getCart().some((item) => item.id === "godfirst" || item.id === "pilgrim")) {
+      alert("GOD FIRST and PILGRIM hoodies are SOLD OUT. Please remove them from your bag before checkout.");
+      return;
+    }
 
     if (submit) {
       submit.disabled = true;
