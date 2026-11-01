@@ -5851,3 +5851,24 @@ html body a.skip-link:focus-visible{
 /* Keep the site in its authored black-and-white palette on devices using Dark Mode. */
 :root { color-scheme: light only; }
 html { color-scheme: light only; }
+
+/* Mobile Google in-app browser: keep the logo and header on one uniform surface. */
+@media (max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header {
+    background:#fff!important;
+    background-image:none!important;
+    border-bottom:1px solid rgba(0,0,0,.09)!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header-inner {
+    min-width:0!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark {
+    min-width:0!important;
+    max-width:46vw!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-brand-logo {
+    max-width:100%!important;
+    max-height:54px!important;
+    object-fit:contain!important;
+  }
+}
