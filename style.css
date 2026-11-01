@@ -5847,3 +5847,7 @@ html body a.skip-link:focus-visible{
   -webkit-backdrop-filter:none!important;backdrop-filter:none!important;
  }
 }
+
+/* Keep the site in its authored black-and-white palette on devices using Dark Mode. */
+:root { color-scheme: light only; }
+html { color-scheme: light only; }
