@@ -125,6 +125,9 @@ function getImage(id, color, side = "front") {
 }
 
 function addToCart(id, color, size, quantity) {
+  if (id === "godfirst" || id === "pilgrim") {
+    return false; // Hoodies are sold out until restocked.
+  }
   const product = PRODUCTS[id];
   const qty = Number(quantity);
 
@@ -578,8 +581,9 @@ function initHome() {
 
     if (detailAdd) {
       const inCollection = detailLayer.classList.contains("sa-collection-purchase");
-      detailAdd.textContent = product.price == null ? "COMING SOON" : (inCollection ? "ADD TO BAG" : "DETAILS PRODUCT");
-      detailAdd.disabled = product.price == null;
+      const soldOut = id === "godfirst" || id === "pilgrim";
+      detailAdd.textContent = soldOut ? "SOLD OUT" : (product.price == null ? "COMING SOON" : (inCollection ? "ADD TO BAG" : "DETAILS PRODUCT"));
+      detailAdd.disabled = soldOut || product.price == null;
       detailAdd.onclick = () => {
         if (!inCollection) {
           detailLayer.classList.add("sa-collection-purchase", "sa-order-mode");
