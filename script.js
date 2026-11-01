@@ -125,8 +125,8 @@ function getImage(id, color, side = "front") {
 }
 
 function addToCart(id, color, size, quantity) {
-  if (id === "godfirst" || id === "pilgrim") {
-    return false; // Hoodies are sold out until restocked.
+  if (["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(id)) {
+    return false; // All collection items are sold out until restocked.
   }
   const product = PRODUCTS[id];
   const qty = Number(quantity);
@@ -581,7 +581,7 @@ function initHome() {
 
     if (detailAdd) {
       const inCollection = detailLayer.classList.contains("sa-collection-purchase");
-      const soldOut = id === "godfirst" || id === "pilgrim";
+      const soldOut = ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(id);
       detailAdd.textContent = soldOut ? "SOLD OUT" : (product.price == null ? "COMING SOON" : (inCollection ? "ADD TO BAG" : "DETAILS PRODUCT"));
       detailAdd.disabled = soldOut || product.price == null;
       detailAdd.onclick = () => {
@@ -999,8 +999,8 @@ function initCheckout() {
   }
 
   function paymentItems() {
-    if (getCart().some((item) => item.id === "godfirst" || item.id === "pilgrim")) {
-      throw new Error("GOD FIRST and PILGRIM hoodies are SOLD OUT. Please remove them from your bag before checkout.");
+    if (getCart().some((item) => ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(item.id))) {
+      throw new Error("GOD FIRST and PILGRIM hoodies and T-shirts are SOLD OUT. Please remove them from your bag before checkout.");
     }
     return getCart().map((item) => ({
       id: item.id,
@@ -1276,8 +1276,8 @@ function initCheckout() {
 
     if (!getCart().length) return;
 
-    if (getCart().some((item) => item.id === "godfirst" || item.id === "pilgrim")) {
-      alert("GOD FIRST and PILGRIM hoodies are SOLD OUT. Please remove them from your bag before checkout.");
+    if (getCart().some((item) => ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(item.id))) {
+      alert("GOD FIRST and PILGRIM hoodies and T-shirts are SOLD OUT. Please remove them from your bag before checkout.");
       return;
     }
 
