@@ -674,8 +674,8 @@ function initHome() {
 
     if (bottom) {
       const links = bottom.querySelectorAll("a");
-      if (links[0]) links[0].href = "cart.html";
-      if (links[1]) links[1].href = "checkout.html";
+      if (links[0]) links[0].href = "/cart/";
+      if (links[1]) links[1].href = "/checkout/";
     }
 
     updateCartCount();
@@ -946,7 +946,7 @@ function initCartPage() {
 
   document.getElementById("checkoutButton")
     ?.addEventListener("click", () => {
-      if (getCart().length) location.href = "checkout.html";
+      if (getCart().length) location.href = "/checkout/";
     });
 
   render();
@@ -1239,7 +1239,7 @@ function initCheckout() {
           })
         );
 
-        location.href = "order-success.html";
+        location.href = "/order-success/";
       },
 
       onCancel: () => {
