@@ -946,29 +946,41 @@ function initCartPage() {
 
   const whatsappOrderButton = document.getElementById("whatsappOrderButton");
   whatsappOrderButton?.addEventListener("click", (event) => {
-    event.preventDefault();
     const cart = getCart();
     if (!cart.length) {
+      event.preventDefault();
       alert("Your bag is empty. Please select a product first.");
       return;
     }
 
     const lines = [
-      "Hello SET APART! I'd like to inquire about the following items:",
+      "*SET APART-ht | ORDER INQUIRY*",
+      "━━━━━━━━━━━━━━━━",
       "",
+      "Hello SET APART team!",
+      "I would like to inquire about the following items:",
+      "",
+      "*ITEMS SELECTED*",
       ...cart.flatMap((item, index) => [
-        (index + 1) + ". " + item.name,
-        "Color: " + item.color.toUpperCase(),
-        "Size: " + item.size,
-        "Quantity: " + item.quantity,
-        "Price: " + money(Number(item.price) * Number(item.quantity)),
-        ""
+        "",
+        "*" + (index + 1) + ". " + item.name + "*",
+        "Color: " + String(item.color).toUpperCase(),
+        "Size: " + String(item.size).toUpperCase(),
+        "Quantity: " + Number(item.quantity),
+        "Item total: " + money(Number(item.price) * Number(item.quantity))
       ]),
-      "Subtotal: " + money(cartSubtotalValue()),
-      "Please confirm availability and shipping. Thank you!"
+      "",
+      "━━━━━━━━━━━━━━━━",
+      "*SUBTOTAL: " + money(cartSubtotalValue()) + "*",
+      "_Shipping is not included._",
+      "",
+      "Could you please confirm availability, shipping options and the final total?",
+      "",
+      "Thank you!",
+      "_SET APART-ht | Called to Live Differently_"
     ];
-    const url = "https://wa.me/18494861203?text=" + encodeURIComponent(lines.join("\n"));
-    window.open(url, "_blank", "noopener,noreferrer");
+    whatsappOrderButton.href = "https://wa.me/18494861203?text=" +
+      encodeURIComponent(lines.join("\n"));
   });
 
   document.getElementById("checkoutButton")
