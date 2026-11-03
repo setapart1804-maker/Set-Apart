@@ -944,6 +944,33 @@ function initCartPage() {
     render();
   }
 
+  const whatsappOrderButton = document.getElementById("whatsappOrderButton");
+  whatsappOrderButton?.addEventListener("click", (event) => {
+    event.preventDefault();
+    const cart = getCart();
+    if (!cart.length) {
+      alert("Your bag is empty. Please select a product first.");
+      return;
+    }
+
+    const lines = [
+      "Hello SET APART! I'd like to inquire about the following items:",
+      "",
+      ...cart.flatMap((item, index) => [
+        (index + 1) + ". " + item.name,
+        "Color: " + item.color.toUpperCase(),
+        "Size: " + item.size,
+        "Quantity: " + item.quantity,
+        "Price: " + money(Number(item.price) * Number(item.quantity)),
+        ""
+      ]),
+      "Subtotal: " + money(cartSubtotalValue()),
+      "Please confirm availability and shipping. Thank you!"
+    ];
+    const url = "https://wa.me/18494861203?text=" + encodeURIComponent(lines.join("\n"));
+    window.open(url, "_blank", "noopener,noreferrer");
+  });
+
   document.getElementById("checkoutButton")
     ?.addEventListener("click", () => {
       if (getCart().length) location.href = "/checkout/";
