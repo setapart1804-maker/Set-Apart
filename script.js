@@ -976,8 +976,7 @@ function initCartPage() {
       "",
       "Could you please confirm availability, shipping options and the final total?",
       "",
-      "Thank you!",
-      "_SET APART-ht | Called to Live Differently_"
+      "Thank you for assisting me with my order!"
     ];
     whatsappOrderButton.href = "https://wa.me/18494861203?text=" +
       encodeURIComponent(lines.join("\n"));
