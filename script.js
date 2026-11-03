@@ -1025,7 +1025,7 @@ function initCheckout() {
         "button button-black",
         "VIEW COLLECTION"
       );
-      link.href = "index.html#collection";
+      link.href = "/#collection";
       box.appendChild(link);
       itemsBox.appendChild(box);
 
