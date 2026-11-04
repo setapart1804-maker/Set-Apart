@@ -38,3 +38,21 @@ jobs:
           check "Checkout rejects empty cart" 400 POST /api/paypal/orders '{"items":[],"customer":{"email":"test@example.com","firstName":"Test","lastName":"Test","address":"Test","country":"HT","city":"Petion-Ville","phone":"0000000000"}}'
           check "Capture rejects nonexistent order" 404 POST /api/paypal/orders/SETAPART-SECURITY-SMOKE-INVALID/capture '{}'
           echo "Safe production smoke tests passed. No real payment or order was created."
+      - name: Check storefront navigation and checkout pages
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://setapart-ht.com"
+          for path in / /cart.html /checkout.html /contact.html /about.html; do
+            status=$(curl -L -sS --max-time 40 --retry 2 -o /tmp/storefront-page -w '%{http_code}' "$BASE$path")
+            echo "Storefront $path: HTTP $status"
+            if [[ "$status" != "200" ]]; then
+              echo "::error::Storefront $path returned $status"
+              exit 1
+            fi
+            if ! grep -qi '<html' /tmp/storefront-page; then
+              echo "::error::Storefront $path did not return an HTML document"
+              exit 1
+            fi
+          done
+          echo "Public storefront navigation checks passed."
