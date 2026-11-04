@@ -191,7 +191,7 @@ module.exports = function registerAdminPrinting(app, deps) {
           '<div class="duplex-page"><main class="sheet card card-back">'+cardBackContent+'</main></div>';
 
       const duplexCss=[
-        '.duplex-page{width:210mm;min-height:297mm;margin:22px auto;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px #ccc}',
+        '.duplex-page{width:100mm;min-height:140mm;margin:22px auto;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:none}',
         '.duplex-page .sheet.card{position:relative;width:110mm;height:137.5mm;min-height:137.5mm;margin:0;padding:5mm 7mm;background:white;border:1px solid #111;outline:1px solid #111;outline-offset:-2mm;overflow:hidden}',
         '.card .logo-wrap{min-height:33mm;height:33mm;margin:0 auto 1mm}',
         '.card .logo-wrap img{height:33mm;max-width:100%}',
@@ -219,7 +219,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.card-back .qr-cell small{font:9px Arial,sans-serif;letter-spacing:.5px}',
         '.card-back .decorated-rule{margin-top:auto}',
         '.card-back .back-footer{font:8px Georgia,"Times New Roman",serif;letter-spacing:1.2px;white-space:nowrap;padding-bottom:2mm}',
-        '@media print{.duplex-page{width:194mm;height:280mm;min-height:280mm;margin:0;box-shadow:none;break-after:page;page-break-after:always}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{margin:0;box-shadow:none}}',
+        '@media print{.duplex-page{width:100mm;height:140mm;min-height:140mm;margin:0;box-shadow:none;break-after:page;page-break-after:always}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{margin:0;box-shadow:none}}',
         '@media screen and (max-width:850px){.duplex-page{width:100%;min-height:0;padding:24px 0;overflow-x:auto}.duplex-page .sheet.card{max-width:calc(100vw - 24px)}}'
       ].join("");
 
@@ -261,7 +261,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.thanks{font:normal 27pt Georgia,"Times New Roman",serif;letter-spacing:-1px;margin-top:1.8mm}'+
         '.thanks-small{font:normal 15pt Georgia,"Times New Roman",serif;letter-spacing:1px}'+
         '.thank-message{font:12pt/1.6 Georgia,"Times New Roman",serif;margin:3.5mm auto}'+
-        '@page{size:A4 portrait;margin:8mm}'+
+        (kind==="card" ? '@page{size:100mm 140mm;margin:0}' : '@page{size:100mm 140mm;margin:0}')+
         '@media print{html,body{background:white}.screen-controls{display:none!important}'+
         '.sheet,.sheet.card{margin:0 auto;box-shadow:none;break-inside:avoid;page-break-inside:avoid}'+
         '*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'+
