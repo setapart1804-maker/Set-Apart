@@ -292,7 +292,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         ].join("") : '')+
         (kind==="card" ? [
           '@page{size:A4 portrait;margin:0}',
-          '.duplex-page{width:210mm;min-height:297mm;height:297mm;margin:20px auto;overflow:hidden;display:flex;align-items:center;justify-content:center}',
+          '@media screen{.duplex-page{width:100mm;min-height:150mm;height:150mm;margin:20px auto;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:none}}',
           '.duplex-page .sheet.card{width:100mm;height:150mm;min-height:150mm;margin:0;padding:5mm 6mm;overflow:hidden;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}',
           '.card .logo-wrap{min-height:31mm;height:31mm}',
           '.card .logo-wrap img{height:30mm}',
@@ -305,7 +305,7 @@ module.exports = function registerAdminPrinting(app, deps) {
           '.card-back .qr-grid{gap:7mm}',
           '.card-back .qr-cell img{width:28mm;height:28mm}',
           '@media print{html,body{width:210mm;margin:0;padding:0;background:#fff}.duplex-page{width:210mm;height:297mm;min-height:297mm;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:none;break-after:page;page-break-after:always;overflow:hidden}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{width:100mm;height:150mm;min-height:150mm;margin:0;padding:5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}}',
-          '@media screen and (max-width:850px){.duplex-page{width:100%;height:auto;min-height:0;padding:25px 0}.duplex-page .sheet.card{max-width:calc(100vw - 24px)}}'
+          '@media screen and (max-width:420px){.duplex-page{width:calc(100vw - 20px);max-width:100mm;height:auto;min-height:150mm;margin:20px auto;padding:0}.duplex-page .sheet.card{width:100%;max-width:100%;height:auto;min-height:150mm}}'
         ].join("") : '')+
         '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
