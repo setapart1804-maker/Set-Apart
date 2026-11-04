@@ -1,0 +1,37 @@
+name: Production security smoke tests
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '30 9 * * 1'
+permissions:
+  contents: read
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check public API and protected admin without payments
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASE="https://set-apart.onrender.com"
+          check() {
+            local label="$1" expected="$2" method="$3" path="$4" data="${5:-}"
+            local status
+            if [[ "$method" == "POST" ]]; then
+              status=$(curl -sS --max-time 45 --retry 2 --retry-delay 5 -o /tmp/sa-response -w '%{http_code}' -H 'Content-Type: application/json' -X POST --data "$data" "$BASE$path")
+            else
+              status=$(curl -sS --max-time 45 --retry 2 --retry-delay 5 -o /tmp/sa-response -w '%{http_code}' "$BASE$path")
+            fi
+            echo "$label: HTTP $status (expected $expected)"
+            if [[ "$status" != "$expected" ]]; then
+              echo "::error::$label returned $status, expected $expected"
+              exit 1
+            fi
+          }
+          check "API health" 200 GET /
+          check "Admin requires authentication" 401 GET /admin
+          check "Admin failed-email API requires key" 401 GET /api/admin/failed-emails
+          check "Checkout rejects missing customer" 400 POST /api/paypal/orders '{"items":[]}'
+          check "Checkout rejects empty cart" 400 POST /api/paypal/orders '{"items":[],"customer":{"email":"test@example.com","firstName":"Test","lastName":"Test","address":"Test","country":"HT","city":"Petion-Ville","phone":"0000000000"}}'
+          check "Capture rejects nonexistent order" 404 POST /api/paypal/orders/SETAPART-SECURITY-SMOKE-INVALID/capture '{}'
+          echo "Safe production smoke tests passed. No real payment or order was created."
