@@ -75,7 +75,8 @@ module.exports = function registerAdminPrinting(app, deps) {
   app.get("/admin/print-action.js",adminLimiter,adminBasicAuth,(req,res)=>{
     setAdminSecurityHeaders(res);
     res.type("application/javascript").send(
-      'document.getElementById("print-btn")?.addEventListener("click",function(){window.print()});'+
+      'document.getElementById("print-btn")?.addEventListener("click",function(){try{window.print()}catch(e){document.getElementById("ios-print-help")?.removeAttribute("hidden")}});'+
+      'if(/iPhone|iPad|iPod/.test(navigator.userAgent)){var help=document.getElementById("ios-print-help");if(help)help.hidden=false;}'+
       'document.getElementById("back-admin-btn")?.addEventListener("click",function(){window.close();setTimeout(function(){window.location.replace("/admin");},300);});'
     );
   });
@@ -268,6 +269,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         duplexCss+'</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
         '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
+        '<small id="ios-print-help" hidden style="display:block;max-width:540px;line-height:1.6;text-align:left;margin:8px auto">iPHONE / SAFARI: If PRINT does not open a dialog, tap Safari Share (square with up arrow), choose Print, then use the preview Share button to Save to Files as PDF. If opened inside WhatsApp, Instagram, or another app, open this page in Safari first. This page contains private customer details: do not share the link or PDF publicly.</small>'+
         '<small>'+ (kind==="card"
           ? 'TWO SIDES · Page 1 FRONT / Page 2 BACK · A4 paper · 100% scale · duplex long-edge or manual double-sided printing.'
           : 'A4 paper · 100% scale · cut along the border. Print only after reviewing the order information.')+
