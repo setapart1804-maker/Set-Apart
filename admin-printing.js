@@ -268,8 +268,8 @@ module.exports = function registerAdminPrinting(app, deps) {
         '@media(max-width:420px){.sheet{transform-origin:top center;max-width:calc(100vw - 20px);min-height:0}.sheet.card{max-width:calc(100vw - 20px)}}'+
         duplexCss+
         (kind==="label" ? [
-          '@page{size:100mm 130mm;margin:0}',
-          '.sheet.label{width:100mm;min-height:130mm;height:130mm;margin:20px auto;padding:5mm 5mm 6mm;border:1px solid #111;overflow:hidden}',
+          '@page{size:100mm 140mm;margin:0}',
+          '.sheet.label{width:100mm;min-height:140mm;height:140mm;margin:20px auto;padding:5mm 5mm 6mm;border:1px solid #111;overflow:hidden}',
           '.label .logo-wrap{height:19mm;min-height:19mm;margin:0 auto 1mm}',
           '.label .logo-wrap img{height:18mm;max-width:100%}',
           '.label .brand{font-family:Arial,Helvetica,sans-serif;font-size:23pt;font-weight:900;letter-spacing:-1px}',
@@ -287,13 +287,13 @@ module.exports = function registerAdminPrinting(app, deps) {
           '.label .barcode-image{max-width:88mm;height:18mm}',
           '.label .barcode-number{font-size:10px;margin-top:0}',
           '.label .footer-line{font-size:8px;font-weight:900;letter-spacing:1.2px;margin-top:2mm;padding-top:1mm}',
-          '@media print{html,body{width:100mm;height:130mm;margin:0;padding:0;background:white}.sheet.label{width:100mm;height:130mm;min-height:130mm;margin:0;padding:5mm 5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none;break-after:avoid;page-break-after:avoid}}',
-          '@media screen and (max-width:420px){.sheet.label{max-width:calc(100vw - 16px);height:auto;min-height:130mm}}'
+          '@media print{html,body{width:100mm;height:140mm;margin:0;padding:0;background:white}.sheet.label{width:100mm;height:140mm;min-height:140mm;margin:0;padding:5mm 5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none;break-after:avoid;page-break-after:avoid}}',
+          '@media screen and (max-width:420px){.sheet.label{max-width:calc(100vw - 16px);height:auto;min-height:140mm}}'
         ].join("") : '')+
         (kind==="card" ? [
-          '@page{size:100mm 130mm;margin:0}',
-          '@media screen{.duplex-page{width:100mm;min-height:130mm;height:130mm;margin:20px auto;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:none}}',
-          '.duplex-page .sheet.card{width:100mm;height:130mm;min-height:130mm;margin:0;padding:5mm 6mm;overflow:hidden;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}',
+          '@page{size:100mm 140mm;margin:0}',
+          '@media screen{.duplex-page{width:100mm;min-height:140mm;height:140mm;margin:20px auto;overflow:hidden;display:flex;align-items:center;justify-content:center;box-shadow:none}}',
+          '.duplex-page .sheet.card{width:100mm;height:140mm;min-height:140mm;margin:0;padding:5mm 6mm;overflow:hidden;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}',
           '.card .logo-wrap{min-height:25mm;height:25mm}',
           '.card .logo-wrap img{height:24mm}',
           '.card .brand{font-size:20pt}',
@@ -304,16 +304,16 @@ module.exports = function registerAdminPrinting(app, deps) {
           '.card-back .scan-title{font-size:21pt}',
           '.card-back .qr-grid{gap:7mm}',
           '.card-back .qr-cell img{width:28mm;height:28mm}',
-          '@media print{html,body{width:100mm;margin:0;padding:0;background:#fff}.duplex-page{width:100mm;height:130mm;min-height:130mm;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:none;break-after:page;page-break-after:always;overflow:hidden}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{width:100mm;height:130mm;min-height:130mm;margin:0;padding:5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}}',
-          '@media screen and (max-width:420px){.duplex-page{width:calc(100vw - 20px);max-width:100mm;height:auto;min-height:130mm;margin:20px auto;padding:0}.duplex-page .sheet.card{width:100%;max-width:100%;height:auto;min-height:130mm}}'
+          '@media print{html,body{width:100mm;margin:0;padding:0;background:#fff}.duplex-page{width:100mm;height:140mm;min-height:140mm;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:none;break-after:page;page-break-after:always;overflow:hidden}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{width:100mm;height:140mm;min-height:140mm;margin:0;padding:5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}}',
+          '@media screen and (max-width:420px){.duplex-page{width:calc(100vw - 20px);max-width:100mm;height:auto;min-height:140mm;margin:20px auto;padding:0}.duplex-page .sheet.card{width:100%;max-width:100%;height:auto;min-height:140mm}}'
         ].join("") : '')+
         '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
         '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
         '<small id="ios-print-help" hidden style="display:block;max-width:540px;line-height:1.6;text-align:left;margin:8px auto">iPHONE / SAFARI: If PRINT does not open a dialog, tap Safari Share (square with up arrow), choose Print, then use the preview Share button to Save to Files as PDF. If opened inside WhatsApp, Instagram, or another app, open this page in Safari first. This page contains private customer details: do not share the link or PDF publicly.</small>'+
         '<small>'+ (kind==="card"
-          ? 'CARD SIZE 100 × 130 mm · Page 1 FRONT / Page 2 BACK · print at 100% scale. For A4-only printers, choose A4 paper in the print dialog and check scaling before printing.'
-          : 'LABEL · 100 × 130 mm (10 × 13 cm) · portrait · 100% scale · no margins. Check the printer paper size before printing.')+
+          ? 'CARD SIZE 100 × 140 mm · Page 1 FRONT / Page 2 BACK · print at 100% scale. For A4-only printers, choose A4 paper in the print dialog and check scaling before printing.'
+          : 'LABEL · 100 × 140 mm (10 × 14 cm) · portrait · 100% scale · no margins. Check the printer paper size before printing.')+
         '</small>'+
         '</div>'+content+
         '<script src="/admin/print-action.js" defer></script></body></html>';
