@@ -6762,13 +6762,13 @@ return `
 
 <tr>
 
-<td>
+<td data-label="PRODUCT">
 ${escapeHtml(
 item.product_name
 )}
 </td>
 
-<td>
+<td data-label="COLOR">
 ${escapeHtml(
 String(
 item.color ||
@@ -6777,25 +6777,25 @@ item.color ||
 )}
 </td>
 
-<td>
+<td data-label="SIZE">
 ${escapeHtml(
 item.size
 )}
 </td>
 
-<td>
+<td data-label="QTY">
 ${escapeHtml(
 item.quantity
 )}
 </td>
 
-<td>
+<td data-label="UNIT">
 ${adminMoney(
 item.unit_price_usd
 )}
 </td>
 
-<td>
+<td data-label="TOTAL">
 ${adminMoney(
 item.line_total_usd
 )}
@@ -8379,6 +8379,18 @@ width:
 }
 .actions .print-action:hover {background:#111;color:#fff}
 @media(max-width:700px){.actions .print-action{width:100%}}
+/* Compact readable order-product details on phones; desktop table unchanged. */
+@media(max-width:700px){
+  .order-card .table-wrap{overflow-x:visible;max-width:100%}
+  .order-card .table-wrap table{min-width:0;width:100%;display:block}
+  .order-card .table-wrap thead{display:none}
+  .order-card .table-wrap tbody{display:block}
+  .order-card .table-wrap tr{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px 12px;padding:14px 0;border-bottom:1px solid #ddd}
+  .order-card .table-wrap td{display:flex;flex-direction:column;gap:5px;min-width:0;overflow-wrap:anywhere;padding:0;border:0;font-size:13px;font-weight:700}
+  .order-card .table-wrap td::before{content:attr(data-label);font-size:10px;font-weight:900;letter-spacing:.6px;color:#666}
+  .order-card .table-wrap td:first-child{grid-column:1/-1;font-weight:900}
+}
+
 
 </style>
 
