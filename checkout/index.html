@@ -116,6 +116,16 @@
         rel="stylesheet"
         href="style.css?v=glass-blur-10-20261027">
 
+    <!-- Prevent automatic iOS Safari focus zoom without disabling user pinch zoom. -->
+    <style>
+      @media screen and (max-width: 767px) {
+        body.sa-unified-checkout input,
+        body.sa-unified-checkout select,
+        body.sa-unified-checkout textarea {
+          font-size: 16px;
+        }
+      }
+    </style>
 </head>
 
 
