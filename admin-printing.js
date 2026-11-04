@@ -308,6 +308,7 @@ module.exports = function registerAdminPrinting(app, deps) {
           '@media screen and (max-width:420px){.duplex-page{width:calc(100vw - 20px);max-width:100mm;height:auto;min-height:140mm;margin:20px auto;padding:0}.duplex-page .sheet.card{width:100%;max-width:100%;height:auto;min-height:140mm}}'
         ].join("") : '')+
         '@media screen{html,body{width:100%;min-width:0;overflow-x:hidden}.sheet.label,.duplex-page,.duplex-page .sheet.card{box-sizing:border-box}.sheet.label{width:100mm;max-width:calc(100vw - 20px);height:140mm;min-height:140mm;margin:20px auto;box-shadow:none}.duplex-page{width:100mm;max-width:calc(100vw - 20px);height:140mm;min-height:140mm;margin:20px auto;padding:0;box-shadow:none;overflow:hidden}.duplex-page .sheet.card{width:100%;height:100%;min-height:140mm;margin:0;box-shadow:none}}'+
+        '@media print{.sheet.label{width:94mm!important;height:134mm!important;min-height:134mm!important;margin:3mm auto!important;border:1mm solid #111!important;outline:none!important}.duplex-page{padding:3mm!important}.duplex-page .sheet.card{width:94mm!important;height:134mm!important;min-height:134mm!important;border:1mm solid #111!important;outline:none!important}}'+
         '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
         '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
