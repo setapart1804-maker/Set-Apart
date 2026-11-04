@@ -266,7 +266,7 @@ module.exports = function registerAdminPrinting(app, deps) {
         '@media(max-width:420px){.sheet{transform-origin:top center;max-width:calc(100vw - 20px);min-height:0}.sheet.card{max-width:calc(100vw - 20px)}}'+
         duplexCss+'</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
-        '<a href="/admin">BACK TO ADMIN</a>'+
+        '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
         '<small>'+ (kind==="card"
           ? 'TWO SIDES · Page 1 FRONT / Page 2 BACK · A4 paper · 100% scale · duplex long-edge or manual double-sided printing.'
           : 'A4 paper · 100% scale · cut along the border. Print only after reviewing the order information.')+
