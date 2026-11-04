@@ -1,5 +1,8 @@
 name: Production security smoke tests
 on:
+  push:
+    paths:
+      - .github/workflows/production-security-smoke.yml
   workflow_dispatch:
   schedule:
     - cron: '30 9 * * 1'
