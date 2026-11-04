@@ -75,7 +75,8 @@ module.exports = function registerAdminPrinting(app, deps) {
   app.get("/admin/print-action.js",adminLimiter,adminBasicAuth,(req,res)=>{
     setAdminSecurityHeaders(res);
     res.type("application/javascript").send(
-      'document.getElementById("print-btn")?.addEventListener("click",function(){window.print()});'
+      'document.getElementById("print-btn")?.addEventListener("click",function(){window.print()});'+
+      'document.getElementById("back-admin-btn")?.addEventListener("click",function(){window.close();setTimeout(function(){window.location.replace("/admin");},300);});'
     );
   });
 
