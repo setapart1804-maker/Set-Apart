@@ -174,6 +174,15 @@ allowedHeaders: [
 );
 
 
+/* Security headers for public API responses. Keep checkout CORS behavior unchanged. */
+app.use("/api", function (req, res, next) {
+  res.set("X-Content-Type-Options", "nosniff");
+  res.set("Referrer-Policy", "no-referrer");
+  res.set("X-Frame-Options", "DENY");
+  res.set("Cache-Control", "no-store");
+  next();
+});
+
 /* =========================================================
 PRODUCTS — SERVER IS SOURCE OF TRUTH
 ========================================================= */
