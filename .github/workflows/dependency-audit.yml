@@ -11,6 +11,27 @@ on:
 permissions:
   contents: read
 jobs:
+  lockfile:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Generate deterministic lockfile
+        run: npm install --package-lock-only --ignore-scripts
+      - name: Commit lockfile if changed
+        run: |
+          if ! git diff --quiet -- package-lock.json || [ ! -f package-lock.json ] || [ -n "$(git ls-files --others --exclude-standard package-lock.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add package-lock.json
+            git commit -m "Lock audited npm dependency versions"
+            git push
+          fi
   audit:
     runs-on: ubuntu-latest
     steps:
