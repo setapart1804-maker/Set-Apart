@@ -266,13 +266,37 @@ module.exports = function registerAdminPrinting(app, deps) {
         '.sheet,.sheet.card{margin:0 auto;box-shadow:none;break-inside:avoid;page-break-inside:avoid}'+
         '*{-webkit-print-color-adjust:exact;print-color-adjust:exact}}'+
         '@media(max-width:420px){.sheet{transform-origin:top center;max-width:calc(100vw - 20px);min-height:0}.sheet.card{max-width:calc(100vw - 20px)}}'+
-        duplexCss+'</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
+        duplexCss+
+        (kind==="label" ? [
+          '@page{size:100mm 150mm;margin:0}',
+          '.sheet.label{width:100mm;min-height:150mm;height:150mm;margin:20px auto;padding:5mm 5mm 6mm;border:1px solid #111;overflow:hidden}',
+          '.label .logo-wrap{height:23mm;min-height:23mm;margin:0 auto 1mm}',
+          '.label .logo-wrap img{height:22mm;max-width:100%}',
+          '.label .brand{font-family:Arial,Helvetica,sans-serif;font-size:23pt;font-weight:900;letter-spacing:-1px}',
+          '.label .tagline{font-size:7px;font-weight:800;letter-spacing:1.3px;margin:1mm 0 2mm}',
+          '.label .rule{margin:2mm 0;border-top:2px solid #111}',
+          '.label .detail{font-size:12px;margin:1.5mm 0;gap:2mm}',
+          '.label .detail strong{font-size:10px;min-width:19mm}',
+          '.label .block-title{font-size:10px;margin-top:2mm}',
+          '.label .items{font-size:12px;margin:1.5mm 0 2mm}',
+          '.label .items li{line-height:1.25;margin-bottom:1mm}',
+          '.label .address{font-size:12px;line-height:1.35}',
+          '.label .address .meta{font-size:10px}',
+          '.label .barcode-section{margin-top:auto;padding-top:2mm;border-top:2px solid #111}',
+          '.label .barcode-heading{font-size:9px;margin-bottom:1mm}',
+          '.label .barcode-image{max-width:88mm;height:21mm}',
+          '.label .barcode-number{font-size:10px;margin-top:0}',
+          '.label .footer-line{font-size:8px;font-weight:900;letter-spacing:1.2px;margin-top:2mm;padding-top:1mm}',
+          '@media print{html,body{width:100mm;height:150mm;margin:0;padding:0;background:white}.sheet.label{width:100mm;height:150mm;min-height:150mm;margin:0;padding:5mm 5mm 6mm;border:0;box-shadow:none;break-after:avoid;page-break-after:avoid}}',
+          '@media screen and (max-width:420px){.sheet.label{max-width:calc(100vw - 16px);height:auto;min-height:150mm}}'
+        ].join("") : '')+
+        '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
         '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
         '<small id="ios-print-help" hidden style="display:block;max-width:540px;line-height:1.6;text-align:left;margin:8px auto">iPHONE / SAFARI: If PRINT does not open a dialog, tap Safari Share (square with up arrow), choose Print, then use the preview Share button to Save to Files as PDF. If opened inside WhatsApp, Instagram, or another app, open this page in Safari first. This page contains private customer details: do not share the link or PDF publicly.</small>'+
         '<small>'+ (kind==="card"
           ? 'TWO SIDES · Page 1 FRONT / Page 2 BACK · A4 paper · 100% scale · duplex long-edge or manual double-sided printing.'
-          : 'A4 paper · 100% scale · cut along the border. Print only after reviewing the order information.')+
+          : 'THERMAL ROLL LABEL · 100 × 150 mm (4 × 6 in) · portrait · 100% scale · no margins. Check the printer paper size before printing.')+
         '</small>'+
         '</div>'+content+
         '<script src="/admin/print-action.js" defer></script></body></html>';
