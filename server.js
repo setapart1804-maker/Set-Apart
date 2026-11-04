@@ -730,7 +730,8 @@ if (
 items
 ) ||
 
-items.length === 0
+items.length === 0 ||
+items.length > 30
 
 ) {
 
@@ -3630,6 +3631,15 @@ error.message
 );
 
 
+/* Limit automated order creation without restricting normal checkout. */
+const checkoutCreateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 30,
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { success: false, error: "Too many checkout attempts. Please try again later." }
+});
+
 /* =========================================================
 CREATE PAYPAL ORDER
 ========================================================= */
@@ -3637,6 +3647,8 @@ CREATE PAYPAL ORDER
 app.post(
 
 "/api/paypal/orders",
+
+checkoutCreateLimiter,
 
 async function (
 req,
