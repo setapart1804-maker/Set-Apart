@@ -287,7 +287,7 @@ module.exports = function registerAdminPrinting(app, deps) {
           '.label .barcode-image{max-width:88mm;height:21mm}',
           '.label .barcode-number{font-size:10px;margin-top:0}',
           '.label .footer-line{font-size:8px;font-weight:900;letter-spacing:1.2px;margin-top:2mm;padding-top:1mm}',
-          '@media print{html,body{width:100mm;height:150mm;margin:0;padding:0;background:white}.sheet.label{width:100mm;height:150mm;min-height:150mm;margin:0;padding:5mm 5mm 6mm;border:0;box-shadow:none;break-after:avoid;page-break-after:avoid}}',
+          '@media print{html,body{width:100mm;height:150mm;margin:0;padding:0;background:white}.sheet.label{width:100mm;height:150mm;min-height:150mm;margin:0;padding:5mm 5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none;break-after:avoid;page-break-after:avoid}}',
           '@media screen and (max-width:420px){.sheet.label{max-width:calc(100vw - 16px);height:auto;min-height:150mm}}'
         ].join("") : '')+
         '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
