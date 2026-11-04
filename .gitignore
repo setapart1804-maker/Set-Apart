@@ -1,0 +1,14 @@
+# Secrets and local environment
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# Dependencies and local output
+node_modules/
+coverage/
+*.log
+.DS_Store
