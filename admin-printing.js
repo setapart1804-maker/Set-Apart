@@ -307,6 +307,7 @@ module.exports = function registerAdminPrinting(app, deps) {
           '@media print{html,body{width:100mm;margin:0;padding:0;background:#fff}.duplex-page{width:100mm;height:140mm;min-height:140mm;margin:0;display:flex;align-items:center;justify-content:center;box-shadow:none;break-after:page;page-break-after:always;overflow:hidden}.duplex-page:last-of-type{break-after:auto;page-break-after:auto}.duplex-page .sheet.card{width:100mm;height:140mm;min-height:140mm;margin:0;padding:5mm 6mm;border:0;outline:1.2mm solid #111;outline-offset:-2mm;box-shadow:none}}',
           '@media screen and (max-width:420px){.duplex-page{width:calc(100vw - 20px);max-width:100mm;height:auto;min-height:140mm;margin:20px auto;padding:0}.duplex-page .sheet.card{width:100%;max-width:100%;height:auto;min-height:140mm}}'
         ].join("") : '')+
+        '@media screen{html,body{width:100%;min-width:0;overflow-x:hidden}.sheet.label,.duplex-page,.duplex-page .sheet.card{box-sizing:border-box}.sheet.label{width:100mm;max-width:calc(100vw - 20px);height:140mm;min-height:140mm;margin:20px auto;box-shadow:none}.duplex-page{width:100mm;max-width:calc(100vw - 20px);height:140mm;min-height:140mm;margin:20px auto;padding:0;box-shadow:none;overflow:hidden}.duplex-page .sheet.card{width:100%;height:100%;min-height:140mm;margin:0;box-shadow:none}}'+
         '</style></head><body><div class="screen-controls"><b>'+pageKind+'</b>'+
         '<button id="print-btn" type="button">PRINT / SAVE AS PDF</button>'+
         '<button id="back-admin-btn" type="button">BACK TO ADMIN</button>'+
