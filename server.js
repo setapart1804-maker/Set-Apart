@@ -239,13 +239,6 @@ sizes: [
 
 };
 
-// TEMPORARY LIVE PAYMENT TEST — remove immediately after verification.
-PRODUCTS.teegodfirst = {
-  name: "GOD FIRST T-SHIRT", price: 0.05,
-  colors: ["beige", "white", "brown", "black"],
-  sizes: ["S", "M", "L", "XL"]
-};
-const isTemporaryTestCart = (items) => Array.isArray(items) && items.length === 1 && items[0].id === "teegodfirst" && Number(items[0].quantity) === 1;
 
 
 /* =========================================================
@@ -546,11 +539,8 @@ SHIPPING
 ========================================================= */
 
 function calculateShipping(
-customer,
-items
+customer
 ) {
-
-if (isTemporaryTestCart(items)) return { method: "TEMPORARY TEST — NO SHIPPING", localCurrency: "USD", localAmount: 0, usd: "0.00", displayPrice: "$0.00 USD", note: "Temporary payment verification only; no physical order will be fulfilled." };
 
 const safeCustomer =
 customer ||
@@ -922,8 +912,7 @@ product.price
 
 const shipping =
 calculateShipping(
-customer,
-items
+customer
 );
 
 
@@ -3575,8 +3564,7 @@ try {
 const shipping =
 calculateShipping(
 req.body ||
-{},
-req.body?.items
+{}
 );
 
 
@@ -3662,8 +3650,6 @@ const validatedCustomer =
 validateCustomer(
 customer
 );
-
-if (!isTemporaryTestCart(items)) throw new Error("Checkout temporarily restricted to one GOD FIRST T-SHIRT test item.");
 
 
 const order =
