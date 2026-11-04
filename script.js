@@ -68,7 +68,7 @@ const PRODUCTS = {
 
 Object.assign(PRODUCTS, {
 teepilgrim: {id:"teepilgrim", name:"PILGRIM T-SHIRT", price:24.99, message:"WALK BY FAITH — OVERSIZED FIT", defaultColor:"brown", images:{beige:{front:"t-shirt pilgrim beige front.png",back:"t-shirt pilgrim beige back.png"},brown:{front:"t-shirt pilgrim brown front.png",back:"t-shirt pilgrim brown back.png"},black:{front:"t-shirt pilgrim black front.png",back:"t-shirt pilgrim black back.png"},white:{front:"t-shirt pilgrim white front.png",back:"t-shirt pilgrim wihite back.png"}}},
-teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:24.99, message:"PUT GOD FIRST — OVERSIZED FIT", defaultColor:"white", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}}
+teegodfirst: {id:"teegodfirst", name:"GOD FIRST T-SHIRT", price:0.05, message:"PUT GOD FIRST — OVERSIZED FIT", defaultColor:"white", images:{beige:{front:"t-shirt god first beige front.png",back:"t-shirt god first beige back.png"},brown:{front:"t-shirt god first brown front.png",back:"t-shirt god first brown back.png"},black:{front:"t-shirt god first black front.png",back:"t-shirt god first black back .png"},white:{front:"t-shirt god first white front.png",back:"t-shirt god first white back.png"}}}
 });
 
 const COLORS = ["beige", "brown", "black", "white"];
@@ -125,7 +125,7 @@ function getImage(id, color, side = "front") {
 }
 
 function addToCart(id, color, size, quantity) {
-  if (["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(id)) {
+  if (["godfirst", "pilgrim", "teepilgrim"].includes(id)) {
     return false; // All collection items are sold out until restocked.
   }
   const product = PRODUCTS[id];
@@ -581,7 +581,7 @@ function initHome() {
 
     if (detailAdd) {
       const inCollection = detailLayer.classList.contains("sa-collection-purchase");
-      const soldOut = ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(id);
+      const soldOut = ["godfirst", "pilgrim", "teepilgrim"].includes(id);
       detailAdd.textContent = soldOut ? "SOLD OUT" : (product.price == null ? "COMING SOON" : (inCollection ? "ADD TO BAG" : "DETAILS PRODUCT"));
       detailAdd.disabled = soldOut || product.price == null;
       detailAdd.onclick = () => {
@@ -1037,9 +1037,10 @@ function initCheckout() {
   }
 
   function paymentItems() {
-    if (getCart().some((item) => ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(item.id))) {
+    if (getCart().some((item) => ["godfirst", "pilgrim", "teepilgrim"].includes(item.id))) {
       throw new Error("GOD FIRST and PILGRIM hoodies and T-shirts are SOLD OUT. Please remove them from your bag before checkout.");
     }
+    if (getCart().length !== 1 || getCart()[0].id !== "teegodfirst" || Number(getCart()[0].quantity) !== 1) throw new Error("Temporary payment test: only one GOD FIRST T-SHIRT is allowed.");
     return getCart().map((item) => ({
       id: item.id,
       color: item.color,
@@ -1148,7 +1149,8 @@ function initCheckout() {
       body: JSON.stringify({
         country: customer.country,
         city: customer.city,
-        state: customer.state
+        state: customer.state,
+        items: paymentItems()
       })
     });
 
@@ -1314,8 +1316,8 @@ function initCheckout() {
 
     if (!getCart().length) return;
 
-    if (getCart().some((item) => ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(item.id))) {
-      alert("GOD FIRST and PILGRIM hoodies and T-shirts are SOLD OUT. Please remove them from your bag before checkout.");
+    if (getCart().length !== 1 || getCart()[0].id !== "teegodfirst" || Number(getCart()[0].quantity) !== 1) {
+      alert("Temporary payment test: please keep only one GOD FIRST T-SHIRT in your bag.");
       return;
     }
 
