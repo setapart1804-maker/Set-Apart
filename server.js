@@ -8746,6 +8746,15 @@ require("./admin-printing")(app, {
   adminLimiter,adminBasicAuth,getStoredOrder,escapeHtml,setAdminSecurityHeaders
 });
 
+/* Private animated admin studio; shares the existing auth, data and security headers. */
+require("./admin-studio")(app, {
+  adminLimiter,
+  adminBasicAuth,
+  setAdminSecurityHeaders,
+  getAdminDashboardData,
+  escapeHtml
+});
+
 /* =========================================================
 ADMIN PAGE
 ========================================================= */
