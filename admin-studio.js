@@ -46,7 +46,7 @@ module.exports = function registerAdminStudio(app, deps) {
       const options = ["all","PAID","PROCESSING","READY_FOR_PICKUP","SHIPPED","COMPLETED","CANCELLED","EXPIRED"].map(v=>'<option value="'+v+'"'+(v===state?' selected':'')+'>'+safe(v==="all"?"All statuses":v.replaceAll("_"," "))+'</option>').join("");
       const totalOrders = num(summary.total_orders);
       const paidOrders = orders.filter(o=>String(o.payment_status||"").toUpperCase()==="COMPLETED").length;
-      const html = \`<!doctype html>
+      const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,nofollow"><meta name="theme-color" content="#073b2b">
 <title>Admin Studio | SET APART</title>
@@ -63,7 +63,7 @@ module.exports = function registerAdminStudio(app, deps) {
 <div class="blocks"><article class="panel"><h2>Fulfilment pipeline</h2><p class="sub">Current order status counts</p>${bars}</article><section class="panel"><h2>Operations pulse</h2><p class="sub">A live snapshot of the store</p><div class="timer"><h3>SET APART operations</h3><div class="clock">${num(summary.paid)+num(summary.processing)} awaiting / in progress</div><small>Orders requiring attention</small></div><p class="notice">Storefront stock and web visits are not included: no unverified inventory or visitor metrics will be invented.</p></section></div>
 <section class="panel orders" id="orders"><div class="panelhead"><div><h2>Recent orders</h2><p class="sub" style="margin-bottom:0">Up to 250 newest orders · Displaying ${filtered.length} matching</p></div><form class="controls" method="get" action="/admin/studio"><input aria-label="Search order" name="q" value="${safe(String(req.query.q||"").slice(0,80))}" placeholder="Search order or product"><select name="status" aria-label="Order status">${options}</select><button class="button primary" type="submit">Filter</button></form></div><div class="table-scroll"><table><thead><tr><th>ORDER / DATE</th><th>PRODUCT</th><th>AMOUNT</th><th>STATUS</th><th>ACTION</th></tr></thead><tbody>${rows}</tbody></table></div></section>
 <div class="footer">© SET APART · Private interface · Read-only · Data is rendered server-side and never cached.</div>
-</main></div></body></html>\`;
+</main></div></body></html>`;
       return res.status(200).type("html").send(html);
     } catch (error) {
       console.error("Admin Studio error:", error);
