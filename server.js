@@ -8840,6 +8840,10 @@ const adminOperations = require("./admin-operations")(app, {
   adminUsername: ADMIN_USERNAME
 });
 
+app.get("/admin/ops-ui.js", adminLimiter, adminBasicAuth, (req,res) => {
+  setAdminSecurityHeaders(res);
+  res.type("application/javascript").send(require("./admin-ops-ui"));
+});
 app.get("/admin/workspace.js", adminLimiter, adminBasicAuth, (req,res) => {
   setAdminSecurityHeaders(res);
   res.type("application/javascript").send(adminStudio.clientJS);
