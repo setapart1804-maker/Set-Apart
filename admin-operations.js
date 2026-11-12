@@ -259,6 +259,19 @@ module.exports=function adminOperations(app, deps) {
       try{await audit("CATALOG_IMAGE",id,{type:ct,bytes:body.length})}catch(e){console.error("Photo audit:",e)}
       res.json({success:true,image_url:"/api/catalog/images/"+id});
     }));
+  /* Remove an admin catalog photo without deleting the product or storefront assets. */
+  app.post("/admin/ops/products/:id/remove-image",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.params.id).toLowerCase();
+    if(!/^[a-z0-9-]{2,40}$/.test(id))return fail(res,400,"Invalid product ID.");
+    await ensureSchema();
+    const existing=await db("SELECT id FROM admin_catalog WHERE id=$1",[id]);
+    if(!existing.rows.length)return fail(res,404,"Product not found.");
+    await db("DELETE FROM admin_catalog_images WHERE product_id=$1",[id]);
+    await db("UPDATE admin_catalog SET image_url='',updated_at=NOW() WHERE id=$1",[id]);
+    try{await audit("CATALOG_IMAGE_REMOVED",id,{})}catch(e){console.error("Photo removal audit:",e)}
+    res.json({success:true,message:"Product photo removed from admin catalog."});
+  }));
   app.get("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
     await ensureSchema();
     const a=await db(`SELECT p.*, CASE WHEN i.product_id IS NOT NULL THEN '/api/catalog/images/'||p.id ELSE p.image_url END AS published_image_url FROM admin_catalog p LEFT JOIN admin_catalog_images i ON i.product_id=p.id ORDER BY p.name`);
