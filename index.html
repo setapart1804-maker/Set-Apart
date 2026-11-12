@@ -169,6 +169,16 @@
         rel="stylesheet"
         href="style.css?v=hoodie-caption-20261028">
 
+<style id="sa-live-catalog-styles">
+.sa-live-catalog{margin-top:clamp(36px,5vw,70px)}
+.sa-live-catalog[hidden]{display:none!important}
+.sa-live-catalog .reference-collection-card{cursor:default}
+.sa-live-catalog .reference-collection-visual img{width:100%;height:100%;object-fit:contain}
+.sa-live-catalog .sa-catalog-detail{display:block;font-size:12px;line-height:1.6;letter-spacing:.04em;color:inherit;opacity:.72}
+.sa-live-catalog .sa-catalog-status{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase}
+.sa-live-catalog .sa-catalog-contact{display:inline-block;margin-top:12px;text-decoration:underline;text-underline-offset:3px;font-size:12px;font-weight:700}
+.sa-live-catalog .sa-catalog-no-photo{display:grid;place-items:center;width:100%;height:100%;min-height:210px;background:#ecebe8;color:#333;font-size:12px;letter-spacing:.14em}
+</style>
 </head>
 
 
@@ -1116,6 +1126,14 @@
             
 <div class="sa-tee-category"><h2>T-SHIRTS <span>OVERSIZED FIT</span></h2><p>FAITH-INSPIRED EVERYDAY WEAR</p><div class="reference-collection-grid"><button type="button" class="reference-collection-card" data-open-product="teepilgrim"><div class="reference-collection-visual"><img loading="lazy" decoding="async" src="t-shirt pilgrim brown front.png" alt="PILGRIM Brown T-SHIRT front"></div><div class="reference-collection-meta"><div><h3>PILGRIM</h3><p>WALK BY FAITH — OVERSIZED T-SHIRT</p></div><span>$24.99</span></div></button>
 <button type="button" class="reference-collection-card" data-open-product="teegodfirst"><div class="reference-collection-visual"><img loading="lazy" decoding="async" src="t-shirt god first white front.png" alt="GOD FIRST White T-SHIRT front"></div><div class="reference-collection-meta"><div><h3>GOD FIRST</h3><p>PUT GOD FIRST — OVERSIZED T-SHIRT</p></div><span></span>4.99</span></div></button></div></div>
+<!-- Products published from the secure Admin Dashboard.
+     Catalog-only: checkout remains disabled for these new items until
+     PayPal pricing and inventory are connected server-side. -->
+<section id="sa-live-catalog" class="sa-live-catalog" hidden aria-labelledby="sa-live-catalog-title">
+  <h2 id="sa-live-catalog-title" class="sa-category-heading">NEW ARRIVALS <span>SET APART COLLECTION</span></h2>
+  <p class="sa-hoodie-caption">DISCOVER THE LATEST PIECES</p>
+  <div id="sa-live-catalog-grid" class="reference-collection-grid"></div>
+</section>
 <div class="reference-collection-footer">
 
 
@@ -1764,6 +1782,7 @@
 
 
     <script src="script.js?v=soldout-restored-20261104" defer></script>
+    <script src="catalog-live.js?v=20261112" defer></script>
 
 
 
