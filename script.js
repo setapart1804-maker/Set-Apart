@@ -78,6 +78,30 @@ function money(value) {
   return "$" + Number(value || 0).toFixed(2);
 }
 
+/* Dashboard prices for original T-shirts: display-only until inventory is ready.
+   Sold-out guards in addToCart/paymentItems remain untouched. */
+window.setApartStaticCatalogPrices = function (catalogRows) {
+  if (!Array.isArray(catalogRows)) return;
+  const synced = [];
+  for (const id of ["teepilgrim", "teegodfirst"]) {
+    const row = catalogRows.find((item) => item && item.id === id);
+    if (!row) continue;
+    const price = Number(row.price_usd);
+    if (!Number.isFinite(price) || price <= 0 || price > 10000) continue;
+    PRODUCTS[id].price = Math.round(price * 100) / 100;
+    const cardPrice = document.querySelector(
+      '.reference-collection-card[data-open-product="' + id + '"] .reference-collection-meta > span'
+    );
+    if (cardPrice) cardPrice.textContent = money(PRODUCTS[id].price);
+    synced.push(id);
+  }
+  if (synced.length) {
+    window.dispatchEvent(new CustomEvent("setapart:static-prices-synced", {
+      detail: { ids: synced }
+    }));
+  }
+};
+
 function getCart() {
   try {
     const raw = localStorage.getItem(CART_KEY);
@@ -826,6 +850,17 @@ function initHome() {
     },
     { passive: true }
   );
+
+  window.addEventListener("setapart:static-prices-synced", (event) => {
+    const updated = event.detail?.ids || [];
+    if (!updated.length) return;
+    renderStage();
+    if (detailLayer.classList.contains("is-active") &&
+        updated.includes(currentSelection().id)) {
+      // Keep the detail modal price in sync without reopening the product.
+      if (detailPrice) detailPrice.textContent = money(PRODUCTS[currentSelection().id].price) + " USD";
+    }
+  });
 
   window.addEventListener("setapart:cart", () => {
     if (bagLayer.classList.contains("is-active")) renderBag();
