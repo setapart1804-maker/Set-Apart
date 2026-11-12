@@ -145,7 +145,9 @@ module.exports=function adminOperations(app, deps) {
       GROUP BY order_status`);
     await ensureSchema();
     // Count all recorded low-stock variants separately from the bounded preview.
-    const lowTotal=await db(`SELECT COUNT(*)::int AS total
+    const lowTotal=await db(`SELECT COUNT(*)::int AS total,
+      COUNT(*) FILTER(WHERE s.on_hand=0)::int AS sold_out,
+      COUNT(*) FILTER(WHERE s.on_hand BETWEEN 1 AND 3)::int AS low_remaining
       FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
       WHERE p.active=TRUE AND s.on_hand<=3`);
     const low=await db(`SELECT p.name,s.product_id,s.color,s.size,s.on_hand
@@ -156,7 +158,9 @@ module.exports=function adminOperations(app, deps) {
     for(const row of count.rows)if(Object.prototype.hasOwnProperty.call(counts,row.order_status))
       counts[row.order_status]=Number(row.total)||0;
     res.json({success:true,total:Object.values(counts).reduce((a,b)=>a+b,0),
-      counts,orders:r.rows,low_stock:low.rows,low_stock_total:Number(lowTotal.rows[0]?.total||0)});
+      counts,orders:r.rows,low_stock:low.rows,low_stock_total:Number(lowTotal.rows[0]?.total||0),
+      sold_out_total:Number(lowTotal.rows[0]?.sold_out||0),
+      low_remaining_total:Number(lowTotal.rows[0]?.low_remaining||0)});
   }));
   app.get("/admin/ops/analytics",...auth,asyncRoute(async(req,res)=>{
     const p=range(req,res);if(!p)return;
@@ -192,9 +196,24 @@ module.exports=function adminOperations(app, deps) {
     res.json({success:true,from:p.from,to:p.to,totals:totals.rows[0],daily:daily.rows,products:products.rows,
       finance:{paid_orders:Number(row.paid_orders),costed_orders:Number(row.costed_orders),
         expenses_usd:row.expenses,
-        net_profit_usd:complete?margin:null,fully_recorded:complete},
-      note:complete?"All paid orders have expense entries; verify every entry against actual receipts.":
-      "Net profit unavailable until every paid order has complete actual expense entries."});
+        net_profit_usd:complete?margin:null,order_margin_usd:complete?margin:null,fully_recorded:complete},
+      note:complete?"Recorded order margin = paid order totals minus entered production, PayPal, packaging, delivery and other order costs. It is NOT company net profit: overhead, taxes, refunds and unrecorded costs may be excluded. Verify entries against receipts.":
+      "Order margin unavailable until every paid order in the period has actual cost entries. This is not company net profit."});
+  }));
+  // Read-only worklist: paid orders that still need expense entries in this date range.
+  app.get("/admin/ops/uncosted-orders",...auth,asyncRoute(async(req,res)=>{
+    const p=range(req,res);if(!p)return;
+    await ensureSchema();
+    const result=await db(`SELECT o.paypal_order_id,o.created_at,o.total_usd,
+      COUNT(*) OVER()::int AS missing_total
+      FROM orders o LEFT JOIN admin_order_costs c ON c.paypal_order_id=o.paypal_order_id
+      WHERE o.payment_status='COMPLETED' AND c.paypal_order_id IS NULL
+        AND o.created_at >= $1::date AND o.created_at < $2::date
+      ORDER BY o.created_at DESC LIMIT 25`,[p.from,p.tomorrow]);
+    res.json({success:true,from:p.from,to:p.to,
+      missing_total:Number(result.rows[0]?.missing_total||0),
+      orders:result.rows.map(o=>({paypal_order_id:o.paypal_order_id,
+        created_at:o.created_at,total_usd:o.total_usd}))});
   }));
   // Manual cost entries are independent of PayPal, order status and stock.
   app.post("/admin/ops/order-costs",...auth,asyncRoute(async(req,res)=>{
