@@ -26,7 +26,7 @@ function render(data,notice,sections) {
    const countryName=countryCode==="DO"?"Repiblik Dominikèn":countryCode==="HT"?"Ayiti":String(o.country||"").trim();
    if(countryName)addressParts.push(countryName);
    const destination=haitiPickup?"Pwen retrè Pétion-Ville, Ayiti":addressParts.join(", ")||"Kote livrezon pa disponib";
-   const initials=customerName==="Non kliyan pa disponib"?"?":customerName.split(/\\s+/).slice(0,2).map(x=>x.charAt(0).toUpperCase()).join("");
+   const initials=customerName==="Non kliyan pa disponib"?"?":customerName.split(/\s+/).slice(0,2).map(x=>x.charAt(0).toUpperCase()).join("");
    return '<li class="recent-customer"><span class="circle">'+esc(initials)+'</span><span class="recent-details"><b>'+esc(customerName)+'</b><small>'+esc(date(o.created_at))+' · '+money(o.total_usd)+'</small><small class="recent-destination">Kote: '+esc(destination)+'</small></span><span class="pill">'+esc(o.order_status||"—")+'</span></li>';
  }).join("")||'<li>Pa gen kòmann.</li>';
  const topProducts=new Map(),customers=new Map();
