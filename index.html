@@ -176,7 +176,20 @@
 .sa-live-catalog .reference-collection-visual img{width:100%;height:100%;object-fit:contain}
 .sa-live-catalog .sa-catalog-detail{display:block;font-size:12px;line-height:1.6;letter-spacing:.04em;color:inherit;opacity:.72}
 .sa-live-catalog .sa-catalog-status{font-size:11px;font-weight:750;letter-spacing:.09em;text-transform:uppercase}
-.sa-live-catalog .sa-catalog-contact{display:inline-block;margin-top:12px;text-decoration:underline;text-underline-offset:3px;font-size:12px;font-weight:700}
+.sa-live-catalog .sa-catalog-card{display:flex;flex-direction:column;align-items:stretch;min-width:0;text-align:left}
+.sa-live-catalog .sa-catalog-card .reference-collection-meta{width:100%;flex:0}
+.sa-live-catalog .sa-catalog-controls{width:100%;margin-top:14px;padding:14px 0 6px;border-top:1px solid rgba(0,0,0,.18);display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) 75px;gap:9px}
+.sa-live-catalog .sa-catalog-field{display:flex;flex-direction:column;gap:5px;font:700 10px/1.5 inherit;letter-spacing:.1em;min-width:0}
+.sa-live-catalog .sa-catalog-field span{font-size:10px;letter-spacing:.11em}
+.sa-live-catalog .sa-catalog-field select,.sa-live-catalog .sa-catalog-field input{background:rgba(255,255,255,.94);color:#121212;border:1px solid #b7b7b7;border-radius:3px;padding:10px 8px;width:100%;min-width:0;min-height:43px;font-size:13px}
+.sa-live-catalog .sa-catalog-add{grid-column:1/-1;width:100%;min-height:45px;border:1px solid #111;background:#111;color:#fff;letter-spacing:.11em;font-weight:800;font-size:12px;cursor:pointer}
+.sa-live-catalog .sa-catalog-add:hover:not(:disabled){background:#363636}
+.sa-live-catalog .sa-catalog-add:disabled{opacity:.5;cursor:not-allowed}
+.sa-live-catalog .sa-catalog-view-bag{grid-column:1/-1;text-align:center;text-decoration:underline;text-underline-offset:4px;font-size:12px;font-weight:700;min-height:25px}
+.sa-live-catalog .sa-catalog-view-bag[hidden]{display:none!important}
+.sa-live-catalog .sa-catalog-feedback{grid-column:1/-1;margin:0;font-size:12px;min-height:20px;line-height:1.55}
+@media(max-width:540px){.sa-live-catalog .sa-catalog-controls{grid-template-columns:minmax(0,1fr) minmax(0,1fr) 64px;gap:7px}}
+
 .sa-live-catalog .sa-catalog-no-photo{display:grid;place-items:center;width:100%;height:100%;min-height:210px;background:#ecebe8;color:#333;font-size:12px;letter-spacing:.14em}
 </style>
 </head>
@@ -1126,9 +1139,7 @@
             
 <div class="sa-tee-category"><h2>T-SHIRTS <span>OVERSIZED FIT</span></h2><p>FAITH-INSPIRED EVERYDAY WEAR</p><div class="reference-collection-grid"><button type="button" class="reference-collection-card" data-open-product="teepilgrim"><div class="reference-collection-visual"><img loading="lazy" decoding="async" src="t-shirt pilgrim brown front.png" alt="PILGRIM Brown T-SHIRT front"></div><div class="reference-collection-meta"><div><h3>PILGRIM</h3><p>WALK BY FAITH — OVERSIZED T-SHIRT</p></div><span>$24.99</span></div></button>
 <button type="button" class="reference-collection-card" data-open-product="teegodfirst"><div class="reference-collection-visual"><img loading="lazy" decoding="async" src="t-shirt god first white front.png" alt="GOD FIRST White T-SHIRT front"></div><div class="reference-collection-meta"><div><h3>GOD FIRST</h3><p>PUT GOD FIRST — OVERSIZED T-SHIRT</p></div><span></span>4.99</span></div></button></div></div>
-<!-- Products published from the secure Admin Dashboard.
-     Catalog-only: checkout remains disabled for these new items until
-     PayPal pricing and inventory are connected server-side. -->
+<!-- Active admin-managed products use the server-verified catalog checkout. -->
 <section id="sa-live-catalog" class="sa-live-catalog" hidden aria-labelledby="sa-live-catalog-title">
   <h2 id="sa-live-catalog-title" class="sa-category-heading">NEW ARRIVALS <span>SET APART COLLECTION</span></h2>
   <p class="sa-hoodie-caption">DISCOVER THE LATEST PIECES</p>
@@ -1782,7 +1793,7 @@
 
 
     <script src="script.js?v=soldout-restored-20261104" defer></script>
-    <script src="catalog-live.js?v=20261112" defer></script>
+    <script src="catalog-live.js?v=20261112-commerce2" defer></script>
 
 
 
