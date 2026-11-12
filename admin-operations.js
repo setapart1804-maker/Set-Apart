@@ -241,7 +241,7 @@ module.exports=function adminOperations(app, deps) {
       const data=await feeResponse.json();
       const fee=data.seller_receivable_breakdown?.paypal_fee;
       if(data.id!==capture||data.status!=="COMPLETED"||fee?.currency_code!=="USD"||
-         !/^\\d+(\\.\\d{1,2})?$/.test(String(fee.value||"")))
+         !/^\d+(\.\d{1,2})?$/.test(String(fee.value||"")))
         return res.json({success:true,available:false,reason:"No confirmed USD PayPal fee found. Check your PayPal statement."});
       res.json({success:true,available:true,fee_usd:Number(fee.value).toFixed(2),
         source:"PayPal verified capture",capture_id:capture});
