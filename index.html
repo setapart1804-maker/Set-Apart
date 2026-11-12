@@ -2,6 +2,14 @@
 <html lang="en">
 
 <head>
+<!-- Redirect obsolete GitHub Pages URL to the official storefront; the canonical URL remains setapart-ht.com. -->
+<script>
+  if (location.hostname === "setapart1804-maker.github.io" && location.pathname.startsWith("/Set-Apart/")) {
+    const legacyPath = location.pathname.slice("/Set-Apart".length);
+    const officialPath = legacyPath === "/index.html" ? "/" : legacyPath;
+    location.replace("https://setapart-ht.com" + officialPath + location.search + location.hash);
+  }
+</script>
 <!-- Google Consent Mode: deny optional storage until consent is granted. -->
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -132,6 +140,24 @@
       "inLanguage": "en",
       "publisher": {
         "@id": "https://setapart-ht.com/#store"
+      }
+    },
+    {
+      "@type": "WebPage",
+      "@id": "https://setapart-ht.com/#homepage",
+      "url": "https://setapart-ht.com/",
+      "name": "SET APART-ht™ | Christian Streetwear & Faith-Inspired Clothing",
+      "description": "Discover SET APART-ht™, a faith-inspired streetwear brand featuring Christian oversized T-shirts and hoodies. GOD FIRST. PILGRIM. Called to Live Differently.",
+      "inLanguage": "en",
+      "isPartOf": {
+        "@id": "https://setapart-ht.com/#website"
+      },
+      "about": {
+        "@id": "https://setapart-ht.com/#store"
+      },
+      "primaryImageOfPage": {
+        "@type": "ImageObject",
+        "url": "https://setapart-ht.com/GOD%20First%20Streetwear%20Mockup.png"
       }
     }
   ]
