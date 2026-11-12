@@ -135,6 +135,10 @@ module.exports=function adminOperations(app, deps) {
       AND order_status IN ('PAID','PROCESSING','READY_FOR_PICKUP')
       GROUP BY order_status`);
     await ensureSchema();
+    // Count all recorded low-stock variants separately from the bounded preview.
+    const lowTotal=await db(`SELECT COUNT(*)::int AS total
+      FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
+      WHERE p.active=TRUE AND s.on_hand<=3`);
     const low=await db(`SELECT p.name,s.product_id,s.color,s.size,s.on_hand
       FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
       WHERE p.active=TRUE AND s.on_hand<=3
@@ -143,7 +147,7 @@ module.exports=function adminOperations(app, deps) {
     for(const row of count.rows)if(Object.prototype.hasOwnProperty.call(counts,row.order_status))
       counts[row.order_status]=Number(row.total)||0;
     res.json({success:true,total:Object.values(counts).reduce((a,b)=>a+b,0),
-      counts,orders:r.rows,low_stock:low.rows});
+      counts,orders:r.rows,low_stock:low.rows,low_stock_total:Number(lowTotal.rows[0]?.total||0)});
   }));
   app.get("/admin/ops/analytics",...auth,asyncRoute(async(req,res)=>{
     const p=range(req,res);if(!p)return;
