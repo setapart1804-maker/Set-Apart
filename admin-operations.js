@@ -194,7 +194,7 @@ module.exports=function adminOperations(app, deps) {
       colors=EXCLUDED.colors,sizes=EXCLUDED.sizes,image_url=EXCLUDED.image_url,
       active=EXCLUDED.active,updated_at=NOW() RETURNING *`,
       [id,name,price,colors,sizes,url,active]);
-    await audit("CATALOG_SAVE",id,{name,price,active});
+    try{await audit("CATALOG_SAVE",id,{name,price,active})}catch(e){console.error("Audit catalog failed:",e)}
     res.json({success:true,product:r.rows[0],warning:"Chanjman sa a poko modifye vitrin ni pri PayPal."});
   }));
   app.post("/admin/ops/stock",...auth,asyncRoute(async(req,res)=>{
@@ -212,7 +212,7 @@ module.exports=function adminOperations(app, deps) {
       VALUES($1,$2,$3,$4,NOW())
       ON CONFLICT(product_id,color,size) DO UPDATE SET on_hand=EXCLUDED.on_hand,updated_at=NOW()`,
       [id,color,size,amount]);
-    await audit("STOCK_SET",id,{color,size,on_hand:amount});
+    try{await audit("STOCK_SET",id,{color,size,on_hand:amount})}catch(e){console.error("Audit stock failed:",e)}
     res.json({success:true,warning:"Stock sa a pa bloke checkout otomatikman."});
   }));
   app.get("/admin/ops/cases",...auth,asyncRoute(async(req,res)=>{
@@ -227,9 +227,11 @@ module.exports=function adminOperations(app, deps) {
     if(!id||id.length>100||!["RETURN","EXCHANGE","REFUND"].includes(kind)||notes.length>2000)
       return fail(res,400,"Kòmann, tip dosye oswa nòt la pa valab.");
     await ensureSchema();
+    const exists=await db(`SELECT paypal_order_id FROM orders WHERE paypal_order_id=$1 LIMIT 1`,[id]);
+    if(!exists.rows.length)return fail(res,404,"Kòmann sa a pa egziste.");
     const r=await db(`INSERT INTO admin_service_cases(paypal_order_id,kind,notes)
       VALUES($1,$2,$3) RETURNING *`,[id,kind,notes]);
-    await audit("CASE_OPEN",id,{case_id:r.rows[0].id,kind});
+    try{await audit("CASE_OPEN",id,{case_id:r.rows[0].id,kind})}catch(e){console.error("Audit case failed:",e)}
     res.json({success:true,record:r.rows[0],warning:"Sa pa lanse okenn ranbousman PayPal."});
   }));
   app.post("/admin/ops/cases/:id/status",...auth,asyncRoute(async(req,res)=>{
@@ -242,7 +244,7 @@ module.exports=function adminOperations(app, deps) {
     const r=await db(`UPDATE admin_service_cases SET status=$2,resolution_reference=$3,updated_at=NOW()
       WHERE id=$1 RETURNING *`,[id,status,ref]);
     if(!r.rows.length)return fail(res,404,"Dosye sa a pa egziste.");
-    await audit("CASE_STATUS",r.rows[0].paypal_order_id,{case_id:id,status,reference:ref});
+    try{await audit("CASE_STATUS",r.rows[0].paypal_order_id,{case_id:id,status,reference:ref})}catch(e){console.error("Audit case status failed:",e)}
     res.json({success:true,record:r.rows[0]});
   }));
   app.get("/admin/ops/audit",...auth,asyncRoute(async(req,res)=>{
@@ -251,11 +253,6 @@ module.exports=function adminOperations(app, deps) {
       FROM admin_audit_log ORDER BY created_at DESC LIMIT 100`);
     res.json({success:true,entries:r.rows});
   }));
-  app.post("/admin/logout",...auth,(req,res)=>{
-    if(!requireMutation(req,res))return;
-    res.clearCookie("__Secure-setapart_admin",{path:"/admin",secure:true,httpOnly:true,sameSite:"lax"});
-    res.redirect(303,"/admin/logged-out");
-  });
   app.get("/admin/logged-out",(req,res)=>{
     setAdminSecurityHeaders(res);
     res.type("html").send('<!doctype html><html lang="ht"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SET APART-ht — Sesyon fèmen</title><body style="font:16px system-ui;max-width:620px;margin:12vh auto;padding:24px"><h1>Sesyon sou aparèy sa a fèmen.</h1><p>Bonbon sesyon pèmanan an efase. Si navigatè a toujou sonje HTTP Basic Auth, fèmen navigatè a nèt pou w pa retounen otomatikman nan administrasyon an.</p><a href="https://setapart-ht.com">Ale sou sit SET APART-ht™</a></body></html>');
