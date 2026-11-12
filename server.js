@@ -7617,6 +7617,9 @@ NO FAILED EMAILS.
 `;
 
 
+return adminStudio.render(data, notice, {orderCards, failedEmailsHtml});
+
+/* Previous renderer retained for safe fallback during migration. */
 return `
 
 <!DOCTYPE html>
@@ -8746,14 +8749,13 @@ require("./admin-printing")(app, {
   adminLimiter,adminBasicAuth,getStoredOrder,escapeHtml,setAdminSecurityHeaders
 });
 
-/* Private animated admin studio; shares the existing auth, data and security headers. */
-require("./admin-studio")(app, {
-  adminLimiter,
-  adminBasicAuth,
-  setAdminSecurityHeaders,
-  getAdminDashboardData,
-  escapeHtml
+/* New unified private dashboard, using existing order forms and CSRF security. */
+const adminStudio = require("./admin-studio");
+app.get("/admin/workspace.js", adminLimiter, adminBasicAuth, (req,res) => {
+  setAdminSecurityHeaders(res);
+  res.type("application/javascript").send(adminStudio.clientJS);
 });
+app.get("/admin/studio", adminLimiter, adminBasicAuth, (req,res) => res.redirect(302, "/admin"));
 
 /* =========================================================
 ADMIN PAGE
