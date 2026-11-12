@@ -161,6 +161,11 @@
      if(!response.ok)throw Error("Catalog unavailable");
      const data=await response.json();
      if(!data||data.success!==true||!Array.isArray(data.products))throw Error("Invalid catalog");
+     // Refresh the original T-shirt cards and detail prices as well as NEW ARRIVALS.
+     // Their SOLD OUT state is intentionally unchanged.
+     if(typeof window.setApartStaticCatalogPrices==="function"){
+       window.setApartStaticCatalogPrices(data.products);
+     }
      const products=data.products.filter(p=>p&&typeof p.id==="string"&&!ORIGINAL_IDS.has(p.id)&&typeof p.name==="string");
      if(!products.length)return;
      const stock=Array.isArray(data.stock)?data.stock:[];
