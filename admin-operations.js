@@ -134,6 +134,30 @@ module.exports=function adminOperations(app, deps) {
     if(/^[\t =+\-@]/.test(v)) v="'"+v;
     return '"'+v.replace(/"/g,'""')+'"';
   };
+  // Read-only bridge to completely isolated Sandbox sample orders.
+  // Never insert, update or count these as production orders.
+  app.get("/admin/ops/sandbox-orders",...auth,asyncRoute(async(req,res)=>{
+    try{
+      const response=await fetch("https://set-apart-sandbox.onrender.com/sandbox/orders",{
+        method:"GET",headers:{"Accept":"application/json"},signal:AbortSignal.timeout(9000)
+      });
+      if(!response.ok)return fail(res,502,"Sandbox test orders are temporarily unavailable.");
+      const data=await response.json();
+      if(data?.success!==true||data?.environment!=="sandbox"||!Array.isArray(data.orders))
+        return fail(res,502,"Unexpected Sandbox response.");
+      const orders=data.orders.slice(0,50).map(o=>({
+        id:clean(o.id).slice(0,70),product:clean(o.product).slice(0,100),
+        color:clean(o.color).slice(0,40),size:clean(o.size).slice(0,20),
+        status:clean(o.status).slice(0,40),paymentCaptured:o.paymentCaptured===true,
+        createdAt:o.createdAt||null
+      }));
+      res.set("Cache-Control","no-store");
+      res.json({success:true,environment:"sandbox",ephemeral:true,orders});
+    }catch(err){
+      console.error("Sandbox test read unavailable:",err.message);
+      return fail(res,502,"Sandbox server could not be reached. Retry.");
+    }
+  }));
   app.get("/admin/ops/alerts",...auth,asyncRoute(async(req,res)=>{
     const r=await db(`SELECT paypal_order_id,first_name,last_name,created_at,total_usd,
       order_status FROM orders WHERE payment_status='COMPLETED'
