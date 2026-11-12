@@ -8822,6 +8822,7 @@ app.post("/admin/inventory",adminLimiter,adminBasicAuth,async(req,res)=>{
  try{
   await ensureAdminInventory();
   await db("INSERT INTO admin_inventory (product_name,variant,quantity,note) VALUES ($1,$2,$3,$4) ON CONFLICT(product_name,variant) DO UPDATE SET quantity=EXCLUDED.quantity,note=EXCLUDED.note,updated_at=NOW()",[name,variant,quantity,note]);
+  try { await adminOperations.audit("LEGACY_STOCK_SET",name,{variant,quantity}); } catch(e) { console.error("Audit legacy stock failed:",e); }
   return res.redirect(303,"/admin?notice="+encodeURIComponent("Stock administratif anrejistre")+"#products");
  }catch(e){console.error("Admin inventory save failed",e);return res.status(500).send("Inventory update unavailable");}
 });
@@ -8829,6 +8830,7 @@ app.post("/admin/logout",adminLimiter,adminBasicAuth,(req,res)=>{
  setAdminSecurityHeaders(res);
  if(!verifyAdminCsrfToken("admin","logout",String(req.body.csrf||"")))return res.status(403).send("Invalid admin security token");
  res.clearCookie(ADMIN_SESSION_COOKIE,{httpOnly:true,secure:true,sameSite:"lax",path:"/admin"});
+ adminOperations.audit("ADMIN_LOGOUT","session",{}).catch(e=>console.error("Audit logout failed:",e));
  return res.type("html").send('<!doctype html><html lang="ht"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dekonekte</title><body><h1>Sesyon an fèmen</h1><p>Cookie sesyon administrasyon an efase. Si navigatè a te konekte avèk HTTP Basic, li ka toujou kenbe otorizasyon sa a. Fèmen navigatè a pou efase aksè sa a.</p></body></html>');
 });
 
@@ -9023,8 +9025,7 @@ const failure =
 await retryFailedEmail(
 failureID
 );
-
-
+try { await adminOperations.audit("EMAIL_RETRY",String(failureID),{}); } catch(e) { console.error("Audit email retry failed:",e); }
 return res.redirect(303, "/admin?notice="+encodeURIComponent("Email retry processed.")+"#emails");
 
 }
