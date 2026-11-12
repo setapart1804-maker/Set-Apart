@@ -237,7 +237,7 @@ module.exports=function adminOperations(app, deps) {
     const color=clean(req.body.color).toLowerCase(),size=clean(req.body.size).toUpperCase();
     const cost=clean(req.body.unit_cost_usd);
     if(!/^[a-z0-9-]{2,40}$/.test(id)||!color||color.length>45||!size||size.length>20||
-       !/^\\d+(?:\\.\\d{1,2})?$/.test(cost)||Number(cost)>1000000)
+       !/^\d+(?:\.\d{1,2})?$/.test(cost)||Number(cost)>1000000)
       return fail(res,400,"Product variant or actual unit cost is invalid.");
     await ensureSchema();
     const exists=await db("SELECT id FROM admin_catalog WHERE id=$1 AND $2=ANY(colors) AND $3=ANY(sizes) LIMIT 1",
@@ -267,7 +267,7 @@ module.exports=function adminOperations(app, deps) {
     for(const item of items.rows){
       const quantity=Number(item.quantity),unit=Number(item.unit_cost_usd);
       if(item.unit_cost_usd==null||!Number.isSafeInteger(quantity)||quantity<1||
-         !Number.isFinite(unit)||unit<0||Math.round(unit*100)!==unit*100){
+         !Number.isFinite(unit)||unit<0){
         complete=false;
         missing.push({product_id:item.product_id,color:item.color,size:item.size});
       }else totalCents+=Math.round(unit*100)*quantity;
@@ -280,7 +280,7 @@ module.exports=function adminOperations(app, deps) {
           orderID:row.paypal_order_id,captureID:row.paypal_capture_id,
           expectedTotal:Number(row.total_usd).toFixed(2)
         });
-        if(typeof fee==="string"&&/^\\d+(?:\\.\\d{1,2})?$/.test(fee)){
+        if(typeof fee==="string"&&/^\d+(?:\.\d{1,2})?$/.test(fee)){
           verifiedFee=fee;feeSource="paypal-verified";
         }
       }catch(err){console.warn("Admin fee lookup unavailable:",err.message)}
