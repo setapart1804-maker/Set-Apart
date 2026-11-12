@@ -151,29 +151,49 @@
    updateVariants();
    return card;
  }
+ let loading=false;
+ let lastRefresh=0;
  async function load(){
+   if(loading)return;
+   loading=true;
    try{
      const controller=new AbortController();
-     const timer=setTimeout(()=>controller.abort(),10000);
+     const timer=setTimeout(()=>controller.abort(),12000);
      let response;
-     try{response=await fetch(API+"/api/catalog",{mode:"cors",credentials:"omit",cache:"no-store",signal:controller.signal})}
-     finally{clearTimeout(timer)}
-     if(!response.ok)throw Error("Catalog unavailable");
+     try{
+       // A fresh catalog read is essential after editing prices in Admin.
+       // Cache-bust intermediate proxies as well as the browser cache.
+       response=await fetch(API+"/api/catalog?refresh="+Date.now(),{
+         mode:"cors",credentials:"omit",cache:"no-store",signal:controller.signal
+       });
+     }finally{clearTimeout(timer)}
+     if(!response.ok)throw Error("Catalog HTTP "+response.status);
      const data=await response.json();
      if(!data||data.success!==true||!Array.isArray(data.products))throw Error("Invalid catalog");
-     // Refresh the original T-shirt cards and detail prices as well as NEW ARRIVALS.
-     // Their SOLD OUT state is intentionally unchanged.
+     lastRefresh=Date.now();
+     // Original T-shirt prices come from the admin database, not the
+     // hard-coded HTML fallback. They remain SOLD OUT until launch.
      if(typeof window.setApartStaticCatalogPrices==="function"){
        window.setApartStaticCatalogPrices(data.products);
      }
      const products=data.products.filter(p=>p&&typeof p.id==="string"&&!ORIGINAL_IDS.has(p.id)&&typeof p.name==="string");
-     if(!products.length)return;
      const stock=Array.isArray(data.stock)?data.stock:[];
      const fragment=document.createDocumentFragment();
      for(const product of products)fragment.appendChild(renderProduct(product,stock));
      grid.replaceChildren(fragment);
-     section.hidden=false;
-   }catch(e){console.warn("SET APART catalog unavailable:",e.message)}
+     section.hidden=products.length===0;
+   }catch(e){console.warn("SET APART catalog prices could not sync:",e.message)}
+   finally{loading=false}
  }
+ // Render free-tier services may wake slowly. Retry after an initial failure,
+ // and refresh when customers return to an already-open tab.
  load();
+ setTimeout(function(){if(!lastRefresh)load()},6000);
+ setTimeout(function(){if(!lastRefresh)load()},18000);
+ document.addEventListener("visibilitychange",function(){
+   if(!document.hidden&&Date.now()-lastRefresh>15000)load();
+ });
+ window.addEventListener("focus",function(){
+   if(Date.now()-lastRefresh>15000)load();
+ });
 })();
