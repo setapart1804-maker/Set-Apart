@@ -8746,6 +8746,7 @@ const adminStudio = require("./admin-studio");
 const adminOperations = require("./admin-operations")(app, {
   db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
   createAdminCsrfToken, verifyAdminCsrfToken, catalog: PRODUCTS,
+  stockCommerce: catalogCommerce,
   adminUsername: ADMIN_USERNAME
 });
 
