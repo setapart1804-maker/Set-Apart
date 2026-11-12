@@ -78,12 +78,12 @@ function money(value) {
   return "$" + Number(value || 0).toFixed(2);
 }
 
-/* Dashboard prices for original T-shirts: display-only until inventory is ready.
+/* Dashboard prices for original hoodies and T-shirts: display-only until inventory is ready.
    Sold-out guards in addToCart/paymentItems remain untouched. */
 window.setApartStaticCatalogPrices = function (catalogRows) {
   if (!Array.isArray(catalogRows)) return;
   const synced = [];
-  for (const id of ["teepilgrim", "teegodfirst"]) {
+  for (const id of ["pilgrim", "godfirst", "teepilgrim", "teegodfirst"]) {
     const row = catalogRows.find((item) => item && item.id === id);
     if (!row) continue;
     const price = Number(row.price_usd);
