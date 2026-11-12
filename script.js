@@ -944,44 +944,6 @@ function initCartPage() {
     render();
   }
 
-  const whatsappOrderButton = document.getElementById("whatsappOrderButton");
-  whatsappOrderButton?.addEventListener("click", (event) => {
-    const cart = getCart();
-    if (!cart.length) {
-      event.preventDefault();
-      alert("Your bag is empty. Please select a product first.");
-      return;
-    }
-
-    const lines = [
-      "*SET APART-ht | ORDER INQUIRY*",
-      "━━━━━━━━━━━━━━━━",
-      "",
-      "Hello SET APART team!",
-      "I would like to inquire about the following items:",
-      "",
-      "*ITEMS SELECTED*",
-      ...cart.flatMap((item, index) => [
-        "",
-        "*" + (index + 1) + ". " + item.name + "*",
-        "Color: " + String(item.color).toUpperCase(),
-        "Size: " + String(item.size).toUpperCase(),
-        "Quantity: " + Number(item.quantity),
-        "Item total: " + money(Number(item.price) * Number(item.quantity))
-      ]),
-      "",
-      "━━━━━━━━━━━━━━━━",
-      "*SUBTOTAL: " + money(cartSubtotalValue()) + "*",
-      "_Shipping is not included._",
-      "",
-      "Could you please confirm availability, shipping options and the final total?",
-      "",
-      "Thank you for assisting me with my order!"
-    ];
-    whatsappOrderButton.href = "https://wa.me/18494861203?text=" +
-      encodeURIComponent(lines.join("\n"));
-  });
-
   document.getElementById("checkoutButton")
     ?.addEventListener("click", () => {
       if (getCart().length) location.href = "/checkout/";
