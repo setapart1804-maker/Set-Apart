@@ -264,7 +264,7 @@ module.exports=function adminOperations(app, deps) {
     const a=await db(`SELECT p.*, CASE WHEN i.product_id IS NOT NULL THEN '/api/catalog/images/'||p.id ELSE p.image_url END AS published_image_url FROM admin_catalog p LEFT JOIN admin_catalog_images i ON i.product_id=p.id ORDER BY p.name`);
     const b=await db(`SELECT * FROM admin_stock ORDER BY product_id,color,size`);
     res.json({success:true,products:a.rows,stock:b.rows,
-      warning:"Published products are now included in the live storefront catalog. PayPal checkout integration remains separate."});
+      warning:"Active admin products appear on the storefront. New products use server-verified pricing, checkout, and available stock."});
   }));
   app.post("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
     if(!requireMutation(req,res))return;
@@ -286,7 +286,7 @@ module.exports=function adminOperations(app, deps) {
       active=EXCLUDED.active,updated_at=NOW() RETURNING *`,
       [id,name,price,colors,sizes,url,active]);
     try{await audit("CATALOG_SAVE",id,{name,price,active})}catch(e){console.error("Audit catalog failed:",e)}
-    res.json({success:true,product:r.rows[0],warning:"The saved product will appear in the storefront catalog when active. PayPal checkout uses separate pricing controls."});
+    res.json({success:true,product:r.rows[0],warning:"Active new products appear on the storefront; PayPal uses the price and available stock from the database."});
   }));
   app.post("/admin/ops/stock",...auth,asyncRoute(async(req,res)=>{
     if(!requireMutation(req,res))return;
@@ -306,7 +306,7 @@ module.exports=function adminOperations(app, deps) {
       throw error;
     }
     try{await audit("STOCK_SET",id,{color,size,on_hand:amount})}catch(e){console.error("Audit stock failed:",e)}
-    res.json({success:true,warning:"Stock sa a pa bloke checkout otomatikman."});
+    res.json({success:true,warning:"Stock is checked at PayPal checkout for new catalog products."});
   }));
   app.get("/admin/ops/cases",...auth,asyncRoute(async(req,res)=>{
     await ensureSchema();
