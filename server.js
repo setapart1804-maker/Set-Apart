@@ -8754,14 +8754,14 @@ async function getVerifiedPayPalFee({orderID,captureID,expectedTotal}){
   const capture=await response.json();
   if(capture.id!==captureID||capture.status!=="COMPLETED"||
      capture.amount?.currency_code!=="USD"||
-     !/^\\d+(?:\\.\\d{1,2})?$/.test(String(capture.amount?.value||""))||
+     !/^\d+(?:\.\d{1,2})?$/.test(String(capture.amount?.value||""))||
      Number(capture.amount.value).toFixed(2)!==expectedTotal||
      (capture.supplementary_data?.related_ids?.order_id&&
       capture.supplementary_data.related_ids.order_id!==orderID))
     throw new Error("PayPal capture identity or amount does not match the paid order.");
   const fee=capture.seller_receivable_breakdown?.paypal_fee;
   if(fee?.currency_code!=="USD"||
-     !/^\\d+(?:\\.\\d{1,2})?$/.test(String(fee?.value||""))||
+     !/^\d+(?:\.\d{1,2})?$/.test(String(fee?.value||""))||
      Number(fee.value)>Number(expectedTotal))
     return null;
   return Number(fee.value).toFixed(2);
