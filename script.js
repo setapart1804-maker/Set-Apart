@@ -1033,6 +1033,59 @@ function initCheckout() {
     return customer;
   }
 
+  // Confirm the latest product details and available stock before opening PayPal.
+  // Browser-side cart prices are display-only; the backend recalculates the charge.
+  async function refreshCatalogCart() {
+    const cart=getCart();
+    const legacy=["pilgrim","godfirst","teepilgrim","teegodfirst"];
+    const managed=cart.filter(x=>!legacy.includes(x.id));
+    if(!managed.length)return;
+    const response=await fetch(API_BASE+"/api/catalog",{cache:"no-store",mode:"cors",credentials:"omit"});
+    if(!response.ok)throw new Error("Unable to verify product availability. Try again.");
+    const data=await response.json();
+    if(!data.success||!Array.isArray(data.products)||!Array.isArray(data.stock))
+      throw new Error("Product availability verification failed.");
+    const products=new Map(data.products.map(p=>[p.id,p]));
+    const grouped=new Map();
+    for(const item of managed){
+      const product=products.get(item.id);
+      if(!product)throw new Error((item.name||"A product")+" is no longer available.");
+      const color=String(item.color||"").toLowerCase();
+      const size=String(item.size||"").toUpperCase();
+      const qty=Number(item.quantity);
+      if(!product.colors.includes(color)||!product.sizes.includes(size)||
+         !Number.isInteger(qty)||qty<1||qty>20)
+        throw new Error(product.name+" has an unavailable color, size, or quantity.");
+      const key=item.id+"|"+color+"|"+size;
+      grouped.set(key,(grouped.get(key)||0)+qty);
+    }
+    for(const [key,requested] of grouped){
+      const [id,color,size]=key.split("|");
+      const variant=data.stock.find(v=>v.product_id===id&&v.color===color&&v.size===size);
+      const available=Math.max(0,Number(variant?.on_hand)||0);
+      if(requested>available)throw new Error("Not enough stock for "+products.get(id).name+" ("+color+" / "+size+").");
+    }
+    let changed=false;
+    const next=cart.map(item=>{
+      const p=products.get(item.id);
+      if(!p)return item;
+      const price=Number(Number(p.price_usd).toFixed(2));
+      const source=String(p.image_url||"");
+      const image=source.startsWith("/api/catalog/images/")?API_BASE+source:source;
+      if(!Number.isFinite(price)||price<=0)throw new Error("Invalid product price.");
+      if(Number(item.price)!==price||item.name!==p.name||item.image!==image){
+        changed=true;
+        return {...item,price,name:p.name,image};
+      }
+      return item;
+    });
+    if(changed){
+      saveCart(next);
+      renderCheckout();
+      throw new Error("Your product details or prices were updated. Please review the order and click Place Order again.");
+    }
+  }
+
   function paymentItems() {
     if (getCart().some((item) => ["godfirst", "pilgrim", "teegodfirst", "teepilgrim"].includes(item.id))) {
       throw new Error("GOD FIRST and PILGRIM hoodies and T-shirts are SOLD OUT. Please remove them from your bag before checkout.");
@@ -1207,6 +1260,7 @@ function initCheckout() {
 
     const buttons = window.paypal.Buttons({
       createOrder: async () => {
+        await refreshCatalogCart();
         if (!form.checkValidity()) {
           form.reportValidity();
           throw new Error("Complete checkout fields.");
@@ -1322,6 +1376,7 @@ function initCheckout() {
     }
 
     try {
+      await refreshCatalogCart();
       const quote = await refreshShipping();
 
       if (!quote) {
