@@ -3,7 +3,7 @@ const express = require("express");
 module.exports=function adminOperations(app, deps) {
   "use strict";
   const {db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
-    createAdminCsrfToken, verifyAdminCsrfToken, catalog, adminUsername, stockCommerce} = deps;
+    createAdminCsrfToken, verifyAdminCsrfToken, catalog, adminUsername, stockCommerce, getVerifiedPayPalFee} = deps;
   const auth = [adminLimiter, adminBasicAuth, (req,res,next)=>{setAdminSecurityHeaders(res);next();}];
   const clean = v => String(v == null ? "" : v).trim();
   const fail = (res,code,message) => res.status(code).json({success:false,error:message});
@@ -54,6 +54,15 @@ module.exports=function adminOperations(app, deps) {
           resolution_reference TEXT NOT NULL DEFAULT '',
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
           updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
+        // Actual per-variant sourcing costs. These never change storefront pricing or stock.
+        await db(`CREATE TABLE IF NOT EXISTS admin_product_unit_costs (
+          product_id VARCHAR(40) NOT NULL REFERENCES admin_catalog(id) ON DELETE CASCADE,
+          color VARCHAR(45) NOT NULL,
+          size VARCHAR(20) NOT NULL,
+          unit_cost_usd NUMERIC(12,2) NOT NULL CHECK(unit_cost_usd>=0),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          PRIMARY KEY(product_id,color,size)
         )`);
         await db(`CREATE TABLE IF NOT EXISTS admin_order_costs (
           paypal_order_id VARCHAR(100) PRIMARY KEY REFERENCES orders(paypal_order_id),
@@ -215,39 +224,93 @@ module.exports=function adminOperations(app, deps) {
       orders:result.rows.map(o=>({paypal_order_id:o.paypal_order_id,
         created_at:o.created_at,total_usd:o.total_usd}))});
   }));
-  // Read-only verified PayPal fee lookup. No payment capture, refund or database write.
+  // Saved unit costs are suggestions only: all actual order expenses still need confirmation.
+  app.get("/admin/ops/product-unit-costs",...auth,asyncRoute(async(req,res)=>{
+    await ensureSchema();
+    const products=await db("SELECT id,name,colors,sizes FROM admin_catalog ORDER BY name LIMIT 300");
+    const costs=await db("SELECT product_id,color,size,unit_cost_usd FROM admin_product_unit_costs ORDER BY product_id,color,size LIMIT 3000");
+    res.json({success:true,products:products.rows,costs:costs.rows});
+  }));
+  app.post("/admin/ops/product-unit-costs",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.body.product_id).toLowerCase();
+    const color=clean(req.body.color).toLowerCase(),size=clean(req.body.size).toUpperCase();
+    const cost=clean(req.body.unit_cost_usd);
+    if(!/^[a-z0-9-]{2,40}$/.test(id)||!color||color.length>45||!size||size.length>20||
+       !/^\d+(?:\.\d{1,2})?$/.test(cost)||Number(cost)>1000000)
+      return fail(res,400,"Product variant or actual unit cost is invalid.");
+    await ensureSchema();
+    const exists=await db("SELECT id FROM admin_catalog WHERE id=$1 AND $2=ANY(colors) AND $3=ANY(sizes) LIMIT 1",
+      [id,color,size]);
+    if(!exists.rows.length)return fail(res,404,"Product variant not found. Save the product first.");
+    await db(`INSERT INTO admin_product_unit_costs(product_id,color,size,unit_cost_usd)
+      VALUES($1,$2,$3,$4) ON CONFLICT(product_id,color,size)
+      DO UPDATE SET unit_cost_usd=EXCLUDED.unit_cost_usd,updated_at=NOW()`,[id,color,size,cost]);
+    try{await audit("UNIT_COST_SAVED",id,{color,size,unit_cost_usd:cost})}catch(e){console.error("Unit-cost audit:",e)}
+    res.json({success:true,message:"Actual unit cost saved for this variant; storefront price and stock were not changed."});
+  }));
+  // Read-only draft. Never assume shipping charged is shipping spent; do not invent PayPal fees.
+  app.get("/admin/ops/order-cost-draft",...auth,asyncRoute(async(req,res)=>{
+    const id=clean(req.query.order_id);
+    if(!/^[a-zA-Z0-9-]{5,100}$/.test(id))return fail(res,400,"Invalid PayPal order ID.");
+    await ensureSchema();
+    const order=await db(`SELECT id,paypal_order_id,paypal_capture_id,total_usd
+      FROM orders WHERE paypal_order_id=$1 AND payment_status='COMPLETED' LIMIT 1`,[id]);
+    if(!order.rows.length)return fail(res,404,"Paid order not found.");
+    const stored=await db("SELECT production_usd,paypal_fee_usd,packing_usd,delivery_usd,other_usd FROM admin_order_costs WHERE paypal_order_id=$1 LIMIT 1",[id]);
+    const items=await db(`SELECT oi.product_id,oi.product_name,oi.color,oi.size,oi.quantity,c.unit_cost_usd
+      FROM order_items oi LEFT JOIN admin_product_unit_costs c
+        ON c.product_id=oi.product_id AND c.color=LOWER(oi.color) AND c.size=UPPER(oi.size)
+      WHERE oi.order_id=$1 ORDER BY oi.id LIMIT 100`,[order.rows[0].id]);
+    let totalCents=0,complete=items.rows.length>0;
+    const missing=[];
+    for(const item of items.rows){
+      const quantity=Number(item.quantity),unit=Number(item.unit_cost_usd);
+      if(item.unit_cost_usd==null||!Number.isSafeInteger(quantity)||quantity<1||
+         !Number.isFinite(unit)||unit<0){
+        complete=false;
+        missing.push({product_id:item.product_id,color:item.color,size:item.size});
+      }else totalCents+=Math.round(unit*100)*quantity;
+    }
+    const row=order.rows[0];
+    let verifiedFee=null,feeSource="unavailable";
+    if(row.paypal_capture_id&&typeof getVerifiedPayPalFee==="function"){
+      try{
+        const fee=await getVerifiedPayPalFee({
+          orderID:row.paypal_order_id,captureID:row.paypal_capture_id,
+          expectedTotal:Number(row.total_usd).toFixed(2)
+        });
+        if(typeof fee==="string"&&/^\d+(?:\.\d{1,2})?$/.test(fee)){
+          verifiedFee=fee;feeSource="paypal-verified";
+        }
+      }catch(err){console.warn("Admin fee lookup unavailable:",err.message)}
+    }
+    res.json({success:true,order_id:id,
+      saved_costs:stored.rows[0]||null,
+      production_suggestion_usd:complete?(totalCents/100).toFixed(2):null,
+      missing_unit_costs:missing,
+      paypal_fee_suggestion_usd:verifiedFee,
+      paypal_fee_source:feeSource,
+      warning:"Suggestions must be checked before saving. Packaging, actual delivery and other costs require explicit entry. Shipping fees collected are not delivery costs."});
+  }));
+  // A second UI action can retrieve the same verified fee without altering payments.
   app.get("/admin/ops/paypal-fee",...auth,asyncRoute(async(req,res)=>{
     const id=clean(req.query.order_id);
     if(!/^[a-zA-Z0-9-]{5,100}$/.test(id))return fail(res,400,"Invalid PayPal order ID.");
-    const record=await db("SELECT paypal_capture_id FROM orders WHERE paypal_order_id=$1 AND payment_status='COMPLETED' LIMIT 1",[id]);
-    if(!record.rows.length)return fail(res,404,"Paid order not found.");
-    const capture=clean(record.rows[0].paypal_capture_id);
-    if(!/^[A-Za-z0-9]{8,100}$/.test(capture))
-      return res.json({success:true,available:false,reason:"No verified capture ID recorded for this order. Enter the fee from your PayPal statement."});
-    const clientId=process.env.PAYPAL_CLIENT_ID,secret=process.env.PAYPAL_CLIENT_SECRET;
-    if(!clientId||!secret)
-      return res.json({success:true,available:false,reason:"PayPal credentials unavailable. Check your PayPal statement."});
+    const paid=await db("SELECT paypal_capture_id,total_usd FROM orders WHERE paypal_order_id=$1 AND payment_status='COMPLETED' LIMIT 1",[id]);
+    if(!paid.rows.length)return fail(res,404,"Paid order not found.");
+    const capture=clean(paid.rows[0].paypal_capture_id);
+    if(!capture||typeof getVerifiedPayPalFee!=="function")
+      return res.json({success:true,available:false,reason:"Capture ID or PayPal lookup unavailable. Check your statement."});
     try{
-      const authHeader="Basic "+Buffer.from(clientId+":"+secret).toString("base64");
-      const tokenResponse=await fetch("https://api-m.paypal.com/v1/oauth2/token",{
-        method:"POST",headers:{Authorization:authHeader,"Content-Type":"application/x-www-form-urlencoded"},
-        body:"grant_type=client_credentials",signal:AbortSignal.timeout(8000)});
-      if(!tokenResponse.ok)throw Error("PayPal token unavailable");
-      const token=await tokenResponse.json();
-      if(!token.access_token)throw Error("PayPal access token missing");
-      const feeResponse=await fetch("https://api-m.paypal.com/v2/payments/captures/"+encodeURIComponent(capture),{
-        headers:{Authorization:"Bearer "+token.access_token},signal:AbortSignal.timeout(8000)});
-      if(!feeResponse.ok)throw Error("PayPal capture lookup unavailable");
-      const data=await feeResponse.json();
-      const fee=data.seller_receivable_breakdown?.paypal_fee;
-      if(data.id!==capture||data.status!=="COMPLETED"||fee?.currency_code!=="USD"||
-         !/^\d+(\.\d{1,2})?$/.test(String(fee.value||"")))
-        return res.json({success:true,available:false,reason:"No confirmed USD PayPal fee found. Check your PayPal statement."});
-      res.json({success:true,available:true,fee_usd:Number(fee.value).toFixed(2),
-        source:"PayPal verified capture",capture_id:capture});
-    }catch(e){
-      console.warn("PayPal fee read-only lookup unavailable:",e.message);
-      res.json({success:true,available:false,reason:"Could not verify PayPal fee now. Check your PayPal statement."});
+      const verified=await getVerifiedPayPalFee({orderID:id,captureID:capture,
+        expectedTotal:Number(paid.rows[0].total_usd).toFixed(2)});
+      if(verified===null)
+        return res.json({success:true,available:false,reason:"Confirmed USD PayPal fee not available yet. Check your statement."});
+      res.json({success:true,available:true,fee_usd:verified,source:"PayPal verified capture"});
+    }catch(err){
+      console.warn("Verified PayPal fee unavailable:",err.message);
+      res.json({success:true,available:false,reason:"PayPal fee could not be verified. Check your statement."});
     }
   }));
   // Manual cost entries are independent of PayPal, order status and stock.
