@@ -236,7 +236,7 @@ module.exports=function adminOperations(app, deps) {
     }));
   app.get("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
     await ensureSchema();
-    const a=await db(`SELECT * FROM admin_catalog ORDER BY name`);
+    const a=await db(`SELECT p.*, CASE WHEN i.product_id IS NOT NULL THEN '/api/catalog/images/'||p.id ELSE p.image_url END AS published_image_url FROM admin_catalog p LEFT JOIN admin_catalog_images i ON i.product_id=p.id ORDER BY p.name`);
     const b=await db(`SELECT * FROM admin_stock ORDER BY product_id,color,size`);
     res.json({success:true,products:a.rows,stock:b.rows,
       warning:"Published products are now included in the live storefront catalog. PayPal checkout integration remains separate."});
