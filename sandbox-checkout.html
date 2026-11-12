@@ -32,7 +32,7 @@ hr{border:0;border-top:1px solid #ccc;margin:18px 0}
 #order-number{font-size:22px;font-weight:800;overflow-wrap:anywhere;letter-spacing:.03em}
 .status{font-size:13px;min-height:20px;margin-top:12px;overflow-wrap:anywhere}
 .muted{color:#555;font-size:12px}
-#paypal-section{display:none}
+#paypal-section{display:block}
 #paypal-section.show{display:block}
 code{background:#eee;padding:2px 4px}
 footer{font-size:12px;text-align:center;padding:10px}
@@ -137,7 +137,11 @@ footer{font-size:12px;text-align:center;padding:10px}
       const r=await fetch("/sandbox/config");
       if(!r.ok)return;
       const cfg=await r.json();
-      if(cfg.environment!=="sandbox"||cfg.mode!=="paypal-sandbox"||!cfg.clientId)return;
+      if(cfg.environment!=="sandbox"||cfg.mode!=="paypal-sandbox"||!cfg.clientId){
+        $("paypal-status").textContent="PayPal Sandbox not configured yet. The fake order simulation still works, but this is not a PayPal payment.";
+        return;
+      }
+      $("paypal-status").textContent="PayPal Sandbox is configured. Use ONLY a PayPal Sandbox Personal buyer account.";
       $("paypal-section").classList.add("show");
       const script=document.createElement("script");
       script.src="https://www.paypal.com/sdk/js?client-id="+encodeURIComponent(cfg.clientId)+"&currency=USD&intent=capture";
@@ -159,7 +163,7 @@ footer{font-size:12px;text-align:center;padding:10px}
       };
       script.onerror=function(){$("paypal-status").textContent="PayPal SDK not available."};
       document.head.appendChild(script);
-    }catch(_e){}
+    }catch(e){$("paypal-status").textContent="Unable to check PayPal Sandbox availability. Try refreshing the page.";console.warn("Sandbox config unavailable",e)}
   })();
 })();
 </script>
