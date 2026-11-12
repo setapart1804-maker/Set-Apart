@@ -959,6 +959,12 @@ validatedItems
 }
 
 
+/* Admin-managed products use server-authoritative prices and stock holds. */
+const catalogCommerce=require("./catalog-commerce")({
+  pool,db,calculateShipping,
+  ensureCatalogSchema:()=>adminOperations.ensureSchema()
+});
+
 /* =========================================================
 PAYPAL HELPERS
 ========================================================= */
@@ -1789,136 +1795,34 @@ item.unit_price_usd
 }
 
 
-async function markOrderPaid({
-
-paypalOrderID,
-captureID
-
-}) {
-
-const result =
-await db(
-
-`
-UPDATE orders
-
-SET
-
-paypal_capture_id = $1,
-
-payment_status = 'COMPLETED',
-
-order_status = 'PAID',
-
-updated_at = NOW()
-
-WHERE paypal_order_id = $2
-
-AND payment_status <> 'COMPLETED'
-
-RETURNING *
-`,
-
-[
-captureID,
-paypalOrderID
-]
-
-);
-
-
-if (
-result.rows.length > 0
-) {
-
-return {
-
-order:
-result.rows[0],
-
-newlyPaid:
-true
-
-};
-
+/* Record payment and deduct reserved stock atomically and idempotently. */
+async function markOrderPaid({paypalOrderID,captureID}){
+  await catalogCommerce.ensure();
+  if(!pool)throw new Error("Order database is unavailable.");
+  const client=await pool.connect();
+  try{
+    await client.query("BEGIN");
+    const result=await client.query(
+      "SELECT * FROM orders WHERE paypal_order_id=$1 FOR UPDATE",[paypalOrderID]);
+    if(!result.rows.length)throw new Error("Order could not be found in database.");
+    const current=result.rows[0];
+    if(current.payment_status==="COMPLETED"){
+      if(current.paypal_capture_id && current.paypal_capture_id!==captureID)
+        throw new Error("PayPal capture ID does not match the capture already stored for this order.");
+      await client.query("COMMIT");
+      return {order:current,newlyPaid:false};
+    }
+    await catalogCommerce.finalize(client,paypalOrderID);
+    const changed=await client.query(
+      "UPDATE orders SET paypal_capture_id=$1,payment_status='COMPLETED',order_status='PAID',updated_at=NOW() WHERE id=$2 RETURNING *",
+      [captureID,current.id]);
+    await client.query("COMMIT");
+    return {order:changed.rows[0],newlyPaid:true};
+  }catch(e){
+    try{await client.query("ROLLBACK")}catch(rollbackError){console.error("Payment rollback:",rollbackError)}
+    throw e;
+  }finally{client.release()}
 }
-
-
-const existingResult =
-await db(
-
-`
-SELECT *
-
-FROM orders
-
-WHERE paypal_order_id = $1
-
-LIMIT 1
-`,
-
-[
-paypalOrderID
-]
-
-);
-
-
-if (
-existingResult.rows.length === 0
-) {
-
-throw new Error(
-"Order could not be found in database."
-);
-
-}
-
-
-const existingOrder =
-existingResult.rows[0];
-
-
-if (
-existingOrder.payment_status ===
-"COMPLETED"
-) {
-
-if (
-
-existingOrder.paypal_capture_id &&
-
-existingOrder.paypal_capture_id !==
-captureID
-
-) {
-
-throw new Error(
-"PayPal capture ID does not match the capture already stored for this order."
-);
-
-}
-
-
-return {
-
-order:
-existingOrder,
-
-newlyPaid:
-false
-
-};
-
-}
-
-
-throw new Error(
-"Order could not be marked as paid."
-);
-
-}
-
 
 async function markOrderShipped({
 
@@ -3655,6 +3559,7 @@ req,
 res
 ) {
 
+let catalogHold=null;
 try {
 
 const {
@@ -3673,14 +3578,8 @@ customer
 );
 
 
-const order =
-calculateOrder(
-
-items,
-
-validatedCustomer
-
-);
+const order = await catalogCommerce.prepare(items,validatedCustomer);
+catalogHold=await catalogCommerce.reserve(order);
 
 
 const accessToken =
@@ -3786,6 +3685,8 @@ data
 );
 
 
+if(catalogHold){await catalogCommerce.release(catalogHold);catalogHold=null;}
+
 return res
 
 .status(
@@ -3819,6 +3720,9 @@ order
 
 });
 
+await catalogCommerce.bind(catalogHold,data.id);
+catalogHold=null;
+
 
 return res.json({
 
@@ -3850,11 +3754,12 @@ console.error(
 error
 
 );
+if(catalogHold){try{await catalogCommerce.release(catalogHold)}catch(e){console.error("Catalog hold release failed:",e)}}
 
 
 return res
 
-.status(400)
+.status(error.status||400)
 
 .json({
 
@@ -4062,6 +3967,9 @@ paypalOrderBeforeCapture
 
 
 if (!capture) {
+
+// Check that pending inventory can still be committed before taking payment.
+await catalogCommerce.ensureEligible(orderID);
 
 const captureResponse =
 await fetch(
@@ -4470,15 +4378,14 @@ error
 
 return res
 
-.status(500)
+.status(error.status===409?409:500)
 
 .json({
 
 success:
 false,
 
-error:
-"Payment capture failed."
+error:error.status===409?error.message:"Payment capture failed. Contact support if already charged."
 
 });
 
