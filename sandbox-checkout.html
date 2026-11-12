@@ -46,7 +46,7 @@ footer{font-size:12px;text-align:center;padding:10px}
 </header>
 <main>
   <div class="warning"><b>TEST ENVIRONMENT / ANVIWÒNMAN TÈS</b><br>
-    This is a simulation, not a real store checkout. <b>No payment is made.</b> No customer is charged, no email is sent, no real order is saved, and no stock is changed.
+    The fake-order button runs a simulation. <b>No real payment is made.</b> No production order is saved, no customer email is sent, and no stock is changed. Optional PayPal Sandbox uses only fake test money.
     <br>Sa se yon demonstrasyon sèlman. Pa gen okenn peman reyèl ni kòmand kliyan.
   </div>
   <div class="layout">
@@ -72,7 +72,7 @@ footer{font-size:12px;text-align:center;padding:10px}
       <div class="price"><span>Shipping (demo)</span><b>$0.00</b></div>
       <hr>
       <div class="price"><strong>Total, fictitious</strong><strong>USD $1.00</strong></div>
-      <p class="muted">Amount is fictional. The test record is saved only in Admin → TEST ORDERS, not in the real customer orders table. Live checkout, shipping fee rules, and customer emails are not tested.</p>
+      <p class="muted">Amount is fictional. The simulated order is saved only in this browser. It is never written to the production database. Live shipping fees, email delivery and production checkout are not tested.</p>
       <div id="paypal-section">
         <hr>
         <div class="label">Optional PayPal Sandbox</div>
@@ -92,7 +92,7 @@ footer{font-size:12px;text-align:center;padding:10px}
     <div class="price"><span>Product</span><b id="result-product"></b></div>
     <div class="price"><span>Color / Size</span><b id="result-variant"></b></div>
     <div class="price"><span>Payment status</span><b>NOT CHARGED</b></div>
-    <p class="muted">The test record is stored separately in Admin → TEST ORDERS. It is never counted as a real sale or a paid customer order.</p><p><a href="https://set-apart.onrender.com/admin" target="_blank" rel="noopener noreferrer" style="color:#111;font-weight:700;text-decoration:underline">VIEW TEST ORDERS IN ADMIN →</a></p>
+    <p class="muted">The fake order is kept in this browser only. It is not counted as a sale, payment or production order.</p><p class="muted">This is an isolated demonstration, not the private production Dashboard.</p>
   </section>
 </main>
 <footer>SET APART-ht · CALLED TO LIVE DIFFERENTLY · SANDBOX ONLY</footer>
