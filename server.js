@@ -7617,7 +7617,7 @@ NO FAILED EMAILS.
 `;
 
 
-return adminStudio.render(data, notice, {orderCards, failedEmailsHtml});
+return adminStudio.render(data, notice, {orderCards, failedEmailsHtml, opsToken: createAdminCsrfToken("admin-ops","mutation")});
 
 /* Previous renderer retained for safe fallback during migration. */
 return `
@@ -8834,6 +8834,12 @@ app.post("/admin/logout",adminLimiter,adminBasicAuth,(req,res)=>{
 
 /* New unified private dashboard, using existing order forms and CSRF security. */
 const adminStudio = require("./admin-studio");
+const adminOperations = require("./admin-operations")(app, {
+  db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
+  createAdminCsrfToken, verifyAdminCsrfToken, catalog: PRODUCTS,
+  adminUsername: ADMIN_USERNAME
+});
+
 app.get("/admin/workspace.js", adminLimiter, adminBasicAuth, (req,res) => {
   setAdminSecurityHeaders(res);
   res.type("application/javascript").send(adminStudio.clientJS);
@@ -9015,17 +9021,7 @@ failureID
 );
 
 
-return res.redirect(
-
-    303,
-
-    `/admin?notice=${encodeURIComponent(
-        notice
-    )}#order-${encodeURIComponent(
-        orderID
-    )}`
-
-);
+return res.redirect(303, "/admin?notice="+encodeURIComponent("Email retry processed.")+"#emails");
 
 }
 
@@ -9632,15 +9628,9 @@ shippingEmailResult.success
 }
 
 
-return res.redirect(
-
-303,
-
-`/admin?notice=${encodeURIComponent(
-notice
-)}`
-
-);
+try { await adminOperations.audit("ORDER_"+action.toUpperCase(),orderID,{notice}); }
+catch (auditError) { console.error("Admin audit write failed:",auditError); }
+return res.redirect(303, "/admin?notice="+encodeURIComponent(notice)+"#orders");
 
 }
 
