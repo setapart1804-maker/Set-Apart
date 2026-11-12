@@ -68,6 +68,26 @@ module.exports=function adminOperations(app, deps) {
             VALUES($1,$2,$3,$4,$5) ON CONFLICT(id) DO NOTHING`,
             [id,p.name,p.price,p.colors,p.sizes]);
         }
+        // The storefront also has these two T-shirts in script.js.
+        // Seed them in the admin catalog without changing the checkout product
+        // whitelist or overwriting products already edited in the dashboard.
+        const existingStorefrontTShirts = [
+          {
+            id:"teepilgrim",name:"PILGRIM T-SHIRT",price:24.99,
+            colors:["beige","brown","black","white"],sizes:["S","M","L","XL"],
+            image_url:"https://setapart-ht.com/t-shirt%20pilgrim%20brown%20front.png"
+          },
+          {
+            id:"teegodfirst",name:"GOD FIRST T-SHIRT",price:24.99,
+            colors:["beige","brown","black","white"],sizes:["S","M","L","XL"],
+            image_url:"https://setapart-ht.com/t-shirt%20god%20first%20white%20front.png"
+          }
+        ];
+        for(const p of existingStorefrontTShirts){
+          await db(`INSERT INTO admin_catalog(id,name,price_usd,colors,sizes,image_url,active)
+            VALUES($1,$2,$3,$4,$5,$6,TRUE) ON CONFLICT(id) DO NOTHING`,
+            [p.id,p.name,p.price,p.colors,p.sizes,p.image_url]);
+        }
       })().catch(e=>{schemaPromise=null;throw e});
     }
     return schemaPromise;
