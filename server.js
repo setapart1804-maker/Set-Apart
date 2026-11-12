@@ -8741,13 +8741,40 @@ app.post("/admin/logout",adminLimiter,adminBasicAuth,(req,res)=>{
  return res.type("html").send('<!doctype html><html lang="ht"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dekonekte</title><body><h1>Sesyon an fèmen</h1><p>Cookie sesyon administrasyon an efase. Si navigatè a te konekte avèk HTTP Basic, li ka toujou kenbe otorizasyon sa a. Fèmen navigatè a pou efase aksè sa a.</p></body></html>');
 });
 
+// Admin-only read of the fee reported by PayPal for an already captured SET APART payment.
+// Never estimate or modify a payment. No credentials or capture payload reach the browser.
+async function getVerifiedPayPalFee({orderID,captureID,expectedTotal}){
+  const token=await generateAccessToken();
+  const response=await fetch(
+    `${PAYPAL_BASE_URL}/v2/payments/captures/${encodeURIComponent(captureID)}`,
+    {method:"GET",headers:{Authorization:`Bearer ${token}`,Accept:"application/json"},
+      signal:AbortSignal.timeout(10000)}
+  );
+  if(!response.ok)throw new Error("PayPal fee could not be retrieved.");
+  const capture=await response.json();
+  if(capture.id!==captureID||capture.status!=="COMPLETED"||
+     capture.amount?.currency_code!=="USD"||
+     !/^\\d+(?:\\.\\d{1,2})?$/.test(String(capture.amount?.value||""))||
+     Number(capture.amount.value).toFixed(2)!==expectedTotal||
+     (capture.supplementary_data?.related_ids?.order_id&&
+      capture.supplementary_data.related_ids.order_id!==orderID))
+    throw new Error("PayPal capture identity or amount does not match the paid order.");
+  const fee=capture.seller_receivable_breakdown?.paypal_fee;
+  if(fee?.currency_code!=="USD"||
+     !/^\\d+(?:\\.\\d{1,2})?$/.test(String(fee?.value||""))||
+     Number(fee.value)>Number(expectedTotal))
+    return null;
+  return Number(fee.value).toFixed(2);
+}
+
 /* New unified private dashboard, using existing order forms and CSRF security. */
 const adminStudio = require("./admin-studio");
 const adminOperations = require("./admin-operations")(app, {
   db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
   createAdminCsrfToken, verifyAdminCsrfToken, catalog: PRODUCTS,
   stockCommerce: catalogCommerce,
-  adminUsername: ADMIN_USERNAME
+  adminUsername: ADMIN_USERNAME,
+  getVerifiedPayPalFee
 });
 
 app.get("/admin/ops-ui.js", adminLimiter, adminBasicAuth, (req,res) => {
