@@ -138,4 +138,7 @@ app.post("/sandbox/capture/:id",demoLimiter,async(req,res)=>{
 });
 app.get("/sandbox-checkout.html",(_req,res)=>res.sendFile(require("path").join(__dirname,"sandbox-checkout.html")));
 app.get("/sandbox-admin.html",(_req,res)=>res.sendFile(require("path").join(__dirname,"sandbox-admin.html")));
-app.listen(PORT,()=>console.log("SET APART sandbox only: http://localhost:"+PORT+"/sandbox-checkout.html"));
+app.listen(PORT,()=>{
+ console.log("SET APART sandbox only: http://localhost:"+PORT+"/sandbox-checkout.html");
+ console.log("PayPal Sandbox readiness: "+(PAYPAL_READY?"configured":"missing test credentials"));
+});
