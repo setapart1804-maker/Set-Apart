@@ -215,6 +215,41 @@ module.exports=function adminOperations(app, deps) {
       orders:result.rows.map(o=>({paypal_order_id:o.paypal_order_id,
         created_at:o.created_at,total_usd:o.total_usd}))});
   }));
+  // Read-only verified PayPal fee lookup. No payment capture, refund or database write.
+  app.get("/admin/ops/paypal-fee",...auth,asyncRoute(async(req,res)=>{
+    const id=clean(req.query.order_id);
+    if(!/^[a-zA-Z0-9-]{5,100}$/.test(id))return fail(res,400,"Invalid PayPal order ID.");
+    const record=await db("SELECT paypal_capture_id FROM orders WHERE paypal_order_id=$1 AND payment_status='COMPLETED' LIMIT 1",[id]);
+    if(!record.rows.length)return fail(res,404,"Paid order not found.");
+    const capture=clean(record.rows[0].paypal_capture_id);
+    if(!/^[A-Za-z0-9]{8,100}$/.test(capture))
+      return res.json({success:true,available:false,reason:"No verified capture ID recorded for this order. Enter the fee from your PayPal statement."});
+    const clientId=process.env.PAYPAL_CLIENT_ID,secret=process.env.PAYPAL_CLIENT_SECRET;
+    if(!clientId||!secret)
+      return res.json({success:true,available:false,reason:"PayPal credentials unavailable. Check your PayPal statement."});
+    try{
+      const authHeader="Basic "+Buffer.from(clientId+":"+secret).toString("base64");
+      const tokenResponse=await fetch("https://api-m.paypal.com/v1/oauth2/token",{
+        method:"POST",headers:{Authorization:authHeader,"Content-Type":"application/x-www-form-urlencoded"},
+        body:"grant_type=client_credentials",signal:AbortSignal.timeout(8000)});
+      if(!tokenResponse.ok)throw Error("PayPal token unavailable");
+      const token=await tokenResponse.json();
+      if(!token.access_token)throw Error("PayPal access token missing");
+      const feeResponse=await fetch("https://api-m.paypal.com/v2/payments/captures/"+encodeURIComponent(capture),{
+        headers:{Authorization:"Bearer "+token.access_token},signal:AbortSignal.timeout(8000)});
+      if(!feeResponse.ok)throw Error("PayPal capture lookup unavailable");
+      const data=await feeResponse.json();
+      const fee=data.seller_receivable_breakdown?.paypal_fee;
+      if(data.id!==capture||data.status!=="COMPLETED"||fee?.currency_code!=="USD"||
+         !/^\\d+(\\.\\d{1,2})?$/.test(String(fee.value||"")))
+        return res.json({success:true,available:false,reason:"No confirmed USD PayPal fee found. Check your PayPal statement."});
+      res.json({success:true,available:true,fee_usd:Number(fee.value).toFixed(2),
+        source:"PayPal verified capture",capture_id:capture});
+    }catch(e){
+      console.warn("PayPal fee read-only lookup unavailable:",e.message);
+      res.json({success:true,available:false,reason:"Could not verify PayPal fee now. Check your PayPal statement."});
+    }
+  }));
   // Manual cost entries are independent of PayPal, order status and stock.
   app.post("/admin/ops/order-costs",...auth,asyncRoute(async(req,res)=>{
     if(!requireMutation(req,res))return;
