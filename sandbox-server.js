@@ -3,7 +3,7 @@
 "use strict";
 const express = require("express");
 const app = express();
-const TESTING_PAUSED = true;
+const TESTING_PAUSED = false;
 // Explicitly pause the old demo endpoint without touching production checkout.
 app.use(function (req,res,next) {
   if (!TESTING_PAUSED) return next();
@@ -67,35 +67,25 @@ app.get("/sandbox/config",(_req,res)=>res.json({
   currency:"USD", environment:"sandbox",
   mode:PAYPAL_READY ? "paypal-sandbox" : "simulation-only"
 }));
-app.post("/sandbox/demo",demoLimiter, async (req,res)=>{
-  const color=String(req.body?.color||"Brown");
-  const size=String(req.body?.size||"M");
-  if (!["Brown","Black","White"].includes(color)||!["S","M","L","XL"].includes(size)) {
-    return res.status(400).json({error:"Invalid sample variant"});
-  }
-  if (!SYNC_SECRET || SYNC_SECRET.length<32) {
-    return res.status(503).json({error:"Test order sync is not configured"});
-  }
-  const id="SA-TEST-"+require("crypto").randomBytes(5).toString("hex").toUpperCase();
-  try {
-    const saved=await fetch("https://set-apart.onrender.com/internal/sandbox/test-orders",{
-      method:"POST",
-      headers:{"Content-Type":"application/json","x-sandbox-sync-key":SYNC_SECRET},
-      body:JSON.stringify({id,color,size}),
-      signal:AbortSignal.timeout(12000)
-    });
-    if(!saved.ok)throw Error("Admin sync returned "+saved.status);
-    const result=await saved.json();
-    if(result.success!==true || result.testOrderID!==id)throw Error("Admin sync not confirmed");
-    return res.json({id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
-      amount:"1.00",currency:"USD",persisted:true,paymentCaptured:false});
-  }catch(error){
-    console.error("Sandbox order was not synced:",error.message);
-    return res.status(502).json({error:"Could not save the test order in Admin; retry later."});
-  }
+// Strictly isolated fake checkout: no production network request, database writes,
+ // PayPal capture, stock adjustment or customer email.
+app.post("/sandbox/demo",demoLimiter,(req,res)=>{
+ const color=String(req.body?.color||"Brown");
+ const size=String(req.body?.size||"M");
+ if(!["Brown","Black","White"].includes(color)||!["S","M","L","XL"].includes(size))
+   return res.status(400).json({error:"Invalid sample variant"});
+ const id="SA-TEST-"+require("crypto").randomBytes(5).toString("hex").toUpperCase();
+ res.set("Cache-Control","no-store").json({
+   id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
+   amount:"1.00",currency:"USD",persisted:false,paymentCaptured:false
+ });
 });
+app.get("/sandbox/health",(_req,res)=>res.json({
+ success:true,environment:"sandbox",simulation:"available",productionWrites:false,
+ paypalSandboxCredentialsConfigured:PAYPAL_READY
+}));
 app.get("/",(_req,res)=>res.redirect("/sandbox-checkout.html"));
-app.post("/sandbox/create",async(_req,res)=>{
+app.post("/sandbox/create",demoLimiter,async(_req,res)=>{
   if (!PAYPAL_READY) return res.status(503).json({error:"PayPal sandbox credentials not yet configured"});
   try {
     const token=await accessToken();
@@ -110,7 +100,7 @@ app.post("/sandbox/create",async(_req,res)=>{
     res.json({id:data.id,environment:"sandbox"});
   } catch(e){res.status(502).json({error:e.message});}
 });
-app.post("/sandbox/capture/:id",async(req,res)=>{
+app.post("/sandbox/capture/:id",demoLimiter,async(req,res)=>{
   if (!PAYPAL_READY) return res.status(503).json({error:"PayPal sandbox credentials not yet configured"});
   try {
     const id=String(req.params.id||"");
