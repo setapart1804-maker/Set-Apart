@@ -198,7 +198,7 @@ module.exports=function adminOperations(app, deps) {
   /* Public storefront reads only published catalog records and available stock.
      Administrative endpoints and credentials never appear here. */
   app.get("/api/catalog",asyncRoute(async(req,res)=>{
-    await ensureSchema();
+    await stockCommerce.ensure();
     const rows=await db(`SELECT p.id,p.name,p.price_usd,p.colors,p.sizes,
       CASE WHEN i.product_id IS NOT NULL THEN '/api/catalog/images/'||p.id
            ELSE p.image_url END AS image_url,
@@ -208,7 +208,12 @@ module.exports=function adminOperations(app, deps) {
       LEFT JOIN admin_catalog_images i ON i.product_id=p.id
       WHERE p.active=TRUE
       ORDER BY p.updated_at DESC,p.name LIMIT 300`);
-    const inventory=await db(`SELECT s.product_id,s.color,s.size,s.on_hand
+    const inventory=await db(`SELECT s.product_id,s.color,s.size,
+      GREATEST(0,s.on_hand-COALESCE((
+        SELECT SUM(h.quantity) FROM admin_catalog_checkout_holds h
+        WHERE h.product_id=s.product_id AND h.color=s.color AND h.size=s.size
+          AND h.state='HELD' AND h.expires_at>NOW()
+      ),0))::int AS on_hand
       FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
       WHERE p.active=TRUE ORDER BY s.product_id,s.color,s.size LIMIT 4000`);
     res.json({success:true,products:rows.rows.map(p=>({
