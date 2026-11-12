@@ -127,11 +127,23 @@ module.exports=function adminOperations(app, deps) {
   };
   app.get("/admin/ops/alerts",...auth,asyncRoute(async(req,res)=>{
     const r=await db(`SELECT paypal_order_id,first_name,last_name,created_at,total_usd,
-      order_status FROM orders WHERE payment_status='COMPLETED' AND order_status='PAID'
+      order_status FROM orders WHERE payment_status='COMPLETED'
+      AND order_status IN ('PAID','PROCESSING','READY_FOR_PICKUP')
       ORDER BY created_at DESC LIMIT 12`);
-    const count=await db(`SELECT COUNT(*)::int AS total FROM orders
-      WHERE payment_status='COMPLETED' AND order_status='PAID'`);
-    res.json({success:true,total:count.rows[0]?.total||0,orders:r.rows});
+    const count=await db(`SELECT order_status,COUNT(*)::int AS total FROM orders
+      WHERE payment_status='COMPLETED'
+      AND order_status IN ('PAID','PROCESSING','READY_FOR_PICKUP')
+      GROUP BY order_status`);
+    await ensureSchema();
+    const low=await db(`SELECT p.name,s.product_id,s.color,s.size,s.on_hand
+      FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
+      WHERE p.active=TRUE AND s.on_hand<=3
+      ORDER BY s.on_hand,p.name,s.color,s.size LIMIT 30`);
+    const counts={PAID:0,PROCESSING:0,READY_FOR_PICKUP:0};
+    for(const row of count.rows)if(Object.prototype.hasOwnProperty.call(counts,row.order_status))
+      counts[row.order_status]=Number(row.total)||0;
+    res.json({success:true,total:Object.values(counts).reduce((a,b)=>a+b,0),
+      counts,orders:r.rows,low_stock:low.rows});
   }));
   app.get("/admin/ops/analytics",...auth,asyncRoute(async(req,res)=>{
     const p=range(req,res);if(!p)return;
