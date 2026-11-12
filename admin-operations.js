@@ -3,7 +3,7 @@ const express = require("express");
 module.exports=function adminOperations(app, deps) {
   "use strict";
   const {db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
-    createAdminCsrfToken, verifyAdminCsrfToken, catalog, adminUsername} = deps;
+    createAdminCsrfToken, verifyAdminCsrfToken, catalog, adminUsername, stockCommerce} = deps;
   const auth = [adminLimiter, adminBasicAuth, (req,res,next)=>{setAdminSecurityHeaders(res);next();}];
   const clean = v => String(v == null ? "" : v).trim();
   const fail = (res,code,message) => res.status(code).json({success:false,error:message});
@@ -294,10 +294,12 @@ module.exports=function adminOperations(app, deps) {
     const product=await db(`SELECT id FROM admin_catalog WHERE id=$1 AND $2=ANY(colors) AND $3=ANY(sizes)`,
       [id,color,size]);
     if(!product.rows.length)return fail(res,404,"Pwodwi oswa variant lan pa egziste.");
-    await db(`INSERT INTO admin_stock(product_id,color,size,on_hand,updated_at)
-      VALUES($1,$2,$3,$4,NOW())
-      ON CONFLICT(product_id,color,size) DO UPDATE SET on_hand=EXCLUDED.on_hand,updated_at=NOW()`,
-      [id,color,size,amount]);
+    try{
+      await stockCommerce.setStock({id,color,size,amount});
+    }catch(error){
+      if(error.status===409)return fail(res,409,error.message);
+      throw error;
+    }
     try{await audit("STOCK_SET",id,{color,size,on_hand:amount})}catch(e){console.error("Audit stock failed:",e)}
     res.json({success:true,warning:"Stock sa a pa bloke checkout otomatikman."});
   }));
