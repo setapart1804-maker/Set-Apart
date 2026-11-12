@@ -1,4 +1,5 @@
 "use strict";
+const express = require("express");
 module.exports=function adminOperations(app, deps) {
   "use strict";
   const {db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
@@ -27,6 +28,12 @@ module.exports=function adminOperations(app, deps) {
           sizes TEXT[] NOT NULL DEFAULT '{}',
           image_url TEXT NOT NULL DEFAULT '',
           active BOOLEAN NOT NULL DEFAULT TRUE,
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
+        await db(`CREATE TABLE IF NOT EXISTS admin_catalog_images (
+          product_id VARCHAR(40) PRIMARY KEY REFERENCES admin_catalog(id) ON DELETE CASCADE,
+          content_type VARCHAR(24) NOT NULL,
+          image_bytes BYTEA NOT NULL,
           updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )`);
         await db(`CREATE TABLE IF NOT EXISTS admin_stock (
@@ -168,12 +175,71 @@ module.exports=function adminOperations(app, deps) {
     res.set("Content-Disposition",`attachment; filename="setapart-orders-${p.from}-${p.to}.csv"`);
     res.send("\uFEFF"+lines.join("\r\n")+"\r\n");
   }));
+  /* Public storefront reads only published catalog records and available stock.
+     Administrative endpoints and credentials never appear here. */
+  app.get("/api/catalog",asyncRoute(async(req,res)=>{
+    await ensureSchema();
+    const rows=await db(`SELECT p.id,p.name,p.price_usd,p.colors,p.sizes,
+      CASE WHEN i.product_id IS NOT NULL THEN '/api/catalog/images/'||p.id
+           ELSE p.image_url END AS image_url,
+      p.updated_at,
+      EXISTS(SELECT 1 FROM admin_catalog_images x WHERE x.product_id=p.id) AS has_uploaded_image
+      FROM admin_catalog p
+      LEFT JOIN admin_catalog_images i ON i.product_id=p.id
+      WHERE p.active=TRUE
+      ORDER BY p.updated_at DESC,p.name LIMIT 300`);
+    const inventory=await db(`SELECT s.product_id,s.color,s.size,s.on_hand
+      FROM admin_stock s JOIN admin_catalog p ON p.id=s.product_id
+      WHERE p.active=TRUE ORDER BY s.product_id,s.color,s.size LIMIT 4000`);
+    res.json({success:true,products:rows.rows.map(p=>({
+      id:p.id,name:p.name,price_usd:Number(p.price_usd),
+      colors:p.colors,sizes:p.sizes,image_url:p.image_url,
+      updated_at:p.updated_at
+    })),stock:inventory.rows});
+  }));
+  app.get("/api/catalog/images/:id",asyncRoute(async(req,res)=>{
+    const id=clean(req.params.id);
+    if(!/^[a-z0-9-]{2,40}$/.test(id))return res.status(404).end();
+    await ensureSchema();
+    const r=await db(`SELECT i.content_type,i.image_bytes
+      FROM admin_catalog_images i JOIN admin_catalog p ON p.id=i.product_id
+      WHERE p.active=TRUE AND p.id=$1 LIMIT 1`,[id]);
+    if(!r.rows.length)return res.status(404).end();
+    res.set("Content-Type",r.rows[0].content_type);
+    res.set("Content-Disposition","inline");
+    res.set("X-Content-Type-Options","nosniff");
+    return res.send(r.rows[0].image_bytes);
+  }));
+  app.post("/admin/ops/products/:id/image",
+    ...auth,express.raw({type:["image/png","image/jpeg","image/webp"],limit:"2mb"}),
+    asyncRoute(async(req,res)=>{
+      if(!verifyAdminCsrfToken("admin-ops","mutation",clean(req.headers["x-admin-csrf"])))
+        return fail(res,403,"Invalid admin security token.");
+      const id=clean(req.params.id).toLowerCase();
+      const body=req.body;
+      const ct=clean(req.headers["content-type"]).split(";")[0];
+      if(!/^[a-z0-9-]{2,40}$/.test(id)||!Buffer.isBuffer(body)||body.length<100||body.length>2097152)
+        return fail(res,400,"Invalid product photo or size (maximum 2 MB).");
+      const valid=(ct==="image/png"&&body.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])))||
+       (ct==="image/jpeg"&&body[0]===255&&body[1]===216&&body[2]===255)||
+       (ct==="image/webp"&&body.toString("ascii",0,4)==="RIFF"&&body.toString("ascii",8,12)==="WEBP");
+      if(!valid)return fail(res,400,"Only valid PNG, JPEG and WebP images are supported.");
+      await ensureSchema();
+      const product=await db("SELECT id FROM admin_catalog WHERE id=$1",[id]);
+      if(!product.rows.length)return fail(res,404,"Save the product before uploading its photo.");
+      await db(`INSERT INTO admin_catalog_images(product_id,content_type,image_bytes)
+        VALUES($1,$2,$3) ON CONFLICT(product_id)
+        DO UPDATE SET content_type=EXCLUDED.content_type,image_bytes=EXCLUDED.image_bytes,
+                      updated_at=NOW()`,[id,ct,body]);
+      try{await audit("CATALOG_IMAGE",id,{type:ct,bytes:body.length})}catch(e){console.error("Photo audit:",e)}
+      res.json({success:true,image_url:"/api/catalog/images/"+id});
+    }));
   app.get("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
     await ensureSchema();
     const a=await db(`SELECT * FROM admin_catalog ORDER BY name`);
     const b=await db(`SELECT * FROM admin_stock ORDER BY product_id,color,size`);
     res.json({success:true,products:a.rows,stock:b.rows,
-      warning:"Katalog ak stock sa a pou administrasyon. Sit kliyan an toujou gen katalog statik li."});
+      warning:"Published products are now included in the live storefront catalog. PayPal checkout integration remains separate."});
   }));
   app.post("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
     if(!requireMutation(req,res))return;
@@ -195,7 +261,7 @@ module.exports=function adminOperations(app, deps) {
       active=EXCLUDED.active,updated_at=NOW() RETURNING *`,
       [id,name,price,colors,sizes,url,active]);
     try{await audit("CATALOG_SAVE",id,{name,price,active})}catch(e){console.error("Audit catalog failed:",e)}
-    res.json({success:true,product:r.rows[0],warning:"Chanjman sa a poko modifye vitrin ni pri PayPal."});
+    res.json({success:true,product:r.rows[0],warning:"The saved product will appear in the storefront catalog when active. PayPal checkout uses separate pricing controls."});
   }));
   app.post("/admin/ops/stock",...auth,asyncRoute(async(req,res)=>{
     if(!requireMutation(req,res))return;
