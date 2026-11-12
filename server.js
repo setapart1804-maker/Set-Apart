@@ -8749,6 +8749,89 @@ require("./admin-printing")(app, {
   adminLimiter,adminBasicAuth,getStoredOrder,escapeHtml,setAdminSecurityHeaders
 });
 
+
+/* Admin operations: authenticated, uncached, bounded, read-only reporting. */
+function adminDateRange(req) {
+  const today = new Date().toISOString().slice(0,10);
+  const from = String(req.query.from || today.slice(0,7) + "-01");
+  const to = String(req.query.to || today);
+  const valid = /^\d{4}-\d{2}-\d{2}$/;
+  if (!valid.test(from) || !valid.test(to) ||
+      !Number.isFinite(Date.parse(from)) || !Number.isFinite(Date.parse(to)) ||
+      new Date(from).toISOString().slice(0,10) !== from ||
+      new Date(to).toISOString().slice(0,10) !== to ||
+      from > to || Date.parse(to) - Date.parse(from) > 366*86400000) return null;
+  return {from,to};
+}
+app.get("/admin/api/notifications",adminLimiter,adminBasicAuth,async(req,res)=>{
+  setAdminSecurityHeaders(res);
+  try {
+    const result=await db("SELECT paypal_order_id,first_name,last_name,total_usd,created_at FROM orders WHERE payment_status='COMPLETED' AND order_status='PAID' ORDER BY created_at DESC LIMIT 20");
+    const total=await db("SELECT COUNT(*)::int AS total FROM orders WHERE payment_status='COMPLETED' AND order_status='PAID'");
+    return res.json({total:total.rows[0]?.total||0,orders:result.rows});
+  }catch(e){console.error("Admin notifications failed",e);return res.status(500).json({error:"Notifications unavailable"});}
+});
+app.get("/admin/api/reports",adminLimiter,adminBasicAuth,async(req,res)=>{
+  setAdminSecurityHeaders(res);
+  const range=adminDateRange(req);
+  if(!range)return res.status(400).json({error:"Invalid date range (maximum 366 days)"});
+  try{
+    const result=await db(
+      "SELECT COUNT(*)::int AS orders, COUNT(*) FILTER (WHERE payment_status='COMPLETED')::int AS paid_orders, COALESCE(SUM(total_usd) FILTER (WHERE payment_status='COMPLETED'),0) AS revenue_usd FROM orders WHERE created_at >= $1::date AND created_at < ($2::date + INTERVAL '1 day')",
+      [range.from,range.to]
+    );
+    return res.json({range,...result.rows[0],note:"Revenue only; expenses and profit not available"});
+  }catch(e){console.error("Admin report failed",e);return res.status(500).json({error:"Report unavailable"});}
+});
+app.get("/admin/orders-export.csv",adminLimiter,adminBasicAuth,async(req,res)=>{
+  setAdminSecurityHeaders(res);
+  const range=adminDateRange(req);
+  if(!range)return res.status(400).send("Invalid date range (maximum 366 days)");
+  try{
+    const result=await db(
+      "SELECT paypal_order_id,created_at,first_name,last_name,customer_email,country,city,order_status,payment_status,total_usd,shipping_method FROM orders WHERE created_at >= $1::date AND created_at < ($2::date + INTERVAL '1 day') ORDER BY created_at DESC LIMIT 10000",
+      [range.from,range.to]
+    );
+    const columns=["paypal_order_id","created_at","first_name","last_name","customer_email","country","city","order_status","payment_status","total_usd","shipping_method"];
+    const safe=value=>{
+      let v=String(value??"");
+      if(/^[\s]*[=+\-@\t\r]/.test(v))v="'"+v;
+      return '"'+v.replace(/"/g,'""')+'"';
+    };
+    const rows=[columns.join(","),...result.rows.map(row=>columns.map(k=>safe(row[k])).join(","))];
+    res.set("Content-Type","text/csv; charset=utf-8");
+    res.set("Content-Disposition",'attachment; filename="setapart-orders-'+range.from+'-'+range.to+'.csv"');
+    return res.send("\uFEFF"+rows.join("\r\n"));
+  }catch(e){console.error("Admin export failed",e);return res.status(500).send("Export unavailable");}
+});
+async function ensureAdminInventory(){
+ await db("CREATE TABLE IF NOT EXISTS admin_inventory (id BIGSERIAL PRIMARY KEY, product_name VARCHAR(160) NOT NULL, variant VARCHAR(160) NOT NULL DEFAULT '', quantity INTEGER NOT NULL DEFAULT 0 CHECK (quantity >= 0), note VARCHAR(500) NOT NULL DEFAULT '', updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(), UNIQUE(product_name,variant))");
+}
+app.get("/admin/api/inventory",adminLimiter,adminBasicAuth,async(req,res)=>{
+ setAdminSecurityHeaders(res);
+ try{await ensureAdminInventory();const result=await db("SELECT id,product_name,variant,quantity,note,updated_at FROM admin_inventory ORDER BY product_name,variant LIMIT 500");return res.json({items:result.rows,checkoutSynced:false});}
+ catch(e){console.error("Admin inventory read failed",e);return res.status(500).json({error:"Inventory unavailable"});}
+});
+app.post("/admin/inventory",adminLimiter,adminBasicAuth,async(req,res)=>{
+ setAdminSecurityHeaders(res);
+ const name=String(req.body.product_name||"").trim(),variant=String(req.body.variant||"").trim(),note=String(req.body.note||"").trim();
+ const quantity=Number(req.body.quantity);
+ if(!name||name.length>160||variant.length>160||note.length>500||!Number.isSafeInteger(quantity)||quantity<0||quantity>1000000)
+   return res.status(400).send("Invalid inventory details");
+ if(!verifyAdminCsrfToken("inventory","save",String(req.body.csrf||"")))return res.status(403).send("Invalid admin security token");
+ try{
+  await ensureAdminInventory();
+  await db("INSERT INTO admin_inventory (product_name,variant,quantity,note) VALUES ($1,$2,$3,$4) ON CONFLICT(product_name,variant) DO UPDATE SET quantity=EXCLUDED.quantity,note=EXCLUDED.note,updated_at=NOW()",[name,variant,quantity,note]);
+  return res.redirect(303,"/admin?notice="+encodeURIComponent("Stock administratif anrejistre")+"#products");
+ }catch(e){console.error("Admin inventory save failed",e);return res.status(500).send("Inventory update unavailable");}
+});
+app.post("/admin/logout",adminLimiter,adminBasicAuth,(req,res)=>{
+ setAdminSecurityHeaders(res);
+ if(!verifyAdminCsrfToken("admin","logout",String(req.body.csrf||"")))return res.status(403).send("Invalid admin security token");
+ res.clearCookie(ADMIN_SESSION_COOKIE,{httpOnly:true,secure:true,sameSite:"lax",path:"/admin"});
+ return res.type("html").send('<!doctype html><html lang="ht"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Dekonekte</title><body><h1>Sesyon an fèmen</h1><p>Cookie sesyon administrasyon an efase. Si navigatè a te konekte avèk HTTP Basic, li ka toujou kenbe otorizasyon sa a. Fèmen navigatè a pou efase aksè sa a.</p></body></html>');
+});
+
 /* New unified private dashboard, using existing order forms and CSRF security. */
 const adminStudio = require("./admin-studio");
 app.get("/admin/workspace.js", adminLimiter, adminBasicAuth, (req,res) => {
@@ -8783,6 +8866,8 @@ res
 
 const data =
 await getAdminDashboardData();
+data.inventoryCsrf=createAdminCsrfToken("inventory","save");
+data.logoutCsrf=createAdminCsrfToken("admin","logout");
 
 
 const notice =
