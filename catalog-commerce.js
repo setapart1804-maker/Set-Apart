@@ -121,6 +121,14 @@ module.exports=function createCatalogCommerce({pool,db,calculateShipping,ensureC
   const group=crypto.randomUUID();
   await transaction(async client=>{
    for(const item of order.validatedItems){
+    // Lock the published catalog row so admins cannot change its price/variants
+    // between the authoritative quote and the stock reservation.
+    const current=await client.query(
+     "SELECT price_usd,active,colors,sizes FROM admin_catalog WHERE id=$1 FOR SHARE",[item.id]);
+    const product=current.rows[0];
+    if(!product||!product.active||usd(cents(product.price_usd))!==item.unitPrice||
+       !product.colors.includes(item.color)||!product.sizes.includes(item.size))
+       throw error("Product details changed. Refresh your bag and try again.",409);
     const line={id:item.id,color:item.color,size:item.size,quantity:item.quantity};
     const onHand=await lockVariant(client,line);
     const reserved=await otherHolds(client,line,null);
