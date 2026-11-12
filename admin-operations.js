@@ -55,6 +55,15 @@ module.exports=function adminOperations(app, deps) {
           created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
           updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
         )`);
+        await db(`CREATE TABLE IF NOT EXISTS admin_order_costs (
+          paypal_order_id VARCHAR(100) PRIMARY KEY REFERENCES orders(paypal_order_id),
+          production_usd NUMERIC(12,2) NOT NULL CHECK(production_usd>=0),
+          paypal_fee_usd NUMERIC(12,2) NOT NULL CHECK(paypal_fee_usd>=0),
+          packing_usd NUMERIC(12,2) NOT NULL CHECK(packing_usd>=0),
+          delivery_usd NUMERIC(12,2) NOT NULL CHECK(delivery_usd>=0),
+          other_usd NUMERIC(12,2) NOT NULL CHECK(other_usd>=0),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
         await db(`CREATE TABLE IF NOT EXISTS admin_audit_log (
           id BIGSERIAL PRIMARY KEY,
           actor VARCHAR(160) NOT NULL,
@@ -169,8 +178,49 @@ module.exports=function adminOperations(app, deps) {
       WHERE o.payment_status='COMPLETED' AND o.created_at >= $1::date
         AND o.created_at < $2::date
       GROUP BY oi.product_name ORDER BY quantity DESC LIMIT 25`,args);
+    await ensureSchema();
+    const costs=await db(`SELECT
+      COUNT(*)::int AS paid_orders,
+      COUNT(c.paypal_order_id)::int AS costed_orders,
+      COALESCE(SUM(o.total_usd) FILTER(WHERE c.paypal_order_id IS NOT NULL),0) AS costed_revenue,
+      COALESCE(SUM(c.production_usd+c.paypal_fee_usd+c.packing_usd+c.delivery_usd+c.other_usd),0) AS expenses
+      FROM orders o LEFT JOIN admin_order_costs c ON c.paypal_order_id=o.paypal_order_id
+      WHERE o.payment_status='COMPLETED'
+        AND o.created_at >= $1::date AND o.created_at < $2::date`,args);
+    const row=costs.rows[0],complete=Number(row.costed_orders)===Number(row.paid_orders);
+    const margin=(Number(row.costed_revenue)-Number(row.expenses)).toFixed(2);
     res.json({success:true,from:p.from,to:p.to,totals:totals.rows[0],daily:daily.rows,products:products.rows,
-      note:"Revni konfime; depans ak benefis nèt pa kalkile."});
+      finance:{paid_orders:Number(row.paid_orders),costed_orders:Number(row.costed_orders),
+        expenses_usd:row.expenses,
+        net_profit_usd:complete?margin:null,fully_recorded:complete},
+      note:complete?"All paid orders have expense entries; verify every entry against actual receipts.":
+      "Net profit unavailable until every paid order has complete actual expense entries."});
+  }));
+  // Manual cost entries are independent of PayPal, order status and stock.
+  app.post("/admin/ops/order-costs",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.body.order_id);
+    const keys=["production_usd","paypal_fee_usd","packing_usd","delivery_usd","other_usd"];
+    const raw=keys.map(k=>req.body[k]);
+    if(!/^[a-zA-Z0-9-]{5,100}$/.test(id))return fail(res,400,"Invalid PayPal order ID.");
+    if(raw.some(v=>v==null||String(v).trim()===""))
+      return fail(res,400,"Enter all 5 expenses; zero is valid only when the cost is really zero.");
+    if(raw.some(v=>!/^\d+(\.\d{1,2})?$/.test(String(v).trim())))
+      return fail(res,400,"Use positive USD amounts with at most 2 decimal places.");
+    const amounts=raw.map(Number);
+    if(amounts.some(n=>!Number.isFinite(n)||n>1000000))
+      return fail(res,400,"Expense amount out of range.");
+    await ensureSchema();
+    const found=await db("SELECT paypal_order_id FROM orders WHERE paypal_order_id=$1 AND payment_status='COMPLETED' LIMIT 1",[id]);
+    if(!found.rows.length)return fail(res,404,"Paid order not found.");
+    await db(`INSERT INTO admin_order_costs
+      (paypal_order_id,production_usd,paypal_fee_usd,packing_usd,delivery_usd,other_usd)
+      VALUES($1,$2,$3,$4,$5,$6) ON CONFLICT(paypal_order_id) DO UPDATE SET
+      production_usd=EXCLUDED.production_usd,paypal_fee_usd=EXCLUDED.paypal_fee_usd,
+      packing_usd=EXCLUDED.packing_usd,delivery_usd=EXCLUDED.delivery_usd,
+      other_usd=EXCLUDED.other_usd,updated_at=NOW()`,[id,...amounts]);
+    try{await audit("ORDER_COSTS_SAVED",id,{cost_recorded:true})}catch(e){console.error("Audit cost record",e)}
+    res.json({success:true,message:"Actual expenses saved; no payment, stock or order status changed."});
   }));
   app.get("/admin/ops/customers",...auth,asyncRoute(async(req,res)=>{
     const q=clean(req.query.q).slice(0,100);
