@@ -35,6 +35,20 @@ const SECRET = process.env.PAYPAL_SANDBOX_CLIENT_SECRET;
 const API = "https://api-m.sandbox.paypal.com";
 const SYNC_SECRET = process.env.SANDBOX_SYNC_SECRET;
 const PAYPAL_READY = Boolean(CLIENT_ID && SECRET);
+const testOrders=[];
+function addTestOrder(entry){
+  testOrders.unshift(entry);
+  if(testOrders.length>100)testOrders.length=100;
+  return entry;
+}
+const sandboxOrigin="https://set-apart.onrender.com";
+app.get("/sandbox/orders",(_req,res)=>{
+  const origin=String(_req.headers.origin||"");
+  if(origin===sandboxOrigin)res.set("Access-Control-Allow-Origin",sandboxOrigin);
+  res.set("Cache-Control","no-store");
+  res.json({success:true,environment:"sandbox",ephemeral:true,orders:testOrders});
+});
+
 const auth = PAYPAL_READY ? Buffer.from(CLIENT_ID + ":" + SECRET).toString("base64") : null;
 app.disable("x-powered-by");
 app.use((_req,res,next)=>{ res.set("Cache-Control","no-store"); res.set("X-Robots-Tag","noindex, nofollow");next(); });
@@ -75,10 +89,12 @@ app.post("/sandbox/demo",demoLimiter,(req,res)=>{
  if(!["Brown","Black","White"].includes(color)||!["S","M","L","XL"].includes(size))
    return res.status(400).json({error:"Invalid sample variant"});
  const id="SA-TEST-"+require("crypto").randomBytes(5).toString("hex").toUpperCase();
- res.set("Cache-Control","no-store").json({
+ const order=addTestOrder({
    id,status:"SIMULATED",product:"Pilgrim Hoodie",color,size,quantity:1,
-   amount:"1.00",currency:"USD",persisted:false,paymentCaptured:false
+   amount:"1.00",currency:"USD",paymentCaptured:false,
+   createdAt:new Date().toISOString()
  });
+ res.set("Cache-Control","no-store").json({...order,persisted:true,storage:"temporary-sandbox-memory"});
 });
 app.get("/sandbox/health",(_req,res)=>res.json({
  success:true,environment:"sandbox",simulation:"available",productionWrites:false,
@@ -97,6 +113,8 @@ app.post("/sandbox/create",demoLimiter,async(_req,res)=>{
         amount:{currency_code:"USD",value:"1.00"}
       }]
     },"sa-test-create-"+require("crypto").randomUUID());
+    addTestOrder({id:data.id,status:"SANDBOX_CREATED",product:"Pilgrim Hoodie",color:"TEST",size:"TEST",
+      quantity:1,amount:"1.00",currency:"USD",paymentCaptured:false,createdAt:new Date().toISOString()});
     res.json({id:data.id,environment:"sandbox"});
   } catch(e){res.status(502).json({error:e.message});}
 });
@@ -113,6 +131,8 @@ app.post("/sandbox/capture/:id",demoLimiter,async(req,res)=>{
       return res.status(403).json({error:"Not a test order"});
     }
     const captured=await paypal("/v2/checkout/orders/"+encodeURIComponent(id)+"/capture",token,"POST",{},"sa-test-capture-"+id);
+    const matching=testOrders.find(o=>o.id===id);
+    if(matching){matching.status=captured.status==="COMPLETED"?"SANDBOX_COMPLETED":String(captured.status||"SANDBOX_CAPTURED");matching.paymentCaptured=captured.status==="COMPLETED";}
     res.json({id:captured.id,status:captured.status,environment:"sandbox"});
   } catch(e){res.status(502).json({error:e.message});}
 });
