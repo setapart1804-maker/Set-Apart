@@ -1,0 +1,264 @@
+"use strict";
+module.exports=function adminOperations(app, deps) {
+  "use strict";
+  const {db, adminBasicAuth, adminLimiter, setAdminSecurityHeaders,
+    createAdminCsrfToken, verifyAdminCsrfToken, catalog, adminUsername} = deps;
+  const auth = [adminLimiter, adminBasicAuth, (req,res,next)=>{setAdminSecurityHeaders(res);next();}];
+  const clean = v => String(v == null ? "" : v).trim();
+  const fail = (res,code,message) => res.status(code).json({success:false,error:message});
+  const tokenValid = req => verifyAdminCsrfToken("admin-ops","mutation",clean(req.body&&req.body.csrf));
+  const asyncRoute = fn => async (req,res) => {
+    try {await fn(req,res)} catch (err) {
+      console.error("Admin operations error:",err);
+      if(!res.headersSent) fail(res,500,"Operasyon an pa reyisi. Verifye koneksyon bazdone a.");
+    }
+  };
+  const splitList = v => Array.isArray(v)?v.map(clean).filter(Boolean):
+    clean(v).split(",").map(clean).filter(Boolean);
+  let schemaPromise=null;
+  function ensureSchema(){
+    if(!schemaPromise){
+      schemaPromise=(async()=>{
+        await db(`CREATE TABLE IF NOT EXISTS admin_catalog (
+          id VARCHAR(40) PRIMARY KEY,
+          name VARCHAR(160) NOT NULL,
+          price_usd NUMERIC(10,2) NOT NULL CHECK(price_usd > 0),
+          colors TEXT[] NOT NULL DEFAULT '{}',
+          sizes TEXT[] NOT NULL DEFAULT '{}',
+          image_url TEXT NOT NULL DEFAULT '',
+          active BOOLEAN NOT NULL DEFAULT TRUE,
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
+        await db(`CREATE TABLE IF NOT EXISTS admin_stock (
+          product_id VARCHAR(40) NOT NULL REFERENCES admin_catalog(id) ON DELETE CASCADE,
+          color VARCHAR(45) NOT NULL,
+          size VARCHAR(20) NOT NULL,
+          on_hand INTEGER NOT NULL DEFAULT 0 CHECK(on_hand >= 0),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          PRIMARY KEY(product_id,color,size)
+        )`);
+        await db(`CREATE TABLE IF NOT EXISTS admin_service_cases (
+          id BIGSERIAL PRIMARY KEY,
+          paypal_order_id VARCHAR(100) NOT NULL REFERENCES orders(paypal_order_id),
+          kind VARCHAR(20) NOT NULL CHECK(kind IN ('RETURN','EXCHANGE','REFUND')),
+          status VARCHAR(24) NOT NULL DEFAULT 'OPEN'
+            CHECK(status IN ('OPEN','REVIEWING','AWAITING_PAYPAL','RESOLVED','CLOSED')),
+          notes TEXT NOT NULL DEFAULT '',
+          resolution_reference TEXT NOT NULL DEFAULT '',
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+          updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
+        await db(`CREATE TABLE IF NOT EXISTS admin_audit_log (
+          id BIGSERIAL PRIMARY KEY,
+          actor VARCHAR(160) NOT NULL,
+          action VARCHAR(90) NOT NULL,
+          target VARCHAR(180) NOT NULL,
+          details JSONB NOT NULL DEFAULT '{}'::jsonb,
+          created_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+        )`);
+        for(const [id,p] of Object.entries(catalog||{})){
+          await db(`INSERT INTO admin_catalog(id,name,price_usd,colors,sizes)
+            VALUES($1,$2,$3,$4,$5) ON CONFLICT(id) DO NOTHING`,
+            [id,p.name,p.price,p.colors,p.sizes]);
+        }
+      })().catch(e=>{schemaPromise=null;throw e});
+    }
+    return schemaPromise;
+  }
+  async function audit(action,target,details){
+    await ensureSchema();
+    await db(`INSERT INTO admin_audit_log(actor,action,target,details)
+      VALUES($1,$2,$3,$4::jsonb)`,
+      [clean(adminUsername||"admin").slice(0,150),action.slice(0,90),clean(target).slice(0,180),JSON.stringify(details||{})]);
+  }
+  const requireMutation = (req,res) => {
+    if (!tokenValid(req)) {fail(res,403,"Jeton sekirite admin lan pa valab.");return false}
+    return true;
+  };
+  function parseDate(value){
+    const v=clean(value);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(v))return null;
+    const d=new Date(v+"T00:00:00.000Z");
+    return Number.isFinite(d.getTime())&&d.toISOString().slice(0,10)===v?v:null;
+  }
+  function range(req,res){
+    const today=new Date().toISOString().slice(0,10);
+    let from=parseDate(req.query.from),to=parseDate(req.query.to);
+    if(!from||!to){
+      to=today;
+      from=new Date(Date.now()-29*86400000).toISOString().slice(0,10);
+    }
+    const duration=(Date.parse(to)-Date.parse(from))/86400000;
+    if(duration<0||duration>3660){fail(res,400,"Peryòd la pa valab (maksimòm 10 lane).");return null}
+    const tomorrow=new Date(Date.parse(to)+86400000).toISOString().slice(0,10);
+    return {from,to,tomorrow};
+  }
+  const csvCell = value => {
+    let v=String(value==null?"":value).replace(/[\r\n]+/g," ");
+    if(/^[\t =+\-@]/.test(v)) v="'"+v;
+    return '"'+v.replace(/"/g,'""')+'"';
+  };
+  app.get("/admin/ops/alerts",...auth,asyncRoute(async(req,res)=>{
+    const r=await db(`SELECT paypal_order_id,first_name,last_name,created_at,total_usd,
+      order_status FROM orders WHERE payment_status='COMPLETED' AND order_status='PAID'
+      ORDER BY created_at DESC LIMIT 12`);
+    const count=await db(`SELECT COUNT(*)::int AS total FROM orders
+      WHERE payment_status='COMPLETED' AND order_status='PAID'`);
+    res.json({success:true,total:count.rows[0]?.total||0,orders:r.rows});
+  }));
+  app.get("/admin/ops/analytics",...auth,asyncRoute(async(req,res)=>{
+    const p=range(req,res);if(!p)return;
+    const args=[p.from,p.tomorrow];
+    const totals=await db(`SELECT COUNT(*)::int AS orders,
+      COUNT(*) FILTER(WHERE payment_status='COMPLETED')::int AS paid_orders,
+      COALESCE(SUM(total_usd) FILTER(WHERE payment_status='COMPLETED'),0) AS revenue,
+      COALESCE(SUM(shipping_usd) FILTER(WHERE payment_status='COMPLETED'),0) AS shipping
+      FROM orders WHERE created_at >= $1::date AND created_at < $2::date`,args);
+    const daily=await db(`SELECT (created_at AT TIME ZONE 'UTC')::date AS day,
+      COALESCE(SUM(total_usd) FILTER(WHERE payment_status='COMPLETED'),0) AS revenue,
+      COUNT(*) FILTER(WHERE payment_status='COMPLETED')::int AS orders
+      FROM orders WHERE created_at >= $1::date AND created_at < $2::date
+      GROUP BY (created_at AT TIME ZONE 'UTC')::date ORDER BY day`,args);
+    const products=await db(`SELECT oi.product_name AS name,
+      SUM(oi.quantity)::int AS quantity,
+      COALESCE(SUM(oi.line_total_usd),0) AS revenue
+      FROM order_items oi JOIN orders o ON o.id=oi.order_id
+      WHERE o.payment_status='COMPLETED' AND o.created_at >= $1::date
+        AND o.created_at < $2::date
+      GROUP BY oi.product_name ORDER BY quantity DESC LIMIT 25`,args);
+    res.json({success:true,from:p.from,to:p.to,totals:totals.rows[0],daily:daily.rows,products:products.rows,
+      note:"Revni konfime; depans ak benefis nèt pa kalkile."});
+  }));
+  app.get("/admin/ops/customers",...auth,asyncRoute(async(req,res)=>{
+    const q=clean(req.query.q).slice(0,100);
+    const r=await db(`SELECT LOWER(customer_email) AS email,
+      MAX(first_name) AS first_name,MAX(last_name) AS last_name,
+      MAX(phone) AS phone,MAX(city) AS city,MAX(country) AS country,
+      COUNT(*)::int AS total_orders,
+      COUNT(*) FILTER(WHERE payment_status='COMPLETED')::int AS paid_orders,
+      COALESCE(SUM(total_usd) FILTER(WHERE payment_status='COMPLETED'),0) AS spend
+      FROM orders WHERE ($1='' OR customer_email ILIKE '%'||$1||'%'
+         OR first_name ILIKE '%'||$1||'%' OR last_name ILIKE '%'||$1||'%')
+      GROUP BY LOWER(customer_email) ORDER BY total_orders DESC LIMIT 100`,[q]);
+    res.json({success:true,customers:r.rows});
+  }));
+  app.get("/admin/ops/customer-history",...auth,asyncRoute(async(req,res)=>{
+    const email=clean(req.query.email).toLowerCase().slice(0,255);
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return fail(res,400,"Imèl kliyan an pa valab.");
+    const rows=await db(`SELECT paypal_order_id,created_at,order_status,payment_status,
+      total_usd,city,country,shipping_method,carrier,tracking_number
+      FROM orders WHERE LOWER(customer_email)=$1 ORDER BY created_at DESC LIMIT 200`,[email]);
+    res.json({success:true,email,orders:rows.rows});
+  }));
+  app.get("/admin/ops/export.csv",...auth,asyncRoute(async(req,res)=>{
+    const p=range(req,res);if(!p)return;
+    const status=clean(req.query.status).toUpperCase().slice(0,32);
+    if(status&&!/^[A-Z_]{3,32}$/.test(status))return fail(res,400,"Estati sa a pa valab.");
+    const r=await db(`SELECT paypal_order_id,created_at,first_name,last_name,
+      customer_email,country,city,shipping_method,payment_status,order_status,total_usd
+      FROM orders WHERE created_at >= $1::date AND created_at < $2::date
+       AND ($3='' OR order_status=$3) ORDER BY created_at DESC LIMIT 5000`,
+      [p.from,p.tomorrow,status]);
+    const names=["Order ID","Date UTC","First name","Last name","Email","Country","City","Delivery method","Payment status","Order status","Total USD"];
+    const lines=[names.map(csvCell).join(",")];
+    for(const row of r.rows){
+      lines.push(["paypal_order_id","created_at","first_name","last_name","customer_email","country","city","shipping_method","payment_status","order_status","total_usd"].map(k=>csvCell(row[k] instanceof Date?row[k].toISOString():row[k])).join(","));
+    }
+    res.set("Content-Type","text/csv; charset=utf-8");
+    res.set("Content-Disposition",`attachment; filename="setapart-orders-${p.from}-${p.to}.csv"`);
+    res.send("\uFEFF"+lines.join("\r\n")+"\r\n");
+  }));
+  app.get("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
+    await ensureSchema();
+    const a=await db(`SELECT * FROM admin_catalog ORDER BY name`);
+    const b=await db(`SELECT * FROM admin_stock ORDER BY product_id,color,size`);
+    res.json({success:true,products:a.rows,stock:b.rows,
+      warning:"Katalog ak stock sa a pou administrasyon. Sit kliyan an toujou gen katalog statik li."});
+  }));
+  app.post("/admin/ops/products",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.body.id).toLowerCase(), name=clean(req.body.name);
+    const price=Number(req.body.price),colors=splitList(req.body.colors).map(v=>v.toLowerCase()),
+      sizes=splitList(req.body.sizes).map(v=>v.toUpperCase());
+    const url=clean(req.body.image_url),active=req.body.active===true||req.body.active==="true";
+    if(!/^[a-z0-9-]{2,40}$/.test(id)||name.length<2||name.length>160||
+       !Number.isFinite(price)||price<=0||price>10000||
+       colors.length<1||colors.length>20||sizes.length<1||sizes.length>20||
+       colors.some(v=>v.length>45)||sizes.some(v=>v.length>20)||
+       url.length>500|| (url&&!/^(https:\/\/|\/assets\/)[a-zA-Z0-9._~:/?#[\]@!$&'()*+,;=%-]+$/.test(url)))
+      return fail(res,400,"Non, ID, pri, koulè, gwosè oswa URL foto a pa valab.");
+    await ensureSchema();
+    const r=await db(`INSERT INTO admin_catalog(id,name,price_usd,colors,sizes,image_url,active,updated_at)
+      VALUES($1,$2,$3,$4,$5,$6,$7,NOW())
+      ON CONFLICT(id) DO UPDATE SET name=EXCLUDED.name,price_usd=EXCLUDED.price_usd,
+      colors=EXCLUDED.colors,sizes=EXCLUDED.sizes,image_url=EXCLUDED.image_url,
+      active=EXCLUDED.active,updated_at=NOW() RETURNING *`,
+      [id,name,price,colors,sizes,url,active]);
+    await audit("CATALOG_SAVE",id,{name,price,active});
+    res.json({success:true,product:r.rows[0],warning:"Chanjman sa a poko modifye vitrin ni pri PayPal."});
+  }));
+  app.post("/admin/ops/stock",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.body.product_id).toLowerCase(),color=clean(req.body.color).toLowerCase(),
+      size=clean(req.body.size).toUpperCase(),amount=Number(req.body.on_hand);
+    if(!/^[a-z0-9-]{2,40}$/.test(id)||!color||color.length>45||!size||
+       size.length>20||!Number.isSafeInteger(amount)||amount<0||amount>100000)
+      return fail(res,400,"Variant oswa kantite a pa valab.");
+    await ensureSchema();
+    const product=await db(`SELECT id FROM admin_catalog WHERE id=$1 AND $2=ANY(colors) AND $3=ANY(sizes)`,
+      [id,color,size]);
+    if(!product.rows.length)return fail(res,404,"Pwodwi oswa variant lan pa egziste.");
+    await db(`INSERT INTO admin_stock(product_id,color,size,on_hand,updated_at)
+      VALUES($1,$2,$3,$4,NOW())
+      ON CONFLICT(product_id,color,size) DO UPDATE SET on_hand=EXCLUDED.on_hand,updated_at=NOW()`,
+      [id,color,size,amount]);
+    await audit("STOCK_SET",id,{color,size,on_hand:amount});
+    res.json({success:true,warning:"Stock sa a pa bloke checkout otomatikman."});
+  }));
+  app.get("/admin/ops/cases",...auth,asyncRoute(async(req,res)=>{
+    await ensureSchema();
+    const r=await db(`SELECT id,paypal_order_id,kind,status,notes,resolution_reference,
+      created_at,updated_at FROM admin_service_cases ORDER BY created_at DESC LIMIT 150`);
+    res.json({success:true,cases:r.rows});
+  }));
+  app.post("/admin/ops/cases",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=clean(req.body.order_id),kind=clean(req.body.kind).toUpperCase(),notes=clean(req.body.notes);
+    if(!id||id.length>100||!["RETURN","EXCHANGE","REFUND"].includes(kind)||notes.length>2000)
+      return fail(res,400,"Kòmann, tip dosye oswa nòt la pa valab.");
+    await ensureSchema();
+    const r=await db(`INSERT INTO admin_service_cases(paypal_order_id,kind,notes)
+      VALUES($1,$2,$3) RETURNING *`,[id,kind,notes]);
+    await audit("CASE_OPEN",id,{case_id:r.rows[0].id,kind});
+    res.json({success:true,record:r.rows[0],warning:"Sa pa lanse okenn ranbousman PayPal."});
+  }));
+  app.post("/admin/ops/cases/:id/status",...auth,asyncRoute(async(req,res)=>{
+    if(!requireMutation(req,res))return;
+    const id=Number(req.params.id),status=clean(req.body.status).toUpperCase(),
+      ref=clean(req.body.resolution_reference);
+    if(!Number.isSafeInteger(id)||id<1||!["OPEN","REVIEWING","AWAITING_PAYPAL","RESOLVED","CLOSED"].includes(status)||ref.length>200)
+      return fail(res,400,"ID dosye oswa estati a pa valab.");
+    await ensureSchema();
+    const r=await db(`UPDATE admin_service_cases SET status=$2,resolution_reference=$3,updated_at=NOW()
+      WHERE id=$1 RETURNING *`,[id,status,ref]);
+    if(!r.rows.length)return fail(res,404,"Dosye sa a pa egziste.");
+    await audit("CASE_STATUS",r.rows[0].paypal_order_id,{case_id:id,status,reference:ref});
+    res.json({success:true,record:r.rows[0]});
+  }));
+  app.get("/admin/ops/audit",...auth,asyncRoute(async(req,res)=>{
+    await ensureSchema();
+    const r=await db(`SELECT id,actor,action,target,details,created_at
+      FROM admin_audit_log ORDER BY created_at DESC LIMIT 100`);
+    res.json({success:true,entries:r.rows});
+  }));
+  app.post("/admin/logout",...auth,(req,res)=>{
+    if(!requireMutation(req,res))return;
+    res.clearCookie("__Secure-setapart_admin",{path:"/admin",secure:true,httpOnly:true,sameSite:"lax"});
+    res.redirect(303,"/admin/logged-out");
+  });
+  app.get("/admin/logged-out",(req,res)=>{
+    setAdminSecurityHeaders(res);
+    res.type("html").send('<!doctype html><html lang="ht"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SET APART-ht — Sesyon fèmen</title><body style="font:16px system-ui;max-width:620px;margin:12vh auto;padding:24px"><h1>Sesyon sou aparèy sa a fèmen.</h1><p>Bonbon sesyon pèmanan an efase. Si navigatè a toujou sonje HTTP Basic Auth, fèmen navigatè a nèt pou w pa retounen otomatikman nan administrasyon an.</p><a href="https://setapart-ht.com">Ale sou sit SET APART-ht™</a></body></html>');
+  });
+  return {ensureSchema,audit};
+};
