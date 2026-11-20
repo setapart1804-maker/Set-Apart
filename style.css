@@ -5907,3 +5907,41 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
   filter:grayscale(1) brightness(2.8)!important;
   mix-blend-mode:screen!important;
 }
+
+/* SET APART navigation: minimal outlined shopping bag with live item count.
+   SVG keeps its currentColor on the original light desktop and dark mobile header. */
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button {
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:8px!important;
+  min-height:42px;
+  line-height:1!important;
+  text-decoration:none!important;
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button .sa-shopping-bag-icon {
+  display:block!important;
+  width:26px!important;
+  height:26px!important;
+  min-width:26px!important;
+  flex:none!important;
+  stroke:currentColor!important;
+  fill:none!important;
+}
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button::after {
+  display:none!important;
+}
+@media (max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-header .reference-bag-button {
+    color:#fff!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-header .reference-bag-button > span {
+    color:#fff!important;
+    border-color:#fff!important;
+  }
+}
