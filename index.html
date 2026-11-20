@@ -307,6 +307,11 @@
 #sa-faith-hero .sf-watermark{position:absolute;bottom:-.12em;left:3%;font-weight:900;letter-spacing:-.09em;font-size:clamp(100px,14vw,245px);line-height:1;color:rgba(255,255,255,.055);pointer-events:none;white-space:nowrap}
 @media(max-width:760px){#sa-faith-hero{grid-template-columns:1fr;min-height:0}#sa-faith-hero .sf-copy{padding:52px 22px 15px}#sa-faith-hero h1{font-size:clamp(52px,12vw,85px)}#sa-faith-hero .sf-eyebrow{margin-bottom:24px}#sa-faith-hero .sf-description{margin:22px 0}#sa-faith-hero .sf-actions{flex-direction:row;flex-wrap:wrap}#sa-faith-hero .sf-actions a{min-height:44px;padding:12px;font-size:10px}#sa-faith-hero .sf-art{min-height:320px;height:390px}#sa-faith-hero .sf-arch{inset:4% 12% 0}#sa-faith-hero .sf-watermark{bottom:0;font-size:19vw}}
 @media(prefers-reduced-motion:no-preference){#sa-faith-hero .sf-copy{animation:sf-rise .65s ease-out both}#sa-faith-hero .sf-art{animation:sf-rise .85s ease-out both}@keyframes sf-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}}
+/* On phone-size screens the collection opens the page directly.
+   The hero remains intact on tablets and desktops. */
+@media (max-width: 760px) {
+  #sa-faith-hero { display: none !important; }
+}
 </style>
 <section id="sa-faith-hero" aria-labelledby="sa-faith-title">
  <div class="sf-copy">
