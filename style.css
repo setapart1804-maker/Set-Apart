@@ -5871,7 +5871,7 @@ html { color-scheme: light only; }
     max-height:none!important;
     object-fit:cover!important;
     object-position:center center!important;
-    filter:grayscale(1) contrast(2)!important;
+    filter:grayscale(1) brightness(2.8)!important;
     mix-blend-mode:screen!important;
     transform:none!important;
   }
@@ -5893,8 +5893,17 @@ html { color-scheme: light only; }
     max-height:none!important;
     object-fit:cover!important;
     object-position:center center!important;
-    filter:grayscale(1) contrast(2)!important;
+    filter:grayscale(1) brightness(2.8)!important;
     mix-blend-mode:screen!important;
     transform:none!important;
   }
+}
+
+/* Brand logo artwork is already white-on-black. In every display mode, keep
+   white strokes visible against the site's authored black footer; the screen
+   blend masks the opaque black logo canvas without creating a rectangle. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-footer-brand .sa-footer-logo {
+  filter:grayscale(1) brightness(2.8)!important;
+  mix-blend-mode:screen!important;
 }
