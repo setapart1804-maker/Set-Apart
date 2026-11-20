@@ -5830,3 +5830,71 @@ html { color-scheme: light only; }
     object-fit:contain!important;
   }
 }
+
+/* 2026-11-20 — Mobile brand mark: the source logo is a wide rectangular canvas
+   with a narrow centered symbol. Crop the canvas to the symbol instead of
+   displaying the entire image, and keep the dark artwork background on black.
+   Applies to shared site chrome only; desktop, hero, product cards and checkout
+   functionality remain unchanged. */
+@media (max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header {
+    background:#111!important;
+    background-image:none!important;
+    border-bottom:1px solid rgba(255,255,255,.12)!important;
+    color:#fff!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button {
+    color:#fff!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button span {
+    border-color:#fff!important;
+    color:#fff!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-menu-button span {
+    background:#fff!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:76px!important;
+    max-width:76px!important;
+    height:56px!important;
+    min-width:0!important;
+    overflow:hidden!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-brand-logo {
+    display:block!important;
+    width:76px!important;
+    max-width:none!important;
+    height:56px!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    filter:grayscale(1) contrast(2)!important;
+    mix-blend-mode:screen!important;
+    transform:none!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand > strong {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:156px!important;
+    max-width:100%!important;
+    height:142px!important;
+    overflow:hidden!important;
+    background:transparent!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand .sa-footer-logo {
+    display:block!important;
+    width:156px!important;
+    max-width:none!important;
+    height:142px!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:center center!important;
+    filter:grayscale(1) contrast(2)!important;
+    mix-blend-mode:screen!important;
+    transform:none!important;
+  }
+}
