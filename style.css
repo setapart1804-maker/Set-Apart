@@ -5830,3 +5830,74 @@ html { color-scheme: light only; }
     object-fit:contain!important;
   }
 }
+
+
+/* SET APART mobile logo repair — 2026-11-20.
+   Optically remove the pale rectangle around the original logo.
+   Keep the existing monochrome header/footer and ordering flow. */
+@media (max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header {
+    background:#090909!important;
+    background-image:none!important;
+    border-bottom:1px solid rgba(255,255,255,.14)!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-wordmark {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:center!important;
+    width:min(172px,44vw)!important;
+    max-width:44vw!important;
+    min-width:0!important;
+    height:58px!important;
+    background:transparent!important;
+    overflow:hidden!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-brand-logo {
+    display:block!important;
+    width:100%!important;
+    max-width:100%!important;
+    height:56px!important;
+    max-height:56px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    filter:grayscale(1) invert(1) contrast(4)!important;
+    mix-blend-mode:screen!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button,
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button span {
+    color:#fff!important;
+    border-color:rgba(255,255,255,.9)!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-menu-button span {
+    background:#fff!important;
+  }
+}
+/* Original image stays unchanged; blend its pale background into the dark footer. */
+:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand .sa-footer-logo {
+  filter:grayscale(1) invert(1) contrast(4)!important;
+  mix-blend-mode:screen!important;
+}
+@media (max-width:700px) {
+  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand > strong {
+    display:flex!important;
+    align-items:center!important;
+    justify-content:flex-start!important;
+    width:220px!important;
+    max-width:100%!important;
+    height:145px!important;
+    margin:0!important;
+    overflow:hidden!important;
+  }
+  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand .sa-footer-logo {
+    width:240px!important;
+    max-width:none!important;
+    height:155px!important;
+    max-height:155px!important;
+    object-fit:contain!important;
+    object-position:center!important;
+    transform:translateX(-36px)!important;
+  }
+  :is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-footer-brand > p {
+    margin-top:4px!important;
+  }
+}
