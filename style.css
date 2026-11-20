@@ -5945,3 +5945,62 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     border-color:#fff!important;
   }
 }
+
+/* Compact bag icon with a tiny overlaid quantity badge (2026-11-20).
+   Keep a 42px tap target while reducing the visible glyph on all screens. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button {
+  position:relative!important;
+  display:inline-flex!important;
+  width:42px!important;
+  min-width:42px!important;
+  height:42px!important;
+  min-height:42px!important;
+  padding:0!important;
+  gap:0!important;
+  align-items:center!important;
+  justify-content:center!important;
+  overflow:visible!important;
+}
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button .sa-shopping-bag-icon {
+  width:18px!important;
+  height:18px!important;
+  min-width:18px!important;
+  flex:none!important;
+}
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-header .reference-bag-button #cartCount {
+  position:absolute!important;
+  top:1px!important;
+  right:0!important;
+  bottom:auto!important;
+  left:auto!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  width:auto!important;
+  min-width:14px!important;
+  height:14px!important;
+  min-height:14px!important;
+  padding:0 2px!important;
+  margin:0!important;
+  background:#f6f5f0!important;
+  color:#111!important;
+  border:1px solid #111!important;
+  border-radius:999px!important;
+  font-size:9px!important;
+  line-height:1!important;
+  font-weight:700!important;
+  letter-spacing:0!important;
+  transform:none!important;
+  pointer-events:none!important;
+}
+@media (max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-header .reference-bag-button #cartCount {
+    background:#111!important;
+    color:#fff!important;
+    border-color:#fff!important;
+  }
+}
