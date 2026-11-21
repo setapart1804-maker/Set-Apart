@@ -6081,3 +6081,23 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     mix-blend-mode:normal!important;
   }
 }
+
+/* FIX: revert the low-resolution SVG rendering. Use the original raster logo
+   at its original size; isolate white strokes on black with screen blending. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-footer-brand .sa-footer-logo {
+  content:url("/SET%20APART-ht%20logo.png")!important;
+  filter:grayscale(1) brightness(4) contrast(16)!important;
+  mix-blend-mode:screen!important;
+  image-rendering:auto!important;
+}
+@media(max-width:600px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand .sa-footer-logo {
+    width:156px!important;
+    height:142px!important;
+    transform:none!important;
+    object-fit:cover!important;
+    object-position:center!important;
+  }
+}
