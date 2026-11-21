@@ -6101,3 +6101,25 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     object-position:center!important;
   }
 }
+
+/* Final footer logo: use the exact footer-logo.png supplied by the owner.
+   Remove prior SVG, original-logo filters and blend effects. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-footer-brand .sa-footer-logo {
+  content:url("/footer-logo.png")!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+  transform:none!important;
+  image-rendering:auto!important;
+  object-fit:contain!important;
+  object-position:center!important;
+}
+@media(max-width:600px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand .sa-footer-logo {
+    width:156px!important;
+    height:142px!important;
+    max-width:100%!important;
+    object-fit:contain!important;
+  }
+}
