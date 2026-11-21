@@ -6062,3 +6062,22 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     margin:0!important;
   }
 }
+
+/* Footer uses a separate white-on-transparent version of the ORIGINAL logo.
+   Keep existing dimensions, no scaling, no blend-mode graying. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+.reference-footer-brand .sa-footer-logo {
+  content:url("/setapart-footer-white.svg")!important;
+  filter:none!important;
+  mix-blend-mode:normal!important;
+}
+@media(max-width:600px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand .sa-footer-logo {
+    width:156px!important;
+    height:142px!important;
+    transform:none!important;
+    filter:none!important;
+    mix-blend-mode:normal!important;
+  }
+}
