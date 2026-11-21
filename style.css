@@ -6004,3 +6004,35 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     border-color:#fff!important;
   }
 }
+
+
+/* SET APART — permanent white navigation / black symbols (2026-11-20).
+   Overrides older mobile dark-header rules while preserving all layouts,
+   bag-count size and the existing menu/dropdown interactions. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header {
+  background:#fff!important;
+  background-image:none!important;
+  color:#111!important;
+  border-bottom:1px solid rgba(0,0,0,.10)!important;
+}
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-nav a,
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button,
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-menu-button {
+  color:#111!important;
+}
+/* Original logo PNG: light artwork on a black canvas. Turn it black-on-white
+   without changing the image asset used by the site's black footer. */
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-brand-logo {
+  filter:grayscale(1) invert(1) contrast(2)!important;
+  mix-blend-mode:multiply!important;
+}
+body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button #cartCount {
+  background:#fff!important;
+  color:#111!important;
+  border-color:#111!important;
+}
+@media(max-width:900px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-mobile-menu-button span {
+    background:#111!important;
+  }
+}
