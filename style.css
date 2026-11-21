@@ -6023,8 +6023,8 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
 /* Original logo PNG: light artwork on a black canvas. Turn it black-on-white
    without changing the image asset used by the site's black footer. */
 body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .sa-brand-logo {
-  filter:grayscale(1) invert(1) contrast(2)!important;
-  mix-blend-mode:multiply!important;
+  filter:brightness(0)!important;
+  mix-blend-mode:normal!important;
 }
 body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell) .reference-header .reference-bag-button #cartCount {
   background:#fff!important;
