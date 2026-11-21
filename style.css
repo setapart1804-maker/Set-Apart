@@ -6036,3 +6036,32 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     background:#111!important;
   }
 }
+
+/* Mobile footer: enlarge the narrow centered SET APART emblem without
+   touching the desktop footer or changing the image asset. */
+@media(max-width:600px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand > strong {
+    width:190px!important;
+    height:170px!important;
+    max-width:100%!important;
+    overflow:hidden!important;
+    justify-content:center!important;
+    align-items:center!important;
+    transform:none!important;
+  }
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand .sa-footer-logo {
+    width:190px!important;
+    height:170px!important;
+    max-width:none!important;
+    max-height:none!important;
+    object-fit:cover!important;
+    object-position:center!important;
+    transform:scale(1.45)!important;
+    transform-origin:center!important;
+    filter:grayscale(1) brightness(3) contrast(1.35)!important;
+    mix-blend-mode:screen!important;
+    margin:0!important;
+  }
+}
