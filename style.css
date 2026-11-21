@@ -6057,7 +6057,7 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     object-fit:cover!important;
     object-position:center!important;
     transform:none!important;
-    filter:grayscale(1) brightness(5) contrast(5)!important;
+    filter:grayscale(1) brightness(20) contrast(12)!important;
     mix-blend-mode:screen!important;
     margin:0!important;
   }
