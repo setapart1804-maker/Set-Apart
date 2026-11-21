@@ -6123,3 +6123,12 @@ body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell
     object-fit:contain!important;
   }
 }
+
+/* Desktop only: position the footer logo to the left, directly above
+   "Called to live differently." without resizing it or touching mobile. */
+@media(min-width:901px) {
+  body:is(.sa-reference-home,.sa-inner-page,.sa-unified-checkout,.sa-unified-shell)
+  .reference-footer-brand .sa-footer-logo {
+    transform:translateX(-105px)!important;
+  }
+}
